@@ -1,0 +1,9 @@
+{
+  "name": "roseAdmin-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/roseAdmin-e2e/src",
+  "implicitDependencies": ["roseAdmin"],
+  "// targets": "to see all targets run: nx show project roseAdmin-e2e --web",
+  "targets": {}
+}

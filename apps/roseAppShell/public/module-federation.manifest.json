@@ -1,0 +1,5 @@
+{
+  "roseMain": "http://localhost:4201/mf-manifest.json",
+  "roseAuth": "http://localhost:4202/mf-manifest.json",
+  "roseAdmin": "http://localhost:4203/mf-manifest.json"
+}
