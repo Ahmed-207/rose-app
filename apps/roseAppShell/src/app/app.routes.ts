@@ -1,8 +1,12 @@
-import { NxWelcome } from './nx-welcome';
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
 export const appRoutes: Route[] = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
   {
     path: 'auth',
     loadChildren: () =>
@@ -23,10 +27,5 @@ export const appRoutes: Route[] = [
       loadRemote<typeof import('roseMain/Routes')>('roseMain/Routes').then(
         (m) => m!.remoteRoutes,
       ),
-  },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home'
-  },
+  }
 ];

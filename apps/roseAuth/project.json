@@ -8,7 +8,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/roseAuth",
         "index": "apps/roseAuth/src/index.html",
@@ -20,7 +22,9 @@
             "input": "apps/roseAuth/public"
           }
         ],
-        "styles": ["apps/roseAuth/src/styles.css"],
+        "styles": [
+          "apps/roseAuth/src/styles.css"
+        ],
         "customWebpackConfig": {
           "path": "apps/roseAuth/webpack.config.ts"
         }
@@ -71,7 +75,9 @@
         }
       },
       "defaultConfiguration": "development",
-      "dependsOn": ["roseAppShell:serve"]
+      "dependsOn": [
+        "roseAppShell:serve"
+      ]
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
