@@ -31,7 +31,8 @@
       ],
       "roseAdmin/Routes": [
         "./apps/roseAdmin/src/app/remote-entry/entry.routes.ts"
-      ]
+      ],
+      "@org/auth": ["./auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
