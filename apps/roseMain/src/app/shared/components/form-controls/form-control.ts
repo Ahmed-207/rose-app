@@ -7,6 +7,7 @@ import {
 
 import {
   ControlValueAccessor,
+  FormControl,
   FormsModule,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
@@ -48,6 +49,7 @@ export type FormControlType =
 export class FormControlComponent
   implements ControlValueAccessor {
 
+ @Input() formControl?: FormControl;
   @Input() type: FormControlType = 'text';
 
   @Input() label = '';
@@ -92,5 +94,39 @@ export class FormControlComponent
     this.value = value;
     this.onChange(value);
     this.onTouched();
+  }
+  get hasError(): boolean {
+    return !!(
+      this.formControl &&
+      this.formControl.invalid &&
+      (this.formControl.touched || this.formControl.dirty)
+    );
+  }
+
+  get errorMessage(): string {
+
+    const errors = this.formControl?.errors;
+
+    if (!errors) {
+      return '';
+    }
+
+    if (errors['required']) {
+      return "This field is required";
+    }
+
+    if (errors['email']) {
+      return 'Invalid email address';
+    }
+
+    if (errors['minlength']) {
+      return ` Minimum ${errors['minlength'].requiredLength}`;
+    }
+
+    if (errors['maxlength']) {
+      return `Maximum ${errors['maxlength'].requiredLength}`;
+    }
+
+    return 'Incorrect value';
   }
 }
