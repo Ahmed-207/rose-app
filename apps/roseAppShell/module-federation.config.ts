@@ -16,7 +16,7 @@ const config: ModuleFederationConfig = {
    */
   remotes: [],
   shared: (libraryName, sharedConfig) => {
-    if (libraryName.startsWith('primeng') || libraryName === 'primeicons' || libraryName === '@primeng/themes') {
+    if (libraryName.startsWith('primeng') || libraryName === 'primeicons' || libraryName === '@primeng/themes' || libraryName === '@org/shared-ui-components') {
       return {
         ...sharedConfig,
         singleton: true,

@@ -1,0 +1,12 @@
+span {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 500; padding: 3px 10px;
+      border-radius: 8px; line-height: 1;
+    }
+    .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .label-default { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+    .label-info    { background: #E6F1FB; color: #0C447C; }
+    .label-success { background: #EAF3DE; color: #27500A; }
+    .label-warning { background: #FAEEDA; color: #633806; }
+    .label-danger  { background: #FCEBEB; color: #791F1F; }
+    .label-purple  { background: #EEEDFE; color: #3C3489; }

@@ -1,0 +1,28 @@
+  button {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0 14px; height: 36px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      border: 0.5px solid transparent; transition: opacity .15s, transform .1s;
+      position: relative; font-family: inherit;
+    }
+    button:active:not(:disabled) { transform: scale(0.97); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button[aria-busy="true"] { pointer-events: none; }
+    button[aria-busy="true"] span { opacity: 0; }
+    button[aria-busy="true"]::after {
+      content: ''; position: absolute; width: 14px; height: 14px;
+      border: 2px solid currentColor; border-top-color: transparent;
+      border-radius: 50%; animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .btn-primary { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+    .btn-primary:hover:not(:disabled) { opacity: .85; }
+    .btn-secondary { background: transparent; color: var(--color-text-primary); border-color: var(--color-border-primary); }
+    .btn-secondary:hover:not(:disabled) { background: var(--color-background-secondary); }
+    .btn-danger { background: #E24B4A; color: #fff; border-color: #E24B4A; }
+    .btn-danger:hover:not(:disabled) { opacity: .85; }
+    .btn-ghost { background: transparent; color: var(--color-text-secondary); border-color: transparent; }
+    .btn-ghost:hover:not(:disabled) { background: var(--color-background-secondary); color: var(--color-text-primary); }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+    .btn-lg { height: 44px; padding: 0 20px; font-size: 15px; }
