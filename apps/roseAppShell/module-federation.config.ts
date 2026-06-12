@@ -15,6 +15,17 @@ const config: ModuleFederationConfig = {
    *
    */
   remotes: [],
+  shared: (libraryName, sharedConfig) => {
+    if (libraryName.startsWith('primeng') || libraryName === 'primeicons' || libraryName === '@primeng/themes') {
+      return {
+        ...sharedConfig,
+        singleton: true,
+        strictVersion: false,
+        requiredVersion: false,
+      };
+    }
+    return sharedConfig;
+  }
 };
 
 /**
