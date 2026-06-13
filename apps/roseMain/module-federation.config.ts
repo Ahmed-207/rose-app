@@ -5,8 +5,14 @@ const config: ModuleFederationConfig = {
   exposes: {
     './Routes': 'apps/roseMain/src/app/remote-entry/entry.routes.ts',
   },
-    shared: (libraryName, sharedConfig) => {
-    if (libraryName.startsWith('primeng') || libraryName === 'primeicons' || libraryName === '@primeng/themes') {
+  shared: (libraryName, sharedConfig) => {
+    if (
+      libraryName.startsWith('primeng') ||
+      libraryName === 'primeicons' ||
+      libraryName === '@primeng/themes' ||
+      libraryName === '@ngx-translate/core' ||
+      libraryName === '@ngx-translate/http-loader'
+    ) {
       return {
         ...sharedConfig,
         singleton: true,
@@ -18,7 +24,6 @@ const config: ModuleFederationConfig = {
   }
 };
 
-/**
- * Nx requires a default export of the config to allow correct resolution of the module federation graph.
- **/
+
 export default config;
+
