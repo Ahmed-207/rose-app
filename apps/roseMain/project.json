@@ -8,7 +8,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/roseMain",
         "index": "apps/roseMain/src/index.html",
@@ -20,7 +22,9 @@
             "input": "apps/roseMain/public"
           }
         ],
-        "styles": ["apps/roseMain/src/styles.css"],
+        "styles": [
+          "apps/roseMain/src/styles.css"
+        ],
         "customWebpackConfig": {
           "path": "apps/roseMain/webpack.config.ts"
         }
@@ -50,7 +54,13 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/roseMain/src/environments/environment.ts",
+              "with": "apps/roseMain/src/environments/environment.development.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -71,7 +81,9 @@
         }
       },
       "defaultConfiguration": "development",
-      "dependsOn": ["roseAppShell:serve"]
+      "dependsOn": [
+        "roseAppShell:serve"
+      ]
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
