@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  Optional,
+  Self,
   forwardRef
 } from '@angular/core';
 
@@ -9,7 +11,8 @@ import {
   ControlValueAccessor,
   FormControl,
   FormsModule,
-  NG_VALUE_ACCESSOR
+  NG_VALUE_ACCESSOR,
+  NgControl
 } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -38,18 +41,12 @@ export type FormControlType =
   templateUrl: './form-control.html',
   imports:[FormsModule,PasswordModule,InputTextModule,SelectModule,CheckboxModule,ToggleSwitchModule,MultiSelectModule,TextareaModule,InputNumberModule,DatePickerModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormControlComponent),
-      multi: true
-    }
-  ]
+
 })
 export class FormControlComponent
   implements ControlValueAccessor {
 
- @Input() formControl?: FormControl;
+
   @Input() type: FormControlType = 'text';
 
   @Input() label = '';
@@ -69,6 +66,19 @@ export class FormControlComponent
   value: any = null;
 
   disabled = false;
+constructor(
+    @Optional() @Self() public ngControl: NgControl
+  ) {
+    //  this component as the value accessor
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+ get control(): FormControl | null {
+    return this.ngControl?.control as FormControl ?? null;
+  }
+
 
   private onChange = (_: any) => {};
 
@@ -95,38 +105,20 @@ export class FormControlComponent
     this.onChange(value);
     this.onTouched();
   }
-  get hasError(): boolean {
+ get hasError(): boolean {
     return !!(
-      this.formControl &&
-      this.formControl.invalid &&
-      (this.formControl.touched || this.formControl.dirty)
+      this.control?.invalid &&
+      (this.control.touched || this.control.dirty)
     );
   }
 
   get errorMessage(): string {
-
-    const errors = this.formControl?.errors;
-
-    if (!errors) {
-      return '';
-    }
-
-    if (errors['required']) {
-      return "This field is required";
-    }
-
-    if (errors['email']) {
-      return 'Invalid email address';
-    }
-
-    if (errors['minlength']) {
-      return ` Minimum ${errors['minlength'].requiredLength}`;
-    }
-
-    if (errors['maxlength']) {
-      return `Maximum ${errors['maxlength'].requiredLength}`;
-    }
-
+    const errors = this.control?.errors;
+    if (!errors) return '';
+    if (errors['required']) return 'This field is required';
+    if (errors['email']) return 'Invalid email address';
+    if (errors['minlength']) return `Minimum ${errors['minlength'].requiredLength}`;
+    if (errors['maxlength']) return `Maximum ${errors['maxlength'].requiredLength}`;
     return 'Incorrect value';
   }
 }
