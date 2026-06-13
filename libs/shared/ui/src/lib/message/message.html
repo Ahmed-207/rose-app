@@ -1,0 +1,24 @@
+ <!-- Inline variant (for form field errors) -->
+  @if(inline){
+    <div  [class]="'msg-inline msg-inline-' + type" role="alert">
+      <i [class]="'ti ' + icon" aria-hidden="true"></i>
+      <ng-content></ng-content>
+    </div>
+  }
+    <!-- Banner variant -->
+      @if(!inline){
+    <div  [class]="'msg-banner msg-banner-' + type" role="alert">
+      <i [class]="'ti ' + icon" aria-hidden="true"></i>
+      <div class="msg-body">
+         @if(title){
+        <strong  class="msg-title">{{ title }}</strong>
+         }
+        <ng-content></ng-content>
+      </div>
+        @if(hasDismiss){
+      <button  class="msg-dismiss" aria-label="Dismiss" (click)="dismissed.emit()">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    }
+    </div>
+  }

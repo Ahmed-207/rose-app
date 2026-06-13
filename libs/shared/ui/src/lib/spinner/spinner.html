@@ -1,0 +1,19 @@
+  <!-- Overlay mode -->
+   @if(overlay){
+    <div  class="spinner-overlay" role="status">
+      <span [class]="spinnerClass" aria-hidden="true"></span>
+      @if(label){
+      <span class="spinner-label">{{ label }}</span>
+      }
+      <span class="sr-only">{{ label || 'Loading' }}</span>
+    </div>
+  }
+    <!-- Inline mode -->
+     
+      @if(!overlay){
+    <span
+      [class]="spinnerClass"
+      role="status"
+      [attr.aria-label]="label || 'Loading'"
+    ></span>
+      }

@@ -7,7 +7,7 @@ const config: ModuleFederationConfig = {
     if (
       libraryName.startsWith('primeng') ||
       libraryName === 'primeicons' ||
-      libraryName === '@primeng/themes' ||
+      libraryName === '@primeng/themes' || libraryName === '@org/shared-ui-components' ||
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader'
     ) {
