@@ -1,7 +1,3 @@
-import { API_URL } from './api';
-
-export const AUTH_API_BASE = `${API_URL}/api/auth`;
-
 export enum AuthApiEndpoint {
   SendEmailVerification = 'send-email-verification',
   ConfirmEmailVerification = 'confirm-email-verification',

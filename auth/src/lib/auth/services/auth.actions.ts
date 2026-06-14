@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AUTH_API_BASE, AuthApiEndpoint } from '../config/enums';
+import { API_URL } from '../config/api';
+import { AuthApiEndpoint } from '../config/enums';
 import { Role } from '../config/role.enum';
 import { ApiResponse } from '../models/api-response.model';
 import { AuthenticatedSession } from '../models/authenticated-session.model';
@@ -18,7 +19,7 @@ import { ResetPasswordRequest } from '../models/reset-password-request.model';
 import { ResetPasswordResponseData } from '../models/reset-password-response.model';
 import { SendEmailVerificationRequest } from '../models/send-email-verification-request.model';
 import { SendEmailVerificationResponseData } from '../models/send-email-verification-response.model';
-import { SessionStorage } from '../storage/session-storage';
+import { AuthCookieStorage } from '../storage/auth-cookie-storage';
 import { adaptLoginResponse } from '../utils/adapters/login.adapter';
 import { adaptRegisterResponse } from '../utils/adapters/register.adapter';
 import { resolveRoleFromToken } from '../utils/jwt.util';
@@ -28,7 +29,8 @@ import { resolveRoleFromToken } from '../utils/jwt.util';
 })
 export class AuthActions {
   private readonly http = inject(HttpClient);
-  private readonly sessionStorage = inject(SessionStorage);
+  private readonly apiUrl = inject(API_URL);
+  private readonly authCookieStorage = inject(AuthCookieStorage);
 
   sendEmailVerification(
     request: SendEmailVerificationRequest,
@@ -52,17 +54,19 @@ export class AuthActions {
     return this.post<RegisterResponseData>(AuthApiEndpoint.Register, request).pipe(
       map((response) => {
         const session = adaptRegisterResponse(response);
-        this.sessionStorage.setSession(session);
+        this.authCookieStorage.setSession(session);
         return session;
       }),
     );
   }
 
   login(request: LoginRequest): Observable<AuthenticatedSession> {
-    return this.post<LoginResponseData>(AuthApiEndpoint.Login, request).pipe(
+    const { rememberMe, ...credentials } = request;
+
+    return this.post<LoginResponseData>(AuthApiEndpoint.Login, credentials).pipe(
       map((response) => {
         const session = adaptLoginResponse(response);
-        this.sessionStorage.setSession(session);
+        this.authCookieStorage.setSession(session, { rememberMe });
         return session;
       }),
     );
@@ -87,11 +91,11 @@ export class AuthActions {
   }
 
   logout(): void {
-    this.sessionStorage.removeSession();
+    this.authCookieStorage.removeSession();
   }
 
   getSession(): AuthenticatedSession | null {
-    return this.sessionStorage.getSession();
+    return this.authCookieStorage.getSession();
   }
 
   isAuthenticated(): boolean {
@@ -113,7 +117,7 @@ export class AuthActions {
     body: unknown,
   ): Observable<ApiResponse<T>> {
     return this.http
-      .post<ApiResponse<T>>(`${AUTH_API_BASE}/${endpoint}`, body)
+      .post<ApiResponse<T>>(`${this.apiUrl}/api/auth/${endpoint}`, body)
       .pipe(
         map((response) => {
           if (!response.status) {
