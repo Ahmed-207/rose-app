@@ -1,10 +1,11 @@
 {
   "WELCOME_BACK": "مرحباً بك",
-  "EMAIL": "البريد الإلكتروني",
+  "USERNAME": "اسم المستخدم",
   "PASSWORD": "كلمة المرور",
   "REMEMBER_ME": "تذكرني",
   "LOGIN": "تسجيل الدخول",
   "NO_ACCOUNT": "ليس لديك حساب؟",
   "CREATE_ONE": "أنشئ حساباً الآن!",
-  "FORGOT_PASSWORD": "هل نسيت كلمة المرور"
+  "FORGOT_PASSWORD": "هل نسيت كلمة المرور",
+  "USERNAME_PLACEHOLDER": "ادخل اسم المستخدم الخاص بك"
 }
