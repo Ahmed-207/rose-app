@@ -1,13 +1,14 @@
 <section class="grid md:grid-cols-12 min-h-screen">
     <div class="min-h-full flex flex-col items-center justify-center gap-4 md:col-span-6 px-20 py-40 w-full">
         <div class="translate-switch-button w-full">
-            <span class="block text-end font-light">العربية</span>
+            <lib-ui-lang-switcher />
         </div>
         <div class="separator-container w-[70%] mx-auto">
             <img src="/assets/images/rose-auth-separator.png" alt="separator" class="block w-full">
         </div>
         <div class="auth-state-container w-full">
             <router-outlet></router-outlet>
+            <app-login></app-login>
         </div>
         <div class="separator-container w-[70%] mx-auto">
             <img src="/assets/images/rose-auth-separator.png" alt="separator" class="block w-full rotate-180">
