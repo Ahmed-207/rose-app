@@ -1,3 +1,4 @@
+
 <header class="w-full bg-white dark:bg-[#202938] shadow-sm transition-colors duration-300">
     
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -32,23 +33,49 @@
                           dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-500">
         </div>
             <div class="hidden md:flex items-center gap-2">
-                <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
-                    <i class="fa-regular fa-user text-lg"></i>
-                    <span class="text-sm font-medium">Login</span>
-                </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
-                     <i class="fa-regular fa-heart"></i>
+                  <!-- <div class="text-right">
+                    <p class="text-xs text-gray-400 dark:text-gray-500 leading-tight">Hello</p>
+                    <p class="text-sm font-bold leading-tight flex items-center gap-1">
+                        user
+                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+                    </p>
+                </div> -->
+                <div class="text-right">
+                     <p class="text-xs text-gray-400 dark:text-gray-500 leading-tight">Hello</p>
+                  <p class="text-sm font-bold leading-tight flex items-center gap-1 cursor-pointer" >
+                      user
+                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 cursor-pointer"
+                    (click)="menu.toggle($event)" ></i>
+                  </p>
+
+                      <p-menu #menu [model]="items" [popup]="true"></p-menu>
+               </div>
+                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 ">
+                     <i class="fa-regular fa-heart ">
+
+                     </i>
                     
                 </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    
-                </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+                
+                <button type="button" class="relative text-black  box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
+ 
+          <i class="fas fa-cart-shopping "></i>
+          <span class="sr-only">Notifications</span>
+        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -end-2">
+          0</div>
+                  </button>
+                  <button type="button" class="relative text-black  box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
+ 
+          <i class="fa-regular fa-bell"></i>
+          <span class="sr-only">Notifications</span>
+        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -end-2">
+          0</div>
+                  </button>
+                <!-- <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 ">
                   
                     <i class="fa-regular fa-bell"></i>
                     
-                </button>
+                </button> -->
             </div>
     </div>
 
@@ -58,12 +85,12 @@
             <ul class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
                 <li>
                     <a href="#" class="flex items-center gap-2 text-pink-300 dark:text-[#5c1d34] no-underline">
-                        <i class="fa-solid fa-house text-xs"></i>{{'navbar.Home'| translate}}
+                        <i class="fa-solid fa-house text-xs"></i> {{'navbar.Home'| translate}}
                     </a>
                 </li>
                 <li>
                     <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-box-open text-xs"></i>{{'navbar.Products'| translate}}
+                        <i class="fa-solid fa-box-open text-xs"></i> {{'navbar.Products'| translate}}
                     </a>
                 </li>
                 <li>
@@ -78,7 +105,7 @@
                 </li>
                 <li>
                     <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-headset text-xs"></i>{{'navbar.Contact'| translate}} 
+                        <i class="fa-solid fa-headset text-xs"></i> {{'navbar.Contact'| translate}}
                     </a>
                 </li>
                 <li>
@@ -89,6 +116,7 @@
             </ul>
 
         </div>
+        
     </nav>
 
 </header>

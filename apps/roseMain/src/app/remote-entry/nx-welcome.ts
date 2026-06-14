@@ -1,9 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Navbar } from '../core/layout/Navbar/navbar';
+import { SecondryNavbar } from '../core/layout/secondry Navbar/secondryNavbar';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule],
+  imports: [CommonModule ,SecondryNavbar],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -12,6 +14,9 @@ import { CommonModule } from '@angular/common';
      Delete this file and get started with your project!
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      -->
+
+     <!-- <app-navbar> -->
+      <app-secondry-navbar>
 
     <style>
       html {
