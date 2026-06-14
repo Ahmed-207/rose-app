@@ -1,5 +1,7 @@
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -10,6 +12,7 @@ import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
+import { LangService } from '@org/ui-lang-switcher';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,5 +32,10 @@ export const appConfig: ApplicationConfig = {
       }),
       fallbackLang: 'en',
       lang: 'en'
-    })]
+    }),
+    provideAppInitializer(() => {
+      const langService = inject(LangService);
+      langService.init();
+    })
+  ]
 };
