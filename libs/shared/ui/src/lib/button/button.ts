@@ -18,7 +18,6 @@ export class Button {
   @Input() loading = false;
   @Input() icon?: string;
   @Input() ariaLabel?: string;
-
   @Output() clicked = new EventEmitter<void>();
 
   get buttonClass(): string {
