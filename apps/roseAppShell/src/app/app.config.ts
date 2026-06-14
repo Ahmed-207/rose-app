@@ -10,8 +10,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { environment } from '../environments/environment';
-import { TranslateService } from '@ngx-translate/core';
 import { provideAppInitializer, inject } from '@angular/core';
+import { LangService } from '@org/ui-lang-switcher';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,10 +32,9 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'en',
       lang: 'en'
     }),
-    provideAppInitializer(() => {
-      const translate = inject(TranslateService);
-      const savedLang = localStorage.getItem('appLang') || 'en';
-      translate.use(savedLang);
-    })
+provideAppInitializer(() => {
+  const langService = inject(LangService);
+  langService.init();
+})
   ]
 };
