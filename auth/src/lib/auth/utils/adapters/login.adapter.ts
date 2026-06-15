@@ -5,7 +5,7 @@ import { LoginResponseData } from '../../models/login-response.model';
 export function adaptLoginResponse(
   response: ApiResponse<LoginResponseData>,
 ): AuthenticatedSession {
-  const data = response.data;
+  const data = response.payload;
 
   if (!data) {
     throw new Error('Login response is missing data');

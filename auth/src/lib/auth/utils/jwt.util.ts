@@ -28,11 +28,17 @@ export function resolveRoleFromToken(token: string): Role | null {
     payload['role'] ??
     (Array.isArray(payload['roles']) ? payload['roles'][0] : null);
 
-  if (rawRole === Role.Admin || rawRole === 'admin') {
+  if (typeof rawRole !== 'string') {
+    return null;
+  }
+
+  const normalizedRole = rawRole.toLowerCase();
+
+  if (normalizedRole === Role.Admin) {
     return Role.Admin;
   }
 
-  if (rawRole === Role.User || rawRole === 'user' || rawRole === 'client') {
+  if (normalizedRole === Role.User || normalizedRole === 'client') {
     return Role.User;
   }
 
