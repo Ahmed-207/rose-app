@@ -7,6 +7,6 @@ export interface ApiResponse<T = unknown> {
   status: boolean;
   code: number;
   message: string;
-  data?: T;
+  payload?: T;
   errors?: ApiValidationError[];
 }

@@ -5,7 +5,7 @@ import { RegisterResponseData } from '../../models/register-response.model';
 export function adaptRegisterResponse(
   response: ApiResponse<RegisterResponseData>,
 ): AuthenticatedSession {
-  const data = response.data;
+  const data = response.payload;
 
   if (!data) {
     throw new Error('Register response is missing data');
