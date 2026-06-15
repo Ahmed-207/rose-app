@@ -1,4 +1,5 @@
 export * from './api-response.model';
+export * from './auth-user.model';
 export * from './authenticated-session.model';
 export * from './login-request.model';
 export * from './login-response.model';
