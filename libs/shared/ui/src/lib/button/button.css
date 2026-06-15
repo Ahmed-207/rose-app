@@ -1,5 +1,6 @@
   button {
       display: inline-flex; align-items: center; gap: 6px;
+      width: 100%;justify-content: center;
       padding: 0 14px; height: 36px; border-radius: 8px;
       font-size: 14px; font-weight: 500; cursor: pointer;
       border: 0.5px solid transparent; transition: opacity .15s, transform .1s;
@@ -20,7 +21,7 @@
     .btn-primary:hover:not(:disabled) { opacity: .85; }
     .btn-secondary { background: transparent; color: var(--color-text-primary); border-color: var(--color-border-primary); }
     .btn-secondary:hover:not(:disabled) { background: var(--color-background-secondary); }
-    .btn-danger { background: #E24B4A; color: #fff; border-color: #E24B4A; }
+    .btn-danger { background: #A6252A; color: #fff; border-color: #A6252A; }
     .btn-danger:hover:not(:disabled) { opacity: .85; }
     .btn-ghost { background: transparent; color: var(--color-text-secondary); border-color: transparent; }
     .btn-ghost:hover:not(:disabled) { background: var(--color-background-secondary); color: var(--color-text-primary); }
