@@ -1,13 +1,10 @@
-export interface RegisterResponseUser {
-  id?: string;
-  username?: string;
-  email?: string;
-}
+import { AuthUser } from './auth-user.model';
 
 export interface RegisterResponseData {
   accessToken?: string;
   token?: string;
-  user?: RegisterResponseUser;
+  user?: AuthUser;
 }
 
 export type RegisterResponse = RegisterResponseData;
+export type RegisterResponseUser = AuthUser;
