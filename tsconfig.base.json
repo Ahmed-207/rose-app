@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@org/auth": ["auth/src/index.ts"],
       "@org/models": ["libs/shared/models/src/index.ts"],
       "roseMain/Routes": [
         "./apps/roseMain/src/app/remote-entry/entry.routes.ts"
