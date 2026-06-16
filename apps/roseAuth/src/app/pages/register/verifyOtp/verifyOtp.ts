@@ -6,6 +6,7 @@ import { Button } from '@org/shared-ui-components';
 import { RegisterService } from '../services/register-service';
 import { Router } from '@angular/router';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
+import { AuthActions } from '@org/auth';
 
 @Component({
   selector: 'app-verify-otp',
@@ -14,8 +15,8 @@ import { AuthCardComponent } from '../../../shared/components/auth-card/auth-car
   styleUrl: './verifyOtp.css',
 })
 export class VerifyOtp {
- // private _authService= inject(AuthService);
-  // private _router = inject(Router);
+ private authActions = inject(AuthActions);
+  private _router = inject(Router);
    private _registrationService = inject(RegisterService);
 
   readonly email = computed(() => this._registrationService.state().email);
@@ -89,31 +90,28 @@ export class VerifyOtp {
 
     this.isLoading=true;
 
-
-  // this._authService.verifyOtp({
-  //       email: this.email(),
-  //       code: this.otpValue,
-  //     })
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.isLoading=false;
-  //         if (res.status) {
-  //           this._registrationService.markVerified(); // update shared signal
-  //           this._router.navigate(['/auth/register']);
-  //         } else {
-  //           this.errorMessage = res.message;
-  //           this.clearDigits();
-  //         }
-  //       },
-  //       error: (err) => {
-  //        this.isLoading = false;
-  //   //     this.errorMessage =
-  //   //       err.error?.message ?? 'Invalid code. Please try again.';
-
-  //         this.clearDigits();
-  //       },
-  //     });
+   this.authActions.confirmEmailVerification({
+      email: this.email(),
+      code: this.otpValue,
+    }).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        if (res.status) {
+          this._registrationService.markVerified();
+          this._router.navigate(['/auth/register']);
+        } else {
+          this.errorMessage = res.message;
+          this.clearDigits();
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message ?? 'Invalid code. Please try again.';
+        this.clearDigits();
+      },
+    });
   }
+
 
 
 

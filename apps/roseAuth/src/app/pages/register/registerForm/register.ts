@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from '@org/shared-ui-components';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
+import { AuthActions } from '@org/auth';
 
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -24,7 +25,8 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 export class Register {
    private fb     = inject(FormBuilder);
  // private _authService= inject(AuthService);
-  //  private _router = inject(Router);
+ private authActions = inject(AuthActions);
+    private _router = inject(Router);
    private _registrationService = inject(RegisterService);
 
   readonly email = computed(() => this._registrationService.state().email);
@@ -71,26 +73,25 @@ ngOnInit(): void {
 
 
     const { username, firstName, lastName, password, confirmPassword, gender } = this.form.value;
+     this.authActions.register({
+      email: this.email(),
+      username: username!,
+      firstName: firstName!,
+      lastName: lastName!,
+      password: password!,
+      gender:gender!,
+      confirmPassword: confirmPassword!,
+    }).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this._registrationService.clear();
+        this._router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message ?? 'Registration failed. Please try again.';
+      },
+    });
 
-  //  this._authService.emailVerification({
-  //       email: this.email(),
-  //       username, firstName, lastName,
-  //       password, confirmPassword, gender,
-  //     })
-  //     .subscribe({
-  //       next: res => {
-  //         this.isLoading=false;
-  //         if (res.status) {
-  //           this._registrationService.clear();
-  //           this._router.navigate(['/auth/login']);
-  //         } else {
-  //           this.errorMessage=res.message;
-  //         }
-  //       },
-  //       error: err => {
-  //         this.isLoading=false;
-  //         this.errorMessage=err.error?.message ?? 'Registration failed. Please try again.';
-  //       },
-  //     });
   }
 }

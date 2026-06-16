@@ -7,6 +7,7 @@ import {FormControlComponent} from '../../../../../../shared/components/form-con
 import {Button} from '@org/shared-ui-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
+import { AuthActions } from '@org/auth';
 @Component({
   selector: 'app-register-email-verification',
   imports: [CommonModule,ReactiveFormsModule,FormControlComponent,Button,TranslatePipe,AuthCardComponent],
@@ -15,9 +16,9 @@ import { AuthCardComponent } from '../../../shared/components/auth-card/auth-car
 })
 export class RegisterEmailVerification {
   private fb = inject(FormBuilder);
-  // private _authService= inject(AuthService);
-  // private _router = inject(Router);
-  // private _registrationService = inject(RegisterService);
+  private authActions = inject(AuthActions);
+  private _router = inject(Router);
+  private _registrationService = inject(RegisterService);
   errorMessage = '';
   isLoading = false;
   form = this.fb.group({
@@ -37,21 +38,22 @@ export class RegisterEmailVerification {
     this.isLoading = true;
 
     const email = this.emailControl.value!;
-    // this._authService.emailVerification({ email }).subscribe({
-    //   next: (res) => {
-    //     this.isLoading = false;
-    //     if (res.status) {
-    //       this._registrationService.setEmail(email); // save to signal
-    //       this._router.navigate(['/auth/verify-otp']);
-    //     } else {
-    //       this.errorMessage = res.message;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.isLoading = false;
-    //     this.errorMessage =
-    //       err.error?.message ?? 'Something went wrong. Please try again.';
-    //   },
-    // });
+      this.authActions.sendEmailVerification({ email }).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        if (res.status) {
+          this._registrationService.setEmail(email);
+          this._router.navigate(['/auth/verify-otp']);
+        } else {
+          this.errorMessage = res.message;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message ?? 'Something went wrong. Please try again.';
+      },
+    });
+  
+
   }
 }
