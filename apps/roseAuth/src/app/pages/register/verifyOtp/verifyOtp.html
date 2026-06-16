@@ -31,17 +31,17 @@
         />
       }
     </div>
-@if(errorMessage){
+@if (errorMessage()) {
 <p class="server-error" role="alert">
-      {{ errorMessage }}
+      {{ errorMessage() }}
     </p>
 }
 
-<lib-button
+    <lib-button
+      buttonType="submit"
       variant="danger"
-      [loading]="!isComplete || isLoading"
-      [disabled]="!isComplete || isLoading"
-      (clicked)="onSubmit()"
+      [loading]="isLoading()"
+      [disabled]="!isComplete || isLoading()"
       size="lg"
       >{{'Verify Code' | translate}}</lib-button
     >

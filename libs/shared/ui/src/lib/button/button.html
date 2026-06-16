@@ -1,9 +1,10 @@
 <button
+      [attr.type]="buttonType"
       [class]="buttonClass"
       [disabled]="disabled || loading"
       [attr.aria-busy]="loading"
       [attr.aria-label]="loading ? (ariaLabel || 'Loading') : ariaLabel"
-      (click)="handleClick()"
+      (click)="handleClick($event)"
     >
     @if(icon && !loading){
       <i [class]="'ti ' + icon" aria-hidden="true"></i>

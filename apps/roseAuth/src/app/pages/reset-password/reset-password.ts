@@ -65,6 +65,10 @@ export class ResetPassword implements OnInit {
   }
 
   submitResetPassword(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     if (!this.token) {
       return;
     }
@@ -88,6 +92,7 @@ export class ResetPassword implements OnInit {
       next: () => {
         this.isLoading.set(false);
         this.isSuccess.set(true);
+        void this.router.navigateByUrl('/auth/login');
       },
       error: (err) => {
         this.isLoading.set(false);

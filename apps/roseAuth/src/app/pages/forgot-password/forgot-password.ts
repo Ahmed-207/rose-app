@@ -27,6 +27,10 @@ export class ForgotPassword implements OnInit {
   }
 
   submitForgotPassword(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     if (this.forgotPasswordForm.invalid) {
       this.forgotPasswordForm.markAllAsTouched();
       return;
@@ -37,6 +41,7 @@ export class ForgotPassword implements OnInit {
 
     const request: ForgotPasswordRequest = {
       email: this.forgotPasswordForm.get('email')?.value,
+      redirectUrl: `${window.location.origin}/auth/reset-password`,
     };
 
     this.authActions.forgotPassword(request).subscribe({

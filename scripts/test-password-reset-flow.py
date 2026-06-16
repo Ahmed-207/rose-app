@@ -130,7 +130,8 @@ def main():
     print(json.dumps({k: login1.get(k) for k in ("status", "code", "message")}, indent=2))
 
     print("\n=== 5. FORGOT PASSWORD ===")
-    print(req(f"{API}/api/auth/forgot-password", "POST", {"email": email}))
+  # host is the frontend origin; backend uses it to build the reset link in the email
+    print(req(f"{API}/api/auth/forgot-password", "POST", {"email": email, "host": "http://localhost:4200"}))
 
     reset_token = None
 

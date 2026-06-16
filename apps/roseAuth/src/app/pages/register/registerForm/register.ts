@@ -1,96 +1,114 @@
-import { Component, computed, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { RegisterService } from '../services/register-service';
 import { CommonModule } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthActions, RegisterRequest } from '@org/auth';
 import { Button } from '@org/shared-ui-components';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
-
+import { RegisterService } from '../services/register-service';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-  const pw  = control.get('password')?.value;
+  const pw = control.get('password')?.value;
   const cpw = control.get('confirmPassword')?.value;
   return pw && cpw && pw !== cpw ? { passwordMismatch: true } : null;
 }
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule,ReactiveFormsModule,RouterLink,TranslatePipe,Button,FormControlComponent,AuthCardComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    TranslatePipe,
+    Button,
+    FormControlComponent,
+    AuthCardComponent,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-export class Register {
-   private fb     = inject(FormBuilder);
- // private _authService= inject(AuthService);
-  //  private _router = inject(Router);
-   private _registrationService = inject(RegisterService);
+export class Register implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly authActions = inject(AuthActions);
+  private readonly router = inject(Router);
+  private readonly registerService = inject(RegisterService);
 
-  readonly email = computed(() => this._registrationService.state().email);
-
-  isLoading    = false;
-  errorMessage = "";
+  readonly email = computed(() => this.registerService.state().email);
+  readonly isLoading = signal(false);
+  readonly errorMessage = signal('');
 
   genderOptions = [
-    { value: 'MALE',   label: 'Male' },
+    { value: 'MALE', label: 'Male' },
     { value: 'FEMALE', label: 'Female' },
   ];
 
   form = this.fb.group(
     {
-      username:        ['', [Validators.required, Validators.minLength(3)]],
-      firstName:       ['', Validators.required],
-      lastName:        ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', Validators.required],
-      password:        ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)]],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)],
+      ],
       confirmPassword: ['', Validators.required],
-      gender:          ['', Validators.required],
+      gender: ['', Validators.required],
     },
-    { validators: passwordMatchValidator }
+    { validators: passwordMatchValidator },
   );
 
-
-ngOnInit(): void {
-
+  ngOnInit(): void {
     this.form.get('email')?.setValue(this.email());
-
   }
 
   get passwordMatchError(): string {
     const touched = this.form.get('confirmPassword')?.touched;
-    return touched && this.form.hasError('passwordMismatch')
-      ? 'Passwords do not match'
-      : '';
+    return touched && this.form.hasError('passwordMismatch') ? 'Passwords do not match' : '';
   }
+
   onSubmit(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     this.form.markAllAsTouched();
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      return;
+    }
 
-    this.isLoading=true;
+    const { username, firstName, lastName, password, confirmPassword } = this.form.value;
 
+    const request: RegisterRequest = {
+      username: username as string,
+      email: this.email(),
+      password: password as string,
+      confirmPassword: confirmPassword as string,
+      firstName: firstName as string,
+      lastName: lastName as string,
+    };
 
-    const { username, firstName, lastName, password, confirmPassword, gender } = this.form.value;
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
-  //  this._authService.emailVerification({
-  //       email: this.email(),
-  //       username, firstName, lastName,
-  //       password, confirmPassword, gender,
-  //     })
-  //     .subscribe({
-  //       next: res => {
-  //         this.isLoading=false;
-  //         if (res.status) {
-  //           this._registrationService.clear();
-  //           this._router.navigate(['/auth/login']);
-  //         } else {
-  //           this.errorMessage=res.message;
-  //         }
-  //       },
-  //       error: err => {
-  //         this.isLoading=false;
-  //         this.errorMessage=err.error?.message ?? 'Registration failed. Please try again.';
-  //       },
-  //     });
+    this.authActions.register(request).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.registerService.clear();
+        void this.router.navigateByUrl('/home');
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(err.message ?? 'Registration failed. Please try again.');
+      },
+    });
   }
 }

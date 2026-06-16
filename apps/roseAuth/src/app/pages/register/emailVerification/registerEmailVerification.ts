@@ -1,57 +1,58 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterService } from '../services/register-service';
-import {FormControlComponent} from '../../../../../../shared/components/form-controls/form-control';
-import {Button} from '@org/shared-ui-components';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthActions } from '@org/auth';
+import { Button } from '@org/shared-ui-components';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
+import { FormControlComponent } from '../../../../../../shared/components/form-controls/form-control';
+import { RegisterService } from '../services/register-service';
+
 @Component({
   selector: 'app-register-email-verification',
-  imports: [CommonModule,ReactiveFormsModule,FormControlComponent,Button,TranslatePipe,AuthCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormControlComponent, Button, TranslatePipe, AuthCardComponent],
   templateUrl: './registerEmailVerification.html',
   styleUrl: './registerEmailVerification.css',
 })
 export class RegisterEmailVerification {
-  private fb = inject(FormBuilder);
-  // private _authService= inject(AuthService);
-  // private _router = inject(Router);
-  // private _registrationService = inject(RegisterService);
-  errorMessage = '';
-  isLoading = false;
+  private readonly fb = inject(FormBuilder);
+  private readonly authActions = inject(AuthActions);
+  private readonly router = inject(Router);
+  private readonly registerService = inject(RegisterService);
+
+  readonly errorMessage = signal('');
+  readonly isLoading = signal(false);
+
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
   });
 
-  get emailControl() {
-    return this.form.get('email')!;
-  }
-
   onSubmit(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.isLoading = true;
+    const email = this.form.get('email')?.value as string;
 
-    const email = this.emailControl.value!;
-    // this._authService.emailVerification({ email }).subscribe({
-    //   next: (res) => {
-    //     this.isLoading = false;
-    //     if (res.status) {
-    //       this._registrationService.setEmail(email); // save to signal
-    //       this._router.navigate(['/auth/verify-otp']);
-    //     } else {
-    //       this.errorMessage = res.message;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.isLoading = false;
-    //     this.errorMessage =
-    //       err.error?.message ?? 'Something went wrong. Please try again.';
-    //   },
-    // });
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+
+    this.authActions.sendEmailVerification({ email }).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.registerService.setEmail(email);
+        void this.router.navigate(['/auth/verify-otp']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(err.message ?? 'Something went wrong. Please try again.');
+      },
+    });
   }
 }

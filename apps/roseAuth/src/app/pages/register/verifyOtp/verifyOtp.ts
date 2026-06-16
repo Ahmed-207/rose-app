@@ -1,37 +1,37 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, ElementRef, inject, signal, viewChildren } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthActions } from '@org/auth';
 import { Button } from '@org/shared-ui-components';
-import { RegisterService } from '../services/register-service';
-import { Router } from '@angular/router';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
+import { RegisterService } from '../services/register-service';
 
 @Component({
   selector: 'app-verify-otp',
-  imports: [CommonModule,ReactiveFormsModule,Button,TranslatePipe,AuthCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, Button, TranslatePipe, AuthCardComponent, RouterLink],
   templateUrl: './verifyOtp.html',
   styleUrl: './verifyOtp.css',
 })
 export class VerifyOtp {
- // private _authService= inject(AuthService);
-  // private _router = inject(Router);
-   private _registrationService = inject(RegisterService);
+  private readonly authActions = inject(AuthActions);
+  private readonly router = inject(Router);
+  private readonly registerService = inject(RegisterService);
 
-  readonly email = computed(() => this._registrationService.state().email);
-  digits = signal<string[]>(['', '', '', '', '', '']);
+  readonly email = computed(() => this.registerService.state().email);
+  readonly digits = signal<string[]>(['', '', '', '', '', '']);
+  readonly isLoading = signal(false);
+  readonly errorMessage = signal('');
 
-  isLoading = false;
-  errorMessage = '';
-
-  private inputs = viewChildren<ElementRef<HTMLInputElement>>('digitInput');
+  private readonly inputs = viewChildren<ElementRef<HTMLInputElement>>('digitInput');
 
   private get otpValue(): string {
     return this.digits().join('');
   }
 
   get isComplete(): boolean {
-    return this.otpValue.length === 6 && this.digits().every(d => d !== '');
+    return this.otpValue.length === 6 && this.digits().every((d) => d !== '');
   }
 
   onDigitInput(event: Event, index: number): void {
@@ -74,8 +74,7 @@ export class VerifyOtp {
     pasted.split('').forEach((char, i) => (updated[i] = char));
     this.digits.set(updated);
 
-    // Focus the next empty slot or last slot
-    const nextEmpty = updated.findIndex(d => d === '');
+    const nextEmpty = updated.findIndex((d) => d === '');
     this.focusInput(nextEmpty === -1 ? 5 : nextEmpty);
   }
 
@@ -85,42 +84,38 @@ export class VerifyOtp {
   }
 
   onSubmit(): void {
-    if (!this.isComplete) return;
+    if (this.isLoading()) {
+      return;
+    }
 
-    this.isLoading=true;
+    if (!this.isComplete) {
+      return;
+    }
 
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
-  // this._authService.verifyOtp({
-  //       email: this.email(),
-  //       code: this.otpValue,
-  //     })
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.isLoading=false;
-  //         if (res.status) {
-  //           this._registrationService.markVerified(); // update shared signal
-  //           this._router.navigate(['/auth/register']);
-  //         } else {
-  //           this.errorMessage = res.message;
-  //           this.clearDigits();
-  //         }
-  //       },
-  //       error: (err) => {
-  //        this.isLoading = false;
-  //   //     this.errorMessage =
-  //   //       err.error?.message ?? 'Invalid code. Please try again.';
-
-  //         this.clearDigits();
-  //       },
-  //     });
+    this.authActions
+      .confirmEmailVerification({
+        email: this.email(),
+        code: this.otpValue,
+      })
+      .subscribe({
+        next: () => {
+          this.isLoading.set(false);
+          this.registerService.markVerified();
+          void this.router.navigate(['/auth/register']);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          this.errorMessage.set(err.message ?? 'Invalid code. Please try again.');
+          this.clearDigits();
+        },
+      });
   }
-
-
 
   private clearDigits(): void {
     this.digits.set(['', '', '', '', '', '']);
     this.focusInput(0);
   }
-
-
 }

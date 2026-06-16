@@ -61,15 +61,15 @@
       />
     </div>
 
-    @if(errorMessage){
-    <p class="server-error" role="alert">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+    <p class="server-error" role="alert">{{ errorMessage() }}</p>
     }
 
     <lib-button
+      buttonType="submit"
       variant="danger"
-      [loading]="isLoading"
-      [disabled]="form.invalid"
-      (clicked)="onSubmit()"
+      [loading]="isLoading()"
+      [disabled]="form.invalid || isLoading()"
       size="lg"
       >{{'Create account' | translate}}</lib-button
     >

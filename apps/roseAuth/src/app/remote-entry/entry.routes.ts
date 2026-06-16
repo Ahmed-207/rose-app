@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { registerEmailGuard, registerVerifiedGuard } from '../guards/register.guards';
 import { RemoteEntry } from './entry';
 import { ForgotPassword } from '../pages/forgot-password/forgot-password';
 import { ForgotPasswordSent } from '../pages/forgot-password/forgot-password-sent';
@@ -18,8 +19,8 @@ export const remoteRoutes: Route[] = [{
       { path: 'forgot-password/sent', component: ForgotPasswordSent },
       { path: 'reset-password', component: ResetPassword },
       { path: 'send-email-verification', component: RegisterEmailVerification },
-      { path: 'verify-otp', component: VerifyOtp },
-      { path: 'register', component: Register },
+      { path: 'verify-otp', component: VerifyOtp, canActivate: [registerEmailGuard] },
+      { path: 'register', component: Register, canActivate: [registerVerifiedGuard] },
     ],
   },
 ];

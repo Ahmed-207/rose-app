@@ -10,15 +10,15 @@
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <app-form-control formControlName="email" type="email" />
-    @if(errorMessage){
-    <p class="server-error" role="alert">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+    <p class="server-error" role="alert">{{ errorMessage() }}</p>
     }
 
     <lib-button
+      buttonType="submit"
       variant="danger"
-      [loading]="isLoading"
-      [disabled]="form.invalid"
-      (clicked)="onSubmit()"
+      [loading]="isLoading()"
+      [disabled]="form.invalid || isLoading()"
       size="lg"
       >{{'Verify Email' | translate}}</lib-button
     >

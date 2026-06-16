@@ -12,8 +12,10 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
-   @Input() variant: ButtonVariant = 'secondary';
+  @Input() variant: ButtonVariant = 'secondary';
   @Input() size: ButtonSize = 'md';
+  /** Use `submit` only with form `(ngSubmit)` — never combine with `(clicked)`. */
+  @Input() buttonType: 'button' | 'submit' = 'button';
   @Input() disabled = false;
   @Input() loading = false;
   @Input() icon?: string;
@@ -25,7 +27,12 @@ export class Button {
       .filter(Boolean).join(' ');
   }
 
-  handleClick(): void {
+  handleClick(event: MouseEvent): void {
+    if (this.buttonType === 'submit') {
+      return;
+    }
+
+    event.preventDefault();
     if (!this.disabled && !this.loading) {
       this.clicked.emit();
     }
