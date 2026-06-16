@@ -2,10 +2,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../core/layout/Navbar/navbar';
 import { SecondryNavbar } from '../core/layout/secondry Navbar/secondryNavbar';
+import {  ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule ,SecondryNavbar],
+  imports: [CommonModule,ReactiveFormsModule,CommonModule ,SecondryNavbar,Navbar ],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -955,4 +956,5 @@ nx g &#64;nx/angular:component ui/src/lib/button</pre>
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class NxWelcome {}
+export class NxWelcome {
+}
