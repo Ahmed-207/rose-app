@@ -26,9 +26,8 @@
         </div>
 
         <div class="login-btn-container w-full p-2 pb-5 border-b border-zinc-200">
-            <button class="hover:bg-red-950 bg-red-900 text-white w-full rounded-xl py-3" type="submit">
-                {{"LOGIN" | translate}}
-            </button>
+            <lib-button [disabled]="loginForm.invalid" [size]="'lg'" [variant]="'secondary'" (clicked)="submitLogin()"
+                [loading]="isLoading()"></lib-button>
         </div>
     </form>
     <div class="register-redirect w-full text-center">
