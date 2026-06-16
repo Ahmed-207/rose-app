@@ -1,12 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Navbar } from '../core/layout/Navbar/navbar';
-import { SecondryNavbar } from '../core/layout/secondry Navbar/secondryNavbar';
+// import { Navbar } from '../core/layout/Navbar/navbar';
+// import { SecondryNavbar } from '../core/layout/secondry Navbar/secondryNavbar';
 import {  ReactiveFormsModule } from '@angular/forms';
+import { MainLayout } from '../core/layout/Main layout/mainLayout';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule,ReactiveFormsModule,CommonModule ,SecondryNavbar,Navbar ],
+  imports: [CommonModule,ReactiveFormsModule,CommonModule, MainLayout ],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -17,7 +18,7 @@ import {  ReactiveFormsModule } from '@angular/forms';
      -->
 
      <!-- <app-navbar> -->
-      <app-secondry-navbar>
+      <!-- <app-secondry-navbar> -->
 
     <style>
       html {

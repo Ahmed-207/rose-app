@@ -6,7 +6,9 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { Component ,inject, OnInit} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Translate } from '../../services/Translate/translate';
+// import { Translate } from '../../services/Translate/translate';
+import  { LangService } from '@org/ui-lang-switcher';
+
 @Component({
   template: `
         <div class="text-right">
@@ -24,7 +26,7 @@ import { Translate } from '../../services/Translate/translate';
   styleUrl: './secondryNavbar.css',
 })
 export class SecondryNavbar implements OnInit {
-  mytranclateService:Translate =inject(Translate);
+  mytranclateService:LangService =inject(LangService);
    private messageService = inject(MessageService);
     items: MenuItem[] | undefined;
 
