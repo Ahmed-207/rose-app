@@ -55,10 +55,10 @@ export class Login implements OnInit {
   }
 
   goToForgotPassword(): void {
-    // this.router.navigateByUrl('/auth/forgot-password');
+    this.router.navigateByUrl('/auth/forgot-password');
   }
 
   goToRegister(): void {
-    // this.router.navigateByUrl('/auth/register');
+    this.router.navigateByUrl('/auth/send-email-verification');
   }
 }
