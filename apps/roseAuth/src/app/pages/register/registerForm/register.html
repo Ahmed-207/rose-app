@@ -1,0 +1,83 @@
+<div class="step-wrapper">
+
+    <app-auth-card translationKey="Become part of our family!" alternateRoute="">
+  <div class="step-header mt-3">
+    <span class="step-badge">Step 3 of 3</span>
+
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="field-row">
+      <app-form-control
+        formControlName="firstName"
+        type="text"
+        [placeholder]="'First name'"
+        [label]="'First name'"
+      />
+
+      <app-form-control
+        formControlName="lastName"
+        type="text"
+        [placeholder]="'Last name'"
+        [label]="'Last name'"
+      />
+    </div>
+    <app-form-control
+      formControlName="email"
+      type="email"
+      [readonly]="true"
+      [disabled]="true"
+      [label]="'Email'"
+      [placeholder]="'Email address'"
+    />
+    <app-form-control
+      formControlName="username"
+      type="text"
+      [placeholder]="'Username'"
+      [label]="'Username'"
+    />
+
+    <app-form-control
+      formControlName="gender"
+      type="select"
+      [options]="genderOptions"
+      [placeholder]="'Gender'"
+      [label]="'Gender'"
+    />
+    <div class="field-row">
+      <app-form-control
+        formControlName="password"
+        type="password"
+        [placeholder]="'Password'"
+        [label]="'Password'"
+      />
+
+      <app-form-control
+        formControlName="confirmPassword"
+        type="password"
+        [groupError]="passwordMatchError"
+        [placeholder]="'Confirm password'"
+        [label]="'Confirm password'"
+      />
+    </div>
+
+    @if(errorMessage){
+    <p class="server-error" role="alert">{{ errorMessage }}</p>
+    }
+
+    <lib-button
+      variant="danger"
+      [loading]="isLoading"
+      [disabled]="form.invalid"
+      (clicked)="onSubmit()"
+      size="lg"
+      >{{'Create account' | translate}}</lib-button
+    >
+  </form>
+
+  <div class="login-link">
+    {{"Already have an account?" | translate}}
+    <a routerLink="/auth/login">{{"Login" | translate}}</a>
+  </div>
+  </app-auth-card>
+</div>
