@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@org/models": ["libs/shared/lang-switcher/models/src/index.ts"],
+      "@org/auth": ["auth/src/index.ts"],
+      "@org/models": ["libs/shared/models/src/index.ts"],
       "roseMain/Routes": [
         "./apps/roseMain/src/app/remote-entry/entry.routes.ts"
       ],
@@ -26,8 +27,7 @@
         "./apps/roseAdmin/src/app/remote-entry/entry.routes.ts"
       ],
       "@org/shared-ui-components": ["./libs/shared/ui/src/index.ts"],
-      "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"],
-      "@org/auth-data": ["./libs/shared/auth-data/src/index.ts"]
+      "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

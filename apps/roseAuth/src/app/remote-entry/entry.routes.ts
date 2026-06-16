@@ -1,11 +1,11 @@
 import { Route } from '@angular/router';
-// import { guestGuard } from '@org/auth';
+import { guestGuard } from '@org/auth';
 import { AuthLayout } from '../core/layout/auth-layout/auth-layout';
 
 export const remoteRoutes: Route[] = [
     {
         path: '',
-        // canActivate: [guestGuard],
+        canActivate: [guestGuard],
         component: AuthLayout,
         children: [
             {
