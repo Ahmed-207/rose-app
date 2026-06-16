@@ -17,6 +17,9 @@
     "paths": {
       "@org/auth": ["auth/src/index.ts"],
       "@org/models": ["libs/shared/models/src/index.ts"],
+      "@org/lang-switcher-models": [
+        "libs/shared/lang-switcher/models/src/index.ts"
+      ],
       "roseMain/Routes": [
         "./apps/roseMain/src/app/remote-entry/entry.routes.ts"
       ],

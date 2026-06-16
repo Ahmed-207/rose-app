@@ -6,7 +6,7 @@
         class="flex flex-col justify-center items-center gap-2 w-full">
 
         <div class="card flex justify-center w-full">
-            <lib-form-control type="text" formControlName="username" label="USERNAME" placeholder="Enter your username"
+            <lib-form-control type="text" formControlName="username" label="USERNAME" placeholder="Enter your name"
                 [required]="true" class="block w-full" />
         </div>
 
@@ -26,8 +26,9 @@
         </div>
 
         <div class="login-btn-container w-full p-2 pb-5 border-b border-zinc-200">
-            <lib-button [variant]="'secondary'" [size]="'lg'" [disabled]="loginForm.invalid" [loading]="isLoading()"
-                (clicked)="submitLogin()">{{"LOGIN" | translate}}</lib-button>
+            <button class="hover:bg-red-950 bg-red-900 text-white w-full rounded-xl py-3" type="submit">
+                {{"LOGIN" | translate}}
+            </button>
         </div>
     </form>
     <div class="register-redirect w-full text-center">

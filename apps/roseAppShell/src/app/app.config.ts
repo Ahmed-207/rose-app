@@ -32,9 +32,9 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'en',
       lang: 'en'
     }),
-provideAppInitializer(() => {
-  const langService = inject(LangService);
-  langService.init();
-})
+    provideAppInitializer(() => {
+      const langService = inject(LangService);
+      langService.init();
+    })
   ]
 };

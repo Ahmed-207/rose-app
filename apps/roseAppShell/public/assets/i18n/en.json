@@ -6,5 +6,6 @@
   "LOGIN": "Login",
   "NO_ACCOUNT": "Don't have an account yet?",
   "CREATE_ONE": "Create one now!",
-  "FORGOT_PASSWORD": "forgot your password ?"
+  "FORGOT_PASSWORD": "forgot your password ?",
+  "Enter your name": "Enter your username"
 }

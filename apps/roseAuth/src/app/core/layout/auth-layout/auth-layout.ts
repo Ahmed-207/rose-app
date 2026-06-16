@@ -12,4 +12,3 @@ import { UiLangSwitcher } from "@org/ui-lang-switcher";
 export class AuthLayout {
 
 }
-

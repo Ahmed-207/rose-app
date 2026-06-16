@@ -1,14 +1,14 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FormControlComponent, Button } from '@org/shared-ui-components';
+import { FormControlComponent } from '@org/shared-ui-components';
 import { AuthActions, LoginRequest } from '@org/auth';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CheckboxModule, TranslatePipe, FormControlComponent, Button],
+  imports: [ReactiveFormsModule, CheckboxModule, TranslatePipe, FormControlComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -19,7 +19,6 @@ export class Login implements OnInit {
   private readonly router = inject(Router);
 
   loginForm!: FormGroup;
-  isLoading:WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     this.initiateLoginForm();
@@ -34,10 +33,8 @@ export class Login implements OnInit {
   }
 
   submitLogin(): void {
-    this.isLoading.set(true);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-      this.isLoading.set(false);
       return;
     }
 
@@ -50,11 +47,9 @@ export class Login implements OnInit {
     this.authActions.login(request).subscribe({
       next: () => {
         this.router.navigateByUrl('/home');
-        this.isLoading.set(false);
       },
       error: (err) => {
         console.log(err);
-        this.isLoading.set(false);
       },
     });
   }

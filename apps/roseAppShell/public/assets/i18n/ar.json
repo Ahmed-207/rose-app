@@ -6,5 +6,6 @@
   "LOGIN": "تسجيل الدخول",
   "NO_ACCOUNT": "ليس لديك حساب؟",
   "CREATE_ONE": "أنشئ حساباً الآن!",
-  "FORGOT_PASSWORD": "هل نسيت كلمة المرور"
+  "FORGOT_PASSWORD": "هل نسيت كلمة المرور",
+  "Enter your name": "ادخل اسم المستخدم الخاص بك"
 }
