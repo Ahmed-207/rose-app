@@ -1,0 +1,13 @@
+.welcome-message h1 {
+    font-family: 'Edward';
+    font-size: 48px;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box {
+    border-color: #741C21 !important;
+}
+
+:host ::ng-deep .p-checkbox-checked .p-checkbox-box {
+    background-color: #741C21 !important;
+    border-color: #741C21 !important;
+}
