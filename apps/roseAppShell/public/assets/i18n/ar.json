@@ -1,11 +1,12 @@
 {
-  "WELCOME_BACK": "مرحباً بك",
-  "USERNAME": "اسم المستخدم",
-  "PASSWORD": "كلمة المرور",
-  "REMEMBER_ME": "تذكرني",
-  "LOGIN": "تسجيل الدخول",
-  "NO_ACCOUNT": "ليس لديك حساب؟",
-  "CREATE_ONE": "أنشئ حساباً الآن!",
-  "FORGOT_PASSWORD": "هل نسيت كلمة المرور",
-  "Enter your name": "ادخل اسم المستخدم الخاص بك"
+  "auth": {
+    "WELCOME_BACK": "مرحباً بك",
+    "USERNAME": "اسم المستخدم",
+    "PASSWORD": "كلمة المرور",
+    "REMEMBER_ME": "تذكرني",
+    "LOGIN": "تسجيل الدخول",
+    "NO_ACCOUNT": "ليس لديك حساب؟",
+    "CREATE_ONE": "أنشئ حساباً الآن!",
+    "FORGOT_PASSWORD": "هل نسيت كلمة المرور"
+  }
 }
