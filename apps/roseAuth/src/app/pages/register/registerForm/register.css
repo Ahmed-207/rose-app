@@ -5,45 +5,93 @@
 }
 
 .step-header {
-  margin-bottom: 2rem;
-  .step-badge {
-    display: inline-block;
-    font-size: 0.75rem; font-weight: 500;
-    color: var(--color-primary);
-    background: var(--color-primary-light);
-    border-radius: 999px;
-    padding: 0.2rem 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-  h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem; }
+  margin: 1.5rem 0 2rem;
 
 }
 
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
 
+  p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.6;
+  }
 
+  strong {
+    color: #111827;
+    font-weight: 500;
+  }
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
-
-
-
 .server-error {
-  font-size: 0.875rem; color: #ef4444;
-  background: #fef2f2; border: 1px solid #fecaca;
-  border-radius: 8px; padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
   margin-bottom: 1rem;
 }
 
-form > app-rose-button { display: block; margin-top: 0.5rem; }
+form > app-rose-button {
+  display: block;
+  margin-top: 0.5rem;
+}
 
+.back-link {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 0.25rem;
+
+
+}
+
+.back-link:hover {
+    color: #111827;
+  }
 .login-link {
   text-align: center;
   margin-top: 1.25rem;
   font-size: 0.875rem;
   color: #6b7280;
-  a { color: var(--color-primary); font-weight: 500; text-decoration: none;
-      &:hover { text-decoration: underline; } }
+
+
+}
+.otp-box{
+
+    margin: 20px auto;
+    justify-content: space-around;
+    text-align: center;
+    display: flex;
+    align-items: center;
+
+}
+ .login-link  a {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+
+
+  }
+ .login-link  a :hover {
+      text-decoration: underline;
+    }
+::ng-deep .p-step-active .p-step-title {
+    color: #840337 !important;
+}
+::ng-deep .p-step-active .p-step-number {
+    background: #840337 !important;
+    border-color:#840337 !important;
+    color: #fff !important;
 }
