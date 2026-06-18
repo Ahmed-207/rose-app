@@ -3,6 +3,7 @@
     font-size: 48px;
 }
 
+/* --- Light Mode (Leave as is) --- */
 :host ::ng-deep .p-checkbox .p-checkbox-box {
     border-color: #741C21 !important;
 }
@@ -10,4 +11,21 @@
 :host ::ng-deep .p-checkbox-checked .p-checkbox-box {
     background-color: #741C21 !important;
     border-color: #741C21 !important;
+}
+
+
+:host-context(.dark) ::ng-deep .p-checkbox .p-checkbox-box {
+    border-color: #f472b6 !important;
+    /* Tailwind's pink-400 */
+    background-color: transparent !important;
+}
+
+:host-context(.dark) ::ng-deep .p-checkbox-checked .p-checkbox-box {
+    background-color: #f472b6 !important;
+    border-color: #f472b6 !important;
+}
+
+:host-context(.dark) ::ng-deep .p-checkbox-checked .p-checkbox-box .p-checkbox-icon {
+    color: #1c1917 !important;
+    /* Makes the check icon visible against pink */
 }

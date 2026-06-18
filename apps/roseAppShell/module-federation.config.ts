@@ -7,7 +7,10 @@ const config: ModuleFederationConfig = {
     if (
       libraryName.startsWith('primeng') ||
       libraryName === 'primeicons' ||
-      libraryName === '@primeng/themes' || libraryName === '@org/shared-ui-components' ||
+      libraryName === '@primeng/themes' ||
+      libraryName === '@primeuix/themes' ||
+      libraryName === '@org/shared-ui-components' ||
+      libraryName === '@org/shared-theme' ||
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader'
     ) {
@@ -21,6 +24,5 @@ const config: ModuleFederationConfig = {
     return sharedConfig;
   }
 };
-
 
 export default config;

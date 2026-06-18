@@ -30,7 +30,8 @@
         "./apps/roseAdmin/src/app/remote-entry/entry.routes.ts"
       ],
       "@org/shared-ui-components": ["./libs/shared/ui/src/index.ts"],
-      "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"]
+      "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"],
+      "@org/shared-theme": ["./libs/shared/shared-theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

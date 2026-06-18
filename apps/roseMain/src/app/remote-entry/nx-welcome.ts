@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 // import { SecondryNavbar } from '../core/layout/secondry Navbar/secondryNavbar';
 import {  ReactiveFormsModule } from '@angular/forms';
 import { MainLayout } from '../core/layout/Main layout/mainLayout';
+// import { Footer } from '../core/layout/Footer/footer';
 
 @Component({
   selector: 'app-nx-welcome',
