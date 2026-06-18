@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormControlComponent } from '@org/shared-ui-components';
-import { AuthActions, LoginRequest } from '@org/auth';
+import { AuthActions, AuthErrorService, LoginRequest } from '@org/auth';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,12 @@ export class Login implements OnInit {
 
   private readonly _fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
 
   loginForm!: FormGroup;
+  readonly isLoading = signal(false);
+  readonly errorMessage = this.authErrorService.message;
 
   ngOnInit(): void {
     this.initiateLoginForm();
@@ -33,6 +37,10 @@ export class Login implements OnInit {
   }
 
   submitLogin(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -44,14 +52,17 @@ export class Login implements OnInit {
       rememberMe: this.loginForm.get('remember')?.value,
     };
 
-    this.authActions.login(request).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/home');
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.isLoading.set(true);
+    this.authErrorService.clear();
+
+    this.authActions
+      .login(request)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl('/home');
+        },
+      });
   }
 
   goToForgotPassword(): void {

@@ -3,7 +3,8 @@ import { Component, computed, ElementRef, inject, signal, viewChildren } from '@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions } from '@org/auth';
+import { finalize } from 'rxjs';
+import { AuthActions, AuthErrorService } from '@org/auth';
 import { Button } from '@org/shared-ui-components';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
 import { RegisterService } from '../services/register-service';
@@ -16,13 +17,14 @@ import { RegisterService } from '../services/register-service';
 })
 export class VerifyOtp {
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
   private readonly registerService = inject(RegisterService);
 
   readonly email = computed(() => this.registerService.state().email);
   readonly digits = signal<string[]>(['', '', '', '', '', '']);
   readonly isLoading = signal(false);
-  readonly errorMessage = signal('');
+  readonly errorMessage = this.authErrorService.message;
 
   private readonly inputs = viewChildren<ElementRef<HTMLInputElement>>('digitInput');
 
@@ -93,23 +95,26 @@ export class VerifyOtp {
     }
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.authErrorService.clear();
+
+    let verified = false;
 
     this.authActions
       .confirmEmailVerification({
         email: this.email(),
         code: this.otpValue,
       })
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: () => {
-          this.isLoading.set(false);
+          verified = true;
           this.registerService.markVerified();
           void this.router.navigate(['/auth/register']);
         },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorMessage.set(err.message ?? 'Invalid code. Please try again.');
-          this.clearDigits();
+        complete: () => {
+          if (!verified && this.authErrorService.message()) {
+            this.clearDigits();
+          }
         },
       });
   }

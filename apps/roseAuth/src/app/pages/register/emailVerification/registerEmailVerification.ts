@@ -3,7 +3,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions } from '@org/auth';
+import { finalize } from 'rxjs';
+import { AuthActions, AuthErrorService } from '@org/auth';
 import { Button } from '@org/shared-ui-components';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
 import { FormControlComponent } from '../../../../../../shared/components/form-controls/form-control';
@@ -18,10 +19,11 @@ import { RegisterService } from '../services/register-service';
 export class RegisterEmailVerification {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
   private readonly registerService = inject(RegisterService);
 
-  readonly errorMessage = signal('');
+  readonly errorMessage = this.authErrorService.message;
   readonly isLoading = signal(false);
 
   form = this.fb.group({
@@ -41,18 +43,16 @@ export class RegisterEmailVerification {
     const email = this.form.get('email')?.value as string;
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.authErrorService.clear();
 
-    this.authActions.sendEmailVerification({ email }).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        this.registerService.setEmail(email);
-        void this.router.navigate(['/auth/verify-otp']);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.errorMessage.set(err.message ?? 'Something went wrong. Please try again.');
-      },
-    });
+    this.authActions
+      .sendEmailVerification({ email })
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          this.registerService.setEmail(email);
+          void this.router.navigate(['/auth/verify-otp']);
+        },
+      });
   }
 }

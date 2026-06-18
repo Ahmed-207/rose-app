@@ -20,13 +20,18 @@
                 | translate}}</span>
         </div>
 
+        @if (errorMessage()) {
+            <p class="server-error w-full" role="alert">{{ errorMessage() }}</p>
+        }
+
         <div class="flex items-center justfify-start w-full">
             <p-checkbox inputId="remember" formControlName="remember" [binary]="true" />
             <label for="remember" class="ml-2">{{"REMEMBER_ME" | translate}}</label>
         </div>
 
         <div class="login-btn-container w-full p-2 pb-5 border-b border-zinc-200">
-            <button class="hover:bg-red-950 bg-red-900 text-white w-full rounded-xl py-3" type="submit">
+            <button class="hover:bg-red-950 bg-red-900 text-white w-full rounded-xl py-3" type="submit"
+                [disabled]="loginForm.invalid || isLoading()">
                 {{"LOGIN" | translate}}
             </button>
         </div>

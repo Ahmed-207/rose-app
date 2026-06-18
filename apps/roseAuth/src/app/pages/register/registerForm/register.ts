@@ -9,7 +9,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions, RegisterRequest } from '@org/auth';
+import { finalize } from 'rxjs';
+import { AuthActions, AuthErrorService, RegisterRequest } from '@org/auth';
 import { Button } from '@org/shared-ui-components';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
@@ -38,12 +39,13 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 export class Register implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
   private readonly registerService = inject(RegisterService);
 
   readonly email = computed(() => this.registerService.state().email);
   readonly isLoading = signal(false);
-  readonly errorMessage = signal('');
+  readonly errorMessage = this.authErrorService.message;
 
   genderOptions = [
     { value: 'MALE', label: 'Male' },
@@ -97,18 +99,16 @@ export class Register implements OnInit {
     };
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.authErrorService.clear();
 
-    this.authActions.register(request).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        this.registerService.clear();
-        void this.router.navigateByUrl('/home');
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.errorMessage.set(err.message ?? 'Registration failed. Please try again.');
-      },
-    });
+    this.authActions
+      .register(request)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          this.registerService.clear();
+          void this.router.navigateByUrl('/home');
+        },
+      });
   }
 }

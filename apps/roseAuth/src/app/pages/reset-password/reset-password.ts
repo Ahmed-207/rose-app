@@ -9,7 +9,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions, ResetPasswordRequest } from '@org/auth';
+import { finalize } from 'rxjs';
+import { AuthActions, AuthErrorService, ResetPasswordRequest } from '@org/auth';
 import { FormControlComponent } from '@org/shared-ui-components';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -30,12 +31,13 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 export class ResetPassword implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   resetPasswordForm!: FormGroup;
   readonly isLoading = signal(false);
-  readonly errorMessage = signal('');
+  readonly errorMessage = this.authErrorService.message;
   readonly isSuccess = signal(false);
   readonly tokenMissing = signal(false);
 
@@ -79,7 +81,7 @@ export class ResetPassword implements OnInit {
     }
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.authErrorService.clear();
     this.isSuccess.set(false);
 
     const request: ResetPasswordRequest = {
@@ -88,17 +90,15 @@ export class ResetPassword implements OnInit {
       confirmPassword: this.resetPasswordForm.get('confirmPassword')?.value,
     };
 
-    this.authActions.resetPassword(request).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        this.isSuccess.set(true);
-        void this.router.navigateByUrl('/auth/login');
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.errorMessage.set(err.message ?? 'Something went wrong. Please try again.');
-      },
-    });
+    this.authActions
+      .resetPassword(request)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          this.isSuccess.set(true);
+          void this.router.navigateByUrl('/auth/login');
+        },
+      });
   }
 
   goToLogin(): void {

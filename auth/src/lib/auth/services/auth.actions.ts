@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AuthErrorService } from './auth-error.service';
+import { resolveAuthErrorMessage } from '../utils/resolve-auth-error-message';
 import { API_URL } from '../config/api';
 import { AuthApiEndpoint } from '../config/enums';
 import { Role } from '../config/role.enum';
@@ -31,6 +33,7 @@ export class AuthActions {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
   private readonly authCookieStorage = inject(AuthCookieStorage);
+  private readonly authErrorService = inject(AuthErrorService);
 
   sendEmailVerification(
     request: SendEmailVerificationRequest,
@@ -125,6 +128,13 @@ export class AuthActions {
           }
 
           return response;
+        }),
+        catchError((error: unknown) => {
+          if (!(error instanceof HttpErrorResponse)) {
+            this.authErrorService.report(resolveAuthErrorMessage(error));
+          }
+
+          return EMPTY;
         }),
       );
   }

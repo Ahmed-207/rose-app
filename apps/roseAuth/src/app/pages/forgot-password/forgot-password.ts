@@ -2,7 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions, ForgotPasswordRequest } from '@org/auth';
+import { finalize } from 'rxjs';
+import { AuthActions, AuthErrorService, ForgotPasswordRequest } from '@org/auth';
 import { FormControlComponent } from '@org/shared-ui-components';
 
 @Component({
@@ -14,11 +15,12 @@ import { FormControlComponent } from '@org/shared-ui-components';
 export class ForgotPassword implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
+  private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
 
   forgotPasswordForm!: FormGroup;
   readonly isLoading = signal(false);
-  readonly errorMessage = signal('');
+  readonly errorMessage = this.authErrorService.message;
 
   ngOnInit(): void {
     this.forgotPasswordForm = this.fb.group({
@@ -37,25 +39,23 @@ export class ForgotPassword implements OnInit {
     }
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.authErrorService.clear();
 
     const request: ForgotPasswordRequest = {
       email: this.forgotPasswordForm.get('email')?.value,
       redirectUrl: `${window.location.origin}/auth/reset-password`,
     };
 
-    this.authActions.forgotPassword(request).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        void this.router.navigate(['/auth/forgot-password/sent'], {
-          state: { email: request.email },
-        });
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.errorMessage.set(err.message ?? 'Something went wrong. Please try again.');
-      },
-    });
+    this.authActions
+      .forgotPassword(request)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: () => {
+          void this.router.navigate(['/auth/forgot-password/sent'], {
+            state: { email: request.email },
+          });
+        },
+      });
   }
 
   goToLogin(): void {
