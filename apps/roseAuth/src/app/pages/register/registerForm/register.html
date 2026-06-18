@@ -1,83 +1,160 @@
 <div class="step-wrapper">
+  <app-auth-card [translationKey]="cardTitle()" alternateRoute="">
+    <p-stepper [value]="activeStep()" (valueChange)="onStepChange($event)" [linear]="true">
+      <p-step-list>
+        <p-step [value]="1">{{ 'Verify Email' | translate }}</p-step>
+        <p-step [value]="2">{{ 'Enter OTP' | translate }}</p-step>
+        <p-step [value]="3">{{ 'Register' | translate }}</p-step>
+      </p-step-list>
 
-    <app-auth-card translationKey="Become part of our family!" alternateRoute="">
-  <div class="step-header mt-3">
-    <span class="step-badge">Step 3 of 3</span>
+      <p-step-panels>
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="step-header">
+              <h1>{{ 'Verify your email' | translate }}</h1>
+              <p>
+                {{ "We'll send a one-time code to confirm your address before you create your account." | translate }}
+              </p>
+            </div>
 
-  </div>
+            <form [formGroup]="emailForm"  novalidate>
+              <app-form-control formControlName="email" type="email" />
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <div class="field-row">
-      <app-form-control
-        formControlName="firstName"
-        type="text"
-        [placeholder]="'First name'"
-        [label]="'First name'"
-      />
+              @if (errorMessage()) {
+                <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
 
-      <app-form-control
-        formControlName="lastName"
-        type="text"
-        [placeholder]="'Last name'"
-        [label]="'Last name'"
-      />
-    </div>
-    <app-form-control
-      formControlName="email"
-      type="email"
-      [readonly]="true"
-      [disabled]="true"
-      [label]="'Email'"
-      [placeholder]="'Email address'"
-    />
-    <app-form-control
-      formControlName="username"
-      type="text"
-      [placeholder]="'Username'"
-      [label]="'Username'"
-    />
+              <lib-button
+                variant="danger"
+                [loading]="isLoading()"
+                [disabled]="emailForm.invalid"
+                (clicked)="submitEmail(activateCallback)"
+                size="lg"
+                >{{ 'Verify Email' | translate }}</lib-button
+              >
+            </form>
+          </ng-template>
+        </p-step-panel>
 
-    <app-form-control
-      formControlName="gender"
-      type="select"
-      [options]="genderOptions"
-      [placeholder]="'Gender'"
-      [label]="'Gender'"
-    />
-    <div class="field-row">
-      <app-form-control
-        formControlName="password"
-        type="password"
-        [placeholder]="'Password'"
-        [label]="'Password'"
-      />
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="step-header">
+              <h1>{{ 'Enter the code' | translate }}</h1>
+              <p>
+                {{ "We have sent a 6-digit code to" | translate }}
+                <strong>{{ email() }}</strong>.
+                <a class="back-link" (click)="editEmail(activateCallback)">{{ "Edit" | translate }}</a>
+              </p>
+            </div>
 
-      <app-form-control
-        formControlName="confirmPassword"
-        type="password"
-        [groupError]="passwordMatchError"
-        [placeholder]="'Confirm password'"
-        [label]="'Confirm password'"
-      />
-    </div>
+            <p-toast />
 
-    @if(errorMessage){
-    <p class="server-error" role="alert">{{ errorMessage }}</p>
-    }
+            <form [formGroup]="otpForm"  novalidate>
+              <div class="flex flex-col gap-1 otp-box">
+                <p-inputotp formControlName="code"  [length]="6"
+  [integerOnly]="true" [invalid]="isOtpInvalid()" />
+                @if (isOtpInvalid()) {
+                  <p-message severity="error" size="small" variant="simple">Passcode is required.</p-message>
+                }
+              </div>
 
-    <lib-button
-      variant="danger"
-      [loading]="isLoading"
-      [disabled]="form.invalid"
-      (clicked)="onSubmit()"
-      size="lg"
-      >{{'Create account' | translate}}</lib-button
-    >
-  </form>
+              @if (errorMessage()) {
+                <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
 
-  <div class="login-link">
-    {{"Already have an account?" | translate}}
-    <a routerLink="/auth/login">{{"Login" | translate}}</a>
-  </div>
+              <lib-button
+                variant="danger"
+                [loading]="isLoading()"
+                
+                (clicked)="submitOtp(activateCallback)"
+                size="lg"
+                >{{ 'Verify Code' | translate }}</lib-button
+              >
+            </form>
+          </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="3">
+          <ng-template #content>
+            <form [formGroup]="detailsForm"  novalidate>
+              <div class="field-row">
+                <app-form-control
+                  formControlName="firstName"
+                  type="text"
+                  [placeholder]="'First name'"
+                  [label]="'First name'"
+                />
+
+                <app-form-control
+                  formControlName="lastName"
+                  type="text"
+                  [placeholder]="'Last name'"
+                  [label]="'Last name'"
+                />
+              </div>
+
+              <app-form-control
+                formControlName="email"
+                type="email"
+                [readonly]="true"
+                [disabled]="true"
+                [label]="'Email'"
+                [placeholder]="'Email address'"
+              />
+
+              <app-form-control
+                formControlName="username"
+                type="text"
+                [placeholder]="'Username'"
+                [label]="'Username'"
+              />
+
+              <app-form-control
+                formControlName="gender"
+                type="select"
+                [options]="genderOptions"
+                [placeholder]="'Gender'"
+                [label]="'Gender'"
+              />
+
+              <div class="field-row">
+                <app-form-control
+                  formControlName="password"
+                  type="password"
+                  [placeholder]="'Password'"
+                  [label]="'Password'"
+                />
+
+                <app-form-control
+                  formControlName="confirmPassword"
+                  type="password"
+                  [groupError]="passwordMatchError"
+                  [placeholder]="'Confirm password'"
+                  [label]="'Confirm password'"
+                />
+              </div>
+
+              @if (errorMessage()) {
+                <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
+
+              <lib-button
+                variant="danger"
+                [loading]="isLoading()"
+                [disabled]="detailsForm.invalid"
+                (clicked)="submitDetails()"
+                size="lg"
+                >{{ 'Create account' | translate }}</lib-button
+              >
+            </form>
+
+            <div class="login-link">
+              {{ "Already have an account?" | translate }}
+              <a routerLink="/auth/login">{{ "Login" | translate }}</a>
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
   </app-auth-card>
 </div>

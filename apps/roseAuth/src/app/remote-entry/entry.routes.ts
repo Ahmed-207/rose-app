@@ -1,38 +1,38 @@
 import { Route } from '@angular/router';
 import { guestGuard } from '@org/auth';
 import { AuthLayout } from '../core/layout/auth-layout/auth-layout';
-import { VerifyOtp } from '../pages/register/verifyOtp/verifyOtp';
-import { Register } from '../pages/register/registerForm/register';
-import { RegisterEmailVerification } from '../pages/register/emailVerification/registerEmailVerification';
 
 export const remoteRoutes: Route[] = [
-    {
+  {
+    path: '',
+    canActivate: [guestGuard],
+    component: AuthLayout,
+    children: [
+      {
         path: '',
-        canActivate: [guestGuard],
-        component: AuthLayout,
-        children: [
-            {
-                path: '',
-                redirectTo: 'login',
-                pathMatch: 'full',
-            },
-            {
-                path: 'login',
-                loadComponent: () => import('../pages/login/login').then((m) => m.Login),
-            },
-
-      { path: 'send-email-verification', component: RegisterEmailVerification },
-      { path: 'verify-otp',  component: VerifyOtp },
-      { path: 'register',   component: Register },
-            //   {
-            //     path: 'register',
-            //     loadComponent: () => import('../register/register').then((m) => m.Register),
-            //   },
-            //   {
-            //     path: 'forgot-password',
-            //     loadComponent: () =>
-            //       import('../forgot-password/forgot-password').then((m) => m.ForgotPassword),
-            //   },
-        ],
-    },
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
+      {
+        path: 'login',
+        loadComponent: () => import('../pages/login/login').then((m) => m.Login),
+      },
+      {
+        path: 'send-email-verification',
+        loadComponent: () => import('../pages/register/emailVerification/registerEmailVerification').then((m) => m.RegisterEmailVerification),
+      },
+      {
+        path: 'verify-otp',
+        loadComponent: () => import('../pages/register/verifyOtp/verifyOtp').then((m) => m.VerifyOtp),
+      },
+      {
+        path: 'register',
+        loadComponent: () => import('../pages/register/register').then((m) => m.Register),
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () => import('../pages/forgot-password/forgot-password').then((m) => m.ForgotPassword),
+      },
+    ],
+  },
 ];
