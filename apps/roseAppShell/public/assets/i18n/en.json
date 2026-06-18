@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "WELCOME_BACK": "Welcome Back!",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "REMEMBER_ME": "Remember me",
+    "LOGIN": "Login",
+    "NO_ACCOUNT": "Don't have an account yet?",
+    "CREATE_ONE": "Create one now!",
+    "FORGOT_PASSWORD": "forgot your password ?"
+  }
+}

@@ -1,1 +1,41 @@
-<p>login works!</p>
+<section class="flex flex-col justify-center items-center gap-4 w-full px-10">
+    <div class="welcome-message border-b border-zinc-200 w-full">
+        <h1 class="text-red-900 text-center">{{"auth.WELCOME_BACK" | translate}}</h1>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()"
+        class="flex flex-col justify-center items-center gap-2 w-full">
+
+        <div class="card flex justify-center w-full">
+            <lib-form-control type="text" formControlName="username" label="auth.USERNAME" [required]="true"
+                class="block w-full" />
+        </div>
+
+        <div class="card flex justify-center w-full">
+            <lib-form-control type="password" formControlName="password" label="auth.PASSWORD" [required]="true"
+                class="block w-full" />
+        </div>
+
+        <div class="forgot-password w-full">
+            <span class="block text-end cursor-pointer text-red-900"
+                (click)="goToForgotPassword()">{{"auth.FORGOT_PASSWORD"
+                | translate}}</span>
+        </div>
+
+        <div class="flex items-center justfify-start w-full">
+            <p-checkbox inputId="remember" formControlName="remember" [binary]="true" />
+            <label for="remember" class="ml-2">{{"auth.REMEMBER_ME" | translate}}</label>
+        </div>
+
+        <div class="login-btn-container w-full p-2 pb-5 border-b border-zinc-200">
+            <lib-button [disabled]="loginForm.invalid || isLoading()" [size]="'lg'" [variant]="'secondary'"
+                (clicked)="submitLogin()" [loading]="isLoading()">{{"auth.LOGIN" | translate}}</lib-button>
+        </div>
+    </form>
+    <div class="register-redirect w-full text-center">
+        <span class="block">
+            {{"auth.NO_ACCOUNT" | translate}}
+            <a class="text-red-900 cursor-pointer font-medium hover:text-red-950"
+                (click)="goToRegister()">{{"CREATE_ONE" | translate}}</a>
+        </span>
+    </div>
+</section>
