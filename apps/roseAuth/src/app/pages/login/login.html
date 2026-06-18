@@ -1,6 +1,6 @@
 <section class="flex flex-col justify-center items-center gap-4 w-full px-10">
     <div class="welcome-message border-b border-zinc-200 w-full">
-        <h1 class="text-red-900 text-center">{{"auth.WELCOME_BACK" | translate}}</h1>
+        <h1 class="text-red-900 dark:text-pink-300 text-center">{{"auth.WELCOME_BACK" | translate}}</h1>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="submitLogin()"
         class="flex flex-col justify-center items-center gap-2 w-full">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="forgot-password w-full">
-            <span class="block text-end cursor-pointer text-red-900"
+            <span class="block text-end cursor-pointer text-red-900 dark:text-pink-300"
                 (click)="goToForgotPassword()">{{"auth.FORGOT_PASSWORD"
                 | translate}}</span>
         </div>
@@ -34,8 +34,8 @@
     <div class="register-redirect w-full text-center">
         <span class="block">
             {{"auth.NO_ACCOUNT" | translate}}
-            <a class="text-red-900 cursor-pointer font-medium hover:text-red-950"
-                (click)="goToRegister()">{{"CREATE_ONE" | translate}}</a>
+            <a class="text-red-900 dark:text-pink-300 cursor-pointer font-medium hover:text-red-950"
+                (click)="goToRegister()">{{"auth.CREATE_ONE" | translate}}</a>
         </span>
     </div>
 </section>
