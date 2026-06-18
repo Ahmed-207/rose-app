@@ -4,9 +4,10 @@
       [attr.aria-busy]="loading"
       [attr.aria-label]="loading ? (ariaLabel || 'Loading') : ariaLabel"
       (click)="handleClick()"
+      class="w-full"
     >
     @if(icon && !loading){
       <i [class]="'ti ' + icon" aria-hidden="true"></i>
     }
-      <span [class.visually-hidden]="loading"><ng-content></ng-content></span>
+      <span [class.visually-hidden]="loading" class="block w-full text-center"><ng-content></ng-content></span>
     </button>

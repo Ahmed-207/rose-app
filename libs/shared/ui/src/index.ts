@@ -3,3 +3,4 @@ export * from './lib/card/card';
 export * from './lib/label/label';
 export * from './lib/spinner/spinner';
 export * from './lib/message/message';
+export * from './lib/form-control/form-control';
