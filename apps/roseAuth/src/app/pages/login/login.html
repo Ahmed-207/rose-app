@@ -27,7 +27,7 @@
         </div>
 
         <div class="login-btn-container w-full p-2 pb-5 border-b border-zinc-200">
-            <lib-button [disabled]="loginForm.invalid || isLoading()" [size]="'lg'" [variant]="'secondary'"
+            <lib-button [disabled]="loginForm.invalid || isLoading()" [size]="'lg'" variant="danger"
                 (clicked)="submitLogin()" [loading]="isLoading()">{{"auth.LOGIN" | translate}}</lib-button>
         </div>
     </form>

@@ -68,10 +68,12 @@ export class Login implements OnInit, OnDestroy {
   }
 
   goToRegister(): void {
-    // this.router.navigateByUrl('/auth/register');
+    this.router.navigateByUrl('/auth/register')
   }
 
   ngOnDestroy(): void {
-    this.loginSubscription.unsubscribe();
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 }
