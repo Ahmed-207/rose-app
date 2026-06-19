@@ -13,7 +13,6 @@ import { RegisterService } from '../services/register-service';
   selector: 'app-verify-otp',
   imports: [CommonModule, ReactiveFormsModule, Button, TranslatePipe, AuthCardComponent, RouterLink],
   templateUrl: './verifyOtp.html',
-  styleUrl: './verifyOtp.css',
 })
 export class VerifyOtp {
   private readonly authActions = inject(AuthActions);
