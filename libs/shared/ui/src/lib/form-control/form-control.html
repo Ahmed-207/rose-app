@@ -13,12 +13,12 @@
     @switch(type) {
 
     @case('text') {
-    <input pInputText [value]="value" [placeholder]="placeholder" [disabled]="disabled" [readonly]="readonly"
+    <input pInputText [value]="value" [placeholder]="placeholder | translate" [disabled]="disabled" [readonly]="readonly"
         (input)="update($any($event.target).value)" />
     }
 
     @case('email') {
-    <input pInputText type="email" [value]="value" [placeholder]="placeholder" [disabled]="disabled"
+    <input pInputText type="email" [value]="value" [placeholder]="placeholder | translate" [disabled]="disabled"
         [readonly]="readonly" (input)="update($any($event.target).value)" />
     }
 
@@ -35,7 +35,7 @@
 
     @case('textarea') {
 
-    <textarea pTextarea rows="4" [disabled]="disabled" [placeholder]="placeholder" [readonly]="readonly"
+    <textarea pTextarea rows="4" [disabled]="disabled" [placeholder]="placeholder | translate" [readonly]="readonly"
         (input)="update($any($event.target).value)">{{ value }}</textarea>
 
     }
@@ -43,7 +43,7 @@
     @case('select') {
 
     <p-select [options]="options" [optionLabel]="optionLabel" [optionValue]="optionValue" [ngModel]="value"
-        [placeholder]="placeholder" [disabled]="disabled" (ngModelChange)="update($event)" />
+        [placeholder]="placeholder | translate" [disabled]="disabled" (ngModelChange)="update($event)" />
     }
 
     @case('multiselect') {

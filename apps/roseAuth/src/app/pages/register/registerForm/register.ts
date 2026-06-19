@@ -16,7 +16,6 @@ import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { StepperModule } from 'primeng/stepper';
-
 import { RegisterService } from '../services/register-service';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { AuthCardComponent } from '../../../shared/components/auth-card/auth-card.component';
@@ -78,7 +77,7 @@ export class Register {
 
   // ---- step 2: otp ----
   otpForm = this.fb.group({
-    code: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(6)]],
+    code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
   });
 
   // ---- step 3: account details ----
@@ -95,7 +94,7 @@ export class Register {
       confirmPassword: ['', Validators.required],
       gender: ['', Validators.required],
     },
-    { validators: passwordMatchValidator }
+    { validators: passwordMatchValidator },
   );
 
   constructor() {
