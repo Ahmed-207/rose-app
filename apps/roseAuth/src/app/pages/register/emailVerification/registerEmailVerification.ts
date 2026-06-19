@@ -14,7 +14,6 @@ import { RegisterService } from '../services/register-service';
   selector: 'app-register-email-verification',
   imports: [CommonModule, ReactiveFormsModule, FormControlComponent, Button, TranslatePipe, AuthCardComponent],
   templateUrl: './registerEmailVerification.html',
-  styleUrl: './registerEmailVerification.css',
 })
 export class RegisterEmailVerification {
   private readonly fb = inject(FormBuilder);
