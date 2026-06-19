@@ -1,5 +1,8 @@
 <div class="step-wrapper">
-  <app-auth-card [translationKey]="cardTitle()" alternateRoute="">
+  <app-auth-card [translationKey]="''" alternateRoute="">
+    <div class="welcome-message border-b border-zinc-200 w-full">
+        <h2 class="text-red-900 dark:text-pink-300 text-center">{{"auth.Become_part_of_our_family!" | translate}}</h2>
+    </div>
     <p-stepper [value]="activeStep()" (valueChange)="onStepChange($event)" [linear]="true">
       <p-step-list>
         <p-step [value]="1">{{ 'auth.VERIFY_EMAIL' | translate }}</p-step>
@@ -34,7 +37,7 @@
               <h1>{{ 'auth.ENTER_THE_CODE' | translate }}</h1>
               <p>
                 {{ 'auth.ENTER_OTP_DESC' | translate }}
-                <strong>{{ email() }}</strong>.
+                <strong class="dark:text-pink-300">{{ email() }}</strong>.
                 <a class="back-link" (click)="editEmail(activateCallback)">
                   {{ 'auth.EDIT' | translate }}
                 </a>
@@ -73,8 +76,8 @@
                   [label]="'auth.LAST_NAME' | translate" />
               </div>
 
-              <app-form-control formControlName="email" type="email" [readonly]="true" [disabled]="true"
-                [label]="'auth.EMAIL' | translate" [placeholder]="'auth.EMAIL_PLACEHOLDER' | translate" />
+              <app-form-control formControlName="email" type="email" [readonly]="true"
+                [label]="'auth.EMAIL' | translate"  />
 
               <app-form-control formControlName="username" type="text"
                 [placeholder]="'auth.USERNAME_PLACEHOLDER' | translate" [label]="'auth.USERNAME' | translate" />

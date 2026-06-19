@@ -63,7 +63,6 @@ export class Register {
   errorMessage = signal('');
 
   email = computed(() => this.registrationService.state().email);
-  cardTitle = computed(() => (this.activeStep() === 3 ? 'Become part of our family!' : ''));
 
   genderOptions = [
     { value: 'MALE', label: 'Male' },
@@ -86,7 +85,7 @@ export class Register {
       username: ['', [Validators.required, Validators.minLength(3)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: [{ value: this.email() || '', disabled: true }],
+      email: [{ value: this.email(), disabled: true }],
       password: [
         '',
         [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)],
@@ -120,6 +119,7 @@ export class Register {
 
   // ---- step 1 -> 2 ----
   submitEmail(activate: ActivateFn): void {
+    debugger
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
       return;
@@ -135,15 +135,18 @@ export class Register {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
+          debugger
           this.isLoading.set(false);
           if (res.status) {
             this.registrationService.setEmail(email);
             activate(2);
           } else {
+
             this.errorMessage.set(res.message);
           }
         },
         error: (err) => {
+
           this.isLoading.set(false);
           this.errorMessage.set(err.error?.message ?? 'Something went wrong. Please try again.');
         },

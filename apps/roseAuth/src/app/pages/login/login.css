@@ -29,3 +29,7 @@
     color: #1c1917 !important;
     /* Makes the check icon visible against pink */
 }
+form{
+  --p-inputtext-focus-border-color: #a6252a !important;
+
+}

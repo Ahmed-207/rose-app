@@ -49,7 +49,7 @@ form > app-rose-button {
 
 .back-link {
   font-size: 0.85rem;
-  color: #6b7280;
+  color:#18a711 !important;
   text-decoration: none;
   cursor: pointer;
   margin-left: 0.25rem;
@@ -88,10 +88,22 @@ form > app-rose-button {
       text-decoration: underline;
     }
 ::ng-deep .p-step-active .p-step-title {
-    color: #840337 !important;
+    color: #a6252a!important;
 }
 ::ng-deep .p-step-active .p-step-number {
-    background: #840337 !important;
-    border-color:#840337 !important;
+    background: #a6252a!important;
+    border-color:#a6252a!important;
     color: #fff !important;
 }
+.welcome-message h2{
+    font-family: 'Edward';
+    font-size: 59px;
+}
+form{
+  --p-inputtext-focus-border-color: #a6252a !important;
+
+}
+:root, :host {
+    --p-inputotp-input-width: 3.5rem;
+}
+

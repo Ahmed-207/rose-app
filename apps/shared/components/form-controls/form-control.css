@@ -1,6 +1,28 @@
+
+:host {
+  --focus-border-color: #a6252a; /* default */
+}
+
+:host .p-inputtext:enabled:focus,
+:host .p-inputtext:focus {
+  border-color: var(--focus-border-color) !important;
+  box-shadow: 0 0 0 1px var(--focus-border-color) !important;
+}
+
+
 ::ng-deep .p-inputtext {
     width: 100% !important;
   }
-.p-error{
-  color:red
+
+::ng-deep .p-error{
+  color:red !important;
+}
+
+
+/* shared-input.component.scss */
+:host .p-inputtext:enabled:focus,
+:host .p-inputtext:focus,
+:host .p-inputtext:active {
+  border-color: #a6252a !important;
+  box-shadow: 0 0 0 1px #a6252a !important;
 }
