@@ -68,25 +68,26 @@
             <form [formGroup]="detailsForm" novalidate>
               <div class="field-row">
                 <app-form-control formControlName="firstName" type="text" [placeholder]="'auth.FIRST_NAME' | translate"
-                  [label]="'auth.FIRST_NAME'" />
+                  [label]="'auth.FIRST_NAME' | translate" />
                 <app-form-control formControlName="lastName" type="text" [placeholder]="'auth.LAST_NAME' | translate"
-                  [label]="'auth.LAST_NAME'" />
+                  [label]="'auth.LAST_NAME' | translate" />
               </div>
 
               <app-form-control formControlName="email" type="email" [readonly]="true" [disabled]="true"
-                [label]="'auth.EMAIL'" [placeholder]="'auth.EMAIL_PLACEHOLDER' | translate" />
+                [label]="'auth.EMAIL' | translate" [placeholder]="'auth.EMAIL_PLACEHOLDER' | translate" />
 
               <app-form-control formControlName="username" type="text"
-                [placeholder]="'auth.USERNAME_PLACEHOLDER' | translate" [label]="'auth.USERNAME'" />
+                [placeholder]="'auth.USERNAME_PLACEHOLDER' | translate" [label]="'auth.USERNAME' | translate" />
 
               <app-form-control formControlName="gender" type="select" [options]="genderOptions"
-                [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" [label]="'auth.GENDER'" />
+                [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" [label]="'auth.GENDER' | translate" />
 
               <div class="field-row">
                 <app-form-control formControlName="password" type="password"
-                  [placeholder]="'auth.PASSWORD_PLACEHOLDER' | translate" [label]="'auth.PASSWORD'" />
+                  [placeholder]="'auth.PASSWORD_PLACEHOLDER' | translate" [label]="'auth.PASSWORD' | translate" />
                 <app-form-control formControlName="confirmPassword" type="password" [groupError]="passwordMatchError"
-                  [placeholder]="'auth.CONFIRM_PASSWORD_PLACEHOLDER' | translate" [label]="'auth.CONFIRM_PASSWORD'" />
+                  [placeholder]="'auth.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
+                  [label]="'auth.CONFIRM_PASSWORD' | translate" />
               </div>
 
               @if (errorMessage()) {
