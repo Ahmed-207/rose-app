@@ -9,7 +9,7 @@
     transition-colors duration-300 ease-in-out
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
   ">
-    <span [class]="theme.isDark() ? 'translate-x-7 bg-gray-900' : 'translate-x-0.5 bg-white'" class="
+    <span [class]="togglerClass()" class="
       absolute top-0.5
       w-6 h-6 rounded-full
       flex items-center justify-center
