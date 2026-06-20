@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component ,inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import  { LangService, UiLangSwitcher } from '@org/ui-lang-switcher';
- 
+import { UiLangSwitcher } from '@org/ui-lang-switcher';
+import { ThemeToggler } from "@org/shared-theme";
+
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, TranslatePipe, UiLangSwitcher],
+  imports: [CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -16,7 +17,7 @@ export class Navbar {
   private readonly router = inject(Router);
 
 
-  goToLogin():void{
+  goToLogin(): void {
     this.router.navigateByUrl('/auth/login');
   }
 

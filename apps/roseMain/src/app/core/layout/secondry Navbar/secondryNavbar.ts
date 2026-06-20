@@ -4,17 +4,17 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { LangService, UiLangSwitcher } from '@org/ui-lang-switcher';
+import { UiLangSwitcher } from '@org/ui-lang-switcher';
+import { ThemeToggler } from "@org/shared-theme";
 
 @Component({
     providers: [MessageService],
     selector: 'app-secondry-navbar',
-    imports: [MenuModule, ButtonModule, CommonModule, TranslatePipe, UiLangSwitcher],
+    imports: [MenuModule, ButtonModule, CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
 })
 export class SecondryNavbar implements OnInit {
-    mytranclateService: LangService = inject(LangService);
     userName = input<string | undefined>('')
     private messageService = inject(MessageService);
     items: MenuItem[] | undefined;
