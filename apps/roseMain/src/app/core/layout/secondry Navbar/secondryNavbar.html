@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-location-dot text-gray-400 dark:text-gray-400 text-lg"></i>
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-400">Deliver To:</p>
-                    <p class="font-bold text-gray-700 dark:text-gray-200">Cairo</p>
+                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc]">Cairo</p>
                 </div>
             </div>
             
@@ -42,7 +42,7 @@
                 </div> -->
                 <div class="text-right">
                      <p class="text-xs text-gray-400 dark:text-gray-500 leading-tight">Hello</p>
-                  <p class="text-sm font-bold leading-tight flex items-center gap-1 cursor-pointer" >
+                  <p class="text-sm font-bold dark:text-[#ffc2cc] leading-tight flex items-center gap-1 cursor-pointer" >
                       user
                     <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 cursor-pointer"
                     (click)="menu.toggle($event)" ></i>
@@ -50,21 +50,21 @@
 
                       <p-menu #menu [model]="items" [popup]="true"></p-menu>
                </div>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 ">
+                 <button class="flex items-center gap-2  text-gray-700 dark:text-white hover:text-rose-600 ">
                      <i class="fa-regular fa-heart ">
 
                      </i>
                     
                 </button>
                 
-                <button type="button" class="relative text-black  box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
+                <button type="button" class="relative text-black dark:text-white box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
  
           <i class="fas fa-cart-shopping "></i>
           <span class="sr-only">Notifications</span>
         <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -end-2">
           0</div>
                   </button>
-                  <button type="button" class="relative text-black  box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
+                  <button type="button" class="relative text-black dark:text-white  box-border border border-transparent  focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
  
           <i class="fa-regular fa-bell"></i>
           <span class="sr-only">Notifications</span>
@@ -79,7 +79,7 @@
             </div>
     </div>
 
-    <nav class="bg-[#5c1d34] dark:bg-[#f3f4f6] text-white dark:text-gray-700 w-full transition-colors duration-300">
+    <nav class="bg-[#741c21] dark:bg-[#ffc2cc] text-white dark:text-gray-700 w-full transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 flex justify-center items-center min-h-[45px] w-full">
             
             <ul class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
