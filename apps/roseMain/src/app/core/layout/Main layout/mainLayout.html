@@ -1,6 +1,10 @@
+@if(isLoggedIn()){
+<app-secondry-navbar [userName]="user()?.username"></app-secondry-navbar>
+}@else {
 <app-navbar></app-navbar>
-<app-footer>
+<!-- <app-footer> -->
 
 <main class="min-h-screen bg-gray-50 dark:bg-[#202938]">
     <router-outlet></router-outlet>
 </main>
+<app-footer></app-footer>

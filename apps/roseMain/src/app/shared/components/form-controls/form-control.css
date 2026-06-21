@@ -1,0 +1,16 @@
+::ng-deep .p-inputtext {
+    width: 100% !important;
+  }
+::ng-deep .p-error{
+  color:red !important;
+}
+::ng-deep app-form-control .p-component.p-inputtext:enabled:focus,
+::ng-deep .p-inputtext:focus,
+::ng-deep .p-inputtext:active {
+  border-color: #a6252a !important;
+  box-shadow: 0 0 0 1px #a6252a !important;
+}
+ ::ng-deep app-form-control .p-component.p-inputtext:enabled:focus{
+  border-color:#a6252a !important ;
+}
+

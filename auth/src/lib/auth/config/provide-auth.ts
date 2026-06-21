@@ -1,0 +1,19 @@
+import {
+  EnvironmentProviders,
+  makeEnvironmentProviders,
+} from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from '../interceptors/auth.interceptor';
+import { errorInterceptor } from '../interceptors/error.interceptor';
+import { API_URL } from './api';
+
+export interface AuthConfig {
+  apiUrl: string;
+}
+
+export function provideAuth(config: AuthConfig): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    { provide: API_URL, useValue: config.apiUrl },
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+  ]);
+}

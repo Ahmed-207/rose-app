@@ -1,0 +1,26 @@
+ <div [class]="cardClass">
+      <!-- Header -->
+       @if(title){
+      <div  class="card-header">
+        <div>
+          <div class="card-title">{{ title }}</div>
+          @if(subtitle){
+          <div  class="card-subtitle">{{ subtitle }}</div>
+          }
+        </div>
+        <ng-content select="[slot='header-action']"></ng-content>
+      </div>
+       }
+      <!-- Body -->
+      <div [class]="bodyClass">
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Footer -->
+      @if(footer){
+      <div class="card-footer">
+        <ng-content select="[slot='footer']"></ng-content>
+      </div>
+    }
+    </div>
+

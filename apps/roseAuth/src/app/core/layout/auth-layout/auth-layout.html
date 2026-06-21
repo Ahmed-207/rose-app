@@ -1,16 +1,17 @@
 <section class="grid md:grid-cols-12 min-h-screen">
-    <div class="min-h-full flex flex-col items-center justify-center gap-4 md:col-span-6 px-20 py-40 w-full">
-        <div class="translate-switch-button w-full">
-            <span class="block text-end font-light">العربية</span>
+    <div class="min-h-full flex flex-col items-center justify-center gap-4 md:col-span-6 px-20 py-20 w-full">
+        <div class="translate-switch-button w-full flex items-center justify-between">
+            <lib-ui-lang-switcher />
+            <lib-theme-toggler></lib-theme-toggler>
         </div>
-        <div class="separator-container w-[70%] mx-auto">
-            <img src="/assets/images/rose-auth-separator.png" alt="separator" class="block w-full">
+        <div class="w-full h-11.25 bg-[#741C21] dark:bg-pink-300" style="mask: url('/assets/images/rose-auth-separator.png') no-repeat center / contain; 
+                -webkit-mask: url('/assets/images/rose-auth-separator.png') no-repeat center / contain;">
         </div>
         <div class="auth-state-container w-full">
             <router-outlet></router-outlet>
         </div>
-        <div class="separator-container w-[70%] mx-auto">
-            <img src="/assets/images/rose-auth-separator.png" alt="separator" class="block w-full rotate-180">
+        <div class="w-full h-11.25 bg-[#741C21] dark:bg-pink-300 rotate-180" style="mask: url('/assets/images/rose-auth-separator.png') no-repeat center / contain; 
+                -webkit-mask: url('/assets/images/rose-auth-separator.png') no-repeat center / contain;">
         </div>
     </div>
     <div class="auth-caption h-full hidden md:flex md:col-span-6 items-center justify-center">

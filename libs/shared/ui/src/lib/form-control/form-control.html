@@ -1,0 +1,78 @@
+<div class="flex flex-col gap-2 w-full">
+
+    @if(label) {
+    <label class="text-sm font-medium text-zinc-700 dark:text-white">
+        {{ label | translate }}
+
+        @if(required) {
+        <span class="text-red-500 dark:text-pink-300">*</span>
+        }
+    </label>
+    }
+
+    @switch(type) {
+
+    @case('text') {
+    <input pInputText [value]="value" [placeholder]="placeholder | translate" [disabled]="disabled" [readonly]="readonly"
+        (input)="update($any($event.target).value)" />
+    }
+
+    @case('email') {
+    <input pInputText type="email" [value]="value" [placeholder]="placeholder | translate" [disabled]="disabled"
+        [readonly]="readonly" (input)="update($any($event.target).value)" />
+    }
+
+    @case('password') {
+
+    <p-password [ngModel]="value" [feedback]="false" [disabled]="disabled" (ngModelChange)="update($event)"
+        styleClass="w-full" inputStyleClass="w-full" />
+    }
+
+    @case('number') {
+
+    <p-inputNumber [ngModel]="value" [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+
+    @case('textarea') {
+
+    <textarea pTextarea rows="4" [disabled]="disabled" [placeholder]="placeholder | translate" [readonly]="readonly"
+        (input)="update($any($event.target).value)">{{ value }}</textarea>
+
+    }
+
+    @case('select') {
+
+    <p-select [options]="options" [optionLabel]="optionLabel" [optionValue]="optionValue" [ngModel]="value"
+        [placeholder]="placeholder | translate" [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+
+    @case('multiselect') {
+
+    <p-multiSelect [options]="options" [optionLabel]="optionLabel" [optionValue]="optionValue" [ngModel]="value"
+        [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+
+    @case('checkbox') {
+
+    <p-checkbox [binary]="true" [ngModel]="value" [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+
+    @case('switch') {
+
+    <p-toggleswitch [ngModel]="value" [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+
+    @case('date') {
+
+    <p-datepicker [ngModel]="value" [disabled]="disabled" (ngModelChange)="update($event)" />
+    }
+    }
+    @if(hasError){
+
+    <small class="p-error">
+        {{ errorMessage }}
+    </small>
+
+    }
+
+</div>

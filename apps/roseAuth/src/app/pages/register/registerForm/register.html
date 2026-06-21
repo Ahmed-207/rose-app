@@ -1,0 +1,113 @@
+<div class="step-wrapper">
+  <app-auth-card [translationKey]="''" alternateRoute="">
+    <div class="welcome-message border-b border-zinc-200 w-full">
+        <h2 class="text-red-900 dark:text-pink-300 text-center">{{"auth.Become_part_of_our_family!" | translate}}</h2>
+    </div>
+    <p-stepper [value]="activeStep()" (valueChange)="onStepChange($event)" [linear]="true">
+      <p-step-list>
+        <p-step [value]="1">{{ 'auth.VERIFY_EMAIL' | translate }}</p-step>
+        <p-step [value]="2">{{ 'auth.ENTER_OTP' | translate }}</p-step>
+        <p-step [value]="3">{{ 'auth.REGISTER' | translate }}</p-step>
+      </p-step-list>
+
+      <p-step-panels>
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="step-header">
+              <h1>{{ 'auth.VERIFY_YOUR_EMAIL' | translate }}</h1>
+              <p>{{ 'auth.VERIFY_EMAIL_DESC' | translate }}</p>
+            </div>
+
+            <form [formGroup]="emailForm" novalidate>
+              <app-form-control formControlName="email" type="email" />
+
+              @if (errorMessage()) {
+              <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
+
+              <lib-button variant="danger" [loading]="isLoading()" [disabled]="emailForm.invalid"
+                (clicked)="submitEmail(activateCallback)" size="lg">{{ 'auth.VERIFY_EMAIL' | translate }}</lib-button>
+            </form>
+          </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="step-header">
+              <h1>{{ 'auth.ENTER_THE_CODE' | translate }}</h1>
+              <p>
+                {{ 'auth.ENTER_OTP_DESC' | translate }}
+                <strong class="dark:text-pink-300">{{ email() }}</strong>.
+                <a class="back-link" (click)="editEmail(activateCallback)">
+                  {{ 'auth.EDIT' | translate }}
+                </a>
+              </p>
+            </div>
+
+            <p-toast />
+
+            <form [formGroup]="otpForm" novalidate>
+              <div class="flex flex-col gap-1 otp-box">
+                <p-inputotp formControlName="code" [length]="6" [integerOnly]="true" [invalid]="isOtpInvalid()" />
+                @if (isOtpInvalid()) {
+                <p-message severity="error" size="small" variant="simple">
+                  {{ 'auth.PASSCODE_REQUIRED' | translate }}
+                </p-message>
+                }
+              </div>
+
+              @if (errorMessage()) {
+              <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
+
+              <lib-button variant="danger" [loading]="isLoading()" (clicked)="submitOtp(activateCallback)" size="lg">{{
+                'auth.VERIFY_CODE' | translate }}</lib-button>
+            </form>
+          </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="3">
+          <ng-template #content>
+            <form [formGroup]="detailsForm" novalidate>
+              <div class="field-row">
+                <app-form-control formControlName="firstName" type="text" [placeholder]="'auth.FIRST_NAME' | translate"
+                  [label]="'auth.FIRST_NAME' | translate" />
+                <app-form-control formControlName="lastName" type="text" [placeholder]="'auth.LAST_NAME' | translate"
+                  [label]="'auth.LAST_NAME' | translate" />
+              </div>
+
+              <app-form-control formControlName="email" type="email" [readonly]="true"
+                [label]="'auth.EMAIL' | translate"  />
+
+              <app-form-control formControlName="username" type="text"
+                [placeholder]="'auth.USERNAME_PLACEHOLDER' | translate" [label]="'auth.USERNAME' | translate" />
+
+              <app-form-control formControlName="gender" type="select" [options]="genderOptions"
+                [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" [label]="'auth.GENDER' | translate" />
+
+              <div class="field-row">
+                <app-form-control formControlName="password" type="password"
+                  [placeholder]="'auth.PASSWORD_PLACEHOLDER' | translate" [label]="'auth.PASSWORD' | translate" />
+                <app-form-control formControlName="confirmPassword" type="password" [groupError]="passwordMatchError"
+                  [placeholder]="'auth.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
+                  [label]="'auth.CONFIRM_PASSWORD' | translate" />
+              </div>
+
+              @if (errorMessage()) {
+              <p class="server-error" role="alert">{{ errorMessage() }}</p>
+              }
+
+              <lib-button variant="danger" [loading]="isLoading()" [disabled]="detailsForm.invalid || isLoading()"
+                (clicked)="submitDetails()" size="lg">{{ 'auth.CREATE_ACCOUNT' | translate }}</lib-button>
+            </form>
+
+            <div class="login-link">
+              {{ 'auth.ALREADY_HAVE_ACCOUNT' | translate }}
+              <a routerLink="/auth/login">{{ 'auth.LOGIN' | translate }}</a>
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
+  </app-auth-card>
+</div>

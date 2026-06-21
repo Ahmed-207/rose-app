@@ -1,89 +1,118 @@
 <header class="w-full bg-white dark:bg-[#202938] shadow-sm transition-colors duration-300">
-    
+
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
-        
+
         <div class="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start">
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 flex items-center justify-center">
-                  <!-- <i><img src="rose-logo.png" alt="Rose" class="w-full h-full object-contain"></i> -->
-                    <div class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center text-pink-600 font-bold">
-                        <i class="rose-logo.png"></i>
+                    <i><img src="/assets/images/logo.png" alt="Rose" class="w-full h-full object-contain"></i>
+                    <div
+                        class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center text-pink-600 font-bold">
+                        <i class="logo.png"></i>
                     </div>
                 </div>
             </div>
-            
+
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300 text-sm">
                 <i class="fa-solid fa-location-dot text-gray-400 dark:text-gray-400 text-lg"></i>
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-400">Deliver To:</p>
-                    <p class="font-bold text-gray-700 dark:text-gray-200">Cairo</p>
+                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc]">Cairo</p>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="relative w-full md:w-1/2">
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-500">
+            <span
+                class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-500">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </span>
-            <input type="text" 
-                   placeholder="What awesome gift are you looking for?" 
-                   class="w-full pr-10 pl-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none transition-all
+            <input type="text" placeholder="What awesome gift are you looking for?" class="w-full pr-10 pl-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none transition-all
                           dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-500">
         </div>
-            <div class="hidden md:flex items-center gap-2">
+        <div class="hidden md:flex items-center gap-2">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white  hover:text-rose-600 transition">
+                <i class="fa-regular fa-user text-lg"></i>
+                <span class="text-sm font-medium cursor-pointer" (click)="goToLogin()">{{ 'navbar.LOGIN' | translate
+                    }}</span>
+            </button>
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+                <i class="fa-regular fa-heart"></i>
+
+            </button>
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+                <i class="fa-solid fa-cart-shopping"></i>
+
+            </button>
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+
+                <i class="fa-regular fa-bell"></i>
+
+            </button>
+            <lib-ui-lang-switcher></lib-ui-lang-switcher>
+            <lib-theme-toggler></lib-theme-toggler>
+        </div>
+            <!-- <div class="hidden md:flex items-center gap-2">
                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
                     <i class="fa-regular fa-user text-lg"></i>
-                    <span class="text-sm font-medium">Login</span>
+                    <span class="text-sm font-medium dark:text-white">Login</span>
                 </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                      <i class="fa-regular fa-heart"></i>
                     
                 </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                     <i class="fa-solid fa-cart-shopping"></i>
                     
                 </button>
-                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                   
                     <i class="fa-regular fa-bell"></i>
                     
                 </button>
-            </div>
+            </div> -->
     </div>
 
-    <nav class="bg-[#5c1d34] dark:bg-[#f3f4f6] text-white dark:text-gray-700 w-full transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 flex justify-center items-center min-h-[45px] w-full">
-            
-            <ul class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
+
+    <nav class="bg-[#741c21]  dark:bg-[#ffc2cc] text-white dark:text-gray-700 w-full transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 flex justify-center items-center min-h-11.25 w-full">
+
+            <ul
+                class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
                 <li>
                     <a href="#" class="flex items-center gap-2 text-pink-300 dark:text-[#5c1d34] no-underline">
                         <i class="fa-solid fa-house text-xs"></i>{{'navbar.Home'| translate}}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
+                    <a href="#"
+                        class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
                         <i class="fa-solid fa-box-open text-xs"></i>{{'navbar.Products'| translate}}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
+                    <a href="#"
+                        class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
                         <i class="fa-solid fa-list text-xs"></i> {{'navbar.Categories'| translate}}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-calendar text-xs"></i>{{'navbar.Occasions'| translate}} 
+                    <a href="#"
+                        class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
+                        <i class="fa-solid fa-calendar text-xs"></i>{{'navbar.Occasions'| translate}}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-headset text-xs"></i>{{'navbar.Contact'| translate}} 
+                    <a href="#"
+                        class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
+                        <i class="fa-solid fa-headset text-xs"></i>{{'navbar.Contact'| translate}}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-circle-info text-xs"></i>{{'navbar.About'| translate}} 
+                    <a href="#"
+                        class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
+                        <i class="fa-solid fa-circle-info text-xs"></i>{{'navbar.About'| translate}}
                     </a>
                 </li>
             </ul>

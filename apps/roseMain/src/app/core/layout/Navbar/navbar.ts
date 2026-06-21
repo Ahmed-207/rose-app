@@ -1,19 +1,25 @@
-
 import { CommonModule } from '@angular/common';
-import { Component ,inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Translate } from '../../services/Translate/translate';
-
+import { UiLangSwitcher } from '@org/ui-lang-switcher';
+import { ThemeToggler } from "@org/shared-theme";
 
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [ CommonModule, TranslatePipe ],
+  imports: [CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  mytranclateService:Translate =inject(Translate);
+  private readonly router = inject(Router);
+
+
+  goToLogin(): void {
+    this.router.navigateByUrl('/auth/login');
+  }
+
 
 }
