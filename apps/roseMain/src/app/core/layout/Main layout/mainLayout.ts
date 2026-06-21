@@ -3,10 +3,12 @@ import { Navbar } from '../Navbar/navbar';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from "../Footer/footer";
+import { AuthActions, Role } from '@org/auth';
+import { SecondryNavbar } from "../secondry Navbar/secondryNavbar";
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, RouterOutlet, Navbar, Footer],
+  imports: [CommonModule, RouterOutlet, Navbar, Footer, SecondryNavbar],
   templateUrl: './mainLayout.html',
   styleUrl: './mainLayout.css',
 })
