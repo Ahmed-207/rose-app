@@ -23,6 +23,7 @@
           }
         ],
         "styles": [
+           "node_modules/primeicons/primeicons.css",
           "apps/roseAppShell/src/styles.css"
         ],
         "customWebpackConfig": {
