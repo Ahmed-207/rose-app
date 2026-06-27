@@ -1,0 +1,26 @@
+<section class="p-4">
+    <div class="grid grid-cols-12 gap-3">
+        <div class="filter-container md:col-span-3">
+        </div>
+        <div class="products-container md:col-span-9">
+            <div class="cards-container grid grid-cols-12 gap-1">
+                @for (product of _pStore.entities(); track product.id) {
+
+                <div
+                    class="product-card-container col-span-12 md:col-span-4 lg:col-span-3 p-4 flex items-center justify-center">
+                    <p-card [style]="{ overflow: 'hidden' }">
+                        <ng-template #header>
+                            <img alt="Card" class="w-full" [src]="product.cover" />
+                        </ng-template>
+                        <ng-template #title> {{product.title}} </ng-template>
+                        <ng-template #subtitle> {{product.category.title}} </ng-template>
+                        <p>
+                            {{product.description | slice:0:25 }}
+                        </p>
+                    </p-card>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
