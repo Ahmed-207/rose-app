@@ -79,4 +79,13 @@
     "APP_NAME": "Rose E-Commerce App",
     "ALL_RIGHTS": "All rights reserved | 2025"
   }
+  ,
+  "Free Delivery":"Free Delivery",
+  "For orders above 120 EGP":"For orders above 120 EGP",
+  "Get Refund":"Get Refund",
+  "Refunds within 30 days":"Refunds within 30 days",
+  "Safe Payment":"Safe Payment",
+  "100% Secure Payment":"100% Secure Payment",
+  "24/7 Support":"24/7 Support",
+  "Contact us at any time":"Contact us at any time"
 }
