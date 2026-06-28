@@ -10,8 +10,8 @@
       <span class="promo-circle c2"></span>
 
       <div class="promo-body">
-        <span class="promo-badge">Starting from 10.99 EGP</span>
-        <h2 class="promo-title">Special Gifts For The People You Love</h2>
+        <span class="promo-badge">{{"Starting from 10.99 EGP" | translate}}</span>
+        <h2 class="promo-title">{{"Special Gifts For The People You Love" | translate}}</h2>
         <button pButton
                 label="Shop Now"
                 icon="pi pi-arrow-right"
@@ -53,15 +53,11 @@
 
             <!-- Text content -->
             <div class="slide-content">
-              <h2 class="slide-title">{{ slide.title }}</h2>
-              <p class="slide-subtitle">{{ slide.subtitle }}</p>
-              <!-- <button
-                pButton
-                [label]="slide.btnLabel"
-                class="p-button-rounded slide-btn">
-              </button> -->
+              <h2 class="slide-title">{{ slide.title | translate}}</h2>
+              <p class="slide-subtitle">{{ slide.subtitle | translate }}</p>
+             
                 <button pButton
-               [label]="slide.btnLabel"
+               [label]="slide.btnLabel | translate"
                 class="p-button-rounded promo-btn">
                  </button>
             </div>
