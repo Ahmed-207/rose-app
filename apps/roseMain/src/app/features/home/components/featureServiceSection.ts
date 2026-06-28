@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'feature-service-section',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './featureServiceSection.html',
   styleUrl: './featureServiceSection.css',
 })
