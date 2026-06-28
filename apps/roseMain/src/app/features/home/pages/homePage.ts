@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { TrustedbySection } from '../components/trustedbySection';
 
 @Component({
   selector: 'app-home-page',
-  imports: [],
+  imports: [TrustedbySection],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
 })
