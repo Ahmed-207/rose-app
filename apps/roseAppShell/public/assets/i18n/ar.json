@@ -99,5 +99,20 @@
   "NEW": "جديد",
   "HOT": "رائج",
   "SALE": "تخفيض",
-  "OUT OF STOCK": "نفد من المخزون"
+  "OUT OF STOCK": "نفد من المخزون",
+  "EGP": "جنيه",
+  "left in stock": "متبقي في المخزون",
+  "Rating": "التقييم",
+  "ratings": "تقييمات",
+  "Add to Cart": "أضف إلى السلة",
+  "Add to wishlist": "أضف إلى المفضلة",
+  "Product Reviews": "مراجعات المنتج",
+  "General rating": "التقييم العام",
+  "Your rating": "تقييمك",
+  "Title": "العنوان",
+  "Enter review title": "أدخل عنوان المراجعة",
+  "Review": "المراجعة",
+  "What do you think of this product?": "ما رأيك في هذا المنتج؟",
+  "Add Review": "إضافة مراجعة",
+  "No reviews yet": "لا توجد مراجعات بعد"
 }

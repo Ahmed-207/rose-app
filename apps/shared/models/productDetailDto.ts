@@ -1,0 +1,18 @@
+import { Product } from './productDto';
+
+export interface ProductReview {
+  id: number;
+  author: string;
+  date: string;
+  rating: number;
+  title: string;
+  content: string;
+}
+
+export interface ProductDetail extends Product {
+  description: string;
+  images: string[];
+  stockCount: number;
+  reviewCount: number;
+  reviews: ProductReview[];
+}

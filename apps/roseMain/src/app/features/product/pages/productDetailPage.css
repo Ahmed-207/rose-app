@@ -1,0 +1,17 @@
+.product-detail {
+  padding: 2.5rem 0 4rem;
+}
+
+.product-detail__hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 992px) {
+  .product-detail__hero {
+    grid-template-columns: 1fr;
+  }
+}

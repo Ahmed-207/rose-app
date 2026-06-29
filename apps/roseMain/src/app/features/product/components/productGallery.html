@@ -1,0 +1,17 @@
+<div class="product-gallery">
+  <div class="product-gallery__main">
+    <img [src]="images()[selectedIndex()]" [alt]="'Product image ' + (selectedIndex() + 1)">
+  </div>
+
+  <div class="product-gallery__thumbs">
+    @for (image of images(); track $index) {
+      <button
+        type="button"
+        class="product-gallery__thumb"
+        [class.product-gallery__thumb--active]="selectedIndex() === $index"
+        (click)="selectImage($index)">
+        <img [src]="image" [alt]="'Thumbnail ' + ($index + 1)">
+      </button>
+    }
+  </div>
+</div>

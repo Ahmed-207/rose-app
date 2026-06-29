@@ -1,0 +1,75 @@
+<section class="product-reviews">
+  <h2 class="product-reviews__heading font-primary">{{ 'Product Reviews' | translate }}</h2>
+
+  <div class="product-reviews__summary">
+    <span class="font-primary">
+      {{ 'General rating' | translate }}:
+      <strong>{{ product().rating }}</strong>
+      ({{ product().reviewCount }} {{ 'ratings' | translate }})
+    </span>
+    <p-rating
+      [ngModel]="product().rating"
+      [readonly]="true"
+      [stars]="5">
+    </p-rating>
+  </div>
+
+  <div class="product-reviews__layout">
+    <div class="product-reviews__list">
+      @for (review of reviews(); track review.id) {
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" aria-hidden="true">
+              {{ review.author.charAt(0) }}
+            </div>
+            <div>
+              <h3 class="review-card__author font-primary">{{ review.author }}</h3>
+              <p class="review-card__date">{{ review.date }}</p>
+            </div>
+            <div class="review-card__rating">
+              <p-rating [ngModel]="review.rating" [readonly]="true" [stars]="5"></p-rating>
+            </div>
+          </div>
+          <h4 class="review-card__title font-primary">{{ review.title }}</h4>
+          <p class="review-card__content font-primary">{{ review.content }}</p>
+        </article>
+      } @empty {
+        <p class="product-reviews__empty font-primary">{{ 'No reviews yet' | translate }}</p>
+      }
+    </div>
+
+    <form class="review-form" [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+      <label class="review-form__label font-primary">{{ 'Your rating' | translate }}:</label>
+      <p-rating
+        [ngModel]="formRating()"
+        (ngModelChange)="formRating.set($event)"
+        [ngModelOptions]="{ standalone: true }"
+        [stars]="5">
+      </p-rating>
+
+      <app-form-control
+        formControlName="title"
+        type="text"
+        [label]="'Title' | translate"
+        [placeholder]="'Enter review title' | translate"
+        [required]="true">
+      </app-form-control>
+
+      <app-form-control
+        formControlName="content"
+        type="textarea"
+        [label]="'Review' | translate"
+        [placeholder]="'What do you think of this product?' | translate"
+        [required]="true">
+      </app-form-control>
+
+      <app-button
+        buttonType="submit"
+        variant="danger"
+        size="lg"
+        class="review-form__submit font-primary">
+        {{ 'Add Review' | translate }}
+      </app-button>
+    </form>
+  </div>
+</section>

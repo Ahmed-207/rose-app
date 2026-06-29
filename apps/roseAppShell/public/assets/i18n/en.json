@@ -100,5 +100,20 @@
   "NEW": "NEW",
   "HOT": "HOT",
   "SALE": "SALE",
-  "OUT OF STOCK": "OUT OF STOCK"
+  "OUT OF STOCK": "OUT OF STOCK",
+  "EGP": "EGP",
+  "left in stock": "left in stock",
+  "Rating": "Rating",
+  "ratings": "ratings",
+  "Add to Cart": "Add to Cart",
+  "Add to wishlist": "Add to wishlist",
+  "Product Reviews": "Product Reviews",
+  "General rating": "General rating",
+  "Your rating": "Your rating",
+  "Title": "Title",
+  "Enter review title": "Enter review title",
+  "Review": "Review",
+  "What do you think of this product?": "What do you think of this product?",
+  "Add Review": "Add Review",
+  "No reviews yet": "No reviews yet"
 }
