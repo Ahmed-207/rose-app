@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-primary: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 @font-face {
     font-family: 'Edward';
     src: url('/assets/fonts/edwardianscriptitc.ttf') format('truetype');
