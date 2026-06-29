@@ -6,6 +6,12 @@
         </div>
 
         <!-- Products Container -->
+        @if(_pStore.isLoading() && !_pStore.error()){
+        <div class="spinner-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
+            <lib-spinner></lib-spinner>
+        </div>
+        }
+        @if(!_pStore.isLoading() && !_pStore.error()){
         <div class="products-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
 
             <!-- Cards Container Grid -->
@@ -28,6 +34,13 @@
             </div>
 
         </div>
+        }
+        @if(!_pStore.isLoading() && _pStore.error()){
+        <div
+            class="error-container col-span-12 md:col-span-9 flex flex-col items-center justify-center p-4 h-full flex-1">
+            <span>{{_pStore.error()}}</span>
+        </div>
+        }
 
     </div>
 </section>

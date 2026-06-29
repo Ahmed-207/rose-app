@@ -1,13 +1,13 @@
 import { ProductsStore } from "@org/products";
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ProductCard } from "@org/shared-ui-components";
+import { ProductCard, Spinner } from "@org/shared-ui-components";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaginatorState, Paginator, PaginatorModule } from 'primeng/paginator';
 
 
 @Component({
   selector: 'app-products-page',
-  imports: [ProductCard, PaginatorModule],
+  imports: [ProductCard, PaginatorModule, Spinner],
   templateUrl: './products-page.html',
   styleUrl: './products-page.css',
 })
