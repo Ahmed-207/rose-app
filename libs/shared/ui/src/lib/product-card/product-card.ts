@@ -1,11 +1,12 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'lib-product-card',
   standalone: true,
-  imports: [LucideHeartPlus, LucideShoppingCart],
+  imports: [LucideHeartPlus, LucideShoppingCart, TranslatePipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })

@@ -1,13 +1,12 @@
 import { ProductsStore } from "@org/products";
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ProductCard, Spinner } from "@org/shared-ui-components";
+import { ProductCard, Spinner, Paginator } from "@org/shared-ui-components";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PaginatorState, Paginator, PaginatorModule } from 'primeng/paginator';
 
 
 @Component({
   selector: 'app-products-page',
-  imports: [ProductCard, PaginatorModule, Spinner],
+  imports: [ProductCard, Spinner, Paginator],
   templateUrl: './products-page.html',
   styleUrl: './products-page.css',
 })
@@ -20,23 +19,6 @@ export class ProductsPage implements OnInit {
   first = signal<number>(0);
   productsPerPage = signal<number>(4);
 
-
-  onPageChange(event: PaginatorState) {
-
-    const page = (event.page ?? 0) + 1;
-    this.updateURL({ page });
-
-  }
-
-  private updateURL(params: any): void {
-
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: params,
-      queryParamsHandling: 'merge'
-    })
-
-  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {

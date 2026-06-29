@@ -29,8 +29,8 @@
 
             <!--paginator-->
             <div class="paginator-container flex justify-center mt-auto pt-6">
-                <p-paginator (onPageChange)="onPageChange($event)" [first]="first()" [rows]="productsPerPage()"
-                    [totalRecords]="_pStore.totalProducts()" />
+                <lib-paginator [pFirst]="first()" [pItemsPerPage]="productsPerPage()"
+                    [pTotalItems]="_pStore.totalResults()"></lib-paginator>
             </div>
 
         </div>

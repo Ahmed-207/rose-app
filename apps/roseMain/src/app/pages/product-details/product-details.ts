@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, inject, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '@org/products';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -15,6 +16,7 @@ export class ProductDetails implements OnInit {
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly plat_id = inject(PLATFORM_ID);
   productId: WritableSignal<string> = signal<string>('');
+  supscriptionRef!:Subscription;
 
   ngOnInit(): void {
 
@@ -30,7 +32,7 @@ export class ProductDetails implements OnInit {
 
     this.getProductId();
 
-    this.productsService.getProductById(this.productId()).subscribe({
+    this.supscriptionRef = this.productsService.getProductById(this.productId()).subscribe({
       next: (res) => {
         console.log(res);
       },
@@ -49,6 +51,12 @@ export class ProductDetails implements OnInit {
       this.productId.set(id);
     }
 
+  }
+
+  ngOnDestroy(): void {
+
+    this.supscriptionRef.unsubscribe()
+    
   }
 
 }

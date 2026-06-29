@@ -5,17 +5,12 @@ import { computed, inject } from '@angular/core';
 import { ProductsService } from '../services/products-service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-
-export interface ProductsState {
-    isLoading: boolean;
-    error: string | null;
-    totalResults: number; 
-}
+import { ProductsState } from '../models/products-state';
 
 const ProductsInitialState: ProductsState = {
     isLoading: false,
     error: null,
-    totalResults: 0 
+    totalResults: 0
 };
 
 export const ProductsStore = signalStore(
