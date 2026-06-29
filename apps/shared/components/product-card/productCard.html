@@ -37,18 +37,26 @@
   </div>
 
   <!-- Product Image -->
-  <div class="image-wrapper">
-    <img
-      [src]="product.image"
-      [alt]="product.name">
-  </div>
+  @if (productLink) {
+    <a [routerLink]="productLink" class="image-wrapper product-card__link">
+      <img [src]="product.image" [alt]="product.name">
+    </a>
+  } @else {
+    <div class="image-wrapper">
+      <img [src]="product.image" [alt]="product.name">
+    </div>
+  }
 
   <!-- Product Info -->
   <div class="content">
 
-    <h3 class="product-title">
-      {{ product.name }}
-    </h3>
+    @if (productLink) {
+      <h3 class="product-title">
+        <a [routerLink]="productLink" class="product-card__link">{{ product.name }}</a>
+      </h3>
+    } @else {
+      <h3 class="product-title">{{ product.name }}</h3>
+    }
 
     <!-- Rating -->
   <div class="rating">

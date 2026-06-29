@@ -1,55 +1,66 @@
 <section class="best-selling">
   <div class="max-w-7xl mx-auto px-4">
     <div class="best-selling__layout">
-    <div class="best-selling__content">
-      <span class="best-selling__subtitle">{{ 'BEST SELLING' | translate }}</span>
+      <div class="best-selling__content">
+        <span class="best-selling__subtitle">{{ 'BEST SELLING' | translate }}</span>
 
-      <h2 class="best-selling__title">
-        <span class="best-selling__highlight">{{ 'Check Out' | translate }}</span>
-        {{ "What Everyone's" | translate }}
-        <span class="best-selling__highlight">{{ 'Buying' | translate }}</span>
-        {{ 'Right Now' | translate }}
-      </h2>
+        <h2 class="best-selling__title">
+          <span class="best-selling__highlight">{{ 'Check Out' | translate }}</span>
+          {{ "What Everyone's" | translate }}
+          <span class="best-selling__highlight">{{ 'Buying' | translate }}</span>
+          {{ 'Right Now' | translate }}
+        </h2>
 
-      <p class="best-selling__description">
-        {{ 'BEST_SELLING_DESC' | translate }}
-      </p>
+        <p class="best-selling__description">
+          {{ 'BEST_SELLING_DESC' | translate }}
+        </p>
 
-      <app-button variant="danger" size="lg" class="best-selling__cta">
-        {{ 'Explore gifts' | translate }}
-        <i class="pi pi-arrow-right" aria-hidden="true"></i>
-      </app-button>
-    </div>
-
-    <div class="best-selling__carousel">
-      <button
-        type="button"
-        class="carousel-nav carousel-nav--prev"
-        (click)="scroll('prev')"
-        [attr.aria-label]="'Previous products' | translate">
-        <i class="pi pi-chevron-left" aria-hidden="true"></i>
-      </button>
-
-      <div class="carousel-track" #track>
-        @for (product of products; track product.id) {
-          <div class="carousel-item">
-            <product-card
-              [product]="product"
-              (addToCart)="onAddToCart($event)"
-              (wishlistToggle)="onWishlistToggle($event)">
-            </product-card>
-          </div>
-        }
+        <app-button variant="danger" size="lg" class="best-selling__cta">
+          {{ 'Explore gifts' | translate }}
+          <i class="pi pi-arrow-right" aria-hidden="true"></i>
+        </app-button>
       </div>
 
-      <button
-        type="button"
-        class="carousel-nav carousel-nav--next"
-        (click)="scroll('next')"
-        [attr.aria-label]="'Next products' | translate">
-        <i class="pi pi-chevron-right" aria-hidden="true"></i>
-      </button>
-    </div>
+      <div class="best-selling__carousel">
+        @if (isLoading()) {
+          <div class="best-selling__state">
+            <lib-spinner></lib-spinner>
+          </div>
+        } @else if (error()) {
+          <div class="best-selling__state best-selling__state--error font-primary">
+            {{ error() | translate }}
+          </div>
+        } @else {
+          <button
+            type="button"
+            class="carousel-nav carousel-nav--prev"
+            (click)="scroll('prev')"
+            [attr.aria-label]="'Previous products' | translate">
+            <i class="pi pi-chevron-left" aria-hidden="true"></i>
+          </button>
+
+          <div class="carousel-track" #track>
+            @for (product of products(); track product.id) {
+              <div class="carousel-item">
+                <product-card
+                  [product]="product"
+                  [productLink]="['/home', 'products', product.id]"
+                  (addToCart)="onAddToCart($event)"
+                  (wishlistToggle)="onWishlistToggle($event)">
+                </product-card>
+              </div>
+            }
+          </div>
+
+          <button
+            type="button"
+            class="carousel-nav carousel-nav--next"
+            (click)="scroll('next')"
+            [attr.aria-label]="'Next products' | translate">
+            <i class="pi pi-chevron-right" aria-hidden="true"></i>
+          </button>
+        }
+      </div>
     </div>
   </div>
 </section>
