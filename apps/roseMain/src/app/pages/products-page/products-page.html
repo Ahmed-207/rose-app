@@ -1,0 +1,24 @@
+<section class="p-4 w-full overflow-hidden">
+    <div class="grid grid-cols-12 gap-4">
+
+        <div class="filter-container col-span-12 md:col-span-3">
+        </div>
+
+        <div class="products-container col-span-12 md:col-span-9">
+            <div
+                class="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+                @for (product of _pStore.entities(); track product.id) {
+                <div class="product-card-container w-full h-full">
+                    <lib-product-card [productImg]="product.cover" [productName]="product.title"
+                        [productCurrentPrice]="product.price" [productRating]="product.rating"
+                        [productDiscount]="product.discountValue" [productId]="product.id">
+                    </lib-product-card>
+                </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</section>

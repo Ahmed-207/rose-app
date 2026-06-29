@@ -1,12 +1,10 @@
 import { ProductsStore } from "@org/products";
 import { Component, inject, OnInit } from '@angular/core';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { SlicePipe } from "@angular/common";
+import { ProductCard } from "@org/shared-ui-components";
 
 @Component({
   selector: 'app-products-page',
-  imports: [CardModule, ButtonModule, SlicePipe],
+  imports: [ProductCard],
   templateUrl: './products-page.html',
   styleUrl: './products-page.css',
 })

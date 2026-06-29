@@ -30,7 +30,10 @@ export const ProductsStore = signalStore(
                     switchMap(({ pageNumber, limit }) =>
                         _pService.getAllProducts(pageNumber, limit).pipe(
                             tap({
-                                next: (res) => patchState(store, setAllEntities(res.payload.data), { isLoading: false }),
+                                next: (res) => {
+                                    patchState(store, setAllEntities(res.payload.data), { isLoading: false });
+                                    console.log(res.payload.data)
+                                },
                                 error: (e) => patchState(store, { error: e.message, isLoading: false })
                             })
                         )
