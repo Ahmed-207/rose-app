@@ -4,19 +4,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../button/button'
-export interface Product {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  isWishlist?: boolean;
-  isOutOfStock?: boolean;
-  badges?: ProductBadge[];
-}
+import { Product } from '../../models/productDto';
 
-export type ProductBadge = 'HOT' | 'NEW' | 'SALE' ;
+
+
 @Component({
   selector: 'product-card',
   imports: [CommonModule,TranslatePipe,RatingModule,FormsModule,Button],
