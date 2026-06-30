@@ -82,6 +82,12 @@
   "product-card": {
     "ADD_TO_WISHLIST": "اضف الي المفضلة"
   },
+  "home": {
+    "testmonials": {
+      "TESTMONIALS_TITLE":"أراء عملائنا",
+      "TESTMONIALS_QUOTE":"كلمات نابعة من عملائنا السعداء"
+    }
+  },
   "Free Delivery": "توصيل مجاني",
   "For orders above 120 EGP": "للطلبات التي تزيد عن 120 جنيهًا مصريًا",
   "Get Refund": "استرداد المبلغ",

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureServiceSection } from './featureServiceSection';
+import { FeatureServiceSection } from '../featureServiceSection';
 
 describe('FeatureServiceSection', () => {
   let component: FeatureServiceSection;
