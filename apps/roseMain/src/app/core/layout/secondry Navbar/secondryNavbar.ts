@@ -6,11 +6,12 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
     providers: [MessageService],
     selector: 'app-secondry-navbar',
-    imports: [MenuModule, ButtonModule, CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler],
+    imports: [MenuModule, ButtonModule, CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler, RouterLink, RouterLinkActive],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
 })

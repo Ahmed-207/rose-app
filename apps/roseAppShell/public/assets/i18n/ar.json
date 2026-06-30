@@ -44,7 +44,7 @@
     "PASSWORD_RESET_SUCCESS": "تم إعادة تعيين كلمة المرور. يمكنك تسجيل الدخول الآن.",
     "RESET_LINK_SENT": "إذا كان هناك حساب مرتبط بهذا البريد، فقد تم إرسال رابط إعادة التعيين.",
     "PASSWORDS_DO_NOT_MATCH": "كلمتا المرور غير متطابقتين",
-    "Become_part_of_our_family!":"انضم إلى عائلتنا",
+    "Become_part_of_our_family!": "انضم إلى عائلتنا",
     "RESET_TOKEN_MISSING": "رابط إعادة التعيين غير صالح أو منتهي الصلاحية. يرجى طلب رابط جديد."
   },
   "navbar": {
@@ -96,12 +96,15 @@
   "Browse Sets":"تصفح المجموعات",
   "I'm buying!":"أنا أشتري!",
   "Explore Now":"استكشف الآن!",
-   "Free Delivery":"توصيل مجاني",
-  "For orders above 120 EGP":"للطلبات التي تزيد عن 120 جنيهًا مصريًا",
-  "Get Refund":"استرداد المبلغ",
-  "Refunds within 30 days":"استرداد الأموال خلال 30 يومًا",
-  "Safe Payment":"دفع آمن",
-  "100% Secure Payment":"دفع آمن بنسبة 100%",
-  "24/7 Support":"دعم 24/7",
-  "Contact us at any time":"تواصل معنا في أي وقت"
+  "product-card": {
+    "ADD_TO_WISHLIST": "اضف الي المفضلة"
+  },
+  "Free Delivery": "توصيل مجاني",
+  "For orders above 120 EGP": "للطلبات التي تزيد عن 120 جنيهًا مصريًا",
+  "Get Refund": "استرداد المبلغ",
+  "Refunds within 30 days": "استرداد الأموال خلال 30 يومًا",
+  "Safe Payment": "دفع آمن",
+  "100% Secure Payment": "دفع آمن بنسبة 100%",
+  "24/7 Support": "دعم 24/7",
+  "Contact us at any time": "تواصل معنا في أي وقت"
 }
