@@ -1,7 +1,7 @@
 import { Product } from './productDto';
 
 export interface ProductReview {
-  id: number;
+  id: string | number;
   author: string;
   date: string;
   rating: number;

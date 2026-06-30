@@ -1,4 +1,12 @@
-@if (product(); as item) {
+@if (isLoading()) {
+  <div class="product-detail__state">
+    <lib-spinner></lib-spinner>
+  </div>
+} @else if (error()) {
+  <div class="product-detail__state product-detail__state--error">
+    {{ error() | translate }}
+  </div>
+} @else if (product(); as item) {
   <div class="product-detail">
     <div class="max-w-7xl mx-auto px-4">
       <section class="product-detail__hero">

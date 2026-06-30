@@ -1,3 +1,16 @@
+.product-detail__state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  padding: 2.5rem 1rem;
+}
+
+.product-detail__state--error {
+  color: #b3262d;
+  font-weight: 600;
+}
+
 .product-detail {
   padding: 2.5rem 0 4rem;
 }

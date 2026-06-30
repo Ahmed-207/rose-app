@@ -1,0 +1,46 @@
+<section class="p-4 w-full h-full flex flex-col flex-1">
+    <div class="grid grid-cols-12 gap-4 flex-1">
+
+        <!-- Filter Container -->
+        <div class="filter-container col-span-12 md:col-span-3">
+        </div>
+
+        <!-- Products Container -->
+        @if(_pStore.isLoading() && !_pStore.error()){
+        <div class="spinner-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
+            <lib-spinner></lib-spinner>
+        </div>
+        }
+        @if(!_pStore.isLoading() && !_pStore.error()){
+        <div class="products-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
+
+            <!-- Cards Container Grid -->
+            <div
+                class="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @for (product of _pStore.entities(); track product.id) {
+                <div class="product-card-container w-full h-full">
+                    <lib-product-card [productImg]="product.cover" [productName]="product.title"
+                        [productCurrentPrice]="product.price" [productRating]="product.rating"
+                        [productDiscount]="product.discountValue" [productId]="product.id">
+                    </lib-product-card>
+                </div>
+                }
+            </div>
+
+            <!--paginator-->
+            <div class="paginator-container flex justify-center mt-auto pt-6">
+                <lib-paginator [pFirst]="first()" [pItemsPerPage]="productsPerPage()"
+                    [pTotalItems]="_pStore.totalResults()"></lib-paginator>
+            </div>
+
+        </div>
+        }
+        @if(!_pStore.isLoading() && _pStore.error()){
+        <div
+            class="error-container col-span-12 md:col-span-9 flex flex-col items-center justify-center p-4 h-full flex-1">
+            <span>{{_pStore.error()}}</span>
+        </div>
+        }
+
+    </div>
+</section>

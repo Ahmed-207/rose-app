@@ -1,34 +1,36 @@
 .best-selling {
-  padding: 4rem 0;
+  padding: 4.5rem 0;
+  background: transparent;
 }
 
 .best-selling__layout {
   display: grid;
-  grid-template-columns: minmax(260px, 32%) 1fr;
-  align-items: center;
-  gap: 3rem;
+  grid-template-columns: minmax(280px, 34%) minmax(0, 1fr);
+  align-items: start;
+  gap: 2.5rem 3.5rem;
 }
 
 .best-selling__content {
-  max-width: 420px;
+  max-width: 430px;
+  padding-top: 0.5rem;
 }
 
 .best-selling__subtitle {
   display: block;
   color: #f47b98;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .best-selling__title {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
   color: #741c21;
-  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  font-size: clamp(2rem, 2.8vw, 2.625rem);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.18;
 }
 
 .best-selling__highlight {
@@ -36,36 +38,47 @@
 }
 
 .best-selling__description {
-  margin: 0 0 1.75rem;
+  margin: 0 0 2rem;
   color: #8b8b8b;
-  font-size: 0.95rem;
-  line-height: 1.7;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  max-width: 38ch;
 }
 
 .best-selling__cta ::ng-deep button {
   width: auto;
-  min-width: 170px;
+  min-width: 168px;
   height: 44px;
-  padding: 0 1.5rem;
-  gap: 0.5rem;
+  padding: 0 1.35rem;
+  gap: 0.65rem;
+  border-radius: 10px;
+  background: #741c21;
+  border-color: #741c21;
+  font-weight: 600;
 }
 
 .best-selling__carousel {
-  position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
+  gap: 0.75rem;
   min-width: 0;
+}
+
+.carousel-viewport {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .carousel-track {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 0.5rem 0.25rem 1rem;
+  padding: 0.25rem 0 0.5rem;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -73,27 +86,26 @@
 }
 
 .carousel-item {
-  flex: 0 0 calc((100% - 3rem) / 3);
-  min-width: 220px;
+  flex: 0 0 calc((100% - 2.5rem) / 3);
+  min-width: 200px;
   scroll-snap-align: start;
 }
 
 .carousel-nav {
-  position: absolute;
-  z-index: 2;
-  top: 38%;
-  transform: translateY(-50%);
   width: 44px;
   height: 44px;
   border: none;
   border-radius: 50%;
   background: #741c21;
   color: #fff;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: opacity 0.15s ease;
+  flex-shrink: 0;
+  align-self: center;
+  margin-top: -3.5rem;
 }
 
 .carousel-nav:hover {
@@ -101,28 +113,48 @@
 }
 
 .carousel-nav i {
-  font-size: 1rem;
-}
-
-.carousel-nav--prev {
-  inset-inline-start: 0;
-}
-
-.carousel-nav--next {
-  inset-inline-end: 0;
+  font-size: 0.95rem;
 }
 
 .best-selling__carousel ::ng-deep .wishlist-btn {
   display: none;
 }
 
+.best-selling__carousel ::ng-deep .product-card:hover {
+  transform: none;
+}
+
+.best-selling__state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.best-selling__state--full {
+  grid-column: 1 / -1;
+}
+
+.best-selling__state--error {
+  color: #a6252a;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 1200px) {
   .best-selling {
-    padding: 3rem 0;
+    padding: 3.5rem 0;
+  }
+
+  .best-selling__layout {
+    gap: 2rem;
   }
 
   .carousel-item {
-    flex: 0 0 calc((100% - 1.5rem) / 2);
+    flex: 0 0 calc((100% - 1.25rem) / 2);
+  }
+
+  .carousel-nav {
+    margin-top: -2.5rem;
   }
 }
 
@@ -134,15 +166,30 @@
 
   .best-selling__content {
     max-width: none;
+    padding-top: 0;
+  }
+
+  .best-selling__description {
+    max-width: none;
+  }
+
+  .best-selling__carousel {
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+  }
+
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
   }
 }
 
 @media (max-width: 576px) {
   .best-selling {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
 
   .carousel-item {
-    flex: 0 0 85%;
+    flex: 0 0 82%;
   }
 }
