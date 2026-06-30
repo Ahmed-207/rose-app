@@ -20,7 +20,8 @@
           {
             "glob": "**/*",
             "input": "apps/roseMain/public"
-          }
+          },
+           "apps/roseMain/src/assets"
         ],
         "styles": [
           "apps/roseMain/src/styles.css"
