@@ -23,7 +23,7 @@ import { mapApiProductToCardProduct } from '../utils/map-api-product';
   styleUrl: './bestSellingSection.css',
 })
 export class BestSellingSection implements OnInit {
-  private readonly track = viewChild.required<ElementRef<HTMLElement>>('track');
+  private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -40,7 +40,12 @@ export class BestSellingSection implements OnInit {
   }
 
   scroll(direction: 'prev' | 'next'): void {
-    const trackEl = this.track().nativeElement;
+    const trackRef = this.track();
+    if (!trackRef) {
+      return;
+    }
+
+    const trackEl = trackRef.nativeElement;
     const item = trackEl.querySelector<HTMLElement>('.carousel-item');
     const gap = 24;
     const amount = (item?.offsetWidth ?? 280) + gap;
