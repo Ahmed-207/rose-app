@@ -1,4 +1,4 @@
-<section class="best-selling">
+<section class="best-selling font-primary">
   <div class="max-w-7xl mx-auto px-4">
     <div class="best-selling__layout">
       <div class="best-selling__content">
@@ -15,7 +15,7 @@
           {{ 'BEST_SELLING_DESC' | translate }}
         </p>
 
-        <app-button variant="danger" size="lg" class="best-selling__cta">
+        <app-button variant="danger" size="lg" class="best-selling__cta font-primary">
           {{ 'Explore gifts' | translate }}
           <i class="pi pi-arrow-right" aria-hidden="true"></i>
         </app-button>
@@ -23,11 +23,11 @@
 
       <div class="best-selling__carousel">
         @if (isLoading()) {
-          <div class="best-selling__state">
+          <div class="best-selling__state best-selling__state--full">
             <lib-spinner></lib-spinner>
           </div>
         } @else if (error()) {
-          <div class="best-selling__state best-selling__state--error font-primary">
+          <div class="best-selling__state best-selling__state--full best-selling__state--error">
             {{ error() | translate }}
           </div>
         } @else {
@@ -39,17 +39,19 @@
             <i class="pi pi-chevron-left" aria-hidden="true"></i>
           </button>
 
-          <div class="carousel-track" #track>
-            @for (product of products(); track product.id) {
-              <div class="carousel-item">
-                <product-card
-                  [product]="product"
-                  [productLink]="['/home', 'products', product.id]"
-                  (addToCart)="onAddToCart($event)"
-                  (wishlistToggle)="onWishlistToggle($event)">
-                </product-card>
-              </div>
-            }
+          <div class="carousel-viewport">
+            <div class="carousel-track" #track>
+              @for (product of products(); track product.id) {
+                <div class="carousel-item">
+                  <product-card
+                    [product]="product"
+                    [productLink]="['/home', 'products', product.id]"
+                    (addToCart)="onAddToCart($event)"
+                    (wishlistToggle)="onWishlistToggle($event)">
+                  </product-card>
+                </div>
+              }
+            </div>
           </div>
 
           <button

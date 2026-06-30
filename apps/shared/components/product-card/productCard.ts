@@ -4,10 +4,8 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
-import { Button } from '../button/button'
+import { Button } from '../button/button';
 import { Product } from '../../models/productDto';
-
-
 
 @Component({
   selector: 'product-card',
@@ -16,7 +14,6 @@ import { Product } from '../../models/productDto';
   styleUrl: './productCard.css',
 })
 export class ProductCard {
-
   @Input() product!: Product;
   @Input() currency = 'EGP';
   @Input() productLink?: (string | number)[];

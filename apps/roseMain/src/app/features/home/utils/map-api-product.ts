@@ -1,6 +1,10 @@
 import { Product as ApiProduct } from '@org/products';
 import { Product, ProductBadge } from 'apps/shared/models/productDto';
 
+function normalizeUrl(url: string): string {
+  return url.trim().replace(/([^:]\/)\/+/g, '$1');
+}
+
 export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
   const price = Number(apiProduct.price);
   const discount = Number(apiProduct.discountValue);
@@ -27,7 +31,7 @@ export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
   return {
     id: apiProduct.id,
     name: apiProduct.title,
-    image: apiProduct.cover,
+    image: apiProduct.cover ? normalizeUrl(apiProduct.cover) : '',
     price,
     oldPrice,
     rating: apiProduct.rating,

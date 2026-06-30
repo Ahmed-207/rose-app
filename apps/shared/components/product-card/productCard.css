@@ -16,12 +16,19 @@
   border-radius: 18px;
   overflow: hidden;
   aspect-ratio: 1;
+  display: block;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
+}
+
+.product-card__link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .badges {
@@ -89,19 +96,15 @@
   font-size: 18px;
   font-weight: 600;
   color: #741C21;
-}
-
-.product-card__link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.product-title,
-.product-title .product-card__link {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.product-title .product-card__link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .rating {
@@ -110,9 +113,11 @@
   color: #ffb800;
   margin-bottom: 8px;
 }
+
 ::ng-deep .p-rating-option-active .p-rating-icon {
-    color: #ffb800 !important;
+  color: #ffb800 !important;
 }
+
 .price {
   display: flex;
   align-items: center;
@@ -121,7 +126,7 @@
 
 .current-price {
   font-weight: 700;
- color:#741C21;
+  color: #741C21;
   font-size: 18px;
 }
 
