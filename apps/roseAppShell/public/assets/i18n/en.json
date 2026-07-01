@@ -99,6 +99,12 @@
   "Browse Sets": "Browse Sets",
   "I'm buying!": "I'm buying!",
   "Explore Now": "Explore Now",
+  "home": {
+    "testmonials": {
+      "TESTMONIALS_TITLE": "tesmonials",
+      "TESTMONIALS_QUOTE": "real words from happy customers"
+    }
+  },
   "Free Delivery": "Free Delivery",
   "For orders above 120 EGP": "For orders above 120 EGP",
   "Get Refund": "Get Refund",
