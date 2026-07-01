@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
@@ -8,9 +9,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { Spinner } from '@org/shared-ui-components';
+import { finalize } from 'rxjs';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
 import { Product } from 'apps/shared/models/productDto';
@@ -26,6 +29,7 @@ export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly products = signal<Product[]>([]);
   readonly isLoading = signal(false);
@@ -66,15 +70,14 @@ export class BestSellingSection implements OnInit {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.productsService.getBestProducts(8).subscribe({
-      next: (response) => {
+    this.productsService
+      .getBestProducts(8)
+      .pipe(
+        finalize(() => this.isLoading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((response) => {
         this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.error.set('Failed to load best selling products');
-        this.isLoading.set(false);
-      },
-    });
+      });
   }
 }
