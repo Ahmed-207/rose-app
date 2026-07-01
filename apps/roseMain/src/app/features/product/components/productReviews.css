@@ -24,6 +24,13 @@
   gap: 2rem;
 }
 
+.product-reviews__list {
+  min-height: 0;
+  overflow-y: auto;
+  padding-inline-end: 0.75rem;
+  scrollbar-gutter: stable;
+}
+
 .review-card {
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
@@ -106,5 +113,12 @@
 @media (max-width: 992px) {
   .product-reviews__layout {
     grid-template-columns: 1fr;
+  }
+
+  .product-reviews__list {
+    max-height: none !important;
+    overflow: visible;
+    padding-inline-end: 0;
+    scrollbar-gutter: auto;
   }
 }

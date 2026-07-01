@@ -15,7 +15,7 @@
   </div>
 
   <div class="product-reviews__layout">
-    <div class="product-reviews__list">
+    <div class="product-reviews__list" [style.max-height.px]="reviewListMaxHeight()">
       @for (review of reviews(); track review.id) {
         <article class="review-card">
           <div class="review-card__header">
@@ -38,7 +38,11 @@
       }
     </div>
 
-    <form class="review-form" [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+    <form
+      #reviewFormElement
+      class="review-form"
+      [formGroup]="reviewForm"
+      (ngSubmit)="submitReview()">
       <label class="review-form__label font-primary">{{ 'Your rating' | translate }}:</label>
       <p-rating
         [ngModel]="formRating()"

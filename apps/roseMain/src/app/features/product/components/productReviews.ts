@@ -1,4 +1,17 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  PLATFORM_ID,
+  ViewChild,
+  computed,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RatingModule } from 'primeng/rating';
@@ -20,11 +33,16 @@ import { ProductDetail, ProductReview } from 'apps/shared/models/productDetailDt
   templateUrl: './productReviews.html',
   styleUrl: './productReviews.css',
 })
-export class ProductReviews {
+export class ProductReviews implements AfterViewInit, OnDestroy {
+  @ViewChild('reviewFormElement') private reviewFormElement?: ElementRef<HTMLElement>;
+
+  private readonly platformId = inject(PLATFORM_ID);
+
   readonly product = input.required<ProductDetail>();
   readonly reviewAdded = output<ProductReview>();
 
   private readonly addedReviews = signal<ProductReview[]>([]);
+  private formResizeObserver?: ResizeObserver;
 
   readonly reviews = computed(() => [
     ...this.addedReviews(),
@@ -32,11 +50,31 @@ export class ProductReviews {
   ]);
 
   readonly formRating = signal(0);
+  readonly reviewListMaxHeight = signal<number | null>(null);
 
   readonly reviewForm = new FormGroup({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     content: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.reviewFormElement) {
+      return;
+    }
+
+    const formElement = this.reviewFormElement.nativeElement;
+    const syncFormHeight = () => {
+      this.reviewListMaxHeight.set(formElement.offsetHeight);
+    };
+
+    syncFormHeight();
+    this.formResizeObserver = new ResizeObserver(syncFormHeight);
+    this.formResizeObserver.observe(formElement);
+  }
+
+  ngOnDestroy(): void {
+    this.formResizeObserver?.disconnect();
+  }
 
   submitReview(): void {
     if (this.formRating() === 0) {
