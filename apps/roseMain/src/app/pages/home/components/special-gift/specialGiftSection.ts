@@ -5,7 +5,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CategoryCard, HeroSlide } from '../models/special-gift-Dtos';
+import { CategoryCard, HeroSlide } from '../special-gift/models/special-gift-Dtos';
 
 
 @Component({
