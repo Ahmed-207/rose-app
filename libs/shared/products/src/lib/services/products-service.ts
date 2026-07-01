@@ -1,6 +1,6 @@
-import { environment } from './../../../../../../apps/roseAppShell/src/environments/environment';
+import { API_URL } from '@org/auth';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ProductsRes } from '../models/products-res';
 
@@ -10,10 +10,10 @@ import { ProductsRes } from '../models/products-res';
 export class ProductsService {
 
   private readonly httpClient = inject(HttpClient);
-  private readonly apiURL = signal<string>(environment.apiUrl)
+  private readonly apiURL = inject(API_URL);
 
   getAllProducts(pageNum: number, pageLimit: number): Observable<ProductsRes> {
-    return this.httpClient.get<ProductsRes>(`${this.apiURL()}products?page=${pageNum}&limit=${pageLimit}`);
+    return this.httpClient.get<ProductsRes>(`${this.apiURL}products?page=${pageNum}&limit=${pageLimit}`);
   }
 
   getBestProducts(pageLimit: number): Observable<ProductsRes> {
@@ -33,7 +33,7 @@ export class ProductsService {
   }
 
   getProductById(id: string): Observable<ProductsRes> {
-    return this.httpClient.get<ProductsRes>(`${this.apiURL()}products/${id}`);
+    return this.httpClient.get<ProductsRes>(`${this.apiURL}products/${id}`);
   }
 
 
