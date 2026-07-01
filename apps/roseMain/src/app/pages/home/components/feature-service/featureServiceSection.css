@@ -1,9 +1,9 @@
-section{
-  padding: 8rem;
-}
+
 .features-section {
   display: flex;
   align-items: center;
+      max-width: 1200px;
+      margin:auto;
   justify-content: space-between;
   gap: 2rem;
   background: #FBEAEA;

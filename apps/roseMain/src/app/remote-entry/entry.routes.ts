@@ -6,7 +6,10 @@ export const remoteRoutes: Route[] = [{
     path: '', component: RemoteEntry, children: [
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> main
             path: '',
             redirectTo: 'main',
             pathMatch: 'full'
@@ -17,7 +20,10 @@ export const remoteRoutes: Route[] = [{
             title: 'Home Page'
         },
         {
+<<<<<<< HEAD
 >>>>>>> origin
+=======
+>>>>>>> main
             path: 'products',
             loadComponent: () => import('../pages/products-page/products-page').then((c) => c.ProductsPage),
             title: 'Our Products'

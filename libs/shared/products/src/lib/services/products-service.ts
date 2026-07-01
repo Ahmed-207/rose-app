@@ -9,11 +9,14 @@ import { ProductsRes } from '../models/products-res';
 })
 export class ProductsService {
 <<<<<<< HEAD
+<<<<<<< HEAD
   getBestProducts(arg0: number) {
     throw new Error('Method not implemented.');
   }
 =======
 >>>>>>> origin
+=======
+>>>>>>> main
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = signal<string>(environment.apiUrl)
