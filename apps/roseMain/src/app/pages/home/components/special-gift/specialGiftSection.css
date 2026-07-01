@@ -1,0 +1,534 @@
+/* ═══════════════════════════════════════════════════
+   Design tokens
+═══════════════════════════════════════════════════ */
+:host {
+  --clr-cherry:     #8B0000;
+  --clr-rose:       #C0393B;
+  --clr-blush:      #F2C4C4;
+  --clr-cream:      #FDF6F0;
+  --clr-dark:       #2A0A0A;
+  --clr-white:      #FFFFFF;
+
+
+  --radius:         14px;
+  --radius-btn:     50px;
+  --gap:            14px;
+  --shadow:         0 4px 20px rgba(139, 0, 0, 0.13);
+  --transition:     0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: block;
+  padding: 24px;
+}
+
+
+.banner-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* ═══════════════════════════════════════════════════
+   TOP ROW  (hero-grid)
+═══════════════════════════════════════════════════ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--gap);
+  align-items: stretch;
+}
+
+
+.promo-card {
+  position: relative;
+  background: linear-gradient(150deg, #6b0000 0%, #a83232 100%);
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding: 28px 22px;
+  display: flex;
+  align-items: flex-end;
+  min-height: 400px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+.promo-card:hover { transform: translateY(-3px); }
+
+/* decorative circles */
+.promo-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+.promo-circle.c1 { width: 180px; height: 180px; top: -50px; right: -40px; }
+.promo-circle.c2 { width: 110px; height: 110px; bottom: 30px; right: 20px; }
+
+.promo-body { position: relative; z-index: 2; }
+
+.promo-badge {
+  display: inline-block;
+
+  background: var(--clr-white) !important;
+  border-color: var(--clr-white) !important;
+  color: var(--clr-cherry) !important;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-btn);
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+
+
+
+}
+
+.promo-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0 0 18px;
+}
+
+/* Override PrimeNG button */
+.promo-btn.p-button {
+  background: var(--clr-white) !important;
+  border-color: var(--clr-white) !important;
+  color: var(--clr-cherry) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  width: fit-content;
+  border-radius: 10px;
+  transition: background var(--transition) !important;
+}
+.promo-btn.p-button:hover {
+  background: var(--clr-blush) !important;
+  border-color: var(--clr-blush) !important;
+}
+
+/* ── RIGHT PrimeNG Galleria ─────────────────────── */
+.galleria-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Kill default galleria shell padding */
+:host ::ng-deep .hero-galleria {
+  border: none !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-content {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-item-wrapper {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ── Slide item ── */
+.slide-item {
+  position: relative;
+  width: 100%;
+  height:400px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.slide-emoji {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8rem;
+  opacity: 0.18;
+  user-select: none;
+  pointer-events: none;
+}
+
+.slide-content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 40px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.08) 70%, transparent 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.slide-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.slide-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 20px;
+}
+
+/* Override PrimeNG outlined button for slides */
+.slide-btn.p-button {
+  background: rgba(255,255,255,0.15) !important;
+  border: 1.5px solid rgba(255,255,255,0.7) !important;
+  color: #fff !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  backdrop-filter: blur(4px);
+  width: fit-content !important;
+  transition: background var(--transition) !important;
+}
+.slide-btn.p-button:hover {
+  background: rgba(255,255,255,0.28) !important;
+}
+
+/* ── Galleria arrows ── */
+:host ::ng-deep .hero-galleria .p-galleria-item-nav {
+  background: rgba(255,255,255,0.85) !important;
+  color: var(--clr-cherry) !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  transition: transform var(--transition), background var(--transition) !important;
+}
+:host ::ng-deep .hero-galleria .p-galleria-item-nav:hover {
+  background: #fff !important;
+  transform: scale(1.1) !important;
+}
+
+/* ── Galleria indicators (dots) ── */
+:host ::ng-deep .hero-galleria .p-galleria-indicators {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  bottom: auto !important;
+  left: auto !important;
+  padding: 0 !important;
+  gap: 6px !important;
+  background: transparent !important;
+  flex-direction: row !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-indicator button,
+:host ::ng-deep .hero-galleria .p-galleria-indicator .p-galleria-indicator-button {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.45) !important;
+  border: none !important;
+  padding: 0 !important;
+  transition: background var(--transition), transform var(--transition) !important;
+  cursor: pointer !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight button,
+:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight .p-galleria-indicator-button {
+  background: var(--clr-rose) !important;
+  transform: scale(1.3) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   GALLERIA CONTAINER
+═══════════════════════════════════════ */
+.galleria-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+:host ::ng-deep .hero-galleria {
+  border: none !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-content,
+:host ::ng-deep .hero-galleria .p-galleria-item-wrapper {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ── Slide ────────────────────────────── */
+.slide-item {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* The real photo */
+.slide-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+.slide-item:hover .slide-bg-img {
+  transform: scale(1.04);
+}
+
+/* Dark left-to-right gradient so text stays readable */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.65) 0%,
+    rgba(0,0,0,0.20) 55%,
+    rgba(0,0,0,0.00) 100%
+  );
+  z-index: 1;
+}
+
+/* Text block */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.slide-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.88);
+  margin: 0 0 10px;
+}
+
+.slide-btn.p-button {
+  background: rgba(255,255,255,0.15) !important;
+  border: 1.5px solid rgba(255,255,255,0.75) !important;
+  color: #fff !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  padding: 8px 22px !important;
+  backdrop-filter: blur(4px);
+  transition: background var(--transition) !important;
+}
+.slide-btn.p-button:hover {
+  background: rgba(255,255,255,0.28) !important;
+}
+
+/* ── Arrow nav ───────────────────────── */
+:host ::ng-deep .hero-galleria .p-galleria-item-nav {
+  background: rgba(255,255,255,0.85) !important;
+  color: var(--clr-cherry) !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  transition: transform var(--transition), background var(--transition) !important;
+  margin: 0 8px !important;
+}
+:host ::ng-deep .hero-galleria .p-galleria-item-nav:hover {
+  background: #fff !important;
+  transform: scale(1.1) !important;
+}
+
+/* ── Dot indicators (top-right) ─────── */
+:host ::ng-deep .hero-galleria .p-galleria-indicators {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  bottom: auto !important;
+  left: auto !important;
+  padding: 0 !important;
+  gap: 6px !important;
+  background: transparent !important;
+  flex-direction: row !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-indicator button {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.45) !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  transition: background var(--transition), transform var(--transition) !important;
+}
+
+:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight button {
+  background: var(--clr-rose) !important;
+  transform: scale(1.3) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM ROW  (category cards)
+═══════════════════════════════════════════════════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.cat-card {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 210px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  outline: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.cat-card:hover,
+.cat-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(139,0,0,0.2);
+}
+
+/* emoji watermark */
+.cat-emoji {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5.5rem;
+  /* opacity: 0.15; */
+  user-select: none;
+  pointer-events: none;
+}
+
+/* bottom gradient overlay */
+.cat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.05) 60%, transparent 100%);
+  transition: background var(--transition);
+}
+.cat-card:hover .cat-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.25) 70%, rgba(0,0,0,0.05) 100%);
+}
+
+/* text block */
+.cat-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 16px 18px;
+  transition: transform var(--transition);
+}
+.cat-card:hover .cat-body {
+  transform: translateY(-8px);
+}
+
+.cat-tag {
+ display: inline-block;
+    background: #FBEAEA;
+    color: #A6252A;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: var(--radius-btn);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+}
+::ng-deep .p-button-rounded {
+    border-radius: 8px;
+}
+
+.cat-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* hover CTA button */
+.cat-cta {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity var(--transition), transform var(--transition);
+  white-space: nowrap;
+}
+.cat-card:hover .cat-cta,
+.cat-card:focus-visible .cat-cta {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.cat-btn.p-button {
+  background: var(--clr-white) !important;
+  border-color: var(--clr-white) !important;
+  color: var(--clr-cherry) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  padding: 7px 18px !important;
+  transition: background var(--transition) !important;
+}
+.cat-btn.p-button:hover {
+  background: var(--clr-blush) !important;
+  border-color: var(--clr-blush) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .promo-card { min-height: 200px; }
+  .slide-item { height: 240px; }
+  .slide-title { font-size: 1.5rem; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  :host { padding: 14px; }
+  .slide-item { height: 210px; }
+  .slide-title { font-size: 1.25rem; }
+  .slide-content { padding: 20px 22px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .cat-card { height: 190px; }
+  :host ::ng-deep .hero-galleria .p-galleria-indicators {
+    top: 10px !important;
+    right: 12px !important;
+  }
+}
