@@ -1,0 +1,22 @@
+<div class="testmonial-card rounded-3xl bg-white relative">
+    <div
+        class="image-container block size-25 aspect-square rounded-full border-4 border-white overflow-hidden absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <img [src]="tImage() || '/assets/images/rose-auth-image.png'" class="block size-full object-cover rounded-full"
+            alt="testmonial-user-image" onerror="this.src='/assets/images/rose-auth-image.png'">
+    </div>
+    <div class="card-content flex flex-col items-center gap-4 p-3 pt-12">
+        <span class="font-semibold text-[16px] text-black">{{tName()}}</span>
+        <div class="rating-comment w-full flex flex-col items-center justify-center gap-3">
+            <div class="rating flex gap-0.5 mb-1.5 shrink-0">
+                @for (star of starsArray(); track $index) {
+                <i class="pi pi-star-fill text-yellow-400 text-xs sm:text-sm"></i>
+                }
+                @for (emptyStar of emptyStarsArray(); track $index) {
+                <i class="pi pi-star text-yellow-400 text-xs sm:text-sm"></i>
+                }
+            </div>
+            <span class="font-medium text-[16px] text-black">{{tComment()}}</span>
+        </div>
+        <span class="font-medium text-[12px] text-zinc-500">{{formattedDate()}}</span>
+    </div>
+</div>

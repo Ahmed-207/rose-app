@@ -1,0 +1,105 @@
+
+
+<section class="banner-section">
+
+  <div class="hero-grid">
+
+    <div class="promo-card">
+
+      <span class="promo-circle c1"></span>
+      <span class="promo-circle c2"></span>
+
+      <div class="promo-body">
+        <span class="promo-badge">{{"Starting from 10.99 EGP" | translate}}</span>
+        <h2 class="promo-title">{{"Special Gifts For The People You Love" | translate}}</h2>
+        <button pButton
+                label="Shop Now"
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                class="p-button-rounded promo-btn">
+        </button>
+      </div>
+    </div>
+
+
+    <div class="galleria-container">
+    <p-galleria
+        [value]="heroSlides"
+        [responsiveOptions]="galleriaResponsiveOptions"
+        [numVisible]="1"
+        [showThumbnails]="false"
+        [showIndicators]="true"
+        [showIndicatorsOnItem]="true"
+        [showItemNavigators]="true"
+        [autoPlay]="true"
+        [transitionInterval]="3000"
+        [circular]="true"
+        [indicatorsPosition]="'top'"
+        styleClass="hero-galleria">
+
+        <!-- Slide item template -->
+        <ng-template pTemplate="item" let-slide>
+          <div class="slide-item">
+
+            <!-- Background image -->
+            <img
+              [src]="slide.imageUrl"
+              [alt]="slide.title"
+              class="slide-bg-img"
+            />
+
+            <!-- Dark gradient overlay -->
+            <div class="slide-overlay"></div>
+
+            <!-- Text content -->
+            <div class="slide-content">
+              <h2 class="slide-title">{{ slide.title | translate}}</h2>
+              <p class="slide-subtitle">{{ slide.subtitle | translate }}</p>
+             
+                <button pButton
+               [label]="slide.btnLabel | translate"
+                class="p-button-rounded promo-btn">
+                 </button>
+            </div>
+
+          </div>
+        </ng-template>
+
+        <!-- Custom dot indicator -->
+        <ng-template pTemplate="indicator" let-index>
+          <span class="custom-dot"></span>
+        </ng-template>
+
+      </p-galleria>
+    </div>
+
+  </div>
+
+  <div class="cards-grid">
+    <div
+      *ngFor="let card of categoryCards"
+      class="cat-card"
+      [style.background]="card.bgGradient"
+      tabindex="0"
+      role="button"
+      [attr.aria-label]="card.tag + ': ' + card.title">
+
+      <img [src]="card.imagUrl" class="cat-emoji" aria-hidden="true"/>
+
+ <!-- <img src="../../../../../../../assets/images/img1.png" class="cat-emoji" aria-hidden="true"/> -->
+
+
+      <div class="cat-overlay"></div>
+
+      <div class="cat-body">
+        <span class="cat-tag">{{ card.tag }}</span>
+        <h3 class="cat-title">{{ card.title }}</h3>
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+</section>

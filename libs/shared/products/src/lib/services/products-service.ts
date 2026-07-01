@@ -8,9 +8,12 @@ import { ProductsRes } from '../models/products-res';
   providedIn: 'root',
 })
 export class ProductsService {
+<<<<<<< HEAD
   getBestProducts(arg0: number) {
     throw new Error('Method not implemented.');
   }
+=======
+>>>>>>> origin
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = signal<string>(environment.apiUrl)

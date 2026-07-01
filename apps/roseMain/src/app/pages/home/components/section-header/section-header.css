@@ -1,0 +1,35 @@
+.quote-text {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+}
+
+.quote-text::after {
+    display: block;
+    position: absolute;
+    top: 82%;
+    left: 0;
+    content: '';
+    background-color: rgb(230, 80, 115);
+    height: 0.08em;
+    width: 25%;
+    z-index: -1;
+}
+
+.quote-text::before {
+    display: block;
+    position: absolute;
+    top: 48%;
+    left: 0;
+    content: '';
+    background-color: rgb(251, 234, 235);
+    height: 0.42em;
+    width: 75%;
+    z-index: -2;
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+}
+
+:host-context(.dark) .quote-text::before {
+    background-color: rgb(76, 76, 83);
+}
