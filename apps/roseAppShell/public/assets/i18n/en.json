@@ -17,7 +17,7 @@
     "ENTER_OTP_DESC": "We have sent a 6-digit code to",
     "EDIT": "Edit",
     "PASSCODE_REQUIRED": "Passcode is required.",
-      "Become_part_of_our_family!":"Become part of our family!",
+    "Become_part_of_our_family!": "Become part of our family!",
     "VERIFY_CODE": "Verify Code",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
@@ -78,5 +78,26 @@
     "EMAIL_PLACEHOLDER": "Enter Your Email",
     "APP_NAME": "Rose E-Commerce App",
     "ALL_RIGHTS": "All rights reserved | 2025"
+  },
+  "product-card": {
+    "ADD_TO_WISHLIST": "اضف الي المفضلة"
+  },
+  "Free Delivery": "Free Delivery",
+  "For orders above 120 EGP": "For orders above 120 EGP",
+  "Get Refund": "Get Refund",
+  "Refunds within 30 days": "Refunds within 30 days",
+  "Safe Payment": "Safe Payment",
+  "100% Secure Payment": "100% Secure Payment",
+  "24/7 Support": "24/7 Support",
+  "Contact us at any time": "Contact us at any time",
+  "mostPopular": {
+    "title": "Most Popular",
+    "viewMore": "View More",
+    
+      "wedding": "Wedding",
+      "anniversary": "Anniversary",
+      "birthday": "Birthday",
+      "engagement": "Engagement"
+    
   }
 }

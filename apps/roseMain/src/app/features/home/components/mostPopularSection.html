@@ -1,0 +1,62 @@
+
+
+
+<section class="most-popular font-primary">
+  <div class="max-w-7xl mx-auto px-4">
+    
+    <div class="most-popular__header">
+      <h2 class="most-popular__title">{{ 'mostPopular.title' | translate }}</h2>
+       <div class="most-popular__filters">
+  <a href="#" 
+     class="filter-link" 
+     [class.active]="activeFilter() === 'Wedding'"
+     (click)="changeFilter('Wedding', $event)"> {{ 'mostPopular.wedding' | translate }}</a>
+
+  <a href="#" 
+     class="filter-link" 
+     [class.active]="activeFilter() === 'Anniversary'"
+     (click)="changeFilter('Anniversary', $event)"> {{ 'mostPopular.anniversary' | translate }}</a>
+
+  <a href="#" 
+     class="filter-link" 
+     [class.active]="activeFilter() === 'Birthday'"
+     (click)="changeFilter('Birthday', $event)"> {{ 'mostPopular.birthday' | translate }}</a>
+
+  <a href="#" 
+     class="filter-link" 
+     [class.active]="activeFilter() === 'Engagement'"
+     (click)="changeFilter('Engagement', $event)"> {{ 'mostPopular.engagement' | translate }}</a>
+
+      </div>
+    </div>
+
+    <!-- حاوية شبكة المنتجات -->
+    <div class="most-popular__grid-container">
+      @if (isLoading()) {
+        <div class="most-popular__state">
+          <lib-spinner></lib-spinner>
+        </div>
+      } @else if (error()) {
+        <div class="most-popular_state most-popular_state--error">
+          {{ error() | translate }}
+        </div>
+      } @else {
+        <div class="most-popular__grid">
+          @for (product of products(); track product.id) {
+            <div class="most-popular__grid-item">
+              <product-card
+                [product]="product"
+                (addToCart)="onAddToCart($event)"
+                (wishlistToggle)="onWishlistToggle($event)">
+              </product-card>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- رابط عرض المزيد -->
+    <div class="most-popular__view-more-container">
+      <a  class="most-popular__view-more">{{ 'mostPopular.viewMore' | translate }} <i class="pi pi-arrow-right"></i></a>
+    </div>
+  </div>

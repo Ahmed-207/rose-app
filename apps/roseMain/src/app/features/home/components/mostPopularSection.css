@@ -1,0 +1,115 @@
+.most-popular {
+  padding: 4.5rem 0;
+  background: transparent;
+}
+
+/* رأس القسم والعنوان باللون الوردي */
+.most-popular__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.most-popular__title {
+  color: #ff4a77; 
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.most-popular__filters {
+  display: flex;
+  gap: 1.5rem;
+}
+.filter-link {
+  color: #8b8b8b; 
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent; 
+}
+
+.filter-link:hover {
+  color: #f47b98;
+}
+
+.filter-link.active {
+  color: #741c21 !important; 
+  font-weight: 700;
+  border-bottom-color: #741c21; 
+}
+/* توزيع الشبكة (4 أعمدة متساوية) */
+.most-popular__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.most-popular__grid-item {
+  width: 100%;
+}
+
+/* حالات التحميل والخطأ */
+.most-popular__state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  width: 100%;
+}
+
+.most-popular__state--error {
+  color: #a6252a;
+  font-size: 0.95rem;
+}
+
+/* تنسيق رابط عرض المزيد في الأسفل */
+.most-popular__view-more-container {
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.most-popular__view-more {
+  color: #a0a5b5;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.most-popular__view-more:hover {
+  color: #ff4a77;
+}
+
+/* ========================================================
+   الشاشات المتجاوبة (Responsive)
+   ======================================================== */
+
+@media (max-width: 1024px) {
+  .most-popular__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .most-popular {
+    padding: 3rem 0;
+  }
+  .most-popular__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .most-popular {
+    padding: 2rem 0;
+  }
+  .most-popular__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}

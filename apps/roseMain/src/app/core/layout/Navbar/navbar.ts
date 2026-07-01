@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
@@ -9,7 +9,7 @@ import { ThemeToggler } from "@org/shared-theme";
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler],
+  imports: [CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
