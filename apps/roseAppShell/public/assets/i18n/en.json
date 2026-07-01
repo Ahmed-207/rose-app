@@ -99,5 +99,21 @@
       "birthday": "Birthday",
       "engagement": "Engagement"
     
+  },
+  "about": {
+    "tag": "ABOUT",
+    "titlePart1": "Delivering the",
+    "titleHighlight1": "Finest",
+    "titlePart2": "Gift Boxes for Your",
+    "titleHighlight2": "Special",
+    "titlePart3": "Moments",
+    "description": "Make every moment memorable with our premium gift boxes. Carefully curated and beautifully packaged, each box is filled with handpicked items designed to leave a lasting impression.",
+    "discover": "Discover",
+    "features": {
+      "prices": "Competitive Prices & Easy Shopping",
+      "quality": "Premium Quality & Elegant Packaging",
+      "occasion": "Perfect for Every Occasion",
+      "delivery": "Fast & Reliable Delivery"
+    }
   }
 }
