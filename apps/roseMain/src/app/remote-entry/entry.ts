@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { MainLayout } from "../core/layout/Main layout/mainLayout";
-import { HomePage } from '../features/home/pages/homePage';
-
+import { HomePage } from '../pages/home/homePage';
 @Component({
   imports: [ HomePage],
   selector: 'app-rose-main-entry',
