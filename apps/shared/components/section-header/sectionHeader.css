@@ -1,0 +1,68 @@
+.section-header {
+   margin-top: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  padding: 0 2rem;
+}
+.section-header.center {
+    text-align: center;
+ }
+ .section-header.start {
+    text-align: start;
+ }
+ .section-header.end {
+    text-align: end;
+ }
+ .section-header__title{
+  color:#741C21;
+  font-size: 36px;
+  position: relative;
+ }
+
+.section-header__subtitle {
+    display: block;
+    color: #f47b98;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+ .section-header__underline {
+ position: absolute;
+    bottom: 8px;
+    width: 34%;
+    height: 25px;
+    background: #ed667c14;
+    border-radius: 10px;
+    margin-top: 0.75rem;
+    inset-inline-start: 29%;
+    }
+    .section-header__underline::after{
+  content: '';
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    bottom: -3px;
+    background-color: #f47b98;
+   inset-inline-start: -1.7%;
+
+ }
+ .section-header.start  .section-header__underline{
+  inset-inline-start: 3%;
+   inset-inline-end: initial;
+
+}
+.section-header.end  .section-header__underline{
+ inset-inline-end: 1.7%;
+ inset-inline-start: initial;
+
+}
+
+
+.section-header.end  .section-header__underline::after{
+  inset-inline-end: 2.3%;
+   inset-inline-start: initial;
+
+}

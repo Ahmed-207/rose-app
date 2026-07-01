@@ -1,0 +1,11 @@
+<div class="header-container flex items-start justify-center w-full my-6 px-4">
+    <div class="header-content flex flex-col justify-stretch items-center gap-1 w-full text-center">
+        <h3 class="text-pink-300 dark:text-rose-900 font-medium tracking-wider text-[min(3.5vw,16px)]">
+            {{header() | uppercase}}
+        </h3>
+        <span
+            class="quote-text text-rose-900 dark:text-pink-200 font-semibold text-[clamp(20px,6vw,36px)] whitespace-nowrap">
+            {{quote() | titlecase}}
+        </span>
+    </div>
+</div>

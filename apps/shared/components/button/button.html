@@ -1,0 +1,18 @@
+<button
+  [attr.type]="buttonType"
+  [class]="buttonClass"
+  [disabled]="disabled || loading"
+  [attr.aria-busy]="loading"
+  [attr.aria-label]="loading ? (ariaLabel || 'Loading') : ariaLabel"
+  (click)="handleClick($event)"
+>
+  @if(icon && !loading){
+    <i [class]="' ' + icon" aria-hidden="true"></i>
+  }
+
+  @if(!iconOnly){
+    <span [class.visually-hidden]="loading">
+      <ng-content></ng-content>
+    </span>
+  }
+</button>

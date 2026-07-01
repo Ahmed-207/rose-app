@@ -1,0 +1,14 @@
+<div class="section-header" [ngClass]="align">
+
+  @if(subtitle){
+  <span class="section-header__subtitle"> {{ subtitle | translate}} </span>
+  } @if(title){
+  <h2 class="section-header__title">{{ title | translate}}</h2>
+  }
+  @if(showUnderline){
+   <div class="section-header__underline"></div>
+  }
+
+
+
+</div>
