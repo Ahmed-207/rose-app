@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { HomePage } from '../pages/home/homePage';
+import { MainLayout } from '../core/layout/Main layout/mainLayout';
 @Component({
-  imports: [ HomePage],
+  imports: [MainLayout],
   selector: 'app-rose-main-entry',
-  template: `<app-home-page></app-home-page>`,
+  template: `<app-main-layout></app-main-layout>`,
 })
-export class RemoteEntry {}
+export class RemoteEntry { }

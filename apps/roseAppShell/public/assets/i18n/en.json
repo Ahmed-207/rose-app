@@ -86,6 +86,10 @@
     "testmonials": {
       "TESTMONIALS_TITLE": "tesmonials",
       "TESTMONIALS_QUOTE": "real words from happy customers"
+    },
+    "gallery": {
+      "GALLERY_TITLE": "Gallery",
+      "GALLERY_QUOTE": "Check Out our Wonderful Gallery"
     }
   },
   "Free Delivery": "Free Delivery",
@@ -96,6 +100,5 @@
   "100% Secure Payment": "100% Secure Payment",
   "24/7 Support": "24/7 Support",
   "Contact us at any time": "Contact us at any time",
- "Trusted by over 4.5k+ companies":"Trusted by over 4.5k+ companies"
-
+  "Trusted by over 4.5k+ companies": "Trusted by over 4.5k+ companies"
 }
