@@ -79,6 +79,7 @@
     "APP_NAME": "تطبيق روز للتجارة الإلكترونية",
     "ALL_RIGHTS": "جميع الحقوق محفوظة | 2025"
   },
+  "Trusted by over 4.5k+ companies": "موثوق به من قبل أكثر من 4500 شركة",
   "Special Gifts For The People You Love": "هدايا مميزة للأشخاص الذين تحبهم",
   "Starting from 10.99 EGP": "ابتداءً من 10.99 جنيه مصري",
   "Honor the Beginning of a Beautiful Journey Together": "احتفِ ببداية رحلة جميلة معًا",
@@ -99,6 +100,16 @@
   "product-card": {
     "ADD_TO_WISHLIST": "اضف الي المفضلة"
   },
+  "home": {
+    "testmonials": {
+      "TESTMONIALS_TITLE": "أراء عملائنا",
+      "TESTMONIALS_QUOTE": "كلمات نابعة من عملائنا السعداء"
+    },
+    "gallery": {
+      "GALLERY_TITLE": "المعرض",
+      "GALLERY_QUOTE": "القي نظره علي معرضنا"
+    }
+  },
   "Free Delivery": "توصيل مجاني",
   "For orders above 120 EGP": "للطلبات التي تزيد عن 120 جنيهًا مصريًا",
   "Get Refund": "استرداد المبلغ",
@@ -106,37 +117,5 @@
   "Safe Payment": "دفع آمن",
   "100% Secure Payment": "دفع آمن بنسبة 100%",
   "24/7 Support": "دعم 24/7",
-  "Contact us at any time": "تواصل معنا في أي وقت",
-  "BEST SELLING": "الأكثر مبيعًا",
-  "Check Out": "اطّلع على",
-  "What Everyone's": "ما",
-  "Buying": "يشتريه",
-  "Right Now": "الجميع الآن",
-  "BEST_SELLING_DESC": "استكشف الأكثر مبيعًا لدينا! هذه الهدايا والحلويات التي يحبها الجميع الآن، من الباقات الجميلة إلى الشوكولاتة اللذيذة والمزيد.",
-  "Explore gifts": "استكشف الهدايا",
-  "Previous products": "المنتجات السابقة",
-  "Next products": "المنتجات التالية",
-  "NEW": "جديد",
-  "HOT": "رائج",
-  "SALE": "تخفيض",
-  "OUT OF STOCK": "نفد من المخزون",
-  "EGP": "جنيه",
-  "left in stock": "متبقي في المخزون",
-  "Rating": "التقييم",
-  "ratings": "تقييمات",
-  "Add to Cart": "أضف إلى السلة",
-  "Add to wishlist": "أضف إلى المفضلة",
-  "Remove from wishlist": "إزالة من المفضلة",
-  "Product Reviews": "مراجعات المنتج",
-  "General rating": "التقييم العام",
-  "Your rating": "تقييمك",
-  "Title": "العنوان",
-  "Enter review title": "أدخل عنوان المراجعة",
-  "Review": "المراجعة",
-  "What do you think of this product?": "ما رأيك في هذا المنتج؟",
-  "Add Review": "إضافة مراجعة",
-  "No reviews yet": "لا توجد مراجعات بعد",
-  "Failed to load best selling products": "فشل تحميل المنتجات الأكثر مبيعًا",
-  "Failed to load product": "فشل تحميل المنتج",
-  "Product not found": "المنتج غير موجود"
+  "Contact us at any time": "تواصل معنا في أي وقت"
 }

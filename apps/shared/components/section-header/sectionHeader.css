@@ -66,3 +66,10 @@
    inset-inline-start: initial;
 
 }
+@media screen and  (max-width:560px){
+
+  .section-header__title{
+  font-size: 25px;
+}
+
+}

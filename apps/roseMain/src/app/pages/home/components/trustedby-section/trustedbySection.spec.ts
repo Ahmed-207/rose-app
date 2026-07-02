@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HomePage } from './homePage';
+import { TrustedbySection } from './trustedbySection';
 
-describe('HomePage', () => {
-  let component: HomePage;
-  let fixture: ComponentFixture<HomePage>;
+describe('TrustedbySection', () => {
+  let component: TrustedbySection;
+  let fixture: ComponentFixture<TrustedbySection>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomePage],
+      imports: [TrustedbySection],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HomePage);
+    fixture = TestBed.createComponent(TrustedbySection);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
