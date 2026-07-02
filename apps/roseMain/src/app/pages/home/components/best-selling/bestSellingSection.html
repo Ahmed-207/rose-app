@@ -22,46 +22,36 @@
       </div>
 
       <div class="best-selling__carousel">
-        @if (isLoading()) {
-          <div class="best-selling__state best-selling__state--full">
-            <lib-spinner></lib-spinner>
-          </div>
-        } @else if (error()) {
-          <div class="best-selling__state best-selling__state--full best-selling__state--error">
-            {{ error() | translate }}
-          </div>
-        } @else {
-          <button
-            type="button"
-            class="carousel-nav carousel-nav--prev"
-            (click)="scroll('prev')"
-            [attr.aria-label]="'Previous products' | translate">
-            <i class="pi pi-chevron-left" aria-hidden="true"></i>
-          </button>
+        <button
+          type="button"
+          class="carousel-nav carousel-nav--prev"
+          (click)="scroll('prev')"
+          [attr.aria-label]="'Previous products' | translate">
+          <i class="pi pi-chevron-left" aria-hidden="true"></i>
+        </button>
 
-          <div class="carousel-viewport">
-            <div class="carousel-track" #track>
-              @for (product of products(); track product.id) {
-                <div class="carousel-item">
-                  <product-card
-                    [product]="product"
-                    [productLink]="['/home', 'products', product.id]"
-                    (addToCart)="onAddToCart($event)"
-                    (wishlistToggle)="onWishlistToggle($event)">
-                  </product-card>
-                </div>
-              }
-            </div>
+        <div class="carousel-viewport">
+          <div class="carousel-track" #track>
+            @for (product of products(); track product.id) {
+              <div class="carousel-item">
+                <product-card
+                  [product]="product"
+                  [productLink]="['/home', 'products', product.id]"
+                  (addToCart)="onAddToCart($event)"
+                  (wishlistToggle)="onWishlistToggle($event)">
+                </product-card>
+              </div>
+            }
           </div>
+        </div>
 
-          <button
-            type="button"
-            class="carousel-nav carousel-nav--next"
-            (click)="scroll('next')"
-            [attr.aria-label]="'Next products' | translate">
-            <i class="pi pi-chevron-right" aria-hidden="true"></i>
-          </button>
-        }
+        <button
+          type="button"
+          class="carousel-nav carousel-nav--next"
+          (click)="scroll('next')"
+          [attr.aria-label]="'Next products' | translate">
+          <i class="pi pi-chevron-right" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </div>

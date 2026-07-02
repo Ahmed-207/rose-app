@@ -80,7 +80,7 @@
     "ALL_RIGHTS": "All rights reserved | 2025"
   },
   "product-card": {
-    "ADD_TO_WISHLIST": "Add to wishlist"
+    "ADD_TO_WISHLIST": "add to wishlist"
   },
   "Special Gifts For The People You Love": "Special Gifts For The People You Love",
   "Starting from 10.99 EGP": "Starting from 10.99 EGP",
@@ -103,6 +103,10 @@
     "testmonials": {
       "TESTMONIALS_TITLE": "tesmonials",
       "TESTMONIALS_QUOTE": "real words from happy customers"
+    },
+    "gallery": {
+      "GALLERY_TITLE": "Gallery",
+      "GALLERY_QUOTE": "Check Out our Wonderful Gallery"
     }
   },
   "Free Delivery": "Free Delivery",
@@ -113,6 +117,7 @@
   "100% Secure Payment": "100% Secure Payment",
   "24/7 Support": "24/7 Support",
   "Contact us at any time": "Contact us at any time",
+  "Trusted by over 4.5k+ companies": "Trusted by over 4.5k+ companies",
   "BEST SELLING": "Best Selling",
   "Check Out": "Check Out",
   "What Everyone's": "What Everyone's",
@@ -141,6 +146,5 @@
   "Review": "Review",
   "What do you think of this product?": "What do you think of this product?",
   "Add Review": "Add Review",
-  "No reviews yet": "No reviews yet",
-  "Failed to load best selling products": "Failed to load best selling products"
+  "No reviews yet": "No reviews yet"
 }

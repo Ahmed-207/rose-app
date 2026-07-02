@@ -1,0 +1,13 @@
+<section class="trusted-section">
+  <div class="trusted-container">
+
+<section-header [title]="'Trusted by over 4.5k+ companies'" [showUnderline]="false"></section-header>
+    <div class="companies">
+     @for (company of companies; track $index) {
+<img [src]="company.src" [alt]="company.alt">
+      }
+
+
+    </div>
+  </div>
+</section>

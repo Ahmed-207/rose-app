@@ -1,0 +1,42 @@
+<section class="gallery-section text-center pt-10">
+    <app-section-header [header]="'home.gallery.GALLERY_TITLE' | translate"
+        [quote]="'home.gallery.GALLERY_QUOTE' | translate"></app-section-header>
+
+    <div class="gallery-container p-4 md:px-32 md:py-10 w-full max-w-7xl mx-auto
+                grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-row gap-4 lg:gap-5">
+
+        <div class="flex flex-col gap-4 lg:gap-5 flex-1">
+            <div class="gallery-card overflow-hidden aspect-4/5">
+                <img [src]="galleryImages[0]?.path" [alt]="galleryImages[0]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+            <div class="gallery-card overflow-hidden aspect-4/5">
+                <img [src]="galleryImages[1]?.path" [alt]="galleryImages[1]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4 lg:gap-5 flex-1">
+            <div class="gallery-card overflow-hidden aspect-4/3">
+                <img [src]="galleryImages[2]?.path" [alt]="galleryImages[2]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+            <div class="gallery-card overflow-hidden aspect-4/7">
+                <img [src]="galleryImages[3]?.path" [alt]="galleryImages[3]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4 lg:gap-5 flex-1 sm:col-span-2 md:col-span-1">
+            <div class="gallery-card overflow-hidden aspect-4/3">
+                <img [src]="galleryImages[4]?.path" [alt]="galleryImages[4]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+            <div class="gallery-card overflow-hidden aspect-4/7">
+                <img [src]="galleryImages[5]?.path" [alt]="galleryImages[5]?.alt"
+                    class="w-full h-full object-cover block">
+            </div>
+        </div>
+
+    </div>
+</section>
