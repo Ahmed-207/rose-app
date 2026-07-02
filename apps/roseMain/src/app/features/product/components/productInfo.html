@@ -24,7 +24,7 @@
   <p class="product-info__rating">
     <i class="pi pi-star-fill" aria-hidden="true"></i>
     {{ 'Rating' | translate }}:
-    <strong>{{ product().rating }}/5</strong>
+    <strong>{{ product().rating | number: '1.0-0' }}/5</strong>
     ({{ product().reviewCount }} {{ 'ratings' | translate }})
   </p>
 

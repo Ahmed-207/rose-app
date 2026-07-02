@@ -60,7 +60,7 @@ function parseGallery(gallery: string): string[] {
   }
 }
 
-function mapApiReviewToProductReview(review: ApiReview): ProductReview {
+export function mapApiReviewToProductReview(review: ApiReview): ProductReview {
   const author =
     [review.user?.firstName, review.user?.lastName].filter(Boolean).join(' ') ||
     review.user?.username ||
@@ -89,6 +89,7 @@ export function mapApiProductToDetail(apiProduct: ApiProduct): ProductDetail {
 
   return {
     ...base,
+    rating: Math.round(base.rating ?? 0),
     description: apiProduct.description,
     images: images.length > 0 ? images : base.image ? [base.image] : [],
     stockCount: apiProduct.stock,

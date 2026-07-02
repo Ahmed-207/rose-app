@@ -101,6 +101,12 @@
   font-weight: 600;
 }
 
+.review-form__error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+}
+
 .review-form ::ng-deep .p-rating-option-active .p-rating-icon {
   color: #ffb800 !important;
 }

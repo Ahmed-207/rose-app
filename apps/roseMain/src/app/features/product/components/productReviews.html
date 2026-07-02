@@ -4,7 +4,7 @@
   <div class="product-reviews__summary">
     <span class="font-primary">
       {{ 'General rating' | translate }}:
-      <strong>{{ product().rating }}</strong>
+      <strong>{{ product().rating | number: '1.0-0' }}</strong>
       ({{ product().reviewCount }} {{ 'ratings' | translate }})
     </span>
     <p-rating
@@ -43,13 +43,16 @@
       class="review-form"
       [formGroup]="reviewForm"
       (ngSubmit)="submitReview()">
-      <label class="review-form__label font-primary">{{ 'Your rating' | translate }}:</label>
+      <span class="review-form__label font-primary">{{ 'Your rating' | translate }}:</span>
       <p-rating
         [ngModel]="formRating()"
         (ngModelChange)="formRating.set($event)"
         [ngModelOptions]="{ standalone: true }"
         [stars]="5">
       </p-rating>
+      @if (submitError()) {
+        <p class="review-form__error font-primary" role="alert">{{ submitError() | translate }}</p>
+      }
 
       <app-form-control
         formControlName="title"
@@ -71,6 +74,8 @@
         buttonType="submit"
         variant="danger"
         size="lg"
+        [loading]="isSubmitting()"
+        [disabled]="isSubmitting()"
         class="review-form__submit font-primary">
         {{ 'Add Review' | translate }}
       </app-button>

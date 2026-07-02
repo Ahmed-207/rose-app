@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { Spinner } from '@org/shared-ui-components';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
 import { Product } from 'apps/shared/models/productDto';
@@ -18,7 +17,7 @@ import { mapApiProductToCardProduct } from '../utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',
-  imports: [TranslatePipe, ProductCard, Button, Spinner],
+  imports: [TranslatePipe, ProductCard, Button],
   templateUrl: './bestSellingSection.html',
   styleUrl: './bestSellingSection.css',
 })
@@ -28,8 +27,6 @@ export class BestSellingSection implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
 
   readonly products = signal<Product[]>([]);
-  readonly isLoading = signal(false);
-  readonly error = signal<string | null>(null);
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -56,24 +53,14 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {}
-
   onWishlistToggle(product: Product): void {
     product.isWishlist = !product.isWishlist;
   }
 
   private loadBestProducts(): void {
-    this.isLoading.set(true);
-    this.error.set(null);
-
     this.productsService.getBestProducts(8).subscribe({
       next: (response) => {
         this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.error.set('Failed to load best selling products');
-        this.isLoading.set(false);
       },
     });
   }
