@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -20,6 +20,7 @@ export class ProductCard {
 
   protected readonly Number = Number;
   private readonly router = inject(Router);
+  private readonly activeRoute = inject(ActivatedRoute);
 
   productOldPrice = computed(() => {
     const currentPrice = Number(this.productCurrentPrice() || 0);
@@ -48,7 +49,7 @@ export class ProductCard {
   navigateToDetails(): void {
     const id = this.productId();
     if (id) {
-      this.router.navigate(['/home/products', id]);
+      this.router.navigate([id], { relativeTo: this.activeRoute });
     }
   }
 }

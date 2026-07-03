@@ -15,7 +15,7 @@ import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
 import { Product } from 'apps/shared/models/productDto';
-import { mapApiProductToCardProduct } from '../../utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',

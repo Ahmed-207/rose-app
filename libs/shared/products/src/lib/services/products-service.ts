@@ -2,7 +2,7 @@ import { API_URL } from '@org/auth';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ProductsRes } from '../models/products-res';
+import { CreateReviewReq, CreateReviewRes, ProductsRes, ReviewsRes, SingleProductRes } from '../models/products-res';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +32,18 @@ export class ProductsService {
     );
   }
 
-  getProductById(id: string): Observable<ProductsRes> {
-    return this.httpClient.get<ProductsRes>(`${this.apiURL}products/${id}`);
+  getProductById(id: string): Observable<SingleProductRes> {
+    return this.httpClient.get<SingleProductRes>(`${this.apiURL}products/${id}`);
+  }
+
+  getProductReviews(productId: string, page = 1, limit = 20): Observable<ReviewsRes> {
+    return this.httpClient.get<ReviewsRes>(
+      `${this.apiURL}reviews?productId=${productId}&page=${page}&limit=${limit}`,
+    );
+  }
+
+  createProductReview(review: CreateReviewReq): Observable<CreateReviewRes> {
+    return this.httpClient.post<CreateReviewRes>(`${this.apiURL}reviews`, review);
   }
 
 

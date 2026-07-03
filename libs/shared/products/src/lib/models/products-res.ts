@@ -27,11 +27,6 @@ export interface CreateReviewRes {
   }
 }
 
-export interface OneProductRes {
-  status: boolean
-  code: number
-  payload: OneProductPayload
-}
 
 export interface SingleProductRes {
   status: boolean
@@ -42,7 +37,7 @@ export interface SingleProductRes {
 }
 
 export interface Payload {
-  data: Product[] 
+  data: Product[]
   metadata: Metadata
 }
 
@@ -51,9 +46,6 @@ export interface ReviewsPayload {
   metadata: Metadata
 }
 
-export interface OneProductPayload {
-  data: Product
-}
 
 export interface Product {
   id: string;
@@ -80,11 +72,6 @@ export interface Product {
 }
 
 
-export interface Category {
-  id: string
-  title: string
-}
-
 export interface SubCategory {
   id: string
   title: string
@@ -106,11 +93,11 @@ export interface Metadata {
 export interface Category {
   id: string
   title: string
-  description: string
-  image: string
-  immutable: boolean
-  createdAt: string
-  updatedAt: string
+  description?: string
+  image?: string
+  immutable?: boolean
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface Review {
@@ -132,8 +119,3 @@ export interface User {
   lastName: string
 }
 
-export interface Count {
-  reviews: number
-  cartItems: number
-  wishlistItems: number
-}
