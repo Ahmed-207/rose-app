@@ -2,10 +2,10 @@
   button {
       display: inline-flex; align-items: center; gap: 6px;
       width: 100%;justify-content: center;
-      padding: 0 14px; height: 36px; border-radius: 8px;
+      padding: 0 14px; height: 36px; border-radius: 10px;
       font-size: 14px; font-weight: 500; cursor: pointer;
       border: 0.5px solid transparent; transition: opacity .15s, transform .1s;
-      position: relative; font-family: inherit;
+      position: relative; font-family: var(--font-primary);
     }
     button:active:not(:disabled) { transform: scale(0.97); }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -27,7 +27,7 @@
 }
 
 .btn-square {
-  border-radius: 8px;
+  border-radius: 10px;
   width: 40px;
   height: 40px;
   padding: 0;

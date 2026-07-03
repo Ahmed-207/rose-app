@@ -49,13 +49,13 @@ export class SpecialGiftSection {
       tag: 'Wedding',
       title: "Celebrate Her Forever with a Gift She’ll Always Remember",
       bgGradient: 'linear-gradient(135deg,#6b4c2a 0%,#c49a50 100%)',
-      imagUrl: '/assets/images/img3.png',
+      imagUrl: '/assets/images/img4.png',
     },
     {
       tag: 'Engagement',
       title: 'Honor the Beginning of a Beautiful Journey Together',
       bgGradient: 'linear-gradient(135deg,#d4c5a0 0%,#b8976a 100%)',
-      imagUrl: '/assets/images/img3.png',
+      imagUrl: '/assets/images/img5.png',
     },
     {
       tag: 'Anniversary',

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BestSellingSection } from './components/best-selling/bestSellingSection';
 import { FeatureServiceSection } from './components/feature-service/featureServiceSection';
 import { Testmonials } from "./components/testmonials/testmonials";
 import { SpecialGiftSection } from "./components/special-gift/specialGiftSection";
@@ -7,7 +8,14 @@ import { GallerySection } from "./components/gallery-section/gallery-section";
 
 @Component({
   selector: 'app-home-page',
-  imports: [FeatureServiceSection, Testmonials, SpecialGiftSection, TrustedbySection, GallerySection],
+  imports: [
+    FeatureServiceSection,
+    Testmonials,
+    SpecialGiftSection,
+    BestSellingSection,
+    TrustedbySection,
+    GallerySection,
+  ],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
 })
