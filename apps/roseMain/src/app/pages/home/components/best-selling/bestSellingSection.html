@@ -37,6 +37,7 @@
                 <product-card
                   [product]="product"
                   [productLink]="['/home', 'products', product.id]"
+                  (addToCart)="onAddToCart($event)"
                   (wishlistToggle)="onWishlistToggle($event)">
                 </product-card>
               </div>

@@ -124,22 +124,6 @@
   transform: none;
 }
 
-.best-selling__state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 320px;
-}
-
-.best-selling__state--full {
-  grid-column: 1 / -1;
-}
-
-.best-selling__state--error {
-  color: #a6252a;
-  font-size: 0.95rem;
-}
-
 @media (max-width: 1200px) {
   .best-selling {
     padding: 3.5rem 0;

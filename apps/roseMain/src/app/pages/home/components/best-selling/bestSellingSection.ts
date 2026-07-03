@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
@@ -8,12 +9,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
 import { Product } from 'apps/shared/models/productDto';
-import { mapApiProductToCardProduct } from '../utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',
@@ -25,6 +27,7 @@ export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly products = signal<Product[]>([]);
 
@@ -53,15 +56,18 @@ export class BestSellingSection implements OnInit {
     });
   }
 
+  onAddToCart(_product: Product): void {}
+
   onWishlistToggle(product: Product): void {
     product.isWishlist = !product.isWishlist;
   }
 
   private loadBestProducts(): void {
-    this.productsService.getBestProducts(8).subscribe({
-      next: (response) => {
+    this.productsService
+      .getBestProducts(8)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((response) => {
         this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-      },
-    });
+      });
   }
 }
