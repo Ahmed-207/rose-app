@@ -28,8 +28,8 @@ export const remoteRoutes: Route[] = [
       {
         path: 'products/:id',
         loadComponent: () =>
-          import('../pages/product-details/product-details').then(
-            (c) => c.ProductDetails,
+          import('../pages/product-details/productDetailPage').then(
+            (c) => c.ProductDetailPage,
           ),
         title: 'Product Details',
       },

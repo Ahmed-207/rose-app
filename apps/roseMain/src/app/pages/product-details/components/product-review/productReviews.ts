@@ -25,7 +25,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Button } from 'apps/shared/components/button/button';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { ProductDetail, ProductReview } from 'apps/shared/models/productDetailDto';
-import { mapApiReviewToProductReview } from '../../home/utils/map-api-product';
+import { mapApiReviewToProductReview } from '../../../../shared/utils/map-api-product';
 
 @Component({
   selector: 'product-reviews',

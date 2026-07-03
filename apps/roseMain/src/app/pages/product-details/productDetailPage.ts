@@ -12,10 +12,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '@org/products';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
-import { mapApiProductToDetail } from '../../home/utils/map-api-product';
-import { ProductGallery } from '../components/productGallery';
-import { ProductInfo } from '../components/productInfo';
-import { ProductReviews } from '../components/productReviews';
+import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
+import { ProductGallery } from './components/product-gallery/productGallery';
+import { ProductInfo } from './components/product-info/productInfo';
+import { ProductReviews } from './components/product-review/productReviews';
 
 @Component({
   selector: 'app-product-detail-page',
@@ -50,8 +50,11 @@ export class ProductDetailPage implements OnInit {
   private loadProduct(id: string): void {
     this.productsService.getProductById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
-        const apiProduct = response.payload.product;
+        console.log('RAW API RESPONSE:', response); // TEMP DEBUG
+
+        const apiProduct = response.payload?.product;
         if (!apiProduct) {
+          console.error('No product found in response, redirecting home');
           void this.router.navigate(['/home']);
           return;
         }
@@ -59,6 +62,7 @@ export class ProductDetailPage implements OnInit {
         this.product.set(mapApiProductToDetail(apiProduct));
         this.selectedImageIndex.set(0);
       },
+      error: (err) => console.error('HTTP error loading product:', err),
     });
   }
 

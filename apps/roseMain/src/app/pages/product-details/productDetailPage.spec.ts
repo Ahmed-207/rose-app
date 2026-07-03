@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ProductDetailPage } from './productDetailPage';
+import { ProductDetailPage } from '../../features/product/pages/productDetailPage';
 
 describe('ProductDetailPage', () => {
   let component: ProductDetailPage;
