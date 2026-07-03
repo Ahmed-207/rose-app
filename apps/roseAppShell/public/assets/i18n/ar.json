@@ -120,10 +120,8 @@
     "title": "الأكثر شعبية",
     "viewMore": "عرض المزيد",
     
-      "wedding": "زفاف",
-      "anniversary": "ذكرى سنوية",
-      "birthday": "عيد ميلاد",
-      "engagement": "خطوبة"
+      "All": "الكل",
+      "Category": "منتجات"
     
   },
   "about": {

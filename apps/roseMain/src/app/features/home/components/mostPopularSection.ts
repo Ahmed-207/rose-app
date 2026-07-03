@@ -1,5 +1,6 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
-import { Component, inject, OnInit, PLATFORM_ID, signal,} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal,} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { Spinner } from '@org/shared-ui-components';
@@ -18,9 +19,11 @@ export class MostPopularSection implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
 
   readonly products = signal<Product[]>([]);
+  readonly categories = signal<Product[]>([]);
   readonly isLoading = signal(false);
   readonly error = signal<string | null>(null);
 filters: any;
+  destroyRef: DestroyRef | undefined;
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -28,6 +31,7 @@ filters: any;
     }
 
     this.loadPopularProducts();
+    this.loadCategories();
   }
 
 
@@ -38,22 +42,53 @@ filters: any;
     product.isWishlist = !product.isWishlist;
   }
 
-  private loadPopularProducts(): void {
-    this.isLoading.set(true);
-    this.error.set(null);
+  // private loadPopularProducts(): void {
+  //   this.isLoading.set(true);
+  //   this.error.set(null);
 
-    this.productsService.getAllProducts(1 ,12).subscribe({
-      next: (response)  => {
+  //   this.productsService.getAllProducts(1 ,12).subscribe({
+  //     next: (response)  => {
+  //       this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+  //       this.isLoading.set(false);
+  //     },
+  //     error: () => {
+  //       this.error.set('Failed to load most popular products');
+  //       this.isLoading.set(false);
+  //     },
+  //   });
+  // }
+
+  private loadPopularProducts(): void {
+  this.productsService
+    .getAllProducts(1, 12)
+    .pipe(takeUntilDestroyed(this.destroyRef)) 
+    .subscribe({
+      next: (response) => {
         this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-        this.isLoading.set(false);
       },
-      error: () => {
-        this.error.set('Failed to load most popular products');
-        this.isLoading.set(false);
-      },
+      error: (err) => {
+        console.error('Error loading popular products', err);
+      }
     });
   }
 
+  private loadCategories(): void {
+  this.productsService
+    .getAllcatigories()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (response) => {
+        // افترضنا هنا أن البيانات تعود في response.payload.data أو response مباشرة حسب تصميم الـ API لديك
+        this.categories.set(response['payload'].data || response);
+      },
+      error: (err) => {
+        console.error('Error loading categories', err);
+      }
+    });
+  }
+
+
+  
 readonly activeFilter = signal<string>('Wedding'); 
 
 changeFilter(filterName: string, event: Event): void {

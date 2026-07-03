@@ -2,12 +2,13 @@ import { environment } from './../../../../../../apps/roseAppShell/src/environme
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductsRes } from '../models/products-res';
+import { Category, ProductsRes } from '../models/products-res';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   getBestProducts(arg0: number) {
@@ -17,6 +18,11 @@ export class ProductsService {
 >>>>>>> origin
 =======
 >>>>>>> main
+=======
+  getBestProducts(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
+>>>>>>> feature/mostPopular
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = signal<string>(environment.apiUrl)
@@ -29,6 +35,9 @@ export class ProductsService {
     return this.httpClient.get<ProductsRes>(`${this.apiURL()}products/${id}`);
   }
 
+  getAllcatigories(): Observable<Category> {
+    return this.httpClient.get<Category>(`${this.apiURL()}categories`);
+  }
 
 
 }

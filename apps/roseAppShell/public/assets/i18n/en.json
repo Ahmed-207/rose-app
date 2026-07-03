@@ -100,10 +100,8 @@
     "title": "Most Popular",
     "viewMore": "View More",
     
-      "wedding": "Wedding",
-      "anniversary": "Anniversary",
-      "birthday": "Birthday",
-      "engagement": "Engagement"
+      "All": "All",
+      "Category": "Category"
     
   },
   "about": {
