@@ -10,3 +10,4 @@ export interface Product {
   isOutOfStock?: boolean;
   badges?: ProductBadge[];
 }
+
