@@ -29,15 +29,11 @@
   <!-- Product Image -->
   @if (productLink) {
     <a [routerLink]="productLink" class="image-wrapper product-card__link">
-      <img
-        [src]="product.image"
-        [alt]="product.name">
+      <img [src]="product.image" [alt]="product.name">
     </a>
   } @else {
     <div class="image-wrapper">
-      <img
-        [src]="product.image"
-        [alt]="product.name">
+      <img [src]="product.image" [alt]="product.name">
     </div>
   }
 

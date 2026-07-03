@@ -4,14 +4,50 @@ export interface ProductsRes {
   payload: Payload
 }
 
+export interface ReviewsRes {
+  status: boolean
+  code: number
+  payload: ReviewsPayload
+}
+
+export interface CreateReviewReq {
+  productId: string
+  headline: string
+  content: string
+  rating: number
+}
+
+export interface CreateReviewRes {
+  status: boolean
+  code: number
+  message?: string
+  payload?: {
+    review?: Review
+    data?: Review
+  }
+}
+
 export interface OneProductRes {
   status: boolean
   code: number
   payload: OneProductPayload
 }
 
+export interface SingleProductRes {
+  status: boolean
+  code: number
+  payload: {
+    product: Product
+  }
+}
+
 export interface Payload {
   data: Product[] 
+  metadata: Metadata
+}
+
+export interface ReviewsPayload {
+  data: Review[]
   metadata: Metadata
 }
 
@@ -35,10 +71,10 @@ export interface Product {
   immutable: boolean;
   createdAt: string;
   updatedAt: string;
-  occasions: any[];
+  occasions: unknown[];
   _count: Count;
-  subCategoryId?: string | any;
-  subCategory?: SubCategory | any;
+  subCategoryId?: string | null;
+  subCategory?: SubCategory | null;
   category: Category;
   reviews?: Review[];
 }

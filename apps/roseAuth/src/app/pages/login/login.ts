@@ -1,12 +1,12 @@
-import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthActions, AuthErrorService, LoginRequest } from '@org/auth';
 import { FormControlComponent, Button } from '@org/shared-ui-components';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,17 +14,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login implements OnInit, OnDestroy {
+export class Login implements OnInit {
 
   private readonly _fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
   private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   loginForm!: FormGroup;
   readonly errorMessage = this.authErrorService.message;
   isLoading: WritableSignal<boolean> = signal<boolean>(false);
-  loginSubscription!: Subscription;
 
   ngOnInit(): void {
     this.initiateLoginForm();
@@ -65,20 +65,10 @@ export class Login implements OnInit, OnDestroy {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: () => {
-          this.router.navigateByUrl('/home');
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/home';
+          void this.navigateAfterLogin(returnUrl);
         },
       });
-    this.loginSubscription = this.authActions.login(request).subscribe({
-      next: () => {
-        this.loginSubscription.unsubscribe();
-        this.router.navigateByUrl('/home');
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.log(err);
-        this.isLoading.set(false);
-      },
-    });
   }
 
   goToForgotPassword(): void {
@@ -86,14 +76,17 @@ export class Login implements OnInit, OnDestroy {
   }
 
   goToRegister(): void {
-    this.router.navigateByUrl('/auth/send-email-verification');
-    this.router.navigateByUrl('/auth/register')
+    void this.router.navigateByUrl('/auth/register');
   }
 
-  ngOnDestroy(): void {
-    if (this.loginSubscription) {
-      this.loginSubscription.unsubscribe();
+  private async navigateAfterLogin(returnUrl: string): Promise<void> {
+    try {
+      const navigated = await this.router.navigateByUrl(returnUrl);
+      if (!navigated) {
+        window.location.assign(new URL(returnUrl, environment.shellUrl).toString());
+      }
+    } catch {
+      window.location.assign(new URL(returnUrl, environment.shellUrl).toString());
     }
   }
 }
-
