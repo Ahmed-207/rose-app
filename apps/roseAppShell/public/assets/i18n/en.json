@@ -121,5 +121,9 @@
       "occasion": "Perfect for Every Occasion",
       "delivery": "Fast & Reliable Delivery"
     }
+  },
+
+  "products": {
+    "relatedTitle": "Related Products"
   }
 }
