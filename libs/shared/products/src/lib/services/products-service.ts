@@ -42,8 +42,10 @@ export class ProductsService {
     );
   }
 
-  createProductReview(review: CreateReviewReq): Observable<CreateReviewRes> {
-    return this.httpClient.post<CreateReviewRes>(`${this.apiURL}reviews`, review);
+  createProductReview(review: CreateReviewReq, token: string): Observable<CreateReviewRes> {
+    return this.httpClient.post<CreateReviewRes>(`${this.apiURL}reviews`, review, {
+      params: { token },
+    });
   }
 
 
