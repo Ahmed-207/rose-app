@@ -10,16 +10,28 @@ import { CategoryCard, HeroSlide } from '../special-gift/models/special-gift-Dto
 
 @Component({
   selector: 'special-gift-section',
- imports: [CommonModule, GalleriaModule, ButtonModule, BadgeModule,TranslatePipe],
+  imports: [CommonModule, GalleriaModule, ButtonModule, BadgeModule, TranslatePipe],
   templateUrl: './specialGiftSection.html',
-  styleUrl: './specialGiftSection.css',
+  styleUrls: ['./specialGiftSection.css'],
 })
 export class SpecialGiftSection {
-
-  galleriaResponsiveOptions = [
-    { breakpoint: '960px', numVisible: 1 },
-    { breakpoint: '600px', numVisible: 1 },
+activeIndex = 0;
+private autoplayInterval: any;
+ 
+   galleriaResponsiveOptions = [
+    { breakpoint: '1024px', numVisible: 1 },
+    { breakpoint: '768px', numVisible: 1 },
+    { breakpoint: '560px', numVisible: 1 },
   ];
+  ngOnInit() {
+  this.startAutoplay();
+}
+
+startAutoplay() {
+  this.autoplayInterval = setInterval(() => {
+    this.activeIndex = (this.activeIndex + 1) % this.heroSlides.length;
+  }, 3000);
+}
 
   heroSlides: HeroSlide[] = [
     {
@@ -64,4 +76,8 @@ export class SpecialGiftSection {
       imagUrl: '/assets/images/img3.png',
     },
   ];
+
+  ngOnDestroy() {
+  clearInterval(this.autoplayInterval);
+}
 }

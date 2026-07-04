@@ -18,7 +18,9 @@
   font-size: 36px;
   position: relative;
  }
-
+:host-context(.dark)  .section-header__title {
+  color: #ffc1d0;
+}
 .section-header__subtitle {
     display: block;
     color: #f47b98;

@@ -42,7 +42,7 @@
 
 .promo-card {
   position: relative;
-  background: linear-gradient(150deg, #6b0000 0%, #a83232 100%);
+  background: url("/assets/images/img2.png") center center / cover no-repeat;
   border-radius: var(--radius);
   overflow: hidden;
   padding: 28px 22px;
@@ -64,7 +64,9 @@
 .promo-circle.c1 { width: 180px; height: 180px; top: -50px; right: -40px; }
 .promo-circle.c2 { width: 110px; height: 110px; bottom: 30px; right: 20px; }
 
-.promo-body { position: relative; z-index: 2; }
+.promo-body { position: relative;
+   /* z-index: 2; */
+   }
 
 .promo-badge {
   display: inline-block;
@@ -238,9 +240,24 @@
 }
 
 :host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight button,
-:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight .p-galleria-indicator-button {
+:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight .p-galleria-indicator-button,
+:host ::ng-deep .hero-galleria .p-galleria-indicator.p-highlight .custom-dot {
   background: var(--clr-rose) !important;
   transform: scale(1.3) !important;
+}
+
+.custom-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.p-galleria-indicator.p-highlight .custom-dot {
+  background: var(--clr-rose);
+  transform: scale(1.3);
 }
 
 
@@ -298,13 +315,13 @@
     rgba(0,0,0,0.20) 55%,
     rgba(0,0,0,0.00) 100%
   );
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 /* Text block */
 .slide-content {
   position: relative;
-  z-index: 2;
+  /* z-index: 2; */
   padding: 32px 40px;
   display: flex;
   flex-direction: column;
@@ -343,7 +360,7 @@
 }
 
 /* ── Arrow nav ───────────────────────── */
-:host ::ng-deep .hero-galleria .p-galleria-item-nav {
+/* :host ::ng-deep .hero-galleria .p-galleria-item-nav {
   background: rgba(255,255,255,0.85) !important;
   color: var(--clr-cherry) !important;
   width: 36px !important;
@@ -356,7 +373,7 @@
 :host ::ng-deep .hero-galleria .p-galleria-item-nav:hover {
   background: #fff !important;
   transform: scale(1.1) !important;
-}
+} */
 
 /* ── Dot indicators (top-right) ─────── */
 :host ::ng-deep .hero-galleria .p-galleria-indicators {
@@ -443,7 +460,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  /* z-index: 2; */
   padding: 16px 18px;
   transition: transform var(--transition);
 }
@@ -482,7 +499,7 @@
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%) translateY(6px);
-  z-index: 3;
+  /* z-index: 3; */
   opacity: 0;
   transition: opacity var(--transition), transform var(--transition);
   white-space: nowrap;
@@ -531,4 +548,50 @@
     top: 10px !important;
     right: 12px !important;
   }
+}
+::ng-deep .p-galleria-inset-indicators.p-galleria-indicators-top .p-galleria-indicator-list{
+  z-index:9 !important;
+  justify-content: end;
+  background :transparent
+}
+::ng-deep  .p-galleria-indicator-button{
+  width:.6rem !important;
+  height:.6rem !important;
+}
+::ng-deep .p-galleria-inset-indicators .p-galleria-indicator-active .p-galleria-indicator-button{
+background: var(--clr-rose) !important;
+width:40px !important;
+border-radius:20px !important
+}
+
+
+::ng-deep .p-galleria-prev-button {
+
+    inset-inline-end: 48px !important;
+    left:initial !important;
+    border-radius: initial !important;
+    border-top-left-radius: 25px !important;
+    border-bottom-left-radius: 25px !important ;
+}
+::ng-deep .p-galleria-next-button {
+
+border-radius: initial !important;
+    border-top-right-radius: 25px !important;
+    border-bottom-right-radius: 25px !important;
+}
+
+::ng-deep  .p-galleria-nav-button{
+  bottom: 5%;
+  top:initial !important;
+  z-index: 9 !important;
+  background:#fff !important;
+  color: var(--clr-rose) !important;
+  position: relative !important;
+}
+
+::ng-deep .p-galleria-prev-button:dir(rtl) {
+    left: auto;
+    right:auto !important;
+    inset-inline-end: 48px !important;
+    transform: rotate(180deg);
 }

@@ -65,3 +65,7 @@ max-width: 1200px;
     height: 18px;
   }
 }
+:host-context(.dark) .trusted-container{
+    background: #3F3F46 !important;
+}
+
