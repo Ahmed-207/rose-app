@@ -88,7 +88,7 @@ export class MostPopularSection implements OnInit {
 
 
 
-  readonly activeFilter = signal<string>('Wedding');
+  readonly activeFilter = signal<string>('All');
 
   changeFilter(filterName: string, event: Event): void {
     event.preventDefault();
