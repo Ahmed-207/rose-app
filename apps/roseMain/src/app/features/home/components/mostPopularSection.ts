@@ -78,11 +78,11 @@ filters: any;
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (response) => {
-        // افترضنا هنا أن البيانات تعود في response.payload.data أو response مباشرة حسب تصميم الـ API لديك
+        
         this.categories.set(response['payload'].data || response);
       },
       error: (err) => {
-        console.error('Error loading categories', err);
+        // console.error('Error loading categories', err);
       }
     });
   }

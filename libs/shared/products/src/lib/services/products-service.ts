@@ -8,21 +8,10 @@ import { Category, ProductsRes } from '../models/products-res';
   providedIn: 'root',
 })
 export class ProductsService {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   getBestProducts(arg0: number) {
     throw new Error('Method not implemented.');
   }
-=======
->>>>>>> origin
-=======
->>>>>>> main
-=======
-  getBestProducts(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
->>>>>>> feature/mostPopular
+ 
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = signal<string>(environment.apiUrl)

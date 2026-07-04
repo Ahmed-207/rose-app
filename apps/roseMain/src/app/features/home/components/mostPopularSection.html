@@ -8,7 +8,7 @@
       <h2 class="most-popular__title">{{ 'mostPopular.title' | translate }}</h2>
        <div class="most-popular__filters">
  
-<a href="#" 
+<a 
      class="filter-link"
      [class.active]="activeFilter() === 'All'"
      (click)="changeFilter('All', $event)">
@@ -17,7 +17,7 @@
   
 
 @for (category of categories(); track category.badges) {
-    <a href="#" 
+    <a  
        class="filter-link"
        [class.active]="activeFilter() === category.name"
        (click)="changeFilter(category.name, $event)">
