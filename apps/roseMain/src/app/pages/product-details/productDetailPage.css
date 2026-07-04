@@ -15,7 +15,6 @@
 
 .product-detail {
   padding: 2.5rem 0 4rem;
-  background: #f9fafb;
   color: #111827;
   transition:
     background-color 0.2s ease,
@@ -37,7 +36,6 @@
 }
 
 :host-context(.dark) .product-detail {
-  background: #27272a;
   color: #f4f4f5;
 }
 

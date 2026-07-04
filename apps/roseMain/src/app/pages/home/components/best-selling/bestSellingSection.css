@@ -133,9 +133,6 @@
   transform: none;
 }
 
-:host-context(.dark) .best-selling {
-  background: #27272a;
-}
 
 :host-context(.dark) .best-selling__subtitle,
 :host-context(.dark) .best-selling__highlight {
