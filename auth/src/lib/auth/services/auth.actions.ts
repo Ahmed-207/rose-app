@@ -31,7 +31,7 @@ import { resolveRoleFromToken } from '../utils/jwt.util';
 })
 export class AuthActions {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = inject(API_URL);
+  private readonly apiUrl = inject(API_URL).replace(/\/+$/, '');
   private readonly authCookieStorage = inject(AuthCookieStorage);
   private readonly authErrorService = inject(AuthErrorService);
 
@@ -120,7 +120,7 @@ export class AuthActions {
     body: unknown,
   ): Observable<ApiResponse<T>> {
     return this.http
-      .post<ApiResponse<T>>(`${this.apiUrl}/api/auth/${endpoint}`, body)
+      .post<ApiResponse<T>>(`${this.apiUrl}/auth/${endpoint}`, body)
       .pipe(
         map((response) => {
           if (!response.status) {

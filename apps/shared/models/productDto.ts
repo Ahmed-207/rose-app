@@ -1,6 +1,6 @@
 export type ProductBadge = 'HOT' | 'NEW' | 'SALE' ;
 export interface Product {
-  id: number;
+  id: string | number;
   name: string;
   image: string;
   price: number;

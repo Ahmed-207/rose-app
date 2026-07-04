@@ -28,6 +28,7 @@ export class Button {
 get buttonClass(): string {
   return [
     'btn',
+    'font-primary',
     `btn-${this.variant}`,
     this.size !== 'md' ? `btn-${this.size}` : '',
     this.shape !== 'default' ? `btn-${this.shape}` : '',

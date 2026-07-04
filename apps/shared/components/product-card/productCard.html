@@ -10,86 +10,72 @@
     </i>
 
     <span>
-      {{ product.isWishlist ? 'Remove from wishlist' : 'Add to wishlist' | translate}}
+      {{ (product.isWishlist ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
     </span>
   </button>
 
   <!-- Badges -->
   <div class="badges">
-
-   @for (badge of product.badges; track $index) {
-  <span
-    class="badge"
-    [ngClass]="badge.toLowerCase()">
-    {{ badge | translate }}
-  </span>
-}
-@if(product.isOutOfStock){
- <span
-
-      class="badge out-stock">
-
-      {{"OUT OF STOCK" | translate}}
-    </span>
-}
-
-
+    @for (badge of product.badges; track $index) {
+      <span class="badge" [ngClass]="badge.toLowerCase()">
+        {{ badge | translate }}
+      </span>
+    }
+    @if (product.isOutOfStock) {
+      <span class="badge out-stock">{{ 'OUT OF STOCK' | translate }}</span>
+    }
   </div>
 
   <!-- Product Image -->
-  <div class="image-wrapper">
-    <img
-      [src]="product.image"
-      [alt]="product.name">
-  </div>
+  @if (productLink) {
+    <a [routerLink]="productLink" class="image-wrapper product-card__link">
+      <img [src]="product.image" [alt]="product.name">
+    </a>
+  } @else {
+    <div class="image-wrapper">
+      <img [src]="product.image" [alt]="product.name">
+    </div>
+  }
 
   <!-- Product Info -->
   <div class="content">
+    @if (productLink) {
+      <h3 class="product-title">
+        <a [routerLink]="productLink" class="product-card__link">{{ product.name }}</a>
+      </h3>
+    } @else {
+      <h3 class="product-title">{{ product.name }}</h3>
+    }
 
-    <h3 class="product-title">
-      {{ product.name }}
-    </h3>
+    <div class="rating">
+      <p-rating
+        [(ngModel)]="product.rating"
+        [readonly]="true">
+      </p-rating>
+    </div>
 
-    <!-- Rating -->
-  <div class="rating">
-  <p-rating
-    [(ngModel)]="product.rating"
-    [readonly]="true"
-   >
-  </p-rating>
-
-</div>
-
-    <!-- Price -->
     <div class="price">
-
       <span class="current-price">
         {{ product.price | number:'1.2-2' }} {{ currency }}
       </span>
-@if(product.oldPrice){
- <span class="old-price">
-
-        {{ product.oldPrice | number:'1.2-2' }} {{ currency }}
-      </span>
-}
-
-
+      @if (product.oldPrice) {
+        <span class="old-price">
+          {{ product.oldPrice | number:'1.2-2' }} {{ currency }}
+        </span>
+      }
     </div>
+
     <div class="flex justify-end">
-       <app-button
-  variant="danger"
-  icon="pi pi-cart-arrow-down"
-  [iconOnly]="true"
-  [disabled]="product.isOutOfStock? true : false"
-  [shape]="'circle'"
-  [size]="'sm'"
-(clicked)="onAddToCart()"
-  ariaLabel="Add">
-</app-button>
+      <app-button
+        variant="danger"
+        icon="pi pi-cart-arrow-down"
+        [iconOnly]="true"
+        [disabled]="product.isOutOfStock ? true : false"
+        [shape]="'circle'"
+        [size]="'sm'"
+        (clicked)="onAddToCart()"
+        ariaLabel="Add">
+      </app-button>
     </div>
-
-
   </div>
-
-
 </div>
