@@ -2,17 +2,13 @@ import { API_URL } from '@org/auth';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { CreateReviewReq, CreateReviewRes, ProductsRes, ReviewsRes, SingleProductRes } from '../models/products-res';
+import { Category, CreateReviewReq, CreateReviewRes, ProductsRes, ReviewsRes, SingleProductRes } from '../models/products-res';
+import { CategoriesRes } from '../models/categories-res';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  getBestProducts(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
- 
-
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
 
@@ -52,8 +48,8 @@ export class ProductsService {
     });
   }
 
-  getAllcatigories(): Observable<Category> {
-    return this.httpClient.get<Category>(`${this.apiURL()}categories`);
+  getAllcatigories(): Observable<CategoriesRes> {
+    return this.httpClient.get<CategoriesRes>(`${this.apiURL}categories`);
   }
 
 

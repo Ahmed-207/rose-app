@@ -7,6 +7,7 @@ import {
   OnInit,
   PLATFORM_ID,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,10 +17,11 @@ import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
 import { ProductGallery } from './components/product-gallery/productGallery';
 import { ProductInfo } from './components/product-info/productInfo';
 import { ProductReviews } from './components/product-review/productReviews';
+import { RelatedProductsSection } from "./components/related-products/relateProductSection";
 
 @Component({
   selector: 'app-product-detail-page',
-  imports: [ProductGallery, ProductInfo, ProductReviews],
+  imports: [ProductGallery, ProductInfo, ProductReviews, RelatedProductsSection],
   templateUrl: './productDetailPage.html',
   styleUrl: './productDetailPage.css',
 })
@@ -32,6 +34,7 @@ export class ProductDetailPage implements OnInit {
 
   readonly product = signal<ProductDetail | undefined>(undefined);
   readonly selectedImageIndex = model(0);
+  productId: WritableSignal<string> = signal<string>('');
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -43,6 +46,7 @@ export class ProductDetailPage implements OnInit {
       void this.router.navigate(['/home']);
       return;
     }
+    this.productId.set(id);
 
     this.loadProduct(id);
   }

@@ -90,6 +90,7 @@ export interface Metadata {
   totalPages: number
 }
 
+
 export interface Category {
   id: string
   title: string
@@ -98,6 +99,12 @@ export interface Category {
   immutable?: boolean
   createdAt?: string
   updatedAt?: string
+  subCategories?: SubCategory[]
+  _count?: CategoryCount
+}
+
+export interface CategoryCount {
+  products: number
 }
 
 export interface Review {

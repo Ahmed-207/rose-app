@@ -5,11 +5,10 @@ import { RouterOutlet } from '@angular/router';
 import { Footer } from "../Footer/footer";
 import { AuthActions, Role } from '@org/auth';
 import { SecondryNavbar } from "../secondry Navbar/secondryNavbar";
-import { HomePage } from "../../../features/home/pages/homePage";
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, RouterOutlet, Navbar, Footer, SecondryNavbar, HomePage],
+  imports: [CommonModule, RouterOutlet, Navbar, Footer, SecondryNavbar],
   templateUrl: './mainLayout.html',
   styleUrl: './mainLayout.css',
 })

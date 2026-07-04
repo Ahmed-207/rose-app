@@ -53,7 +53,7 @@
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
         </div>
-            <!-- <div class="hidden md:flex items-center gap-2">
+        <!-- <div class="hidden md:flex items-center gap-2">
                 <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
                     <i class="fa-regular fa-user text-lg"></i>
                     <span class="text-sm font-medium dark:text-white">Login</span>
@@ -110,7 +110,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a [routerLink]="'about'" [routerLinkActive]="'text-pink-300 dark:text-rose-600'"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
                         <i class="fa-solid fa-circle-info text-xs"></i>{{'navbar.About'| translate}}
                     </a>

@@ -120,10 +120,8 @@
   "mostPopular": {
     "title": "Most Popular",
     "viewMore": "View More",
-    
-      "All": "All",
-      "Category": "Category"
-    
+    "All": "All",
+    "Category": "Category"
   },
   "about": {
     "tag": "ABOUT",
@@ -141,10 +139,9 @@
       "delivery": "Fast & Reliable Delivery"
     }
   },
-
   "products": {
     "relatedTitle": "Related Products"
-  }
+  },
   "Trusted by over 4.5k+ companies": "Trusted by over 4.5k+ companies",
   "BEST SELLING": "Best Selling",
   "Check Out": "Check Out",
