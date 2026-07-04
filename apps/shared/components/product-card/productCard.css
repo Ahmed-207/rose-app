@@ -159,3 +159,16 @@
     cursor: not-allowed;
   }
 }
+:host-context(.dark)  .product-card {
+  background: transparent !important;
+}
+:host-context(.dark)  .current-price ,:host-context(.dark)  .product-title{
+  color: #ffc1d0;
+
+}
+:host-context(.dark) .wishlist-btn span ,:host-context(.dark) .wishlist-btn i{
+    color: #fff;
+}
+:host-context(.dark) .wishlist-btn {
+    background: #000000b8;
+}
