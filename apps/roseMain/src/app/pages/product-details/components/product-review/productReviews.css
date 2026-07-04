@@ -1,8 +1,21 @@
+.product-reviews {
+  --product-reviews-heading: #741c21;
+  --product-reviews-text: #4b5563;
+  --product-reviews-strong: #111827;
+  --product-reviews-muted: #6b7280;
+  --product-reviews-subtle: #9ca3af;
+  --product-reviews-border: #f0f0f0;
+  --product-reviews-surface: #ffffff;
+  --product-reviews-soft: #fff7f7;
+  --product-reviews-accent: #a6252a;
+}
+
 .product-reviews__heading {
   margin: 0 0 1rem;
-  color: #741c21;
+  color: var(--product-reviews-heading);
   font-size: 1.75rem;
   font-weight: 700;
+  transition: color 0.2s ease;
 }
 
 .product-reviews__summary {
@@ -11,7 +24,13 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 2rem;
-  color: #4b5563;
+  color: var(--product-reviews-text);
+  transition: color 0.2s ease;
+}
+
+.product-reviews__summary strong {
+  color: var(--product-reviews-strong);
+  transition: color 0.2s ease;
 }
 
 .product-reviews__summary ::ng-deep .p-rating-option-active .p-rating-icon {
@@ -22,6 +41,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  align-items: start;
 }
 
 .product-reviews__list {
@@ -34,7 +54,8 @@
 .review-card {
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--product-reviews-border);
+  transition: border-color 0.2s ease;
 }
 
 .review-card__header {
@@ -49,24 +70,27 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #a6252a;
+  background: var(--product-reviews-accent);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  transition: background-color 0.2s ease;
 }
 
 .review-card__author {
   margin: 0;
   font-size: 1rem;
-  color: #111;
+  color: var(--product-reviews-strong);
+  transition: color 0.2s ease;
 }
 
 .review-card__date {
   margin: 0.15rem 0 0;
-  color: #9ca3af;
+  color: var(--product-reviews-subtle);
   font-size: 0.85rem;
+  transition: color 0.2s ease;
 }
 
 .review-card__rating ::ng-deep .p-rating-option-active .p-rating-icon {
@@ -76,29 +100,41 @@
 .review-card__title {
   margin: 0 0 0.5rem;
   font-size: 1rem;
-  color: #111;
+  color: var(--product-reviews-strong);
+  transition: color 0.2s ease;
 }
 
 .review-card__content {
   margin: 0;
-  color: #6b7280;
+  color: var(--product-reviews-muted);
   line-height: 1.6;
   font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 .product-reviews__empty {
-  color: #9ca3af;
+  color: var(--product-reviews-subtle);
+  transition: color 0.2s ease;
 }
 
 .review-form {
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--product-reviews-border);
+  border-radius: 16px;
+  background: var(--product-reviews-surface);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .review-form__label {
-  color: #111;
+  color: var(--product-reviews-strong);
   font-weight: 600;
+  transition: color 0.2s ease;
 }
 
 .review-form__error {
@@ -116,6 +152,35 @@
   margin-top: 0.5rem;
 }
 
+.review-form__signin ::ng-deep button {
+  width: 100%;
+}
+
+.product-reviews ::ng-deep .p-rating-option .p-rating-icon {
+  color: #d1d5db;
+}
+
+.review-form ::ng-deep app-form-control label {
+  color: var(--product-reviews-strong);
+  transition: color 0.2s ease;
+}
+
+.review-form ::ng-deep app-form-control .p-inputtext,
+.review-form ::ng-deep app-form-control textarea {
+  background: var(--product-reviews-soft);
+  border-color: var(--product-reviews-border);
+  color: var(--product-reviews-strong);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.review-form ::ng-deep app-form-control .p-inputtext::placeholder,
+.review-form ::ng-deep app-form-control textarea::placeholder {
+  color: var(--product-reviews-subtle);
+}
+
 @media (max-width: 992px) {
   .product-reviews__layout {
     grid-template-columns: 1fr;
@@ -127,4 +192,30 @@
     padding-inline-end: 0;
     scrollbar-gutter: auto;
   }
+}
+
+:host-context(.dark) .product-reviews {
+  --product-reviews-heading: #ffc1d0;
+  --product-reviews-text: #d4d4d8;
+  --product-reviews-strong: #f4f4f5;
+  --product-reviews-muted: #d4d4d8;
+  --product-reviews-subtle: #a1a1aa;
+  --product-reviews-border: #3f3f46;
+  --product-reviews-surface: #27272a;
+  --product-reviews-soft: #3f3f46;
+  --product-reviews-accent: #be185d;
+}
+
+:host-context(.dark) .review-form__error {
+  color: #fda4af;
+}
+
+:host-context(.dark) .product-reviews ::ng-deep .p-rating-option .p-rating-icon {
+  color: #71717a;
+}
+
+:host-context(.dark) .review-form__submit ::ng-deep button {
+  background: #ffa3b9;
+  border-color: #ffa3b9;
+  color: #1f1f22;
 }

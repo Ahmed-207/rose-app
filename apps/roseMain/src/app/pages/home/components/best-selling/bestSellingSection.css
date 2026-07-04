@@ -1,6 +1,13 @@
 .best-selling {
-  padding: 4.5rem 0;
+  padding: 4rem 0;
   background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.best-selling__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .best-selling__layout {
@@ -31,6 +38,7 @@
   font-size: clamp(2rem, 2.8vw, 2.625rem);
   font-weight: 700;
   line-height: 1.18;
+  transition: color 0.2s ease;
 }
 
 .best-selling__highlight {
@@ -43,6 +51,7 @@
   font-size: 0.9375rem;
   line-height: 1.75;
   max-width: 38ch;
+  transition: color 0.2s ease;
 }
 
 .best-selling__cta ::ng-deep button {
@@ -122,6 +131,57 @@
 
 .best-selling__carousel ::ng-deep .product-card:hover {
   transform: none;
+}
+
+:host-context(.dark) .best-selling {
+  background: #27272a;
+}
+
+:host-context(.dark) .best-selling__subtitle,
+:host-context(.dark) .best-selling__highlight {
+  color: #ffc1d0;
+}
+
+:host-context(.dark) .best-selling__title {
+  color: #f4f4f5;
+}
+
+:host-context(.dark) .best-selling__description {
+  color: #d4d4d8;
+}
+
+:host-context(.dark) .best-selling__cta ::ng-deep button {
+  background: #ffa3b9;
+  border-color: #ffa3b9;
+  color: #1f1f22;
+}
+
+:host-context(.dark) .carousel-nav {
+  background: #e11d48;
+  color: #fff;
+}
+
+:host-context(.dark) .best-selling__carousel ::ng-deep .product-card {
+  background: transparent;
+}
+
+:host-context(.dark) .best-selling__carousel ::ng-deep .image-wrapper {
+  background: #3f3f46;
+}
+
+:host-context(.dark) .best-selling__carousel ::ng-deep .product-title,
+:host-context(.dark) .best-selling__carousel ::ng-deep .current-price {
+  color: #ffc1d0;
+}
+
+:host-context(.dark) .best-selling__carousel ::ng-deep .old-price {
+  color: #a1a1aa;
+}
+
+:host-context(.dark) .best-selling__carousel ::ng-deep app-button button {
+  background: #e11d48;
+  border-color: #e11d48;
+  color: #fff;
 }
 
 @media (max-width: 1200px) {

@@ -54,6 +54,17 @@
         <p class="review-form__error font-primary" role="alert">{{ submitError() | translate }}</p>
       }
 
+      @if (showSignInPrompt()) {
+        <app-button
+          buttonType="button"
+          variant="secondary"
+          size="lg"
+          class="review-form__signin font-primary"
+          (clicked)="goToSignIn()">
+          {{ 'Sign in first' | translate }}
+        </app-button>
+      }
+
       <app-form-control
         formControlName="title"
         type="text"

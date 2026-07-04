@@ -4,6 +4,8 @@
   justify-content: center;
   min-height: 320px;
   padding: 2.5rem 1rem;
+  color: #4b5563;
+  transition: color 0.2s ease;
 }
 
 .product-detail__state--error {
@@ -13,6 +15,11 @@
 
 .product-detail {
   padding: 2.5rem 0 4rem;
+  background: #f9fafb;
+  color: #111827;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .product-detail__hero {
@@ -27,4 +34,17 @@
   .product-detail__hero {
     grid-template-columns: 1fr;
   }
+}
+
+:host-context(.dark) .product-detail {
+  background: #27272a;
+  color: #f4f4f5;
+}
+
+:host-context(.dark) .product-detail__state {
+  color: #d4d4d8;
+}
+
+:host-context(.dark) .product-detail__state--error {
+  color: #fda4af;
 }

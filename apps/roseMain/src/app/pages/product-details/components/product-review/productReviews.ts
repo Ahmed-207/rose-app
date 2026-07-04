@@ -14,6 +14,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthCookieStorage } from '@org/auth';
@@ -60,6 +61,7 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
   readonly formRating = signal(0);
   readonly isSubmitting = signal(false);
   readonly submitError = signal('');
+  readonly showSignInPrompt = signal(false);
   readonly reviewListMaxHeight = signal<number | null>(null);
 
   readonly reviewForm = new FormGroup({
@@ -88,12 +90,12 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
 
   submitReview(): void {
     this.submitError.set('');
+    this.showSignInPrompt.set(false);
 
-    if (!this.authCookieStorage.getSession()) {
-      this.submitError.set('Please login to add a review');
-      void this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: this.router.url },
-      });
+    const session = this.authCookieStorage.getSession();
+
+    if (!session?.token) {
+      this.showSignInFirst();
       return;
     }
 
@@ -112,7 +114,7 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
     };
 
     this.isSubmitting.set(true);
-    this.productsService.createProductReview(review)
+    this.productsService.createProductReview(review, session.token)
       .pipe(
         finalize(() => this.isSubmitting.set(false)),
         takeUntilDestroyed(this.destroyRef),
@@ -127,11 +129,41 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
           this.reviewAdded.emit(createdReview);
           this.reviewForm.reset();
           this.formRating.set(0);
+          this.showSignInPrompt.set(false);
         },
-        error: () => {
+        error: (error: unknown) => {
+          if (this.isAuthError(error)) {
+            this.showSignInFirst();
+            return;
+          }
+
           this.submitError.set('Review could not be added. Please try again.');
         },
       });
+  }
+
+  goToSignIn(): void {
+    void this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: this.router.url },
+    });
+  }
+
+  private showSignInFirst(): void {
+    this.submitError.set('Please sign in first to add a review');
+    this.showSignInPrompt.set(true);
+  }
+
+  private isAuthError(error: unknown): boolean {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 401 || error.status === 403) {
+        return true;
+      }
+
+      const message = String(error.error?.message ?? error.error?.error ?? '').toLowerCase();
+      return error.status === 400 && /auth|jwt|login|token|unauthorized/.test(message);
+    }
+
+    return false;
   }
 
   private mapSubmittedReview(review: {
