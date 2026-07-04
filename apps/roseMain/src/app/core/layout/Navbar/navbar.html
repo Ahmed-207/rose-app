@@ -16,8 +16,8 @@
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300 text-sm">
                 <i class="fa-solid fa-location-dot text-gray-400 dark:text-gray-400 text-lg"></i>
                 <div>
-                    <p class="text-xs text-gray-400 dark:text-gray-400">{{ 'navbar.DELIVER_TO' | translate }}</p>
-                    <p class="font-bold text-gray-700 dark:text-gray-200">{{ 'navbar.CITY' | translate }}</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-400">Deliver To:</p>
+                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc]">Cairo</p>
                 </div>
             </div>
 
@@ -32,20 +32,20 @@
                           dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-500">
         </div>
         <div class="hidden md:flex items-center gap-2">
-            <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white  hover:text-rose-600 transition">
                 <i class="fa-regular fa-user text-lg"></i>
                 <span class="text-sm font-medium cursor-pointer" (click)="goToLogin()">{{ 'navbar.LOGIN' | translate
                     }}</span>
             </button>
-            <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                 <i class="fa-regular fa-heart"></i>
 
             </button>
-            <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                 <i class="fa-solid fa-cart-shopping"></i>
 
             </button>
-            <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
 
                 <i class="fa-regular fa-bell"></i>
 
@@ -53,9 +53,29 @@
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
         </div>
+            <!-- <div class="hidden md:flex items-center gap-2">
+                <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
+                    <i class="fa-regular fa-user text-lg"></i>
+                    <span class="text-sm font-medium dark:text-white">Login</span>
+                </button>
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+                     <i class="fa-regular fa-heart"></i>
+                    
+                </button>
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    
+                </button>
+                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+                  
+                    <i class="fa-regular fa-bell"></i>
+                    
+                </button>
+            </div> -->
     </div>
 
-    <nav class="bg-[#5c1d34] dark:bg-[#f3f4f6] text-white dark:text-gray-700 w-full transition-colors duration-300">
+
+    <nav class="bg-[#741c21]  dark:bg-[#ffc2cc] text-white dark:text-gray-700 w-full transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 flex justify-center items-center min-h-11.25 w-full">
 
             <ul

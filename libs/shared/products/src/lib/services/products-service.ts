@@ -8,6 +8,10 @@ import { CreateReviewReq, CreateReviewRes, ProductsRes, ReviewsRes, SingleProduc
   providedIn: 'root',
 })
 export class ProductsService {
+  getBestProducts(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
+ 
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
@@ -48,6 +52,9 @@ export class ProductsService {
     });
   }
 
+  getAllcatigories(): Observable<Category> {
+    return this.httpClient.get<Category>(`${this.apiURL()}categories`);
+  }
 
 
 }

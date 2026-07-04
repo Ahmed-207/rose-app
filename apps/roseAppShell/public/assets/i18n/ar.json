@@ -118,6 +118,36 @@
   "100% Secure Payment": "دفع آمن بنسبة 100%",
   "24/7 Support": "دعم 24/7",
   "Contact us at any time": "تواصل معنا في أي وقت",
+  
+  "mostPopular": {
+    "title": "الأكثر شعبية",
+    "viewMore": "عرض المزيد",
+    
+      "All": "الكل",
+      "Category": "منتجات"
+    
+  },
+  "about": {
+    "tag": "عن المتجر",
+    "titlePart1": "تقديم",
+    "titleHighlight1": "أرقى",
+    "titlePart2": "صناديق الهدايا للحظاتكم",
+    "titleHighlight2": "السعيدة",
+    "titlePart3": "والمميزة",
+    "description": "اجعل كل لحظة لا تُنسى مع صناديق الهدايا الفاخرة لدينا. تم اختيارها وتعبئتها بعناية فائقة لتترك انطباعاً يدوم.",
+    "discover": "اكتشف الآن",
+    "features": {
+      "prices": "أسعار تنافسية وتسوق سهل",
+      "quality": "جودة عالية وتغليف أنيق",
+      "occasion": "مثالية لكل مناسبة",
+      "delivery": "توصيل سريع وموثوق"
+    }
+  },
+  "products": {
+    "relatedTitle": "منتجات ذات صلة"
+  }
+
+
   "BEST SELLING": "الأكثر مبيعًا",
   "Check Out": "اطّلع على",
   "What Everyone's": "ما",

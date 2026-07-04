@@ -1,0 +1,51 @@
+<section class="related-products font-primary py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="related-products__layout flex flex-col gap-6">
+      
+      <!-- عنوان القسم المترجم -->
+      <div class="related-products__header border-b border-gray-100 pb-3">
+        <h2 class="text-2xl font-bold text-gray-800 relative inline-block after:content-[''] after:absolute after:bottom-[-13px] after:left-0 after:w-full after:h-[3px] after:bg-pink-300">
+          {{ 'products.relatedTitle' | translate }}
+        </h2>
+      </div>
+
+      <!-- الـ Carousel الخاص بالمنتجات ذات الصلة -->
+      <div class="related-products__carousel relative flex items-center group">
+        
+        <!-- زر التنقل الأيسر -->
+        <button
+          type="button"
+          class="carousel-nav carousel-nav--prev absolute -left-5 z-10 bg-[#a6252a] hover:bg-[#851d21] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+          (click)="scroll('prev')"
+          [attr.aria-label]="'Previous products' | translate">
+          <i class="pi pi-chevron-left" aria-hidden="true"></i>
+        </button>
+
+        <!-- نافذة عرض الكروت المرنة -->
+        <div class="carousel-viewport overflow-hidden w-full">
+          <div class="carousel-track flex gap-6" #track>
+            @for (product of products(); track product.id) {
+              <div class="carousel-item flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)]">
+                <product-card
+                  [product]="product"
+                  (addToCart)="onAddToCart($event)"
+                  (wishlistToggle)="onWishlistToggle($event)">
+                </product-card>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- زر التنقل الأيمن -->
+        <button
+          type="button"
+          class="carousel-nav carousel-nav--next absolute -right-5 z-10 bg-[#a6252a] hover:bg-[#851d21] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+          (click)="scroll('next')"
+          [attr.aria-label]="'Next products' | translate">
+          <i class="pi pi-chevron-right" aria-hidden="true"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</section>
