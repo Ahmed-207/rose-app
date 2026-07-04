@@ -1,29 +1,28 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal,} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal, } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductsService } from '@org/products';
-import { Spinner } from '@org/shared-ui-components';
+import { Category, ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Product } from 'apps/shared/models/productDto';
-import { mapApiProductToCardProduct } from '../Utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({
   selector: 'most-popular-section',
-  imports: [TranslatePipe, ProductCard, Spinner],
-  templateUrl: './mostPopularSection.html', 
-  styleUrl: './mostPopularSection.css',     
+  imports: [TranslatePipe, ProductCard],
+  templateUrl: './mostPopularSection.html',
+  styleUrl: './mostPopularSection.css',
 })
 export class MostPopularSection implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly products = signal<Product[]>([]);
-  readonly categories = signal<Product[]>([]);
+  readonly categories = signal<Category[]>([]);
   readonly isLoading = signal(false);
   readonly error = signal<string | null>(null);
-filters: any;
-  destroyRef: DestroyRef | undefined;
+  filters: any;
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -35,8 +34,8 @@ filters: any;
   }
 
 
-  
-  onAddToCart(_product: Product): void {}
+
+  onAddToCart(_product: Product): void { }
 
   onWishlistToggle(product: Product): void {
     product.isWishlist = !product.isWishlist;
@@ -59,40 +58,40 @@ filters: any;
   // }
 
   private loadPopularProducts(): void {
-  this.productsService
-    .getAllProducts(1, 12)
-    .pipe(takeUntilDestroyed(this.destroyRef)) 
-    .subscribe({
-      next: (response) => {
-        this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-      },
-      error: (err) => {
-        console.error('Error loading popular products', err);
-      }
-    });
+    this.productsService
+      .getAllProducts(1, 12)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+        },
+        error: (err) => {
+          console.error('Error loading popular products', err);
+        }
+      });
   }
 
   private loadCategories(): void {
-  this.productsService
-    .getAllcatigories()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: (response) => {
-        
-        this.categories.set(response['payload'].data || response);
-      },
-      error: (err) => {
-        // console.error('Error loading categories', err);
-      }
-    });
+    this.productsService
+      .getAllcatigories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+
+          this.categories.set(response.payload.data.slice(0,5));
+        },
+        error: (err) => {
+          // console.error('Error loading categories', err);
+        }
+      });
   }
 
 
-  
-readonly activeFilter = signal<string>('Wedding'); 
 
-changeFilter(filterName: string, event: Event): void {
-  event.preventDefault(); 
-  this.activeFilter.set(filterName);
-}
+  readonly activeFilter = signal<string>('Wedding');
+
+  changeFilter(filterName: string, event: Event): void {
+    event.preventDefault();
+    this.activeFilter.set(filterName);
+  }
 }

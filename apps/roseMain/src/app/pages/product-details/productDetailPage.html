@@ -11,6 +11,7 @@
       </section>
 
       <product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></product-reviews>
+      <related-products-section [currentProductId]="productId()"></related-products-section>
     </div>
   </div>
 }

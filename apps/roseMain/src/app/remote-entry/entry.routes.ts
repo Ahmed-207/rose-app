@@ -33,6 +33,11 @@ export const remoteRoutes: Route[] = [
           ),
         title: 'Product Details',
       },
+      {
+        path: 'about',
+        loadComponent: () => import('../pages/about-us/aboutUs').then((c) => c.AboutUs),
+        title: 'About Us'
+      }
     ],
   },
 ];

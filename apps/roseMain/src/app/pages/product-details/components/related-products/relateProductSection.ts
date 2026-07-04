@@ -15,7 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Product } from 'apps/shared/models/productDto';
-import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/features/home/Utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({
   selector: 'related-products-section',
@@ -25,7 +25,7 @@ import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/features/home/
   styleUrl: './relateProductSection.css',
 })
 export class RelatedProductsSection implements OnInit {
-  readonly currentProductId = input.required<number>(); // لاستقبال الـ id الحالي للمنتج لجلب المنتجات الشبيهة به من الـ API
+  readonly currentProductId = input.required<string>(); // لاستقبال الـ id الحالي للمنتج لجلب المنتجات الشبيهة به من الـ API
 
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
@@ -56,7 +56,7 @@ export class RelatedProductsSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {}
+  onAddToCart(_product: Product): void { }
 
   onWishlistToggle(product: Product): void {
     product.isWishlist = !product.isWishlist;
@@ -65,7 +65,7 @@ export class RelatedProductsSection implements OnInit {
   private loadRelatedProducts(): void {
     // افترضنا أن الـ Service تحتوي على دالة لجلب المنتجات المرتبطة، يمكنك تعديلها حسب مسميات الـ API لديك
     this.productsService
-      .getBestProducts(8) 
+      .getBestProducts(8)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
         this.products.set(response.payload.data.map(mapApiProductToCardProduct));

@@ -1,0 +1,43 @@
+<section class="most-popular font-primary">
+  <div class="max-w-7xl mx-auto px-4">
+
+    <div class="most-popular__header">
+      <h2 class="most-popular__title">{{ 'mostPopular.title' | translate }}</h2>
+
+      <div class="most-popular__filters">
+        <button type="button" class="filter-link" [class.active]="activeFilter() === 'All'"
+          (click)="changeFilter('All', $event)">
+          {{ 'mostPopular.All' | translate }}
+        </button>
+
+        @for (category of categories(); track category.id) {
+        <button type="button" class="filter-link" [class.active]="activeFilter() === category.title"
+          (click)="changeFilter(category.title, $event)">
+          {{ category.title }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="most-popular__grid-container grid grid-cols-12 gap-4 md:gap-5 lg:gap-6">
+      @for (product of products(); track product.id) {
+      <div class="most-popular__grid-item col-span-12 md:col-span-4 lg:col-span-3">
+        <product-card [product]="product" (addToCart)="onAddToCart($event)"
+          (wishlistToggle)="onWishlistToggle($event)"></product-card>
+      </div>
+      } @empty {
+      <p class="col-span-12 text-center py-8 text-gray-500">
+        {{ 'mostPopular.noProductsFound' | translate }}
+      </p>
+      }
+    </div>
+
+    <div class="most-popular__view-more-container">
+      <button type="button" class="most-popular__view-more">
+        {{ 'mostPopular.viewMore' | translate }}
+        <i class="pi pi-arrow-right"></i>
+      </button>
+    </div>
+
+  </div>
+</section>
