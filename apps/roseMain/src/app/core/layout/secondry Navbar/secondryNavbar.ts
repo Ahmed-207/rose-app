@@ -2,7 +2,7 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem, MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
@@ -25,29 +25,23 @@ export class SecondryNavbar implements OnInit {
             {
                 label: 'Documents',
                 items: [
-                    {
-                        label: 'Account',
-                        icon: 'pi pi-user'
-                    },
-                    {
-                        label: 'Adress',
-                        icon: 'pi pi-plus'
-                    },
-                    {
-                        label: 'Orders',
-                        icon: 'pi pi-cart-shopping'
-                    },
-                    {
-                        label: 'Dashboard',
-                        icon: 'pi pi-cog'
-                    },
-                    {
-                        label: 'Logout',
-                        icon: 'pi pi-sign-out'
-                    }
+                    { label: 'Account', icon: 'pi pi-user' },
+                    { label: 'Adress', icon: 'pi pi-plus' },
+                    { label: 'Orders', icon: 'pi pi-cart-shopping' },
+                    { label: 'Dashboard', icon: 'pi pi-cog' },
+                    { label: 'Logout', icon: 'pi pi-sign-out' }
                 ]
             }
         ];
     }
-}
 
+    isMobileMenuOpen = signal(false);
+
+    toggleMobileMenu(): void {
+        this.isMobileMenuOpen.update(v => !v);
+    }
+
+    closeMobileMenu(): void {
+        this.isMobileMenuOpen.set(false);
+    }
+}

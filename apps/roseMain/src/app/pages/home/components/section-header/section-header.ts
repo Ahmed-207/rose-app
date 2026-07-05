@@ -9,7 +9,7 @@ import { Component, input } from '@angular/core';
 })
 export class SectionHeader {
 
-  header = input.required<string>();
-  quote = input.required<string>();
+  header = input<string>();
+  quote = input<string>();
 
 }

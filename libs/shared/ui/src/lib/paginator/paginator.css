@@ -1,0 +1,132 @@
+.rose-paginator .p-paginator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent !important;
+    border: none !important;
+    padding: 0;
+}
+
+.rose-paginator .p-paginator-first,
+.rose-paginator .p-paginator-prev,
+.rose-paginator .p-paginator-next,
+.rose-paginator .p-paginator-last,
+.rose-paginator .p-paginator-page {
+    min-width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.rose-paginator .p-paginator-first:focus-visible,
+.rose-paginator .p-paginator-prev:focus-visible,
+.rose-paginator .p-paginator-next:focus-visible,
+.rose-paginator .p-paginator-last:focus-visible,
+.rose-paginator .p-paginator-page:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+.rose-paginator .p-paginator-first,
+.rose-paginator .p-paginator-prev,
+.rose-paginator .p-paginator-next,
+.rose-paginator .p-paginator-last,
+.rose-paginator .p-paginator-page {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: rgba(63, 63, 70, 1) !important;
+}
+
+.rose-paginator .p-paginator-first:not(.p-disabled):hover,
+.rose-paginator .p-paginator-prev:not(.p-disabled):hover,
+.rose-paginator .p-paginator-next:not(.p-disabled):hover,
+.rose-paginator .p-paginator-last:not(.p-disabled):hover,
+.rose-paginator .p-paginator-page:not(.p-paginator-page-selected):hover {
+    background-color: rgba(166, 37, 42, 0.08) !important;
+    color: rgba(166, 37, 42, 1) !important;
+}
+
+.rose-paginator .p-paginator-page-selected,
+.rose-paginator .p-paginator-page.p-highlight {
+    background-color: #741c21 !important;
+    border-color: #741c21 !important;
+    color: #ffffff !important;
+}
+
+.rose-paginator .p-paginator-first.p-disabled,
+.rose-paginator .p-paginator-prev.p-disabled,
+.rose-paginator .p-paginator-next.p-disabled,
+.rose-paginator .p-paginator-last.p-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.rose-paginator .p-paginator-icon {
+    color: inherit !important;
+    width: 1rem;
+    height: 1rem;
+}
+
+.rose-paginator .p-paginator-current {
+    color: rgba(63, 63, 70, 1) !important;
+}
+
+
+.dark .rose-paginator .p-paginator-first,
+.dark .rose-paginator .p-paginator-prev,
+.dark .rose-paginator .p-paginator-next,
+.dark .rose-paginator .p-paginator-last,
+.dark .rose-paginator .p-paginator-page {
+    background-color: #27272a !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.dark .rose-paginator .p-paginator-first:not(.p-disabled):hover,
+.dark .rose-paginator .p-paginator-prev:not(.p-disabled):hover,
+.dark .rose-paginator .p-paginator-next:not(.p-disabled):hover,
+.dark .rose-paginator .p-paginator-last:not(.p-disabled):hover,
+.dark .rose-paginator .p-paginator-page:not(.p-paginator-page-selected):not(.p-highlight):hover {
+    background-color: #3f3f46 !important;
+    color: #f47b98 !important;
+}
+
+
+.dark .rose-paginator .p-paginator-page-selected,
+.dark .rose-paginator .p-paginator-page.p-highlight {
+    background-color: #ffc2cc !important;
+    border-color: #ffc2cc !important;
+    color: #5c1d34 !important;
+}
+
+.dark .rose-paginator .p-paginator-first.p-disabled,
+.dark .rose-paginator .p-paginator-prev.p-disabled,
+.dark .rose-paginator .p-paginator-next.p-disabled,
+.dark .rose-paginator .p-paginator-last.p-disabled {
+    opacity: 0.35;
+}
+
+.dark .rose-paginator .p-paginator-current {
+    color: #ffffff !important;
+}
+
+.rose-paginator .p-paginator-page:focus-visible,
+.rose-paginator .p-paginator-first:focus-visible,
+.rose-paginator .p-paginator-prev:focus-visible,
+.rose-paginator .p-paginator-next:focus-visible,
+.rose-paginator .p-paginator-last:focus-visible {
+    box-shadow: 0 0 0 2px rgba(166, 37, 42, 0.35) !important;
+}
+
+.dark .rose-paginator .p-paginator-page:focus-visible,
+.dark .rose-paginator .p-paginator-first:focus-visible,
+.dark .rose-paginator .p-paginator-prev:focus-visible,
+.dark .rose-paginator .p-paginator-next:focus-visible,
+.dark .rose-paginator .p-paginator-last:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 194, 204, 0.45) !important;
+}

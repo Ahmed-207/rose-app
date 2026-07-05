@@ -5,11 +5,7 @@
         <div class="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start">
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 flex items-center justify-center">
-                    <i><img src="/assets/images/logo.png" alt="Rose" class="w-full h-full object-contain"></i>
-                    <div
-                        class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center text-pink-600 font-bold">
-                        <i class="logo.png"></i>
-                    </div>
+                    <img src="/assets/images/logo.png" alt="Rose" class="w-full h-full object-contain">
                 </div>
             </div>
 
@@ -20,7 +16,20 @@
                     <p class="font-bold text-gray-700 dark:text-[#ffc2cc]">Cairo</p>
                 </div>
             </div>
-
+            <button type="button"
+                class="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5 z-50 shrink-0"
+                (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen()"
+                aria-label="Toggle navigation menu">
+                <span
+                    class="block h-0.5 w-6 rounded-full bg-black dark:bg-white transition-all duration-300 ease-in-out"
+                    [class.rotate-45]="isMobileMenuOpen()" [class.translate-y-2]="isMobileMenuOpen()"></span>
+                <span
+                    class="block h-0.5 w-6 rounded-full bg-black dark:bg-white transition-all duration-300 ease-in-out"
+                    [class.opacity-0]="isMobileMenuOpen()"></span>
+                <span
+                    class="block h-0.5 w-6 rounded-full bg-black dark:bg-white transition-all duration-300 ease-in-out"
+                    [class.-rotate-45]="isMobileMenuOpen()" [class.-translate-y-2]="isMobileMenuOpen()"></span>
+            </button>
         </div>
 
         <div class="relative w-full md:w-1/2">
@@ -31,53 +40,29 @@
             <input type="text" placeholder="What awesome gift are you looking for?" class="w-full pr-10 pl-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none transition-all
                           dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-500">
         </div>
+
         <div class="hidden md:flex items-center gap-2">
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white  hover:text-rose-600 transition">
+            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                 <i class="fa-regular fa-user text-lg"></i>
                 <span class="text-sm font-medium cursor-pointer" (click)="goToLogin()">{{ 'navbar.LOGIN' | translate
                     }}</span>
             </button>
             <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                 <i class="fa-regular fa-heart"></i>
-
             </button>
             <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
                 <i class="fa-solid fa-cart-shopping"></i>
-
             </button>
             <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-
                 <i class="fa-regular fa-bell"></i>
-
             </button>
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
         </div>
-        <!-- <div class="hidden md:flex items-center gap-2">
-                <button class="flex items-center gap-2 text-gray-700 hover:text-rose-600 transition">
-                    <i class="fa-regular fa-user text-lg"></i>
-                    <span class="text-sm font-medium dark:text-white">Login</span>
-                </button>
-                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                     <i class="fa-regular fa-heart"></i>
-                    
-                </button>
-                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    
-                </button>
-                 <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                  
-                    <i class="fa-regular fa-bell"></i>
-                    
-                </button>
-            </div> -->
     </div>
-
-
-    <nav class="bg-[#741c21]  dark:bg-[#ffc2cc] text-white dark:text-gray-700 w-full transition-colors duration-300">
+    <nav
+        class="hidden md:block bg-[#741c21] dark:bg-[#ffc2cc] text-white dark:text-gray-700 w-full transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 flex justify-center items-center min-h-11.25 w-full">
-
             <ul
                 class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
                 <li>
@@ -116,8 +101,67 @@
                     </a>
                 </li>
             </ul>
-
         </div>
     </nav>
+    @if (isMobileMenuOpen()) {
+    <div class="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 md:hidden transition-opacity duration-300"
+        (click)="closeMobileMenu()" aria-hidden="true"></div>
+    }
+    <div class="fixed top-0 right-0 h-full w-72 max-w-[80%] bg-white dark:bg-[#202938] z-40 md:hidden
+               shadow-2xl transition-transform duration-300 ease-in-out" [class.translate-x-0]="isMobileMenuOpen()"
+        [class.translate-x-full]="!isMobileMenuOpen()">
+        <ul class="flex flex-col gap-1 p-6 mt-20 list-none m-0">
+            <li>
+                <a href="#" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline font-semibold
+                           text-[#741c21] dark:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-house text-sm"></i> {{'navbar.Home'| translate}}
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="'products'" (click)="closeMobileMenu()"
+                    [routerLinkActive]="'text-[#741c21] dark:text-[#ffc2cc] font-semibold'"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-box-open text-sm"></i> {{'navbar.Products'| translate}}
+                </a>
+            </li>
+            <li>
+                <a href="#" (click)="closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-list text-sm"></i> {{'navbar.Categories'| translate}}
+                </a>
+            </li>
+            <li>
+                <a href="#" (click)="closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-calendar text-sm"></i> {{'navbar.Occasions'| translate}}
+                </a>
+            </li>
+            <li>
+                <a href="#" (click)="closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-headset text-sm"></i> {{'navbar.Contact'| translate}}
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="'about'" (click)="closeMobileMenu()"
+                    [routerLinkActive]="'text-[#741c21] dark:text-[#ffc2cc] font-semibold'"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-solid fa-circle-info text-sm"></i> {{'navbar.About'| translate}}
+                </a>
+            </li>
+            <li class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
+                <a href="#" (click)="goToLogin(); closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="fa-regular fa-user text-sm"></i> {{ 'navbar.LOGIN' | translate }}
+                </a>
+            </li>
+        </ul>
+    </div>
 
 </header>

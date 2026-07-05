@@ -2,9 +2,26 @@
   <div class="max-w-7xl mx-auto px-4">
 
     <div class="most-popular__header">
-      <h2 class="most-popular__title">{{ 'mostPopular.title' | translate }}</h2>
 
-      <div class="most-popular__filters">
+
+      <div class="flex items-center justify-between gap-4 md:contents">
+        <app-section-header [quote]="'mostPopular.title' | translate"></app-section-header>
+
+
+        <button type="button" class="most-popular__filter-trigger md:hidden flex items-center gap-2
+                 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700
+                 bg-gray-50 dark:bg-[#2d3748] text-sm font-medium
+                 text-gray-700 dark:text-gray-200 shrink-0" (click)="toggleFilterMenu()"
+          [attr.aria-expanded]="isFilterMenuOpen()">
+          <i class="pi pi-filter text-xs text-[#741c21] dark:text-[#ffc2cc]"></i>
+          {{ activeFilter() === 'All' ? ('mostPopular.All' | translate) : activeFilter() }}
+
+          <i class="pi pi-chevron-down text-xs text-gray-400 transition-transform duration-200"
+            [class.rotate-180]="isFilterMenuOpen()"></i>
+        </button>
+      </div>
+
+      <div class="most-popular__filters hidden md:flex md:flex-wrap gap-3">
         <button type="button" class="filter-link" [class.active]="activeFilter() === 'All'"
           (click)="changeFilter('All', $event)">
           {{ 'mostPopular.All' | translate }}
@@ -17,6 +34,27 @@
         </button>
         }
       </div>
+
+
+      <div class="md:hidden grid transition-[grid-template-rows] duration-300 ease-in-out"
+        [class.grid-rows-[1fr]]="isFilterMenuOpen()" [class.grid-rows-[0fr]]="!isFilterMenuOpen()">
+        <div class="overflow-hidden">
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="filter-link" [class.active]="activeFilter() === 'All'"
+              (click)="changeFilter('All', $event); closeFilterMenu()">
+              {{ 'mostPopular.All' | translate }}
+            </button>
+
+            @for (category of categories(); track category.id) {
+            <button type="button" class="filter-link" [class.active]="activeFilter() === category.title"
+              (click)="changeFilter(category.title, $event); closeFilterMenu()">
+              {{ category.title }}
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="most-popular__grid-container grid grid-cols-12 gap-4 md:gap-5 lg:gap-6">
@@ -33,7 +71,7 @@
     </div>
 
     <div class="most-popular__view-more-container">
-      <button type="button" class="most-popular__view-more">
+      <button type="button" class="most-popular__view-more" (click)="goToProductsPage()">
         {{ 'mostPopular.viewMore' | translate }}
         <i class="pi pi-arrow-right"></i>
       </button>

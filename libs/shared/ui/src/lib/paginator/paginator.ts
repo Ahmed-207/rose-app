@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 
@@ -7,6 +7,9 @@ import { PaginatorState, PaginatorModule } from 'primeng/paginator';
   imports: [PaginatorModule],
   templateUrl: './paginator.html',
   styleUrl: './paginator.css',
+  // Disabled so plain CSS can target PrimeNG's internal paginator DOM.
+  // Everything is scoped under .rose-paginator in the CSS so nothing leaks globally.
+  encapsulation: ViewEncapsulation.None,
 })
 export class Paginator {
 

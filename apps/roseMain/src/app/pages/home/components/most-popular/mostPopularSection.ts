@@ -6,10 +6,12 @@ import { Category, ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Product } from 'apps/shared/models/productDto';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { SectionHeader } from "../section-header/section-header";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'most-popular-section',
-  imports: [TranslatePipe, ProductCard],
+  imports: [TranslatePipe, ProductCard, SectionHeader],
   templateUrl: './mostPopularSection.html',
   styleUrl: './mostPopularSection.css',
 })
@@ -17,6 +19,7 @@ export class MostPopularSection implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   readonly products = signal<Product[]>([]);
   readonly categories = signal<Category[]>([]);
@@ -41,21 +44,6 @@ export class MostPopularSection implements OnInit {
     product.isWishlist = !product.isWishlist;
   }
 
-  // private loadPopularProducts(): void {
-  //   this.isLoading.set(true);
-  //   this.error.set(null);
-
-  //   this.productsService.getAllProducts(1 ,12).subscribe({
-  //     next: (response)  => {
-  //       this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-  //       this.isLoading.set(false);
-  //     },
-  //     error: () => {
-  //       this.error.set('Failed to load most popular products');
-  //       this.isLoading.set(false);
-  //     },
-  //   });
-  // }
 
   private loadPopularProducts(): void {
     this.productsService
@@ -78,10 +66,7 @@ export class MostPopularSection implements OnInit {
       .subscribe({
         next: (response) => {
 
-          this.categories.set(response.payload.data.slice(0,5));
-        },
-        error: (err) => {
-          // console.error('Error loading categories', err);
+          this.categories.set(response.payload.data.slice(0, 5));
         }
       });
   }
@@ -94,4 +79,19 @@ export class MostPopularSection implements OnInit {
     event.preventDefault();
     this.activeFilter.set(filterName);
   }
+
+  goToProductsPage(): void {
+    this.router.navigateByUrl('/home/products');
+  }
+
+  isFilterMenuOpen = signal(false);
+
+  toggleFilterMenu(): void {
+    this.isFilterMenuOpen.update(v => !v);
+  }
+
+  closeFilterMenu(): void {
+    this.isFilterMenuOpen.set(false);
+  }
+
 }
