@@ -6,54 +6,25 @@
 /* رأس القسم والعنوان باللون الوردي */
 .most-popular__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.most-popular__title {
-  color: rgba(116, 28, 33, 1);
-  font-size: 1.75rem;
-  font-weight: 700;
-  position: relative;
-  padding-bottom: 8px;
-  display: inline-block;
-  z-index: 1;
-
-}
-.most-popular__title::before {
- content: '';
-  position: absolute;
-  
-  width: 154px;
-  height: 17px;
-  
-  left: 0;
-  top: 50%;
-  transform: translateY(-10%); 
-  
-  background-color: rgba(255, 224, 231, 1);
-  border-top-right-radius: 20px;    
-  border-bottom-right-radius: 20px; 
-  
-  z-index: -1;  
-}
-.most-popular__title::after {
-  content: '';
-  position: absolute;
-  bottom: 11%;
-  left: 0;
-  width: 60px;         
-  height: 2px;          
-  background-color: rgba(230, 80, 115, 1); 
-  border-radius: 99px;  
-  z-index: 1;
+@media (min-width: 768px) {
+  .most-popular__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
-
-.most-popular__filters {
-  display: flex;
-  gap: 1.5rem;
+@media (min-width: 768px) {
+  .most-popular__filters {
+    display: flex;
+    gap: 1.5rem;
+  }
 }
 
 .filter-link {
@@ -71,14 +42,27 @@
   cursor: pointer;
 }
 
+:host-context(.dark) .filter-link {
+  color: white;
+}
+
 .filter-link:hover {
-  color: #f47b98;
+  color: rgba(166, 37, 42, 1);
+}
+
+:host-context(.dark) .filter-link:hover {
+  color: #f47b98
 }
 
 .filter-link.active {
-  color: rgba(166, 37, 42, 1) !important;
+  color: rgba(166, 37, 42, 1);
   font-weight: 700;
   border-bottom-color: rgba(166, 37, 42, 1);
+}
+
+:host-context(.dark) .filter-link.active {
+  color: #f47b98;
+  border-bottom-color: #f47b98;
 }
 
 /* عنصر واحد داخل الشبكة — التخطيط نفسه يُدار عبر Tailwind في القالب */
