@@ -171,5 +171,13 @@
   "Review": "Review",
   "What do you think of this product?": "What do you think of this product?",
   "Add Review": "Add Review",
-  "No reviews yet": "No reviews yet"
+  "No reviews yet": "No reviews yet",
+   "Category": "Category",
+  "Reset": "Reset",
+  "Occasion": "Occasion",
+  "Price": "Price",
+  "from": "From",
+  "to": "To",
+  "Reset all": "Reset All",
+  "Apply filters": "Apply Filters"
 }

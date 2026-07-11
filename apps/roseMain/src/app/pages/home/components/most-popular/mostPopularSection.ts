@@ -4,10 +4,10 @@ import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal, } from '@an
 import { TranslatePipe } from '@ngx-translate/core';
 import { Category, ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { Product } from 'apps/shared/models/productDto';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { SectionHeader } from "../section-header/section-header";
 import { Router } from '@angular/router';
+import { Product } from '../../../products-page/model/productDto';
 
 @Component({
   selector: 'most-popular-section',
@@ -41,7 +41,7 @@ export class MostPopularSection implements OnInit {
   onAddToCart(_product: Product): void { }
 
   onWishlistToggle(product: Product): void {
-    product.isWishlist = !product.isWishlist;
+    // product.isWishlist = !product.isWishlist;
   }
 
 
@@ -51,7 +51,7 @@ export class MostPopularSection implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+          // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
         },
         error: (err) => {
           console.error('Error loading popular products', err);

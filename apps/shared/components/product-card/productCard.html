@@ -6,16 +6,16 @@
     (click)="onWishlist()">
 
     <i
-      [class]="product.isWishlist ? 'pi pi-heart-fill' : 'pi pi-heart'">
+      [class]="product._count.wishlistItems > 0 ? 'pi pi-heart-fill' : 'pi pi-heart'">
     </i>
 
     <span>
-      {{ (product.isWishlist ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
+      {{ (product._count.wishlistItems > 0 ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
     </span>
   </button>
 
   <!-- Badges -->
-  <div class="badges">
+  <!-- <div class="badges">
     @for (badge of product.badges; track $index) {
       <span class="badge" [ngClass]="badge.toLowerCase()">
         {{ badge | translate }}
@@ -24,16 +24,16 @@
     @if (product.isOutOfStock) {
       <span class="badge out-stock">{{ 'OUT OF STOCK' | translate }}</span>
     }
-  </div>
+  </div> -->
 
   <!-- Product Image -->
-  @if (productLink) {
-    <a [routerLink]="productLink" class="image-wrapper product-card__link">
-      <img [src]="product.image" [alt]="product.name">
+  @if (product.id) {
+    <a  [routerLink]="['/home', 'products', product.id]" class="image-wrapper product-card__link">
+      <img [src]="product.cover" [alt]="product.cover">
     </a>
   } @else {
     <div class="image-wrapper">
-      <img [src]="product.image" [alt]="product.name">
+      <img [src]="product.cover" [alt]="product.cover">
     </div>
   }
 
@@ -41,10 +41,10 @@
   <div class="content">
     @if (productLink) {
       <h3 class="product-title">
-        <a [routerLink]="productLink" class="product-card__link">{{ product.name }}</a>
+        <a [routerLink]="productLink" class="product-card__link">{{ product.title }}</a>
       </h3>
     } @else {
-      <h3 class="product-title">{{ product.name }}</h3>
+      <h3 class="product-title">{{ product.title }}</h3>
     }
 
     <div class="rating">
@@ -58,11 +58,11 @@
       <span class="current-price">
         {{ product.price | number:'1.2-2' }} {{ currency }}
       </span>
-      @if (product.oldPrice) {
+      <!-- @if (product.discountValue > 0) {
         <span class="old-price">
-          {{ product.oldPrice | number:'1.2-2' }} {{ currency }}
+          {{ (product.price - product.discountValue) | number:'1.2-2' }} {{ currency }}
         </span>
-      }
+      } -->
     </div>
 
     <div class="flex justify-end">
@@ -70,7 +70,7 @@
         variant="danger"
         icon="pi pi-cart-arrow-down"
         [iconOnly]="true"
-        [disabled]="product.isOutOfStock ? true : false"
+        [disabled]="product._count.cartItems >= product.stock ? true : false"
         [shape]="'circle'"
         [size]="'sm'"
         (clicked)="onAddToCart()"
