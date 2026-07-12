@@ -139,6 +139,20 @@
       "delivery": "Fast & Reliable Delivery"
     }
   },
+  "wishlist": {
+    "Shop Wishlist": "Wishlist",
+    "items": "items",
+    "Clear": "Clear Wishlist",
+    "InStock": "In Stock",
+    "OutOfStock": "Out of Stock",
+    "ratings": "ratings",
+    "EGP": "EGP",
+    "AddToCart": "Add to Cart",
+    "ExploreSimilar": "Explore Similar Products",
+    "Remove": "Remove Item",
+    "ContinueShopping": "Continue Shopping"
+  }
+  ,
   "products": {
     "relatedTitle": "Related Products"
   },

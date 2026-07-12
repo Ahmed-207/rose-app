@@ -140,6 +140,20 @@
       "delivery": "توصيل سريع وموثوق"
     }
   },
+  "wishlist": {
+    "Shop Wishlist": "قائمة الرغبات",
+    "items": "عناصر",
+    "Clear": "مسح القائمة",
+    "InStock": "متوفر في المخزن",
+    "OutOfStock": "نفد من المخزن",
+    "ratings": "تقييمات",
+    "EGP": "ج.م",
+    "AddToCart": "أضف إلى السلة",
+    "ExploreSimilar": "استكشاف منتجات مشابهة",
+    "Remove": "حذف العنصر",
+    "ContinueShopping": "العودة للتسوق"
+  }
+  ,
   "products": {
     "relatedTitle": "منتجات ذات صلة"
   },

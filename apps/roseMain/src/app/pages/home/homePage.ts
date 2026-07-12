@@ -6,6 +6,7 @@ import { SpecialGiftSection } from "./components/special-gift/specialGiftSection
 import { TrustedbySection } from "./components/trustedby-section/trustedbySection";
 import { GallerySection } from "./components/gallery-section/gallery-section";
 import { MostPopularSection } from "./components/most-popular/mostPopularSection";
+import { WishlistPage } from "../wishlist/wishlistPage";
 
 @Component({
   selector: 'app-home-page',
@@ -16,7 +17,8 @@ import { MostPopularSection } from "./components/most-popular/mostPopularSection
     BestSellingSection,
     TrustedbySection,
     GallerySection,
-    MostPopularSection
+    MostPopularSection,
+    
 ],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
