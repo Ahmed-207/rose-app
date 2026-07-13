@@ -1,0 +1,23 @@
+<div class="stepper-track relative flex items-center w-full" role="list" aria-label="Progress steps">
+
+    <!-- Base track: logical start/end so it flips correctly under dir="rtl" -->
+    <div class="absolute inset-s-0 inset-e-0 h-0.75 bg-zinc-200 dark:bg-zinc-700 rounded-full"></div>
+
+    <!-- Progress fill: anchored to logical start, grows toward logical end -->
+    <div class="absolute inset-s-0 h-0.75 bg-red-900 dark:bg-pink-300 rounded-full transition-all duration-300 ease-out"
+        [style.width.%]="progressPercent()">
+    </div>
+
+    @for (step of stepNumbers(); track step; let isLast = $last) {
+    <button type="button"
+        class="relative z-10 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-colors"
+        [class]="step <= activeStep() ? 'bg-red-900 dark:bg-pink-300 text-white dark:text-zinc-900' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400'"
+        [attr.aria-current]="step === activeStep() ? 'step' : null" (click)="onStepClick(step)">
+        {{ step }}
+    </button>
+
+    @if (!isLast) {
+    <div class="flex-1"></div>
+    }
+    }
+</div>

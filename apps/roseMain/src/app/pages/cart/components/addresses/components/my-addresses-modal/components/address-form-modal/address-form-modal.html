@@ -1,0 +1,122 @@
+<div
+    class="address-form-modal bg-white dark:bg-[#202938] p-6 md:p-8 flex flex-col gap-6 w-full h-full max-h-[85vh] overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            @if (currentStep() === 2) {
+            <button type="button"
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-red-50 dark:bg-zinc-800 text-red-900 dark:text-pink-300 hover:bg-red-100 dark:hover:bg-zinc-700 transition-colors rtl:rotate-180"
+                (click)="prevStep()">
+                <svg lucideArrowLeft [size]="18"></svg>
+            </button>
+            }
+            <h2 class="text-black dark:text-white font-extrabold text-2xl md:text-[28px] tracking-tight">
+                {{ (currentStep() === 1 ? modalTitle() : 'addresses.FIND_YOUR_LOCATION') | translate }}
+            </h2>
+        </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="shrink-0">
+        <app-stepper [totalSteps]="totalSteps" [activeStep]="currentStep()" (stepChange)="onStepperNodeClick($event)">
+        </app-stepper>
+    </div>
+
+    <div class="flex-1 overflow-y-auto overflow-x-hidden pr-1 custom-scrollbar">
+
+        <!-- Step 1: address details form -->
+        @if (currentStep() === 1) {
+        <form [formGroup]="addressForm" class="flex flex-col gap-5">
+
+            <div class="pb-4 border-b border-zinc-200 dark:border-zinc-700">
+                <span class="text-red-900 dark:text-pink-300 font-bold text-base">{{ 'addresses.ENTER_ADDRESS_DETAILS' |
+                    translate }}</span>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="title" class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{
+                    'addresses.ADDRESS_LABEL' | translate }}</label>
+                <input id="title" type="text" formControlName="title"
+                    [placeholder]="'addresses.ADDRESS_LABEL_PLACEHOLDER' | translate"
+                    class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-900/30 dark:focus:ring-pink-300/30 focus:border-red-900 dark:focus:border-pink-300 transition-colors" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="city" class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{ 'addresses.CITY' |
+                    translate }}</label>
+                <input id="city" type="text" formControlName="city"
+                    [placeholder]="'addresses.CITY_PLACEHOLDER' | translate"
+                    class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-900/30 dark:focus:ring-pink-300/30 focus:border-red-900 dark:focus:border-pink-300 transition-colors" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="street" class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{
+                    'addresses.ADDRESS' | translate }}</label>
+                <textarea id="street" rows="4" formControlName="street"
+                    [placeholder]="'addresses.ADDRESS_PLACEHOLDER' | translate"
+                    class="w-full resize-none rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-900/30 dark:focus:ring-pink-300/30 focus:border-red-900 dark:focus:border-pink-300 transition-colors"></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="phone" class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{ 'addresses.PHONE' |
+                    translate }}</label>
+                <input id="phone" type="tel" formControlName="phone"
+                    [placeholder]="'addresses.PHONE_PLACEHOLDER' | translate"
+                    class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-900/30 dark:focus:ring-pink-300/30 focus:border-red-900 dark:focus:border-pink-300 transition-colors" />
+            </div>
+
+            <!-- Custom-styled primary checkbox -->
+            <label class="flex items-center gap-3 cursor-pointer select-none w-fit">
+                <span class="relative flex items-center justify-center shrink-0">
+                    <input type="checkbox" formControlName="isPrimary"
+                        class="peer appearance-none h-5 w-5 rounded-md border-2 border-red-900 dark:border-pink-300 bg-white dark:bg-zinc-800 checked:bg-red-900 dark:checked:bg-pink-300 transition-colors cursor-pointer" />
+                    <svg class="pointer-events-none absolute h-3.5 w-3.5 text-white dark:text-zinc-900 opacity-0 peer-checked:opacity-100 transition-opacity"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </span>
+                <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{ 'addresses.SET_AS_PRIMARY' |
+                    translate }}</span>
+            </label>
+        </form>
+        }
+
+        <!-- Step 2: map / location -->
+        @if (currentStep() === 2) {
+        <div class="flex flex-col gap-4">
+            <div
+                class="relative w-full h-72 md:h-96 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700">
+
+                <google-map height="100%" width="100%" [center]="mapCenter()" [zoom]="mapZoom()"
+                    (mapClick)="onMapClick($event)">
+                    @if (coordinates().lat && coordinates().lng) {
+                    <map-marker [position]="mapCenter()"></map-marker>
+                    }
+                </google-map>
+
+                <button type="button" [disabled]="isLocating()"
+                    class="absolute top-4 right-4 flex items-center gap-2 rounded-xl bg-white dark:bg-[#202938] border border-red-900 dark:border-pink-300 text-red-900 dark:text-pink-300 hover:bg-red-50 dark:hover:bg-zinc-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors px-4 py-2.5 text-sm font-semibold shadow-sm z-10"
+                    (click)="findMyLocation()">
+                    <svg lucideLocate [size]="16" [class.animate-spin]="isLocating()"></svg>
+                    {{ (isLocating() ? 'addresses.LOCATING' : 'addresses.FIND_MY_LOCATION') | translate }}
+                </button>
+            </div>
+
+            @if (locationError()) {
+            <p class="text-sm text-red-700 dark:text-pink-400 font-medium">{{ locationError() }}</p>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="pt-4 border-t border-zinc-100 dark:border-zinc-700 shrink-0">
+        <button type="button"
+            class="w-full rounded-xl bg-red-900 dark:bg-pink-300 hover:bg-red-950 dark:hover:bg-pink-400 active:bg-red-950 dark:active:bg-pink-400 transition-colors text-white dark:text-zinc-900 font-semibold px-6 py-3.5 text-base shadow-md"
+            (click)="nextStep()">
+            {{ primaryCtaLabel() | translate }}
+        </button>
+    </div>
+</div>

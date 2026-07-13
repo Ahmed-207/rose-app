@@ -1,0 +1,58 @@
+<div
+    class="address-modal bg-white dark:bg-[#202938] p-8 flex flex-col justify-between gap-6 w-full h-full max-h-[85vh]">
+
+    <div
+        class="modal-header flex items-center justify-between w-full pb-6 border-b border-zinc-200 dark:border-zinc-700 shrink-0">
+        <h2 class="text-black dark:text-white font-extrabold text-[32px] tracking-tight">{{ 'addresses.MY_ADDRESSES' |
+            translate }}</h2>
+        <button
+            class="rounded-xl bg-rose-50 dark:bg-zinc-800 hover:bg-rose-100 dark:hover:bg-zinc-700 duration-150 transition-all text-rose-800 dark:text-pink-300 font-semibold px-5 py-3 text-sm"
+            (click)="openAddAddressForm()">
+            {{ 'addresses.ADD_NEW_ADDRESS' | translate }}
+        </button>
+    </div>
+
+    <div class="cards-container flex-1 flex flex-col gap-5 overflow-y-auto overflow-x-hidden pr-6 custom-scrollbar">
+        @if(_store.isLoading()){
+        <lib-spinner></lib-spinner>
+        }
+        @if(!_store.isLoading() && _store.error()){
+        <span class="text-zinc-700 dark:text-zinc-300">{{_store.error()}}</span>
+        }
+        @if(!_store.isLoading() && !_store.error()){
+        @if(_store.entities()){
+        @for(address of _store.entities() ; track address.id ){
+        <address-card [cardCity]="address.city" [cardTitle]="address.title" [cardStreet]="address.street"
+            [cardPhone]="address.phone" [addressId]="address.id" [isMainAddress]="address.isPrimary"
+            (deleteModalData)="toggleDeleteModal($event)" (editModalData)="openEditAddressForm(address)"></address-card>
+        }
+        }@if(_store.entities().length === 0) {
+        <empty-page></empty-page>
+        }
+        }
+    </div>
+
+    <div
+        class="button-container w-full pt-4 flex justify-center shrink-0 border-t border-zinc-100 dark:border-zinc-700">
+        <button
+            class="w-full max-w-md rounded-xl bg-red-800 dark:bg-pink-300 hover:bg-red-900 dark:hover:bg-pink-400 duration-150 transition-all text-white dark:text-zinc-900 font-medium px-6 py-3.5 text-base capitalize shadow-md"
+            (click)="closeModal()">
+            {{ 'addresses.CLOSE_ADDRESS_MODAL' | translate }}
+        </button>
+    </div>
+</div>
+
+@if(deletionModalForParent().isModalOpened){
+<delete-modal [deletionId]="deletionModalForParent().deletionId"
+    (updatedModalStatus)="toggleDeleteModal($event)"></delete-modal>
+}
+
+@if(addressFormState().isOpen){
+<div class="fixed inset-0 flex items-center justify-center bg-black/40 z-6000 backdrop-blur-sm animate-fade-in">
+    <div class="w-[90%] md:w-[60%] max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl">
+        <address-form-modal [mode]="addressFormState().mode" [seedData]="addressFormState().seed"
+            (formClosed)="closeAddressForm()">
+        </address-form-modal>
+    </div>
+</div>
+}
