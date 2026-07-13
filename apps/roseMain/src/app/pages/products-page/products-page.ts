@@ -2,7 +2,6 @@ import { ProductsStore } from "@org/products";
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProductCard, Spinner, Paginator } from "@org/shared-ui-components";
 import { ActivatedRoute, Router } from "@angular/router";
-import { WishlistPage } from "../wishlist/wishlistPage";
 
 
 @Component({

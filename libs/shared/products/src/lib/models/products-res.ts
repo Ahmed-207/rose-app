@@ -49,6 +49,7 @@ export interface ReviewsPayload {
 
 export interface Product {
   id: string;
+  _id?:string;
   title: string;
   description: string;
   rating: number;

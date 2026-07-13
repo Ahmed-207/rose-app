@@ -9,8 +9,12 @@ import {
   input,
   output,
   signal,
+  DestroyRef,
+  Input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Product, WishlistService } from '@org/products';
 import { Button } from 'apps/shared/components/button/button';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 
@@ -31,6 +35,10 @@ export class ProductInfo implements AfterViewInit, OnDestroy {
   readonly isWishlist = signal(false);
 
   private galleryResizeObserver?: ResizeObserver;
+  
+  private readonly wishlistService = inject(WishlistService);
+  private destroyRef = inject(DestroyRef);
+
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -64,8 +72,28 @@ export class ProductInfo implements AfterViewInit, OnDestroy {
     this.addToCart.emit(current);
   }
 
-  onWishlist(): void {
-    this.isWishlist.update((value) => !value);
-    this.wishlistToggle.emit(this.product());
+  // onWishlist(): void {
+  //   this.isWishlist.update((value) => !value);
+  //   this.wishlistToggle.emit(this.product());
+  // }
+  OnWishlist(): void {
+
+    const productId =  (this.product() as any)._id || this.product().id;
+
+
+    this.wishlistService.addProductWishlist(productId)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (response) => {
+        console.log('Added to wishlist successfully', response);
+        
+        
+        this.product().isWishlist = true; 
+        this.wishlistToggle.emit(this.product());
+      },
+      error: (err) => {
+        console.error('Error adding to wishlist', err);
+      }
+    });
   }
 }

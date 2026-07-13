@@ -15,7 +15,24 @@ export class WishlistService {
 
    getLoggedUserWishlist(): Observable<wishlistResponse> 
     {
-       return this.httpClient.get<wishlistResponse>(`$${this.apiURL}wishlist` 
+       return this.httpClient.get<wishlistResponse>(`${this.apiURL}wishlist` 
+      )
+    };
+
+
+    addProductWishlist(productId:string): Observable<any> 
+    {
+       return this.httpClient.post(`${this.apiURL}wishlist` ,
+         {
+      productId
+    }
+      )
+    };
+
+      removeProductFromWishlist(productId:string): Observable<any> 
+    {
+       return this.httpClient.delete(`${this.apiURL}wishlist/${productId}` 
+        
       )
     }
 }
