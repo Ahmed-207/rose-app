@@ -6,8 +6,7 @@ import { addressStore } from '@org/user-addresses';
 import { Address, EditAddressReq } from '@org/user-addresses';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-
-export type AddressFormMode = 'add' | 'edit';
+import { AddressFormMode } from '../../../../types/address-form-mode';
 
 @Component({
   selector: 'address-form-modal',

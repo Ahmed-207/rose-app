@@ -5,15 +5,11 @@ import { AddressCard } from "./components/address-card/address-card";
 import { EmptyPage } from "./components/empty-page/empty-page";
 import { DeletionModalData } from "../../models/delete-modal-data";
 import { DeleteModal } from "./components/delete-modal/delete-modal";
-import { AddressFormModal, AddressFormMode } from "./components/address-form-modal/address-form-modal";
+import { AddressFormModal } from "./components/address-form-modal/address-form-modal";
 import { Address } from "@org/user-addresses";
 import { TranslatePipe } from "@ngx-translate/core";
+import { AddressFormState } from "../../models/address-modal-state";
 
-interface AddressFormState {
-  isOpen: boolean;
-  mode: AddressFormMode;
-  seed: Address | null;
-}
 
 @Component({
   selector: 'my-addresses-modal',
