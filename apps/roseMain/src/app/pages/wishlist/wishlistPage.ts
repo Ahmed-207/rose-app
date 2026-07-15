@@ -1,5 +1,4 @@
 import { TranslatePipe } from '@ngx-translate/core';
-// import { Daum } from './../../../../../../libs/shared/products/src/lib/models/i-wishlist';
 import { WishlistService } from '@org/products';
 import { Component, DestroyRef, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
