@@ -8,19 +8,6 @@
 
 <!-- only testing address management logic and ui  -->
 @if(isLoggedIn()){
-<div class="button-container w-full p-4">
-    <address-modal-button (modalOpened)="toggleModal($event)"></address-modal-button>
-</div>
-
-@if(isModalOpened()){
-<div
-    class="overlay-container fixed inset-0 flex items-center justify-center bg-black/40 z-5000 backdrop-blur-sm animate-fade-in">
-    <!-- Restricting parent wrapper height cleanly to avoid double track bars -->
-    <div class="modal-container w-[90%] md:w-[60%] max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl">
-        <my-addresses-modal (modalClosed)="toggleModal($event)"></my-addresses-modal>
-    </div>
-</div>
-}
-
+<shipping-address></shipping-address>
 }
 <!-- end of testing logic  -->

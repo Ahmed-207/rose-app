@@ -9,11 +9,12 @@ import { AddressFormModal } from "./components/address-form-modal/address-form-m
 import { Address } from "@org/user-addresses";
 import { TranslatePipe } from "@ngx-translate/core";
 import { AddressFormState } from "../../models/address-modal-state";
+import { LucideX } from '@lucide/angular';
 
 
 @Component({
   selector: 'my-addresses-modal',
-  imports: [Spinner, AddressCard, EmptyPage, DeleteModal, AddressFormModal, TranslatePipe],
+  imports: [Spinner, AddressCard, EmptyPage, DeleteModal, AddressFormModal, TranslatePipe, LucideX],
   templateUrl: './my-addresses-modal.html',
   styleUrl: './my-addresses-modal.css',
 })

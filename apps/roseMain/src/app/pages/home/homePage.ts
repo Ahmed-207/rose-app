@@ -6,9 +6,8 @@ import { SpecialGiftSection } from "./components/special-gift/specialGiftSection
 import { TrustedbySection } from "./components/trustedby-section/trustedbySection";
 import { GallerySection } from "./components/gallery-section/gallery-section";
 import { MostPopularSection } from "./components/most-popular/mostPopularSection";
-import { AddressModalButton } from '../cart/components/addresses/components/address-modal-button/address-modal-button';
-import { MyAddressesModal } from '../cart/components/addresses/components/my-addresses-modal/my-addresses-modal';
 import { AuthActions } from '@org/auth';
+import { ShippingAddress } from "../cart/components/addresses/shipping-address";
 
 @Component({
   selector: 'app-home-page',
@@ -20,8 +19,7 @@ import { AuthActions } from '@org/auth';
     TrustedbySection,
     GallerySection,
     MostPopularSection,
-    AddressModalButton,
-    MyAddressesModal
+    ShippingAddress
   ],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
@@ -29,14 +27,8 @@ import { AuthActions } from '@org/auth';
 export class HomePage {
 
   //-- logic only to test the address management 
-  isModalOpened: WritableSignal<boolean> = signal<boolean>(false);
   private readonly authActions = inject(AuthActions);
   readonly isLoggedIn = computed(() => this.authActions.isAuthenticated());
-
-  toggleModal(newModalState: boolean): void {
-    this.isModalOpened.set(newModalState);
-  }
-
   //-- end of testing logic 
 
 }

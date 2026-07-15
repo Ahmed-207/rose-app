@@ -172,7 +172,10 @@
     "FIND_MY_LOCATION": "حدد موقعي",
     "LOCATING": "جارٍ التحديد...",
     "GEOLOCATION_NOT_SUPPORTED": "خدمة تحديد الموقع غير مدعومة في متصفحك",
-    "GEOLOCATION_ERROR": "تعذر تحديد موقعك"
+    "GEOLOCATION_ERROR": "تعذر تحديد موقعك",
+    "SHIPPING_ADDRESS": "عنوان الشحن",
+    "OR": "أو",
+    "LOADING_ERROR": "خطأ في التحميل"
   },
   "BEST SELLING": "الأكثر مبيعًا",
   "Check Out": "اطّلع على",

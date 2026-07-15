@@ -171,7 +171,10 @@
     "FIND_MY_LOCATION": "Find My Location",
     "LOCATING": "Locating...",
     "GEOLOCATION_NOT_SUPPORTED": "Geolocation is not supported by your browser",
-    "GEOLOCATION_ERROR": "Unable to retrieve your location"
+    "GEOLOCATION_ERROR": "Unable to retrieve your location",
+    "SHIPPING_ADDRESS": "Shipping Address",
+    "OR": "OR",
+    "LOADING_ERROR": "loading error"
   },
   "Trusted by over 4.5k+ companies": "Trusted by over 4.5k+ companies",
   "BEST SELLING": "Best Selling",
