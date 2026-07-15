@@ -51,24 +51,30 @@
                 </p>
                 <p-menu #menu [model]="items" [popup]="true"></p-menu>
             </div>
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600">
-                <i class="fa-regular fa-heart"></i>
+            <button
+            [routerLink]="['/home/wishlist']"
+             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600">
+                <i class="pi pi-heart text-lg"></i>
+                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+                   {{wishlistService.wishlistCount()}}
+               </span>
+                
             </button>
-            <button type="button"
-                class="relative text-black dark:text-white box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
-                <i class="fas fa-cart-shopping"></i>
-                <span class="sr-only">Cart</span>
-                <div
-                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -inset-e-2">
-                    0</div>
+               <button
+           
+             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 pl-1 transition">
+                <i class="pi pi-shopping-cart text-lg"></i>
+                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+      0
+    </span>
             </button>
-            <button type="button"
-                class="relative text-black dark:text-white box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
-                <i class="fa-regular fa-bell"></i>
-                <span class="sr-only">Notifications</span>
-                <div
-                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -inset-e-2">
-                    0</div>
+            <button
+           
+             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 pl-1 transition">
+                <i class="pi pi-bell text-lg"></i>
+                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+      0
+    </span>
             </button>
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
@@ -83,37 +89,37 @@
                 class="flex flex-row items-center justify-center gap-6 md:gap-8 py-2.5 text-sm font-medium list-none m-0 p-0">
                 <li>
                     <a href="#" class="flex items-center gap-2 text-pink-300 dark:text-[#5c1d34] no-underline">
-                        <i class="fa-solid fa-house text-xs"></i> {{'navbar.Home'| translate}}
+                        <i class="pi pi-home text-xs"></i> {{'navbar.Home'| translate}}
                     </a>
                 </li>
                 <li>
                     <a [routerLink]="'products'" [routerLinkActive]="'text-pink-300 dark:text-rose-600'"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-box-open text-xs"></i> {{'navbar.Products'| translate}}
+                        <i class="pi pi-box text-xs"></i> {{'navbar.Products'| translate}}
                     </a>
                 </li>
                 <li>
                     <a href="#"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-list text-xs"></i> {{'navbar.Categories'| translate}}
+                        <i class="pi pi-th-large text-xs"></i> {{'navbar.Categories'| translate}}
                     </a>
                 </li>
                 <li>
                     <a href="#"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-calendar text-xs"></i>{{'navbar.Occasions'| translate}}
+                        <i class="pi pi-calendar text-xs"></i>{{'navbar.Occasions'| translate}}
                     </a>
                 </li>
                 <li>
                     <a href="#"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-headset text-xs"></i> {{'navbar.Contact'| translate}}
+                        <i class="pi pi-phone text-xs"></i> {{'navbar.Contact'| translate}}
                     </a>
                 </li>
                 <li>
                     <a [routerLink]="'about'" [routerLinkActive]="'text-pink-300 dark:text-rose-600'"
                         class="flex items-center gap-2 hover:text-pink-300 dark:hover:text-rose-600 transition no-underline">
-                        <i class="fa-solid fa-circle-info text-xs"></i>{{'navbar.About'| translate}}
+                        <i class="pi pi-info-circle- text-xs"></i>{{'navbar.About'| translate}}
                     </a>
                 </li>
             </ul>

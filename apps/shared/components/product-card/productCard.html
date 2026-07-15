@@ -3,14 +3,14 @@
   <!-- Wishlist -->
   <button
     class="wishlist-btn"
-    (click)="OnWishlist()">
+    (click)="OnWishlist(String(product.id) )">
 
     <i
-      [class]="product.isWishlist ? 'pi pi-heart-fill' : 'pi pi-heart'">
+      [class]="isInWishlist(String(product.id)) ? 'pi pi-heart-fill' : 'pi pi-heart'">
     </i>
 
     <span>
-      {{ (product.isWishlist ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
+      {{ (isInWishlist(String(product.id)) ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
     </span>
   </button>
 

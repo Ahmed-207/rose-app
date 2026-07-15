@@ -30,11 +30,5 @@ export const appRoutes: Route[] = [
         (m) => m!.remoteRoutes,
       ),
   },
-  {
-    path: 'wishlist',
-    loadChildren: () =>
-      loadRemote<typeof import('roseMain/Routes')>('roseMain/Routes').then(
-        (m) => m!.remoteRoutes,
-      ),
-  },
+  
 ];
