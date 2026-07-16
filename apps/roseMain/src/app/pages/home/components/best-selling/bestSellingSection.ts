@@ -1,22 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   PLATFORM_ID,
-  signal,
   viewChild,
+  computed, // ADDED: computed to map product types
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
+import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
-
-import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
-import { Product } from '../../../products-page/model/productDto';
+import { ProductsStore } from '@org/products';
+import { Product as CardProduct } from 'apps/shared/models/productDto'; // ADDED: Import the UI card's product type
 
 @Component({
   selector: 'best-selling-section',
@@ -26,18 +22,32 @@ import { Product } from '../../../products-page/model/productDto';
 })
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
-  private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-
-  readonly products = signal<Product[]>([]);
+  readonly _store = inject(ProductsStore);
+  // bestSellingSection.ts (UPDATED)
+  readonly mappedBestProducts = computed<CardProduct[]>(() => {
+    return [...this._store.bestProducts()]
+      // 1. Sort by rating descending so the highest-rated items are first
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      // 2. Map them to the UI card structure
+      .map((p) => ({
+        id: p.id,
+        name: p.title,
+        image: p.cover,
+        price: p.price,
+        rating: p.rating,
+        oldPrice: p.discountValue ? String(Number(p.price) + Number(p.discountValue)) : undefined
+      }) as unknown as CardProduct)
+      // 3. Slice to only show the top 8 best-sellers in the carousel
+      .slice(0, 8);
+  });
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    this.loadBestProducts();
+    this._store.loadBestProducts({ page: 1, limit: 20 });
   }
 
   scroll(direction: 'prev' | 'next'): void {
@@ -57,18 +67,9 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {}
+  // UPDATED: Parameter type to match CardProduct
+  onAddToCart(product: CardProduct): void { }
 
-  onWishlistToggle(product: Product): void {
-    // product.isWishlist = !product.isWishlist;
-  }
-
-  private loadBestProducts(): void {
-    this.productsService
-      .getBestProducts(8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-      });
-  }
+  // UPDATED: Parameter type to match CardProduct
+  onWishlistToggle(product: CardProduct): void { }
 }

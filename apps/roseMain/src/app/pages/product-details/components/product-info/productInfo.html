@@ -4,21 +4,21 @@
   <div class="product-info__meta">
     <div class="product-info__pricing">
       @if (product().oldPrice) {
-        <span class="product-info__old-price">
-          {{ product().oldPrice | number: '1.0-0' }}
-        </span>
+      <span class="product-info__old-price">
+        {{ product().oldPrice | number: '1.0-0' }}
+      </span>
       }
       <span class="product-info__price font-primary">
         {{ product().price | number: '1.2-2' }} {{ 'EGP' | translate }}
       </span>
     </div>
 
-  @if (!product().isOutOfStock) {
+    @if (!product().isOutOfStock) {
     <span class="product-info__stock">
       <i class="pi pi-box" aria-hidden="true"></i>
       {{ product().stockCount }} {{ 'left in stock' | translate }}
     </span>
-  }
+    }
   </div>
 
   <p class="product-info__rating">
@@ -33,21 +33,13 @@
   </p>
 
   <div class="product-info__actions">
-    <button
-      type="button"
-      class="product-info__wishlist"
-      (click)="onWishlist()"
+    <button type="button" class="product-info__wishlist" (click)="onWishlist()"
       [attr.aria-label]="'Add to wishlist' | translate">
       <i [class]="isWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'" aria-hidden="true"></i>
     </button>
 
-    <app-button
-      variant="danger"
-      size="lg"
-      class="product-info__cart-btn font-primary"
-      icon="pi pi-shopping-cart"
-      [disabled]="product().isOutOfStock ?? false"
-      (clicked)="onAddToCart()">
+    <app-button variant="danger" size="lg" class="product-info__cart-btn font-primary" icon="pi pi-shopping-cart"
+      [disabled]="product().isOutOfStock ?? false" (clicked)="onAddToCart()">
       {{ 'Add to Cart' | translate }}
     </app-button>
   </div>

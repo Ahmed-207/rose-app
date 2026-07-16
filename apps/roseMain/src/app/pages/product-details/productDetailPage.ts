@@ -17,7 +17,7 @@ import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
 import { ProductGallery } from './components/product-gallery/productGallery';
 import { ProductInfo } from './components/product-info/productInfo';
 import { ProductReviews } from './components/product-review/productReviews';
-import { RelatedProductsSection } from "./components/related-products/relateProductSection";
+import { RelatedProductsSection } from './components/related-products/relateProductSection';
 
 @Component({
   selector: 'app-product-detail-page',
@@ -54,9 +54,7 @@ export class ProductDetailPage implements OnInit {
   private loadProduct(id: string): void {
     this.productsService.getProductById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
-        console.log('RAW API RESPONSE:', response); // TEMP DEBUG
-
-        const apiProduct = response.payload?.product;
+        const apiProduct = response.product;
         if (!apiProduct) {
           console.error('No product found in response, redirecting home');
           void this.router.navigate(['/home']);

@@ -1,41 +1,24 @@
-import { Component, computed, EventEmitter, inject, Output, output } from '@angular/core';
-import { FilterParams } from '../model/FilterDto';
+import { Component, computed, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OccasionsService } from '../services/occations-service';
-import { CategoryService } from '../services/category-service';
 import { TranslatePipe } from '@ngx-translate/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Category, CategoryResponseDto } from '../model/categoryDto';
-import { Occasion, OccasionResponseDto } from '../model/occationsDto';
 import { RatingModule } from 'primeng/rating';
+import { FilterParams, CategoriesStore, OccasionsStore } from '@org/products';
+
 @Component({
   selector: 'app-filter-panel',
-  imports: [CommonModule,FormsModule,TranslatePipe,RatingModule],
+  imports: [CommonModule, FormsModule, TranslatePipe, RatingModule],
   templateUrl: './filterPanel.html',
   styleUrl: './filterPanel.css',
 })
 export class FilterPanelComponent {
-   private readonly occasionService = inject(OccasionsService);
-  private readonly categoryService = inject(CategoryService);
+  private readonly categoriesStore = inject(CategoriesStore);
+  private readonly occasionsStore = inject(OccasionsStore);
 
   @Output() filterEvent = new EventEmitter<FilterParams>();
 
-  private readonly categoriesResponse = toSignal<CategoryResponseDto | null>(
-  this.categoryService.getCategories({ page: 1, limit: 100 }),
-  {
-    initialValue: null,
-  }
-);
-
-private readonly occasionsResponse = toSignal<OccasionResponseDto | null>(
-  this.occasionService.getOccasions({ page: 1, limit: 100 }),
-  {
-    initialValue: null,
-  }
-);
-  readonly categories = computed<Category[]>(() => this.categoriesResponse()?.data ?? []);
-  readonly occasions = computed<Occasion[]>(() => this.occasionsResponse()?.data ?? []);
+  readonly categories = computed(() => this.categoriesStore.entities());
+  readonly occasions = computed(() => this.occasionsStore.entities());
 
   readonly priceLimits = { min: 0, max: 1000000 };
 
@@ -44,6 +27,11 @@ private readonly occasionsResponse = toSignal<OccasionResponseDto | null>(
   rating = 0;
   priceFrom: number | null = null;
   priceTo: number | null = null;
+
+  constructor() {
+    this.categoriesStore.loadOnce();
+    this.occasionsStore.loadOnce();
+  }
 
   get hasAnyFilter(): boolean {
     return (
@@ -56,7 +44,6 @@ private readonly occasionsResponse = toSignal<OccasionResponseDto | null>(
   }
 
   selectCategory(id: string): void {
-
     this.selectedCategory = this.selectedCategory === id ? null : id;
   }
 
@@ -65,7 +52,6 @@ private readonly occasionsResponse = toSignal<OccasionResponseDto | null>(
   }
 
   setRating(value: number): void {
-
     this.rating = this.rating === value ? 0 : value;
   }
 

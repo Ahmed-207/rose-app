@@ -16,9 +16,6 @@ export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
   }
 
   const badges: ProductBadge[] = [];
-  if (discount > 0) {
-    // badges.push('NEW');
-  }
   if ((apiProduct._count?.cartItems ?? 0) >= 2) {
     badges.push('HOT');
   }

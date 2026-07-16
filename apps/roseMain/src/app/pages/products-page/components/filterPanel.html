@@ -5,31 +5,24 @@
     <div class="filter-section__header">
       <h3 class="dark:text-white">{{"Category" | translate}}</h3>
       @if(selectedCategory){
-      <button
-        type="button"
-        class="reset-link"
-
-        (click)="resetCategories()">
+      <button type="button" class="reset-link" (click)="resetCategories()">
         {{"Reset" | translate}}
       </button>
-    }
+      }
     </div>
 
     <ul class="chip-list">
-        @for (cat of categories(); track cat.id) {
+      @for (cat of categories(); track cat.id) {
       <li>
-        <button
-          type="button"
-          class="chip dark:text-white dark:bg-grey-500"
-          [class.chip--active]="selectedCategory === cat.id"
-          (click)="selectCategory(cat.id)">
+        <button type="button" class="chip dark:text-white dark:bg-grey-500"
+          [class.chip--active]="selectedCategory === cat.id" (click)="selectCategory(cat.id)">
           @if (cat.image) {
-            <img class="chip__icon" [src]="cat.image" [alt]="cat.title" />
+          <img class="chip__icon" [src]="cat.image" [alt]="cat.title" />
           }
           <span class="chip__label">{{ cat.title }}</span>
         </button>
       </li>
-    }
+      }
     </ul>
   </section>
 
@@ -38,26 +31,19 @@
     <div class="filter-section__header">
       <h3 class="dark:text-white">{{"Occasion" | translate}}</h3>
       @if(selectedOccasion){
-      <button
-        type="button"
-        class="reset-link"
-
-        (click)="resetOccasions()">
+      <button type="button" class="reset-link" (click)="resetOccasions()">
         {{"Reset" | translate}}
       </button>
-    }
+      }
     </div>
 
     <div class="tile-grid">
       @for (occ of occasions(); track occ.id) {
- <button
-        type="button"
-        class="tile"
-        [class.tile--active]="selectedOccasion === occ.id"
+      <button type="button" class="tile" [class.tile--active]="selectedOccasion === occ.id"
         [style.background]="'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.6)), url(' + occ.image + ') center / cover no-repeat'"
         (click)="selectOccasion(occ.id)">
         @if(selectedOccasion === occ.id){
-          <span class="tile__ribbon">✓</span>
+        <span class="tile__ribbon">✓</span>
         }
         <span class="tile__label">{{ occ.title }}</span>
       </button>
@@ -67,27 +53,18 @@
   </section>
 
   <!-- Rating -->
- <section class="filter-section">
+  <section class="filter-section">
     <div class="filter-section__header">
       <h3 class="dark:text-white">{{"Rating" | translate}}</h3>
       @if(rating){
-        <button
-        type="button"
-        class="reset-link"
-
-        (click)="resetRating()">
+      <button type="button" class="reset-link" (click)="resetRating()">
         {{"Reset" | translate}}
       </button>
       }
 
     </div>
 
-    <p-rating
-      [(ngModel)]="rating"
-      [stars]="5"
-
-      styleClass="filter-rating"
-      aria-label="Minimum rating">
+    <p-rating [(ngModel)]="rating" [stars]="5" styleClass="filter-rating" aria-label="Minimum rating">
     </p-rating>
   </section>
 
@@ -95,48 +72,30 @@
   <section class="filter-section">
     <div class="filter-section__header">
       <h3 class="dark:text-white">{{"Price" | translate}}</h3>
-       @if(priceFrom !== null || priceTo !== null){
-      <button
-        type="button"
-        class="reset-link"
-
-        (click)="resetPrice()">
+      @if(priceFrom !== null || priceTo !== null){
+      <button type="button" class="reset-link" (click)="resetPrice()">
         {{"Reset" | translate}}
       </button>
-       }
+      }
     </div>
 
     <div class="price-row">
       <label class="price-field">
         <span class="dark:text-white">{{"from" | translate}}</span>
-        <input
-          type="number"
-          [min]="priceLimits.min"
-          [max]="priceLimits.max"
-          [placeholder]="priceLimits.min.toString()"
-          [(ngModel)]="priceFrom"
-          name="priceFrom" />
+        <input type="number" [min]="priceLimits.min" [max]="priceLimits.max" [placeholder]="priceLimits.min.toString()"
+          [(ngModel)]="priceFrom" name="priceFrom" />
       </label>
       <span class="price-divider dark:text-white">–</span>
       <label class="price-field">
         <span class="dark:text-white">{{"to" | translate}}</span>
-        <input
-          type="number"
-          [min]="priceLimits.min"
-          [max]="priceLimits.max"
-          [placeholder]="priceLimits.max.toString()"
-          [(ngModel)]="priceTo"
-          name="priceTo" />
+        <input type="number" [min]="priceLimits.min" [max]="priceLimits.max" [placeholder]="priceLimits.max.toString()"
+          [(ngModel)]="priceTo" name="priceTo" />
       </label>
     </div>
   </section>
 
   <!-- Reset all -->
-  <button
-    type="button"
-    class="reset-all"
-    [disabled]="!hasAnyFilter"
-    (click)="resetAll()">
+  <button type="button" class="reset-all" [disabled]="!hasAnyFilter" (click)="resetAll()">
     <span class="reset-all__icon"><i class="pi pi-refresh"></i></span>
     {{"Reset all" | translate}}
   </button>
