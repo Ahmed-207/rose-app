@@ -36,9 +36,11 @@
     <button
       type="button"
       class="product-info__wishlist"
-      (click)="onWishlist()"
+      (click)="OnWishlist(String(product().id))"
       [attr.aria-label]="'Add to wishlist' | translate">
-      <i [class]="isWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'" aria-hidden="true"></i>
+      <i       [class]="isInWishlist(String(product().id) )? 'pi pi-heart-fill' : 'pi pi-heart'"
+></i>
+      
     </button>
 
     <app-button

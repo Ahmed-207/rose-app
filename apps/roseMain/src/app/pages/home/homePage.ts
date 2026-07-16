@@ -16,7 +16,8 @@ import { MostPopularSection } from "./components/most-popular/mostPopularSection
     BestSellingSection,
     TrustedbySection,
     GallerySection,
-    MostPopularSection
+    MostPopularSection,
+  
 ],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
