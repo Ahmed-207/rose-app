@@ -14,8 +14,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
-import { Product } from 'apps/shared/models/productDto';
+
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { Product } from '../../../products-page/model/productDto';
 
 @Component({
   selector: 'best-selling-section',
@@ -59,7 +60,7 @@ export class BestSellingSection implements OnInit {
   onAddToCart(_product: Product): void {}
 
   onWishlistToggle(product: Product): void {
-    product.isWishlist = !product.isWishlist;
+    // product.isWishlist = !product.isWishlist;
   }
 
   private loadBestProducts(): void {
@@ -67,7 +68,7 @@ export class BestSellingSection implements OnInit {
       .getBestProducts(8)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+        // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
       });
   }
 }

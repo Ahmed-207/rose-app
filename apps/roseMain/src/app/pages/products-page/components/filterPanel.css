@@ -1,0 +1,256 @@
+:host {
+  --ink: #241b1d;
+  --ink-muted: #8a7a7c;
+  --rose: #c4364a;
+  --rose-deep: #5c1c28;
+  --blush: #f6d8dc;
+  --surface: #f7f3f1;
+  --gold: #e8a93b;
+  --radius: 14px;
+
+  display: block;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  max-width: 360px;
+}
+
+.filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 20px;
+}
+
+.filter-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
+.reset-link {
+  background: none;
+  border: none;
+  color: var(--rose);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Category chips */
+.chip-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background:#E4E4E7;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+ .chip:hover {
+    transform: translateX(2px);
+  }
+
+  .chip--active {
+    background: #FBEAEA;
+   
+  }
+
+ .chip.dark {
+    background: #bdbdbd;
+    color:#fff
+   
+  }
+
+.chip__icon {
+  font-size: 16px;
+  line-height: 1;
+      width: 20px;
+}
+
+/* Occasion tiles */
+.tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.tile {
+  position: relative;
+  height: 88px;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+ .tile:hover {
+    transform: translateY(-1px);
+  }
+
+  .tile--active {
+    border-color: var(--rose);
+  }
+
+
+.tile__label {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.tile__ribbon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rose);
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rating */
+.stars {
+  display: flex;
+  gap: 6px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: #d8d1cf;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, transform 0.1s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &--filled {
+    color: var(--gold);
+  }
+}
+
+/* Price */
+.price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.price-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--ink-muted);
+
+  input {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #e4dbd9;
+    background: #fff;
+    outline: none;
+
+    &:focus {
+      border-color: var(--rose);
+    }
+  }
+}
+
+.price-divider {
+  padding-bottom: 10px;
+  color: var(--ink-muted);
+}
+
+/* Reset all / apply */
+.reset-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 999px;
+  border: 1px solid var(--blush);
+  background: #fff;
+  color: var(--rose);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    color: var(--ink-muted);
+    border-color: #e4dbd9;
+    cursor: not-allowed;
+  }
+}
+
+.reset-all__icon {
+  font-size: 16px;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--rose-deep);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--rose);
+  }
+}
+::ng-deep .p-rating-icon {
+   
+    width: 1.5rem !important;
+    height: 1.5rem !important;}

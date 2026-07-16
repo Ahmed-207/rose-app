@@ -205,5 +205,13 @@
   "Review": "المراجعة",
   "What do you think of this product?": "ما رأيك في هذا المنتج؟",
   "Add Review": "إضافة مراجعة",
-  "No reviews yet": "لا توجد مراجعات بعد"
+  "No reviews yet": "لا توجد مراجعات بعد",
+   "Category": "الفئة",
+  "Reset": "إعادة تعيين",
+  "Occasion": "المناسبة",
+  "Price": "السعر",
+  "from": "من",
+  "to": "إلى",
+  "Reset all": "إعادة تعيين الكل",
+  "Apply filters": "تطبيق عوامل التصفية"
 }

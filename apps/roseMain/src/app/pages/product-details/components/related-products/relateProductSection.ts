@@ -14,8 +14,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { Product } from 'apps/shared/models/productDto';
+
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { Product } from '../../../products-page/model/productDto';
 
 @Component({
   selector: 'related-products-section',
@@ -59,7 +60,7 @@ export class RelatedProductsSection implements OnInit {
   onAddToCart(_product: Product): void { }
 
   onWishlistToggle(product: Product): void {
-    product.isWishlist = !product.isWishlist;
+    // product.isWishlist = !product.isWishlist;
   }
 
   private loadRelatedProducts(): void {
@@ -68,7 +69,7 @@ export class RelatedProductsSection implements OnInit {
       .getBestProducts(8)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+        // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
       });
   }
 }

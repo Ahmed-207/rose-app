@@ -5,7 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../button/button';
-import { Product } from '../../models/productDto';
+import { Product } from 'apps/roseMain/src/app/pages/products-page/model/productDto';
 
 @Component({
   selector: 'product-card',
@@ -22,7 +22,7 @@ export class ProductCard {
   @Output() wishlistToggle = new EventEmitter<Product>();
 
   onAddToCart(): void {
-    if (this.product.isOutOfStock) return;
+    // if (this.product.isOutOfStock) return;
     this.addToCart.emit(this.product);
   }
 
@@ -30,12 +30,12 @@ export class ProductCard {
     this.wishlistToggle.emit(this.product);
   }
 
-  get discountPercentage(): number {
-    if (!this.product.oldPrice) return 0;
+  // get discountPercentage(): number {
+  //   if (!this.product.oldPrice) return 0;
 
-    return Math.round(
-      ((this.product.oldPrice - this.product.price) /
-        this.product.oldPrice) * 100
-    );
-  }
+  //   return Math.round(
+  //     ((this.product.oldPrice - this.product.price) /
+  //       this.product.oldPrice) * 100
+  //   );
+  // }
 }
