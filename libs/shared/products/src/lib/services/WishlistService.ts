@@ -4,6 +4,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { API_URL } from '@org/auth';
 import {  Root } from '../models/i-wishlist';
 import { Observable, pipe, tap } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service'; 
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +22,14 @@ wishlistCount = computed(()=> this.wishlistIds().size);
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
+  private cookieService = inject(CookieService);
 
    getLoggedUserWishlist(): Observable<Root> 
     {
+      const token = this.cookieService.get('userToken')
        return this.httpClient.get<Root>(`${this.apiURL}wishlist` ,{
       headers:{
-        token:localStorage.getItem('userToken') || ""
+        token: token || ""
       }
     }
        ).pipe(
