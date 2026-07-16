@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [TranslatePipe,RouterLink, CommonModule],
+  imports: [TranslatePipe, RouterLink, CommonModule],
   templateUrl: './wishlistPage.html',
   styleUrl: './wishlistPage.css',
 })

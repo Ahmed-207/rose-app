@@ -1,0 +1,89 @@
+
+
+
+
+<div class="w-full max-w-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 shadow-sm">
+  
+  <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+    {{ 'CART_SUMMARY.TITLE' | translate }}
+  </h2>
+
+  <div class="border border-gray-100 dark:border-gray-800 rounded-lg p-4 bg-gray-50/50 dark:bg-gray-950/40">
+    
+    <div class="flex gap-2 mb-2">
+      <input 
+        type="text" 
+        [ngModel]="couponCode()" 
+        (ngModelChange)="couponCode.set($event)"
+        [placeholder]="'CART_SUMMARY.COUPON_PLACEHOLDER' | translate" 
+        class="flex-1 px-3 py-2 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-750 rounded-md focus:outline-none focus:ring-1 focus:ring-[#80243d] dark:text-white"
+      />
+      
+      <button 
+        (click)="applyCoupon()"
+        class="bg-[#80243d] hover:bg-[#6b1e33] text-white px-4 py-2 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+        <i class="pi pi-ticket text-xs"></i>
+        {{ 'CART_SUMMARY.APPLY_COUPON' | translate }}
+      </button>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="text-red-500 text-xs mb-3 font-medium">
+        {{ errorMessage() | translate }}
+      </p>
+    }
+    
+    <div class="border border-dashed border-gray-200 dark:border-gray-800 rounded-md py-6 flex flex-col items-center justify-center mb-6 bg-white dark:bg-gray-900/50">
+      
+      @if (!appliedCoupon()){
+        <span class="text-xs text-gray-400 dark:text-gray-500 italic">
+          {{ 'CART_SUMMARY.NO_COUPONS' | translate }}
+        </span>
+      }
+      
+      @if (appliedCoupon()){
+        <div class="flex items-center gap-2 bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-full text-xs font-semibold">
+          <i class="pi pi-check-circle"></i>
+         <span>
+            {{ 'CART_SUMMARY.COUPON_SUCCESS' | translate: { code: appliedCoupon()?.code, discount: discount() } }}
+          </span>
+        </div>
+      }
+      
+    </div>
+
+    <div class="space-y-3 pt-2">
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-gray-500 dark:text-gray-400 font-medium">
+          {{ 'CART_SUMMARY.SUBTOTAL' | translate }}
+        </span>
+        <span class="text-gray-800 dark:text-white font-bold">{{ subtotal }} EGP</span>
+      </div>
+
+      @if (discount() > 0) {
+        <div class="flex justify-between items-center text-sm text-green-600 dark:text-green-400">
+          <span class="font-medium">
+            {{ 'CART_SUMMARY.DISCOUNT' | translate }}
+          </span>
+          <span class="font-bold">-{{ discount() }} EGP</span>
+        </div>
+      }
+     
+      <hr class="border-gray-100 dark:border-gray-800" />
+
+      <div class="flex justify-between items-center">
+        <span class="text-base font-bold text-[#80243d] dark:text-red-400">
+          {{ 'CART_SUMMARY.TOTAL' | translate }}
+        </span>
+        <span class="text-lg font-extrabold text-[#80243d] dark:text-red-400">{{ total }} EGP</span>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="w-full mt-4 bg-[#80243d] hover:bg-[#6b1e33] text-white py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg cursor-pointer">
+    {{ 'CART_SUMMARY.CHECKOUT' | translate }}
+    <i class="pi pi-arrow-right text-xs"></i>
+  </button>
+
+</div>

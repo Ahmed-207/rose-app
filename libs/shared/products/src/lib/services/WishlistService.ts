@@ -27,6 +27,7 @@ wishlistCount = computed(()=> this.wishlistIds().size);
    getLoggedUserWishlist(): Observable<Root> 
     {
       const token = this.cookieService.get('userToken')
+      
        return this.httpClient.get<Root>(`${this.apiURL}wishlist` ,{
       headers:{
         token: token || ""
