@@ -1,0 +1,63 @@
+<div class="cart-item font-primary">
+  <a
+    class="cart-item__image"
+    [routerLink]="['/home', 'products', item().product.id]">
+    <img [src]="item().product.cover" [alt]="item().product.title" />
+  </a>
+
+  <div class="cart-item__body">
+    <div class="cart-item__top">
+      <div class="cart-item__info">
+        <a
+          class="cart-item__title"
+          [routerLink]="['/home', 'products', item().product.id]">
+          {{ item().product.title }}
+        </a>
+        <div class="cart-item__rating">
+          <p-rating
+            [ngModel]="item().product.rating"
+            [readonly]="true"
+            [stars]="5">
+          </p-rating>
+          <span>
+            {{ 'Rating' | translate }}:
+            <strong>{{ item().product.rating | number: '1.1-1' }}/5</strong>
+            ({{ item().product.ratings }} {{ 'ratings' | translate }})
+          </span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="cart-item__remove"
+        [disabled]="busy()"
+        (click)="remove.emit()">
+        <svg lucideTrash2 [size]="14" class="shrink-0" aria-hidden="true"></svg>
+        {{ 'Remove' | translate }}
+      </button>
+    </div>
+
+    <div class="cart-item__bottom">
+      <p class="cart-item__line-price">
+        (x{{ item().quantity }})
+        {{ unitPrice * item().quantity | number: '1.2-2' }}
+        {{ 'EGP' | translate }}
+      </p>
+
+      <div class="cart-item__qty" [class.cart-item__qty--busy]="busy()">
+        <button type="button" [disabled]="busy() || item().quantity <= 1" (click)="decrease()" aria-label="Decrease quantity">
+          −
+        </button>
+        <input
+          type="number"
+          min="1"
+          [value]="item().quantity"
+          [disabled]="busy()"
+          (change)="onInputChange($event)" />
+        <button type="button" [disabled]="busy()" (click)="increase()" aria-label="Increase quantity">
+          +
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

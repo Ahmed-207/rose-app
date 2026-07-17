@@ -10,3 +10,14 @@ export const OCCASION = {
 export const PRODUCT = {
   getProducts: 'products'
 } as const;
+
+export const CART = {
+  getCart: 'cart',
+  clearCart: 'cart',
+  item: (id: string) => `cart/${id}`,
+} as const;
+
+export const COUPON = {
+  getCoupons: 'coupons',
+  getCoupon: (id: string) => `coupons/${id}`,
+} as const;

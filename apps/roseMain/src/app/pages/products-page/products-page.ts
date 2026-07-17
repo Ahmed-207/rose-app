@@ -8,6 +8,7 @@ import { catchError, of, switchMap, tap } from "rxjs";
 import { ProductService } from "./services/product-service";
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Product } from './model/productDto';
+import { CartService } from '../cart-page/services/cart.service';
 
 @Component({
   selector: 'app-products-page',
@@ -17,6 +18,7 @@ import { Product } from './model/productDto';
 })
 export class ProductsPage implements OnInit {
  private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
 
@@ -96,8 +98,11 @@ export class ProductsPage implements OnInit {
   }
 
   onAddToCart(product: Product): void {
-    // TODO: wire up to your cart service/store once it's available.
-    console.log('Add to cart', product);
+    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe({
+      error: (err) => {
+        console.error('Failed to add to cart', err);
+      },
+    });
   }
 
   onWishlistToggle(product: Product): void {

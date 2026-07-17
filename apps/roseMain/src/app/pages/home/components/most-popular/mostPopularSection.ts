@@ -1,13 +1,13 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal, } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Category, ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
-import { SectionHeader } from "../section-header/section-header";
+import { SectionHeader } from '../section-header/section-header';
 import { Router } from '@angular/router';
 import { Product } from '../../../products-page/model/productDto';
+import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
   selector: 'most-popular-section',
@@ -17,6 +17,7 @@ import { Product } from '../../../products-page/model/productDto';
 })
 export class MostPopularSection implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
@@ -36,26 +37,24 @@ export class MostPopularSection implements OnInit {
     this.loadCategories();
   }
 
-
-
-  onAddToCart(_product: Product): void { }
-
-  onWishlistToggle(product: Product): void {
-    // product.isWishlist = !product.isWishlist;
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe();
   }
 
-
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
+  }
   private loadPopularProducts(): void {
     this.productsService
       .getAllProducts(1, 12)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+          this.products.set(response.payload.data as Product[]);
         },
         error: (err) => {
           console.error('Error loading popular products', err);
-        }
+        },
       });
   }
 
@@ -65,13 +64,10 @@ export class MostPopularSection implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-
           this.categories.set(response.payload.data.slice(0, 5));
-        }
+        },
       });
   }
-
-
 
   readonly activeFilter = signal<string>('All');
 
@@ -87,11 +83,10 @@ export class MostPopularSection implements OnInit {
   isFilterMenuOpen = signal(false);
 
   toggleFilterMenu(): void {
-    this.isFilterMenuOpen.update(v => !v);
+    this.isFilterMenuOpen.update((v) => !v);
   }
 
   closeFilterMenu(): void {
     this.isFilterMenuOpen.set(false);
   }
-
 }

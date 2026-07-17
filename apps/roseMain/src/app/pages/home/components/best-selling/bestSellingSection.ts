@@ -15,8 +15,8 @@ import { ProductsService } from '@org/products';
 import { ProductCard } from 'apps/shared/components/product-card/productCard';
 import { Button } from 'apps/shared/components/button/button';
 
-import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { Product } from '../../../products-page/model/productDto';
+import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
   selector: 'best-selling-section',
@@ -27,6 +27,7 @@ import { Product } from '../../../products-page/model/productDto';
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -57,18 +58,19 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {}
-
-  onWishlistToggle(product: Product): void {
-    // product.isWishlist = !product.isWishlist;
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe();
   }
 
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
+  }
   private loadBestProducts(): void {
     this.productsService
       .getBestProducts(8)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+        this.products.set(response.payload.data as Product[]);
       });
   }
 }

@@ -43,18 +43,26 @@
 
         <div class="hidden md:flex items-center gap-2">
             <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                <i class="fa-regular fa-user text-lg"></i>
+                <svg lucideUser [size]="20" class="shrink-0"></svg>
                 <span class="text-sm font-medium cursor-pointer" (click)="goToLogin()">{{ 'navbar.LOGIN' | translate
                     }}</span>
             </button>
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                <i class="fa-regular fa-heart"></i>
+            <button class="flex items-center text-gray-700 dark:text-white hover:text-rose-600 transition bg-transparent border-0 p-0" aria-label="Wishlist">
+                <svg lucideHeart [size]="20" class="shrink-0"></svg>
             </button>
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </button>
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
-                <i class="fa-regular fa-bell"></i>
+            <a routerLink="/home/cart"
+                class="relative flex items-center text-gray-700 dark:text-white hover:text-rose-600 transition bg-transparent"
+                [attr.aria-label]="'Cart (' + cartCount() + ' items)'">
+                <svg lucideShoppingCart [size]="20" class="shrink-0"></svg>
+                @if (cartCount() > 0) {
+                  <span
+                      class="absolute inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -end-2">
+                      {{ cartCount() > 99 ? '99+' : cartCount() }}
+                  </span>
+                }
+            </a>
+            <button class="flex items-center text-gray-700 dark:text-white hover:text-rose-600 transition bg-transparent border-0 p-0" aria-label="Notifications">
+                <svg lucideBell [size]="20" class="shrink-0"></svg>
             </button>
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
@@ -158,7 +166,7 @@
                 <a href="#" (click)="goToLogin(); closeMobileMenu()"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
                            text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
-                    <i class="fa-regular fa-user text-sm"></i> {{ 'navbar.LOGIN' | translate }}
+                    <svg lucideUser [size]="16" class="shrink-0"></svg> {{ 'navbar.LOGIN' | translate }}
                 </a>
             </li>
         </ul>

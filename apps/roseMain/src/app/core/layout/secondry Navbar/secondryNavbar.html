@@ -47,28 +47,32 @@
                 <p class="text-sm font-bold dark:text-[#ffc2cc] leading-tight flex items-center gap-1 cursor-pointer"
                     (click)="menu.toggle($event)">
                     {{ userName() }}
-                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 cursor-pointer"></i>
+                    <svg lucideChevronDown [size]="12" class="text-gray-400 shrink-0"></svg>
                 </p>
                 <p-menu #menu [model]="items" [popup]="true"></p-menu>
             </div>
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600">
-                <i class="fa-regular fa-heart"></i>
+            <button class="flex items-center text-gray-700 dark:text-white hover:text-rose-600 bg-transparent border-0 p-0" aria-label="Wishlist">
+                <svg lucideHeart [size]="20" class="shrink-0"></svg>
             </button>
+            <a routerLink="/home/cart"
+                class="relative flex items-center text-gray-700 dark:text-white hover:text-rose-600 bg-transparent"
+                [attr.aria-label]="'Cart (' + cartCount() + ' items)'">
+                <svg lucideShoppingCart [size]="20" class="shrink-0"></svg>
+                @if (cartCount() > 0) {
+                  <span
+                      class="absolute inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -end-2">
+                      {{ cartCount() > 99 ? '99+' : cartCount() }}
+                  </span>
+                }
+            </a>
             <button type="button"
-                class="relative text-black dark:text-white box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
-                <i class="fas fa-cart-shopping"></i>
-                <span class="sr-only">Cart</span>
-                <div
-                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -inset-e-2">
-                    0</div>
-            </button>
-            <button type="button"
-                class="relative text-black dark:text-white box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none">
-                <i class="fa-regular fa-bell"></i>
-                <span class="sr-only">Notifications</span>
-                <div
-                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -inset-e-2">
-                    0</div>
+                class="relative flex items-center text-gray-700 dark:text-white hover:text-rose-600 bg-transparent border-0 p-0"
+                aria-label="Notifications">
+                <svg lucideBell [size]="20" class="shrink-0"></svg>
+                <span
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -end-2">
+                    0
+                </span>
             </button>
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
