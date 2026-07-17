@@ -78,14 +78,20 @@ applyCoupon() {
         
         this.errorMessage.set('');
       } else {
-        this.appliedCoupon.set(null);
-        this.discount.set(0);
-        this.errorMessage.set('كود الكوبون غير صحيح!');
+        this.resetCoupon('CART_SUMMARY.ERRORS.INVALID_COUPON');
+        
       }
     },
     error: (err) => {
-      this.errorMessage.set('حدث خطأ أثناء الاتصال بالسيرفر');
+      
+      this.resetCoupon('');
     }
   });
 }
+
+
+private resetCoupon(msgKey: string) {
+  this.appliedCoupon.set(null);
+  this.discount.set(0);
+  if (msgKey) this.errorMessage.set(msgKey);}
 }
