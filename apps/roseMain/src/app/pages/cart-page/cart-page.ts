@@ -16,10 +16,10 @@ import { Router } from '@angular/router';
 import {
   LucideArrowLeft,
   LucideArrowRight,
+  LucideBrushCleaning,
   LucideChevronLeft,
   LucideChevronRight,
-  LucideTicket,
-  LucideTrash2,
+  LucideTicketPercent,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
@@ -37,10 +37,10 @@ import { CartService } from './services/cart.service';
     DecimalPipe,
     CartItemComponent,
     ProductCard,
-    LucideTrash2,
+    LucideBrushCleaning,
     LucideArrowLeft,
     LucideArrowRight,
-    LucideTicket,
+    LucideTicketPercent,
     LucideChevronLeft,
     LucideChevronRight,
   ],
@@ -103,7 +103,7 @@ export class CartPage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          this.items.set(res.payload?.cartItems ?? []);
+          this.items.set(res.cartItems ?? []);
           this.recalculateAppliedCoupon();
           this.isLoading.set(false);
         },
@@ -126,7 +126,7 @@ export class CartPage implements OnInit {
     this.busyItemId.set(item.id);
     this.cartService.updateQuantity(item.id, { quantity }).subscribe({
       next: (res) => {
-        const updated = res.payload.cartItem;
+        const updated = res.cartItem;
         this.items.update((list) =>
           list.map((entry) => (entry.id === updated.id ? updated : entry)),
         );
@@ -266,7 +266,7 @@ export class CartPage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          this.coupons = res.payload?.data ?? [];
+          this.coupons = res.data ?? [];
         },
       });
   }

@@ -24,7 +24,7 @@
               class="cart-page__clear"
               [disabled]="!items().length || isClearing()"
               (click)="clearCart()">
-              <svg lucideTrash2 [size]="16" class="shrink-0" aria-hidden="true"></svg>
+              <svg lucideBrushCleaning [size]="16" class="shrink-0" aria-hidden="true"></svg>
               {{ 'Clear Cart' | translate }}
             </button>
           </div>
@@ -78,7 +78,7 @@
               class="cart-summary__apply"
               [disabled]="isApplyingCoupon()"
               (click)="applyCoupon()">
-              <svg lucideTicket [size]="16" class="shrink-0" aria-hidden="true"></svg>
+              <svg lucideTicketPercent [size]="16" class="shrink-0" aria-hidden="true"></svg>
               {{ 'Apply Coupon' | translate }}
             </button>
           </div>

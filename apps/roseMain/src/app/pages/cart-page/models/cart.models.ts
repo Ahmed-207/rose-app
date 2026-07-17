@@ -10,22 +10,12 @@ export interface CartItem {
   product: Product;
 }
 
-export interface CartRes {
-  status: boolean;
-  code: number;
-  message?: string;
-  payload: {
-    cartItems: CartItem[];
-  };
+export interface CartPayload {
+  cartItems: CartItem[];
 }
 
-export interface CartItemRes {
-  status: boolean;
-  code: number;
-  message?: string;
-  payload: {
-    cartItem: CartItem;
-  };
+export interface CartItemPayload {
+  cartItem: CartItem;
 }
 
 export interface AddToCartReq {
@@ -51,17 +41,13 @@ export interface Coupon {
   isActive: boolean;
 }
 
-export interface CouponsRes {
-  status: boolean;
-  code: number;
-  payload: {
-    data: Coupon[];
-    metadata: {
-      page: number;
-      limit: number;
-      total: number;
-      totalPages: number;
-    };
+export interface CouponsPayload {
+  data: Coupon[];
+  metadata: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
   };
 }
 
