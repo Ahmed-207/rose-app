@@ -1,0 +1,1 @@
+export type AddressFormMode = 'add' | 'edit';

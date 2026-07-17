@@ -60,8 +60,8 @@
     <div class="most-popular__grid-container grid grid-cols-12 gap-4 md:gap-5 lg:gap-6">
       @for (product of products(); track product.id) {
       <div class="most-popular__grid-item col-span-12 md:col-span-4 lg:col-span-3">
-        <product-card [product]="product" (addToCart)="onAddToCart($event)"
-          (wishlistToggle)="onWishlistToggle($event)"></product-card>
+        <lib-product-card [product]="product" (addToCart)="onAddToCart($event)"
+          (wishlistToggle)="onWishlistToggle($event)"></lib-product-card>
       </div>
       } @empty {
       <p class="col-span-12 text-center py-8 text-gray-500">

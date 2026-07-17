@@ -8,15 +8,14 @@ import {
   PLATFORM_ID,
   signal,
   viewChild,
-  input
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-
+import { ProductCard } from '@org/shared-ui-components';
+import { Product } from 'apps/shared/models/productDto';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
-import { Product } from '../../../products-page/model/productDto';
 
 @Component({
   selector: 'related-products-section',
@@ -26,7 +25,7 @@ import { Product } from '../../../products-page/model/productDto';
   styleUrl: './relateProductSection.css',
 })
 export class RelatedProductsSection implements OnInit {
-  readonly currentProductId = input.required<string>(); // لاستقبال الـ id الحالي للمنتج لجلب المنتجات الشبيهة به من الـ API
+  readonly currentProductId = input.required<string>();
 
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
@@ -48,7 +47,7 @@ export class RelatedProductsSection implements OnInit {
 
     const trackEl = trackRef.nativeElement;
     const item = trackEl.querySelector<HTMLElement>('.carousel-item');
-    const gap = 24; // نفس قيمة الـ Gap في الـ Tailwind أو الـ CSS الخاص بك
+    const gap = 24;
     const amount = (item?.offsetWidth ?? 280) + gap;
 
     trackEl.scrollBy({
@@ -59,17 +58,17 @@ export class RelatedProductsSection implements OnInit {
 
   onAddToCart(_product: Product): void { }
 
-  onWishlistToggle(product: Product): void {
-    // product.isWishlist = !product.isWishlist;
-  }
+  onWishlistToggle(_product: Product): void { }
 
   private loadRelatedProducts(): void {
-    // افترضنا أن الـ Service تحتوي على دالة لجلب المنتجات المرتبطة، يمكنك تعديلها حسب مسميات الـ API لديك
     this.productsService
-      .getBestProducts(8)
+      .getRelatedProducts(this.currentProductId(), 8)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        // this.products.set(response.payload.data.map(mapApiProductToCardProduct));
+      .subscribe({
+        next: (response) => {
+          this.products.set(response.data.map(mapApiProductToCardProduct));
+        },
+        error: (err) => console.error('Failed to load related products', err),
       });
   }
 }

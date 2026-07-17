@@ -3,7 +3,7 @@
 
         <!-- Filter Container -->
         <div class="filter-container col-span-12 md:col-span-3">
-          <app-filter-panel (filterEvent)="filter($event)"/>
+            <app-filter-panel (filterEvent)="filter($event)" />
         </div>
 
         <!-- Products Container -->
@@ -20,8 +20,8 @@
                 class="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @for (product of products(); track product.id) {
                 <div class="product-card-container w-full h-full">
-                    <product-card [product]="product" (addToCart)="onAddToCart($event)"
-                        (wishlistToggle)="onWishlistToggle($event)"></product-card>
+                    <lib-product-card [product]="product" (addToCart)="onAddToCart($event)"
+                        (wishlistToggle)="onWishlistToggle($event)"></lib-product-card>
                 </div>
                 }
             </div>

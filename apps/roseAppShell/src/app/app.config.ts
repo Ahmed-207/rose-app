@@ -1,3 +1,4 @@
+import { addressInterceptor } from "@org/user-addresses";
 import {
   ApplicationConfig,
   inject,
@@ -12,6 +13,7 @@ import { provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const langService = inject(LangService);
       langService.init();
-    })
+    }),
+    provideHttpClient(withInterceptors([addressInterceptor]))
   ]
 };
