@@ -23,8 +23,9 @@ import {
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { Product } from '../products-page/model/productDto';
+import { ProductCard } from '@org/shared-ui-components';
+import { Product } from 'apps/shared/models/productDto';
+import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
 import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
@@ -241,21 +242,27 @@ export class CartPage implements OnInit {
   }
 
   onAddRecommended(product: Product): void {
-    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe({
-      next: () => this.loadCart(),
-      error: () => {
-        this.error.set('Failed to add product to cart. Please sign in and try again.');
-      },
-    });
+    this.cartService
+      .addToCart({ productId: String(product.id), quantity: 1 })
+      .subscribe({
+        next: () => this.loadCart(),
+        error: () => {
+          this.error.set('Failed to add product to cart. Please sign in and try again.');
+        },
+      });
+  }
+
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
   }
 
   private loadRecommended(): void {
     this.productsService
-      .getBestProducts(8)
+      .getAllProducts({ page: 1, limit: 8 })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          this.recommended.set(res.payload.data as Product[]);
+          this.recommended.set(res.data.map(mapApiProductToCardProduct));
         },
       });
   }

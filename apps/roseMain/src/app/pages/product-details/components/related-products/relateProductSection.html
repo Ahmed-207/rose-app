@@ -4,8 +4,7 @@
 
       <!-- عنوان القسم المترجم -->
       <div class="related-products__header border-b border-gray-100 pb-3">
-        <h2
-          class="text-2xl font-bold text-gray-800 relative inline-block">
+        <h2 class="text-2xl font-bold text-gray-800 relative inline-block">
           {{ 'products.relatedTitle' | translate }}
         </h2>
       </div>
@@ -26,9 +25,11 @@
             @for (product of products(); track product.id) {
             <div
               class="carousel-item shrink-0 w-[calc(100%-0)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)]">
-              <product-card [product]="product" (addToCart)="onAddToCart($event)"
+              <!-- <product-card [product]="product" (addToCart)="onAddToCart($event)"
                 (wishlistToggle)="onWishlistToggle($event)">
-              </product-card>
+              </product-card> -->
+              <lib-product-card [product]="product" (addToCart)="onAddToCart($event)"
+                (wishlistToggle)="onWishlistToggle($event)"></lib-product-card>
             </div>
             }
           </div>

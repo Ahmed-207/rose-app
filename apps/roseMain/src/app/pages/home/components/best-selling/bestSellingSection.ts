@@ -1,21 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   PLATFORM_ID,
-  signal,
   viewChild,
+  computed,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
+import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
-
-import { Product } from '../../../products-page/model/productDto';
+import { ProductsStore } from '@org/products';
+import { Product as CardProduct } from 'apps/shared/models/productDto';
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
@@ -26,19 +23,35 @@ import { CartService } from '../../../cart-page/services/cart.service';
 })
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
-  private readonly productsService = inject(ProductsService);
-  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly cartService = inject(CartService);
+  readonly _store = inject(ProductsStore);
 
-  readonly products = signal<Product[]>([]);
+  readonly mappedBestProducts = computed<CardProduct[]>(() => {
+    return [...this._store.bestProducts()]
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      .map(
+        (p) =>
+          ({
+            id: p.id,
+            name: p.title,
+            image: p.cover,
+            price: p.price,
+            rating: p.rating,
+            oldPrice: p.discountValue
+              ? String(Number(p.price) + Number(p.discountValue))
+              : undefined,
+          }) as unknown as CardProduct,
+      )
+      .slice(0, 8);
+  });
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    this.loadBestProducts();
+    this._store.loadBestProducts({ page: 1, limit: 20 });
   }
 
   scroll(direction: 'prev' | 'next'): void {
@@ -58,19 +71,13 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  onAddToCart(product: Product): void {
-    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe();
+  onAddToCart(product: CardProduct): void {
+    this.cartService
+      .addToCart({ productId: String(product.id), quantity: 1 })
+      .subscribe();
   }
 
-  onWishlistToggle(_product: Product): void {
+  onWishlistToggle(_product: CardProduct): void {
     // Wishlist API not wired yet.
-  }
-  private loadBestProducts(): void {
-    this.productsService
-      .getBestProducts(8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        this.products.set(response.payload.data as Product[]);
-      });
   }
 }

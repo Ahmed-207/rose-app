@@ -21,7 +21,7 @@ export const remoteRoutes: Route[] = [
         path: 'products',
         loadComponent: () =>
           import('../pages/products-page/products-page').then(
-            (c) => c.ProductsPage,
+            (c) => c.ProductsPageComponent,
           ),
         title: 'Our Products',
       },

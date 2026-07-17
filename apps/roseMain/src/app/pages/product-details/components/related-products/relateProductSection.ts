@@ -13,9 +13,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-
-import { Product } from '../../../products-page/model/productDto';
+import { ProductCard } from '@org/shared-ui-components';
+import { Product } from 'apps/shared/models/productDto';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
   selector: 'related-products-section',
@@ -29,6 +30,7 @@ export class RelatedProductsSection implements OnInit {
 
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -56,22 +58,25 @@ export class RelatedProductsSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {
-    // Cart wiring handled on cart/products pages.
+  onAddToCart(product: Product): void {
+    this.cartService
+      .addToCart({ productId: String(product.id), quantity: 1 })
+      .subscribe();
   }
 
   onWishlistToggle(_product: Product): void {
     // Wishlist API not wired yet.
   }
+
   private loadRelatedProducts(): void {
     this.productsService
-      .getBestProducts(8)
+      .getRelatedProducts(this.currentProductId(), 8)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        const related = response.payload.data.filter(
-          (product) => product.id !== this.currentProductId(),
-        );
-        this.products.set(related as Product[]);
+      .subscribe({
+        next: (response) => {
+          this.products.set(response.data.map(mapApiProductToCardProduct));
+        },
+        error: (err) => console.error('Failed to load related products', err),
       });
   }
 }

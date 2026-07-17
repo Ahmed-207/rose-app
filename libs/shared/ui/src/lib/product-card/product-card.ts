@@ -1,7 +1,8 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Product } from 'apps/shared/models/productDto';
 
 @Component({
   selector: 'lib-product-card',
@@ -11,45 +12,40 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './product-card.css',
 })
 export class ProductCard {
-  productImg = input<string | null | undefined>();
-  productName = input<string>();
-  productRating = input<string | number>();
-  productCurrentPrice = input<string | number>();
-  productDiscount = input<string | number>();
-  productId = input<string>();
+  readonly product = input.required<Product>();
 
-  protected readonly Number = Number;
+  readonly addToCart = output<Product>();
+  readonly wishlistToggle = output<Product>();
+
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
 
-  productOldPrice = computed(() => {
-    const currentPrice = Number(this.productCurrentPrice() || 0);
-    const discount = Number(this.productDiscount() || 0);
-
-    if (!discount || discount <= 0 || discount >= 100) {
-      return currentPrice;
-    }
-
-    const calculatedOldPrice = currentPrice / (1 - discount / 100);
-    return Math.round(calculatedOldPrice * 100) / 100;
-  });
-
-  starsArray = computed(() => {
-    const rating = Math.floor(Number(this.productRating() || 0));
+  readonly starsArray = computed(() => {
+    const rating = Math.floor(Number(this.product().rating || 0));
     const safeRating = Math.max(0, Math.min(rating, 5));
     return Array(safeRating).fill(0);
   });
 
-  emptyStarsArray = computed(() => {
-    const rating = Math.floor(Number(this.productRating() || 0));
+  readonly emptyStarsArray = computed(() => {
+    const rating = Math.floor(Number(this.product().rating || 0));
     const safeRating = Math.max(0, Math.min(rating, 5));
     return Array(5 - safeRating).fill(0);
   });
 
   navigateToDetails(): void {
-    const id = this.productId();
+    const id = this.product().id;
     if (id) {
       this.router.navigate([id], { relativeTo: this.activeRoute });
     }
+  }
+
+  onAddToCart(event: Event): void {
+    event.stopPropagation();
+    this.addToCart.emit(this.product());
+  }
+
+  onWishlistToggle(event: Event): void {
+    event.stopPropagation();
+    this.wishlistToggle.emit(this.product());
   }
 }

@@ -1,12 +1,13 @@
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Category, ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { SectionHeader } from '../section-header/section-header';
 import { Router } from '@angular/router';
-import { Product } from '../../../products-page/model/productDto';
+import { ProductsService, CategoriesStore } from '@org/products';
+import { Product } from 'apps/shared/models/productDto';
+import { SectionHeader } from '../section-header/section-header';
+import { ProductCard } from '@org/shared-ui-components';
+import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
@@ -16,64 +17,68 @@ import { CartService } from '../../../cart-page/services/cart.service';
   styleUrl: './mostPopularSection.css',
 })
 export class MostPopularSection implements OnInit {
-  private readonly productsService = inject(ProductsService);
-  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
+
+  readonly categoriesStore = inject(CategoriesStore);
+  readonly categories = this.categoriesStore.entities;
 
   readonly products = signal<Product[]>([]);
-  readonly categories = signal<Category[]>([]);
   readonly isLoading = signal(false);
   readonly error = signal<string | null>(null);
-  filters: any;
+
+  readonly activeFilter = signal<string>('All');
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    this.loadPopularProducts();
-    this.loadCategories();
+    this.categoriesStore.loadOnce();
+    this.loadProducts();
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe();
+    this.cartService
+      .addToCart({ productId: String(product.id), quantity: 1 })
+      .subscribe();
   }
 
   onWishlistToggle(_product: Product): void {
     // Wishlist API not wired yet.
   }
-  private loadPopularProducts(): void {
+
+  changeFilter(filterLabel: string, event: Event): void {
+    event.preventDefault();
+    this.activeFilter.set(filterLabel);
+
+    const categoryId =
+      filterLabel === 'All'
+        ? undefined
+        : this.categoriesStore.entities().find((c) => c.title === filterLabel)?.id;
+
+    this.loadProducts(categoryId);
+  }
+
+  private loadProducts(categoryId?: string): void {
+    this.isLoading.set(true);
     this.productsService
-      .getAllProducts(1, 12)
+      .getAllProducts({ page: 1, limit: 12, categoryId })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          this.products.set(response.payload.data as Product[]);
+          this.products.set(response.data.map(mapApiProductToCardProduct));
+          this.isLoading.set(false);
         },
         error: (err) => {
           console.error('Error loading popular products', err);
+          this.error.set('Failed to load products');
+          this.isLoading.set(false);
         },
       });
-  }
-
-  private loadCategories(): void {
-    this.productsService
-      .getAllcatigories()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.categories.set(response.payload.data.slice(0, 5));
-        },
-      });
-  }
-
-  readonly activeFilter = signal<string>('All');
-
-  changeFilter(filterName: string, event: Event): void {
-    event.preventDefault();
-    this.activeFilter.set(filterName);
   }
 
   goToProductsPage(): void {

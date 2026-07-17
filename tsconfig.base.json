@@ -20,6 +20,7 @@
       "@org/lang-switcher-models": [
         "libs/shared/lang-switcher/models/src/index.ts"
       ],
+      "@env": ["apps/roseAppShell/src/environments/environment.ts"],
       "roseMain/Routes": [
         "./apps/roseMain/src/app/remote-entry/entry.routes.ts"
       ],
@@ -32,7 +33,8 @@
       "@org/shared-ui-components": ["./libs/shared/ui/src/index.ts"],
       "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"],
       "@org/shared-theme": ["./libs/shared/shared-theme/src/index.ts"],
-      "@org/products": ["./libs/shared/products/src/index.ts"]
+      "@org/products": ["./libs/shared/products/src/index.ts"],
+      "@org/user-addresses": ["./libs/shared/user-addresses/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

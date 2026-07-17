@@ -15,7 +15,8 @@ const config: ModuleFederationConfig = {
       libraryName === '@org/shared-theme' ||
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader' ||
-      libraryName === '@ngrx/signals'
+      libraryName === '@ngrx/signals' ||
+      libraryName === '@angular/google-maps'
     ) {
       return {
         ...sharedConfig,

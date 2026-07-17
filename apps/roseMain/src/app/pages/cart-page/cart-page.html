@@ -137,11 +137,11 @@
           <div class="carousel-track" #recommendTrack>
             @for (product of recommended(); track product.id) {
               <div class="carousel-item">
-                <product-card
+                <lib-product-card
                   [product]="product"
-                  [productLink]="['/home', 'products', product.id]"
-                  (addToCart)="onAddRecommended($event)">
-                </product-card>
+                  (addToCart)="onAddRecommended($event)"
+                  (wishlistToggle)="onWishlistToggle($event)">
+                </lib-product-card>
               </div>
             }
           </div>
