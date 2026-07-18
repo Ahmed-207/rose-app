@@ -1,4 +1,4 @@
-import { Product } from './productDto';
+import { Product } from '@org/shared-ui-components';
 
 export interface ProductReview {
   id: string | number;

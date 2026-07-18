@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { APICallerService, CART, COUPON } from '@org/products';
+import { CART, COUPON } from '@org/products';
+import { APICallerService } from '@org/products';
 import {
   AddToCartReq,
   CartItem,

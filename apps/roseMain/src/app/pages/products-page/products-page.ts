@@ -3,9 +3,9 @@ import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angul
 import { ProductsStore, FilterParams } from '@org/products';
 import { FilterPanelComponent } from './components/filterPanel';
 import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
-import { Spinner, Paginator, ProductCard } from '@org/shared-ui-components';
-import { Product } from 'apps/shared/models/productDto';
+import { Spinner, Paginator, ProductCard } from "@org/shared-ui-components";
 import { CartService } from '../cart-page/services/cart.service';
+import { Product } from '@org/shared-ui-components';
 
 @Component({
   selector: 'app-products-page',
@@ -18,7 +18,6 @@ export class ProductsPageComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly productsStore = inject(ProductsStore);
   private readonly cartService = inject(CartService);
-
   readonly isLoading = computed(() => this.productsStore.isLoading());
   readonly error = computed(() => this.productsStore.error());
   readonly totalResults = computed(() => this.productsStore.totalProducts());
@@ -49,7 +48,7 @@ export class ProductsPageComponent implements OnInit {
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({ productId: String(product.id), quantity: 1 }).subscribe({
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
       error: (err) => {
         console.error('Failed to add to cart', err);
       },

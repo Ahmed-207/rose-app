@@ -7,7 +7,7 @@ import { TrustedbySection } from "./components/trustedby-section/trustedbySectio
 import { GallerySection } from "./components/gallery-section/gallery-section";
 import { MostPopularSection } from "./components/most-popular/mostPopularSection";
 import { AuthActions } from '@org/auth';
-import { ShippingAddress } from "../cart/components/addresses/shipping-address";
+import { ShippingAddress } from "../checkout-page/components/addresses/shipping-address";
 
 @Component({
   selector: 'app-home-page',

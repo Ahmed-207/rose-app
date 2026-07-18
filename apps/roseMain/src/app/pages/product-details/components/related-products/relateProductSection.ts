@@ -13,8 +13,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from '@org/shared-ui-components';
-import { Product } from 'apps/shared/models/productDto';
-import { catchError, filter, of, switchMap } from 'rxjs';
+import { Product } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
@@ -70,13 +69,21 @@ export class RelatedProductsSection {
     });
   }
 
-  onAddToCart(product: Product): void {
-    this.cartService
-      .addToCart({ productId: String(product.id), quantity: 1 })
-      .subscribe();
-  }
+  onAddToCart(_product: Product): void { }
+
 
   onWishlistToggle(_product: Product): void {
     // Wishlist API not wired yet.
+  }
+  private loadRelatedProducts(): void {
+    this.productsService
+      .getRelatedProducts(this.currentProductId(), 8)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.products.set(response.data.map(mapApiProductToCardProduct));
+        },
+        error: (err) => console.error('Failed to load related products', err),
+      });
   }
 }

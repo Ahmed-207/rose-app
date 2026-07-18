@@ -65,11 +65,15 @@ export class ProductsService {
         );
     }
 
-    // Used by RelatedProductsSection: a bounded, stateless fetch that never
-    // touches ProductsStore, so it can't clobber the products-page's filtered
-    // list (they share the same singleton store otherwise).
     getRelatedProducts(currentProductId: string, limit = 8): Observable<ProductsRes> {
-        return this.getAllProducts({ page: 1, limit, excludeProductId: currentProductId });
+        const fetchLimit = limit + 1;
+
+        return this.getAllProducts({ page: 1, limit: fetchLimit }).pipe(
+            map((res) => {
+                const filtered = res.data.filter((p) => p.id !== currentProductId).slice(0, limit);
+                return { ...res, data: filtered };
+            }),
+        );
     }
 
     getProductReviews(productId: string, page = 1, limit = 20): Observable<ReviewsRes> {

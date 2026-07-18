@@ -7,5 +7,4 @@ export interface FilterParams {
     minRating?: number;
     minPrice?: number;
     maxPrice?: number;
-    excludeProductId?: string;
 }

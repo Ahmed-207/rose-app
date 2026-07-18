@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ApiResponse } from 'auth/src/lib/auth/models';
 import { environment } from 'apps/roseMain/src/environments/environment';
@@ -8,17 +8,10 @@ import { environment } from 'apps/roseMain/src/environments/environment';
     providedIn: 'root',
 })
 export class APICallerService {
-    protected _http: HttpClient;
-    private apiUrl = environment.apiUrl;
+    private readonly http = inject(HttpClient);
+    private readonly apiUrl = environment.apiUrl;
 
-    constructor(
-        _http: HttpClient,
-        @Inject(PLATFORM_ID) private readonly platformId: object,
-    ) {
-        this._http = _http;
-    }
-
-    private createWebApiUrl(url: string) {
+    private createWebApiUrl(url: string): string {
         if (/^https?:\/\//i.test(url)) {
             return url;
         }
@@ -43,40 +36,40 @@ export class APICallerService {
         return res.payload;
     }
 
-    public get<T>(url: string, params?: HttpParams): Observable<T> {
-        return this._http
+    get<T>(url: string, params?: HttpParams): Observable<T> {
+        return this.http
             .get<ApiResponse<T>>(this.createWebApiUrl(url), { params })
             .pipe(map((res) => this.unwrapPayload(res)));
     }
 
     post<T>(url: string, body: unknown, params?: HttpParams): Observable<T> {
-        return this._http
+        return this.http
             .post<ApiResponse<T>>(this.createWebApiUrl(url), body, { params })
             .pipe(map((res) => this.unwrapPayload(res)));
     }
 
-    public put<T>(url: string, body: unknown): Observable<T> {
-        return this._http
+    put<T>(url: string, body: unknown): Observable<T> {
+        return this.http
             .put<ApiResponse<T>>(this.createWebApiUrl(url), body)
             .pipe(map((res) => this.unwrapPayload(res)));
     }
 
-    public patch<T>(url: string, body: unknown): Observable<T> {
-        return this._http
+    patch<T>(url: string, body: unknown): Observable<T> {
+        return this.http
             .patch<ApiResponse<T>>(this.createWebApiUrl(url), body)
             .pipe(map((res) => this.unwrapPayload(res)));
     }
 
     /** Deletes may return message-only responses without a payload. */
-    public delete<T = unknown>(url: string): Observable<T> {
-        return this._http.delete<T>(this.createWebApiUrl(url));
+    delete<T = unknown>(url: string): Observable<T> {
+        return this.http.delete<T>(this.createWebApiUrl(url));
     }
 
-    public postWithAttachment(url: string, formData: FormData) {
-        return this._http.post(this.createWebApiUrl(url), formData);
+    postWithAttachment(url: string, formData: FormData): Observable<unknown> {
+        return this.http.post(this.createWebApiUrl(url), formData);
     }
 
-    public puttWithAttachment(url: string, formData: FormData) {
-        return this._http.put(this.createWebApiUrl(url), formData);
+    putWithAttachment(url: string, formData: FormData): Observable<unknown> {
+        return this.http.put(this.createWebApiUrl(url), formData);
     }
 }
