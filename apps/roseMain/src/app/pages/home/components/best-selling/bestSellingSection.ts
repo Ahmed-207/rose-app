@@ -14,6 +14,7 @@ import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { CartService } from '../../../cart-page/services/cart.service';
 import { ProductsStore } from '@org/products';
+import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',
@@ -26,7 +27,6 @@ export class BestSellingSection implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly cartService = inject(CartService);
   readonly _store = inject(ProductsStore);
-  private readonly cartService = inject(CartService);
   // bestSellingSection.ts (UPDATED)
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
     return [...this._store.bestProducts()]

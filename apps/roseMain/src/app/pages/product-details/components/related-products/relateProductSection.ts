@@ -16,6 +16,7 @@ import { ProductCard } from '@org/shared-ui-components';
 import { Product } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
+import { catchError, filter, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'related-products-section',
@@ -69,21 +70,12 @@ export class RelatedProductsSection {
     });
   }
 
-  onAddToCart(_product: Product): void { }
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
+  }
 
 
   onWishlistToggle(_product: Product): void {
     // Wishlist API not wired yet.
-  }
-  private loadRelatedProducts(): void {
-    this.productsService
-      .getRelatedProducts(this.currentProductId(), 8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.products.set(response.data.map(mapApiProductToCardProduct));
-        },
-        error: (err) => console.error('Failed to load related products', err),
-      });
   }
 }

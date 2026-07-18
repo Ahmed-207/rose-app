@@ -22,7 +22,6 @@ export class MostPopularSection implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   private readonly productsService = inject(ProductsService);
-  private readonly cartService = inject(CartService);
 
   readonly categoriesStore = inject(CategoriesStore);
   readonly categories = this.categoriesStore.entities;
