@@ -2,7 +2,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Product } from 'apps/shared/models/productDto';
+import { Product } from './models/productDto';
 
 @Component({
   selector: 'lib-product-card',
@@ -35,7 +35,7 @@ export class ProductCard {
   navigateToDetails(): void {
     const id = this.product().id;
     if (id) {
-      this.router.navigate([id], { relativeTo: this.activeRoute });
+      this.router.navigate(['/home/products', id]);
     }
   }
 

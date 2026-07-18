@@ -14,7 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
 import { ProductCard } from '@org/shared-ui-components';
-import { Product } from 'apps/shared/models/productDto';
+import { Product } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({

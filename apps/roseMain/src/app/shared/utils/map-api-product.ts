@@ -1,5 +1,5 @@
 import { Product as ApiProduct, Review as ApiReview } from '@org/products';
-import { Product, ProductBadge } from 'apps/shared/models/productDto';
+import { Product, ProductBadge } from '@org/shared-ui-components';
 import { ProductDetail, ProductReview } from 'apps/shared/models/productDetailDto';
 
 function normalizeUrl(url: string): string {

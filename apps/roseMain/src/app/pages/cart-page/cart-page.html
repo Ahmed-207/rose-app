@@ -1,134 +1,112 @@
 <section class="cart-page font-primary">
   <div class="cart-page__container">
     @if (isLoading()) {
-      <p class="cart-page__status">{{ 'Loading cart...' | translate }}</p>
+    <p class="cart-page__status">{{ 'Loading cart...' | translate }}</p>
     } @else if (error() && !items().length) {
-      <div class="cart-page__status cart-page__status--error">
-        <p>{{ error() }}</p>
+    <div class="cart-page__status cart-page__status--error">
+      <p>{{ error() }}</p>
+      <button type="button" class="cart-page__continue" (click)="continueShopping()">
+        <svg lucideArrowLeft [size]="16" class="shrink-0" aria-hidden="true"></svg>
+        {{ 'Continue Shopping' | translate }}
+      </button>
+    </div>
+    } @else {
+    <div class="cart-page__layout">
+      <div class="cart-page__main">
+        <div class="cart-page__header">
+          <h1 class="cart-page__title">
+            {{ 'Cart' | translate }}
+            <span>{{ itemCount() }} {{ 'CART_PRODUCTS' | translate }}</span>
+          </h1>
+
+          <button type="button" class="cart-page__clear" [disabled]="!items().length || isClearing()"
+            (click)="clearCart()">
+            <svg lucideBrushCleaning [size]="16" class="shrink-0" aria-hidden="true"></svg>
+            {{ 'Clear Cart' | translate }}
+          </button>
+        </div>
+
+        @if (!items().length) {
+        <div class="cart-page__empty" role="status">
+          <img class="cart-page__empty-art" src="/assets/images/empty-cart.png" alt="" width="220" height="188" />
+          <p class="cart-page__empty-text">
+            {{ 'Your cart is empty, wanna try shopping?' | translate }}
+          </p>
+        </div>
+        } @else {
+        <div class="cart-page__items">
+          @for (item of items(); track item.id) {
+          <app-cart-item [item]="item" [busy]="busyItemId() === item.id" (quantityChange)="updateQuantity(item, $event)"
+            (remove)="removeItem(item)">
+          </app-cart-item>
+          }
+        </div>
+        }
+
         <button type="button" class="cart-page__continue" (click)="continueShopping()">
           <svg lucideArrowLeft [size]="16" class="shrink-0" aria-hidden="true"></svg>
           {{ 'Continue Shopping' | translate }}
         </button>
       </div>
-    } @else {
-      <div class="cart-page__layout">
-        <div class="cart-page__main">
-          <div class="cart-page__header">
-            <h1 class="cart-page__title">
-              {{ 'Cart' | translate }}
-              <span>{{ itemCount() }} {{ 'CART_PRODUCTS' | translate }}</span>
-            </h1>
 
-            <button
-              type="button"
-              class="cart-page__clear"
-              [disabled]="!items().length || isClearing()"
-              (click)="clearCart()">
-              <svg lucideBrushCleaning [size]="16" class="shrink-0" aria-hidden="true"></svg>
-              {{ 'Clear Cart' | translate }}
-            </button>
-          </div>
+      <aside class="cart-summary">
+        <h2 class="cart-summary__title">{{ 'Summary' | translate }}</h2>
 
-          @if (!items().length) {
-            <div class="cart-page__empty" role="status">
-              <img
-                class="cart-page__empty-art"
-                src="/assets/images/empty-cart.png"
-                alt=""
-                width="220"
-                height="188" />
-              <p class="cart-page__empty-text">
-                {{ 'Your cart is empty, wanna try shopping?' | translate }}
-              </p>
-            </div>
-          } @else {
-            <div class="cart-page__items">
-              @for (item of items(); track item.id) {
-                <app-cart-item
-                  [item]="item"
-                  [busy]="busyItemId() === item.id"
-                  (quantityChange)="updateQuantity(item, $event)"
-                  (remove)="removeItem(item)">
-                </app-cart-item>
-              }
-            </div>
-          }
-
-          <button type="button" class="cart-page__continue" (click)="continueShopping()">
-            <svg lucideArrowLeft [size]="16" class="shrink-0" aria-hidden="true"></svg>
-            {{ 'Continue Shopping' | translate }}
+        <label class="cart-summary__label" for="coupon-code">
+          {{ 'Coupon Code' | translate }}
+        </label>
+        <div class="cart-summary__coupon-row">
+          <input id="coupon-code" type="text" [ngModel]="couponCode()" (ngModelChange)="couponCode.set($event)"
+            [placeholder]="'Enter code' | translate" />
+          <button type="button" class="cart-summary__apply" [disabled]="isApplyingCoupon()" (click)="applyCoupon()">
+            <svg lucideTicketPercent [size]="16" class="shrink-0" aria-hidden="true"></svg>
+            {{ 'Apply Coupon' | translate }}
           </button>
         </div>
 
-        <aside class="cart-summary">
-          <h2 class="cart-summary__title">{{ 'Summary' | translate }}</h2>
+        @if (couponError()) {
+        <p class="cart-summary__coupon-error">{{ couponError() }}</p>
+        }
 
-          <label class="cart-summary__label" for="coupon-code">
-            {{ 'Coupon Code' | translate }}
-          </label>
-          <div class="cart-summary__coupon-row">
-            <input
-              id="coupon-code"
-              type="text"
-              [ngModel]="couponCode()"
-              (ngModelChange)="couponCode.set($event)"
-              [placeholder]="'Enter code' | translate" />
-            <button
-              type="button"
-              class="cart-summary__apply"
-              [disabled]="isApplyingCoupon()"
-              (click)="applyCoupon()">
-              <svg lucideTicketPercent [size]="16" class="shrink-0" aria-hidden="true"></svg>
-              {{ 'Apply Coupon' | translate }}
-            </button>
+        <div class="cart-summary__coupon-box">
+          @if (appliedCoupon(); as applied) {
+          <div class="cart-summary__coupon-applied">
+            <span>{{ applied.coupon.code }} (−{{ applied.discountAmount | number: '1.2-2' }} {{ 'EGP' | translate
+              }})</span>
+            <button type="button" (click)="removeCoupon()">{{ 'Remove' | translate }}</button>
           </div>
-
-          @if (couponError()) {
-            <p class="cart-summary__coupon-error">{{ couponError() }}</p>
+          } @else {
+          {{ 'No coupons applied' | translate }}
           }
+        </div>
 
-          <div class="cart-summary__coupon-box">
-            @if (appliedCoupon(); as applied) {
-              <div class="cart-summary__coupon-applied">
-                <span>{{ applied.coupon.code }} (−{{ applied.discountAmount | number: '1.2-2' }} {{ 'EGP' | translate }})</span>
-                <button type="button" (click)="removeCoupon()">{{ 'Remove' | translate }}</button>
-              </div>
-            } @else {
-              {{ 'No coupons applied' | translate }}
-            }
+        <div class="cart-summary__totals">
+          <div class="cart-summary__row">
+            <span>{{ 'Subtotal' | translate }}</span>
+            <strong>{{ subtotal() | number: '1.2-2' }} {{ 'EGP' | translate }}</strong>
           </div>
-
-          <div class="cart-summary__totals">
-            <div class="cart-summary__row">
-              <span>{{ 'Subtotal' | translate }}</span>
-              <strong>{{ subtotal() | number: '1.2-2' }} {{ 'EGP' | translate }}</strong>
-            </div>
-            <div class="cart-summary__row cart-summary__row--total">
-              <span>{{ 'Total' | translate }}</span>
-              <strong>{{ total() | number: '1.2-2' }} {{ 'EGP' | translate }}</strong>
-            </div>
+          <div class="cart-summary__row cart-summary__row--total">
+            <span>{{ 'Total' | translate }}</span>
+            <strong>{{ total() | number: '1.2-2' }} {{ 'EGP' | translate }}</strong>
           </div>
+        </div>
 
-          <button
-            type="button"
-            class="cart-summary__checkout"
-            [disabled]="!items().length"
-            (click)="checkout()">
-            {{ 'Checkout' | translate }}
-            <svg lucideArrowRight [size]="16" class="shrink-0" aria-hidden="true"></svg>
-          </button>
-        </aside>
-      </div>
+        <button type="button" class="cart-summary__checkout" [disabled]="!items().length" (click)="checkout()">
+          {{ 'Checkout' | translate }}
+          <svg lucideArrowRight [size]="16" class="shrink-0" aria-hidden="true"></svg>
+        </button>
+      </aside>
+    </div>
     }
 
     <section class="cart-recommend">
       <h2 class="cart-recommend__title">{{ 'Products You May Like' | translate }}</h2>
 
+      @if (isRecommendedLoading()) {
+      <p class="cart-recommend__status">{{ 'Loading recommendations...' | translate }}</p>
+      } @else {
       <div class="cart-recommend__carousel">
-        <button
-          type="button"
-          class="carousel-nav carousel-nav--prev"
-          (click)="scrollRecommended('prev')"
+        <button type="button" class="carousel-nav carousel-nav--prev" (click)="scrollRecommended('prev')"
           [attr.aria-label]="'Previous products' | translate">
           <svg lucideChevronLeft [size]="18" class="shrink-0" aria-hidden="true"></svg>
         </button>
@@ -136,25 +114,22 @@
         <div class="carousel-viewport">
           <div class="carousel-track" #recommendTrack>
             @for (product of recommended(); track product.id) {
-              <div class="carousel-item">
-                <product-card
-                  [product]="product"
-                  [productLink]="['/home', 'products', product.id]"
-                  (addToCart)="onAddRecommended($event)">
-                </product-card>
-              </div>
+            <div class="carousel-item">
+              <lib-product-card [product]="product" (addToCart)="onAddRecommended($event)">
+              </lib-product-card>
+            </div>
+            } @empty {
+            <p class="cart-recommend__empty">{{ 'No recommendations available' | translate }}</p>
             }
           </div>
         </div>
 
-        <button
-          type="button"
-          class="carousel-nav carousel-nav--next"
-          (click)="scrollRecommended('next')"
+        <button type="button" class="carousel-nav carousel-nav--next" (click)="scrollRecommended('next')"
           [attr.aria-label]="'Next products' | translate">
           <svg lucideChevronRight [size]="18" class="shrink-0" aria-hidden="true"></svg>
         </button>
       </div>
+      }
     </section>
   </div>
 </section>

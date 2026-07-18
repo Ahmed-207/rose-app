@@ -7,8 +7,8 @@ import {
   inject,
   OnInit,
   PLATFORM_ID,
-  signal,
   viewChild,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -22,12 +22,12 @@ import {
   LucideTicketPercent,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { Product } from '../products-page/model/productDto';
+import { ProductsStore } from '@org/products';
+import { ProductCard } from '@org/shared-ui-components';
 import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
+import { Product } from '@org/shared-ui-components';
 
 @Component({
   selector: 'app-cart-page',
@@ -49,7 +49,7 @@ import { CartService } from './services/cart.service';
 })
 export class CartPage implements OnInit {
   private readonly cartService = inject(CartService);
-  private readonly productsService = inject(ProductsService);
+  private readonly productsStore = inject(ProductsStore);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
@@ -57,12 +57,31 @@ export class CartPage implements OnInit {
   private readonly recommendTrack = viewChild<ElementRef<HTMLElement>>('recommendTrack');
 
   readonly items = signal<CartItem[]>([]);
-  readonly recommended = signal<Product[]>([]);
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);
   readonly busyItemId = signal<string | null>(null);
   readonly isClearing = signal(false);
   readonly isApplyingCoupon = signal(false);
+
+  // Recommended products now live in ProductsStore.bestProducts — this
+  // component no longer owns that list, just reads it.
+  readonly recommended = computed<Product[]>(() => {
+    return [...this.productsStore.bestProducts()]
+      // 1. Sort by rating descending so the highest-rated items are first
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      // 2. Map them to the UI card structure
+      .map((p) => ({
+        id: p.id,
+        name: p.title,
+        image: p.cover,
+        price: p.price,
+        rating: p.rating,
+        oldPrice: p.discountValue ? String(Number(p.price) + Number(p.discountValue)) : undefined
+      }) as unknown as Product)
+      // 3. Slice to only show the top 8 best-sellers in the carousel
+      .slice(0, 8);
+  });
+  readonly isRecommendedLoading = computed(() => this.productsStore.isBestLoading());
 
   readonly couponCode = signal('');
   readonly couponError = signal<string | null>(null);
@@ -241,7 +260,7 @@ export class CartPage implements OnInit {
   }
 
   onAddRecommended(product: Product): void {
-    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe({
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
       next: () => this.loadCart(),
       error: () => {
         this.error.set('Failed to add product to cart. Please sign in and try again.');
@@ -250,14 +269,10 @@ export class CartPage implements OnInit {
   }
 
   private loadRecommended(): void {
-    this.productsService
-      .getBestProducts(8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (res) => {
-          this.recommended.set(res.payload.data as Product[]);
-        },
-      });
+    // Store-driven: ProductsStore.loadBestProducts populates bestProducts,
+    // which `recommended` above reads reactively. No local subscribe/signal
+    // needed — the store IS the state now.
+    this.productsStore.loadBestProducts({ page: 1, limit: 8 });
   }
 
   private loadCoupons(): void {

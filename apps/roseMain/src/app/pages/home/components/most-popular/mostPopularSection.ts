@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ProductsService, CategoriesStore } from '@org/products';
-import { Product } from 'apps/shared/models/productDto';
+import { Product } from '@org/shared-ui-components';
 import { SectionHeader } from '../section-header/section-header';
 import { ProductCard } from "@org/shared-ui-components";
 import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';

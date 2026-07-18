@@ -1,10 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { ProductsStore, FilterParams, Product } from '@org/products';
+import { ProductsStore, FilterParams } from '@org/products';
 import { FilterPanelComponent } from './components/filterPanel';
 import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
 import { Spinner, Paginator, ProductCard } from "@org/shared-ui-components";
 import { CartService } from '../cart-page/services/cart.service';
+import { Product } from '@org/shared-ui-components';
 
 @Component({
   selector: 'app-products-page',
@@ -42,7 +43,7 @@ export class ProductsPageComponent implements OnInit {
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe({
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
       error: (err) => {
         console.error('Failed to add to cart', err);
       },
