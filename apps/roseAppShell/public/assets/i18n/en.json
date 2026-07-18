@@ -139,6 +139,36 @@
       "delivery": "Fast & Reliable Delivery"
     }
   },
+  "wishlist": {
+    "Shop Wishlist": "Wishlist",
+    "items": "items",
+    "Clear": "Clear Wishlist",
+    "InStock": "In Stock",
+    "OutOfStock": "Out of Stock",
+    "ratings": "ratings",
+    "EGP": "EGP",
+    "AddToCart": "Add to Cart",
+    "ExploreSimilar": "Explore Similar Products",
+    "Remove": "Remove Item",
+    "ContinueShopping": "Continue Shopping"
+  },
+  "CART_SUMMARY": {
+    "TITLE": "Summary",
+    "COUPON_PLACEHOLDER": "Coupon Code",
+    "APPLY_COUPON": "Apply Coupon",
+    "NO_COUPONS": "No coupons applied",
+    "COUPON_SUCCESS": "Coupon applied: {{code}} (Discount {{discount}} EGP)",
+    "SUBTOTAL": "Subtotal",
+    "DISCOUNT": "Discount",
+    "TOTAL": "Total",
+    "CHECKOUT": "Checkout",
+    "ERRORS": {
+      "INVALID_COUPON": "Invalid or expired coupon code!",
+      "SERVER_ERROR": "An error occurred while connecting to the server.",
+      "EMPTY_CODE": "Please enter a coupon code."
+    }
+  }
+  ,
   "products": {
     "relatedTitle": "Related Products"
   },

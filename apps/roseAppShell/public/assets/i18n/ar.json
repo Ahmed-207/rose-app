@@ -140,6 +140,36 @@
       "delivery": "توصيل سريع وموثوق"
     }
   },
+  "wishlist": {
+    "Shop Wishlist": "قائمة الرغبات",
+    "items": "عناصر",
+    "Clear": "مسح القائمة",
+    "InStock": "متوفر في المخزن",
+    "OutOfStock": "نفد من المخزن",
+    "ratings": "تقييمات",
+    "EGP": "ج.م",
+    "AddToCart": "أضف إلى السلة",
+    "ExploreSimilar": "استكشاف منتجات مشابهة",
+    "Remove": "حذف العنصر",
+    "ContinueShopping": "العودة للتسوق"
+  },
+  "CART_SUMMARY": {
+    "TITLE": "ملخص الطلب",
+    "COUPON_PLACEHOLDER": "كود الخصم",
+    "APPLY_COUPON": "تطبيق الكوبون",
+    "NO_COUPONS": "لا توجد كوبونات مضافة",
+    "COUPON_SUCCESS": "تم تطبيق الكوبون: {{code}} (خصم {{discount}} ج.م)",
+    "SUBTOTAL": "المجموع الفرعي",
+    "DISCOUNT": "الخصم",
+    "TOTAL": "الإجمالي النهائي",
+    "CHECKOUT": "الدفع والطلب",
+    "ERRORS": {
+      "INVALID_COUPON": "كوبون الخصم غير صحيح أو منتهي الصلاحية!",
+      "SERVER_ERROR": "حدث خطأ أثناء الاتصال بالسيرفر.",
+      "EMPTY_CODE": "برجاء إدخال كود الكوبون أولاً."
+    }
+  }
+  ,
   "products": {
     "relatedTitle": "منتجات ذات صلة"
   },

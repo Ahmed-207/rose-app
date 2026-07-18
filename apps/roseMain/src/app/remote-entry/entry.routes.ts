@@ -26,6 +26,11 @@ export const remoteRoutes: Route[] = [
         title: 'Our Products',
       },
       {
+        path: 'wishlist',
+        loadComponent: () => import('../pages/wishlist/wishlistPage').then((c) => c.WishlistPage),
+        title: 'wishlist'
+      },
+      {
         path: 'products/:id',
         loadComponent: () =>
           import('../pages/product-details/productDetailPage').then(
@@ -45,5 +50,5 @@ export const remoteRoutes: Route[] = [
         title: 'About Us'
       }
     ],
-  },
+  }
 ];

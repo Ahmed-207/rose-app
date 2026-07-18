@@ -14,6 +14,9 @@ import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { CartService } from '../../../pages/cart-page/services/cart.service';
+import { WishlistService } from '@org/products';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
     providers: [MessageService],
@@ -27,7 +30,6 @@ import { CartService } from '../../../pages/cart-page/services/cart.service';
         ThemeToggler,
         RouterLink,
         RouterLinkActive,
-        LucideHeart,
         LucideShoppingCart,
         LucideBell,
         LucideChevronDown,
@@ -41,6 +43,11 @@ export class SecondryNavbar implements OnInit {
     private readonly cartService = inject(CartService);
     readonly cartCount = this.cartService.itemCount;
     items: MenuItem[] | undefined;
+
+  public readonly wishlistService = inject(WishlistService);
+  private destroyRef = inject(DestroyRef);
+
+
 
     ngOnInit() {
         this.cartService.refreshCount();
@@ -68,4 +75,15 @@ export class SecondryNavbar implements OnInit {
     closeMobileMenu(): void {
         this.isMobileMenuOpen.set(false);
     }
+
+
+    getLoggedUserWishlist(){
+      this.wishlistService.getLoggedUserWishlist()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe( res =>{
+        console.log('WishlistPage Response:', res)
+       
+        
+    })
+  }
 }
