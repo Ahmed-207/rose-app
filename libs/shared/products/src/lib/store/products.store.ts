@@ -65,7 +65,7 @@ export const ProductsStore = signalStore(
                     ),
                 ),
             ),
-            // UPDATED: Accepts any FilterParams object safely
+
             loadBestProducts: rxMethod<FilterParams>(
                 pipe(
                     tap(() => patchState(store, { isBestLoading: true })),
@@ -84,17 +84,21 @@ export const ProductsStore = signalStore(
                     ),
                 ),
             ),
+
             applyCategoryFilter(this: { loadProducts: (f: FilterParams) => void }, categoryId: string | null) {
                 const nextFilters: FilterParams = {
-                    ...store.filters(),
-                    categoryId: categoryId ?? undefined,
                     page: 1,
+                    limit: store.filters().limit,
+                    categoryId: categoryId ?? undefined,
                 };
                 this.loadProducts(nextFilters);
             },
-
             applyFilters(this: { loadProducts: (f: FilterParams) => void }, filters: FilterParams) {
-                this.loadProducts({ ...store.filters(), ...filters, page: 1 });
+                this.loadProducts({
+                    page: 1,
+                    limit: store.filters().limit,
+                    ...filters,
+                });
             },
 
             resetFilters(this: { loadProducts: (f: FilterParams) => void }) {

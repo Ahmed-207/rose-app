@@ -25,9 +25,6 @@
             @for (product of products(); track product.id) {
             <div
               class="carousel-item shrink-0 w-[calc(100%-0)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)]">
-              <!-- <product-card [product]="product" (addToCart)="onAddToCart($event)"
-                (wishlistToggle)="onWishlistToggle($event)">
-              </product-card> -->
               <lib-product-card [product]="product" (addToCart)="onAddToCart($event)"
                 (wishlistToggle)="onWishlistToggle($event)"></lib-product-card>
             </div>
