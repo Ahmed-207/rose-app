@@ -13,6 +13,7 @@ import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { ProductsStore } from '@org/products';
 import { Product as CardProduct } from 'apps/shared/models/productDto';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
@@ -30,19 +31,7 @@ export class BestSellingSection implements OnInit {
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
     return [...this._store.bestProducts()]
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-      .map(
-        (p) =>
-          ({
-            id: p.id,
-            name: p.title,
-            image: p.cover,
-            price: p.price,
-            rating: p.rating,
-            oldPrice: p.discountValue
-              ? String(Number(p.price) + Number(p.discountValue))
-              : undefined,
-          }) as unknown as CardProduct,
-      )
+      .map(mapApiProductToCardProduct)
       .slice(0, 8);
   });
 
