@@ -8,10 +8,11 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
-import { provideAuth } from '@org/auth';
+import { authInterceptor, errorInterceptor, provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     providePrimeNGTheme(),
     provideAuth({ apiUrl: environment.apiUrl }),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor])),
+
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: `${environment.shellUrl}/assets/i18n/`,

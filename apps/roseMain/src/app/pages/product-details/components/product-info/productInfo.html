@@ -45,10 +45,14 @@
   </p>
 
   <div class="product-info__actions">
-    <button type="button" class="product-info__wishlist" (click)="onWishlist()"
-      [attr.aria-label]="'Add to wishlist' | translate"
-      [class.product-info__wishlist--active]="isWishlist()">
-      <svg lucideHeartPlus [size]="22" class="shrink-0" aria-hidden="true"></svg>
+    <button
+      type="button"
+      class="product-info__wishlist"
+      (click)="OnWishlist(String(product().id))"
+      [attr.aria-label]="'Add to wishlist' | translate">
+      <i       [class]="isInWishlist(String(product().id) )? 'pi pi-heart-fill' : 'pi pi-heart'"
+></i>
+      
     </button>
 
     <app-button variant="danger" size="lg" class="product-info__cart-btn font-primary" icon="pi pi-shopping-cart"
