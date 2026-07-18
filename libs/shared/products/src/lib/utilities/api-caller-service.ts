@@ -1,28 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ApiResponse } from 'auth/src/lib/auth/models';
 import { environment } from 'apps/roseMain/src/environments/environment';
-
 
 @Injectable({
     providedIn: 'root',
 })
 export class APICallerService {
-    protected _http: HttpClient;
-    private apiUrl = environment.apiUrl;
+    private readonly http = inject(HttpClient);
+    private readonly apiUrl = environment.apiUrl;
 
-    constructor(
-        _http: HttpClient,
-
-        @Inject(PLATFORM_ID) private readonly platformId: object,
-    ) {
-        this._http = _http;
-    }
-
-
-
-    private createWebApiUrl(url: string) {
+    private createWebApiUrl(url: string): string {
         if (/^https?:\/\//i.test(url)) {
             return url;
         }
@@ -39,47 +28,48 @@ export class APICallerService {
 
         return baseUrl + normalizedUrl.replace(/^\/+/, '');
     }
-    public get<T>(url: string, params?: HttpParams): Observable<T> {
-        return this._http
-            .get<ApiResponse<T>>(this.createWebApiUrl(url), { params })
-            .pipe(map(res => {
-                if (res.payload === undefined) {
-                    throw new Error('API returned no payload.');
-                }
-                return res.payload;
-            }));
+
+    private unwrapPayload<T>(res: ApiResponse<T>): T {
+        if (res.payload === undefined) {
+            throw new Error('API returned no payload.');
+        }
+        return res.payload;
     }
 
-
+    get<T>(url: string, params?: HttpParams): Observable<T> {
+        return this.http
+            .get<ApiResponse<T>>(this.createWebApiUrl(url), { params })
+            .pipe(map((res) => this.unwrapPayload(res)));
+    }
 
     post<T>(url: string, body: unknown, params?: HttpParams): Observable<T> {
-        return this._http
+        return this.http
             .post<ApiResponse<T>>(this.createWebApiUrl(url), body, { params })
-            .pipe(map(res => {
-                if (res.payload === undefined) {
-                    throw new Error('API returned no payload.');
-                }
-                return res.payload;
-            }));
+            .pipe(map((res) => this.unwrapPayload(res)));
     }
 
-    public put(url: string, body: unknown) {
-
-        return this._http.put(this.createWebApiUrl(url), body);
+    put<T>(url: string, body: unknown): Observable<T> {
+        return this.http
+            .put<ApiResponse<T>>(this.createWebApiUrl(url), body)
+            .pipe(map((res) => this.unwrapPayload(res)));
     }
 
-    public delete(url: string) {
-
-        return this._http.delete(this.createWebApiUrl(url));
+    patch<T>(url: string, body: unknown): Observable<T> {
+        return this.http
+            .patch<ApiResponse<T>>(this.createWebApiUrl(url), body)
+            .pipe(map((res) => this.unwrapPayload(res)));
     }
 
-    public postWithAttachment(url: string, formData: any) {
-
-        return this._http.post(this.createWebApiUrl(url), formData);
+    /** Deletes may return message-only responses without a payload. */
+    delete<T = unknown>(url: string): Observable<T> {
+        return this.http.delete<T>(this.createWebApiUrl(url));
     }
 
-    public puttWithAttachment(url: string, formData: any) {
+    postWithAttachment(url: string, formData: FormData): Observable<unknown> {
+        return this.http.post(this.createWebApiUrl(url), formData);
+    }
 
-        return this._http.put(this.createWebApiUrl(url), formData);
+    putWithAttachment(url: string, formData: FormData): Observable<unknown> {
+        return this.http.put(this.createWebApiUrl(url), formData);
     }
 }

@@ -58,8 +58,10 @@ export class RelatedProductsSection implements OnInit {
 
   onAddToCart(_product: Product): void { }
 
-  onWishlistToggle(_product: Product): void { }
 
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
+  }
   private loadRelatedProducts(): void {
     this.productsService
       .getRelatedProducts(this.currentProductId(), 8)

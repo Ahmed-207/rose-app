@@ -11,8 +11,10 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
-import { ProductsStore } from '@org/products';
-import { Product as CardProduct } from 'apps/shared/models/productDto'; // ADDED: Import the UI card's product type
+
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { Product } from '../../../products-page/model/productDto';
+import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
   selector: 'best-selling-section',
@@ -22,8 +24,11 @@ import { Product as CardProduct } from 'apps/shared/models/productDto'; // ADDED
 })
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
+  private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
   readonly _store = inject(ProductsStore);
+  private readonly cartService = inject(CartService);
+  private readonly destroyRef = inject(DestroyRef);
   // bestSellingSection.ts (UPDATED)
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
     return [...this._store.bestProducts()]
@@ -67,9 +72,12 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  // UPDATED: Parameter type to match CardProduct
-  onAddToCart(product: CardProduct): void { }
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart({ productId: product.id, quantity: 1 }).subscribe();
+  }
 
-  // UPDATED: Parameter type to match CardProduct
-  onWishlistToggle(product: CardProduct): void { }
+  onWishlistToggle(product: Product): void {
+    // product.isWishlist = !product.isWishlist;
+  }
+
 }
