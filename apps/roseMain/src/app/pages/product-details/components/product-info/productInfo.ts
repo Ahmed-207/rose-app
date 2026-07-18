@@ -10,13 +10,14 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { LucideHeartPlus, LucidePackage } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'apps/shared/components/button/button';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 
 @Component({
   selector: 'product-info',
-  imports: [DecimalPipe, TranslatePipe, Button],
+  imports: [DecimalPipe, TranslatePipe, Button, LucideHeartPlus, LucidePackage],
   templateUrl: './productInfo.html',
   styleUrl: './productInfo.css',
 })

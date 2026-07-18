@@ -3,24 +3,48 @@ import { ButtonModule } from 'primeng/button';
 import { MenuItem, MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit, signal } from '@angular/core';
+import {
+    LucideBell,
+    LucideChevronDown,
+    LucideHeart,
+    LucideShoppingCart,
+} from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
 import { RouterLink, RouterLinkActive } from "@angular/router";
+import { CartService } from '../../../pages/cart-page/services/cart.service';
 
 @Component({
     providers: [MessageService],
     selector: 'app-secondry-navbar',
-    imports: [MenuModule, ButtonModule, CommonModule, TranslatePipe, UiLangSwitcher, ThemeToggler, RouterLink, RouterLinkActive],
+    imports: [
+        MenuModule,
+        ButtonModule,
+        CommonModule,
+        TranslatePipe,
+        UiLangSwitcher,
+        ThemeToggler,
+        RouterLink,
+        RouterLinkActive,
+        LucideHeart,
+        LucideShoppingCart,
+        LucideBell,
+        LucideChevronDown,
+    ],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
 })
 export class SecondryNavbar implements OnInit {
     userName = input<string | undefined>('')
     private messageService = inject(MessageService);
+    private readonly cartService = inject(CartService);
+    readonly cartCount = this.cartService.itemCount;
     items: MenuItem[] | undefined;
 
     ngOnInit() {
+        this.cartService.refreshCount();
+
         this.items = [
             {
                 label: 'Documents',

@@ -14,3 +14,8 @@ export * from './lib/services/occassions.service'
 export * from './lib/store/products.store';
 export * from './lib/store/categories.store';
 export * from './lib/store/occassions.store';
+
+// utilities
+export * from './lib/utilities/api-caller-service';
+export * from './lib/utilities/api-endpoints';
+

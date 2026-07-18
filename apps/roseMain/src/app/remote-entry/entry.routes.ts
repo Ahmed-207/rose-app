@@ -34,6 +34,12 @@ export const remoteRoutes: Route[] = [
         title: 'Product Details',
       },
       {
+        path: 'cart',
+        loadComponent: () =>
+          import('../pages/cart-page/cart-page').then((c) => c.CartPage),
+        title: 'Cart',
+      },
+      {
         path: 'about',
         loadComponent: () => import('../pages/about-us/aboutUs').then((c) => c.AboutUs),
         title: 'About Us'
