@@ -9,23 +9,35 @@
       </span>
       }
       <span class="product-info__price font-primary">
-        {{ product().price | number: '1.2-2' }} {{ 'EGP' | translate }}
+        {{ product().price | number: '1.2-2' }}
+        <span class="product-info__currency">{{ 'EGP' | translate }}</span>
       </span>
     </div>
 
-    @if (!product().isOutOfStock) {
-    <span class="product-info__stock">
-      <i class="pi pi-box" aria-hidden="true"></i>
+    @if (product().isOutOfStock) {
+    <span class="product-info__stock product-info__stock--out" role="status">
+      <svg lucidePackage [size]="16" class="shrink-0" aria-hidden="true"></svg>
+      {{ 'Out of stock' | translate }}
+    </span>
+    } @else {
+    <span class="product-info__stock product-info__stock--available" role="status">
+      <svg lucidePackage [size]="16" class="shrink-0" aria-hidden="true"></svg>
       {{ product().stockCount }} {{ 'left in stock' | translate }}
     </span>
     }
   </div>
 
+  <hr class="product-info__divider" />
+
   <p class="product-info__rating">
     <i class="pi pi-star-fill" aria-hidden="true"></i>
-    {{ 'Rating' | translate }}:
-    <strong>{{ product().rating | number: '1.0-0' }}/5</strong>
-    ({{ product().reviewCount }} {{ 'ratings' | translate }})
+    <span class="product-info__rating-label">
+      {{ 'Rating' | translate }}:
+      <strong>{{ product().rating | number: '1.1-1' }}/5</strong>
+    </span>
+    <span class="product-info__rating-count">
+      ({{ product().reviewCount }} {{ 'ratings' | translate }})
+    </span>
   </p>
 
   <p class="product-info__description font-primary">
@@ -34,8 +46,9 @@
 
   <div class="product-info__actions">
     <button type="button" class="product-info__wishlist" (click)="onWishlist()"
-      [attr.aria-label]="'Add to wishlist' | translate">
-      <i [class]="isWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'" aria-hidden="true"></i>
+      [attr.aria-label]="'Add to wishlist' | translate"
+      [class.product-info__wishlist--active]="isWishlist()">
+      <svg lucideHeartPlus [size]="22" class="shrink-0" aria-hidden="true"></svg>
     </button>
 
     <app-button variant="danger" size="lg" class="product-info__cart-btn font-primary" icon="pi pi-shopping-cart"

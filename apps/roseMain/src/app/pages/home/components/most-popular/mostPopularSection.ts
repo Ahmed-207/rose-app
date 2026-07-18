@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ProductsService, CategoriesStore } from '@org/products';
 import { Product } from '@org/shared-ui-components';
 import { SectionHeader } from '../section-header/section-header';
-import { ProductCard } from "@org/shared-ui-components";
+import { ProductCard } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
@@ -22,6 +22,7 @@ export class MostPopularSection implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
 
   readonly categoriesStore = inject(CategoriesStore);
   readonly categories = this.categoriesStore.entities;
@@ -45,7 +46,9 @@ export class MostPopularSection implements OnInit {
     this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
   }
 
-  onWishlistToggle(_product: Product): void { }
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
+  }
 
   changeFilter(filterLabel: string, event: Event): void {
     event.preventDefault();

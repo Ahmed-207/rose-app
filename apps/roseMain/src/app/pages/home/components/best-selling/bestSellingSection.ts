@@ -7,7 +7,7 @@ import {
   OnInit,
   PLATFORM_ID,
   viewChild,
-  computed, // ADDED: computed to map product types
+  computed,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductCard } from '@org/shared-ui-components';
@@ -24,23 +24,14 @@ import { ProductsStore } from '@org/products';
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly cartService = inject(CartService);
   readonly _store = inject(ProductsStore);
   private readonly cartService = inject(CartService);
   // bestSellingSection.ts (UPDATED)
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
     return [...this._store.bestProducts()]
-      // 1. Sort by rating descending so the highest-rated items are first
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-      // 2. Map them to the UI card structure
-      .map((p) => ({
-        id: p.id,
-        name: p.title,
-        image: p.cover,
-        price: p.price,
-        rating: p.rating,
-        oldPrice: p.discountValue ? String(Number(p.price) + Number(p.discountValue)) : undefined
-      }) as unknown as CardProduct)
-      // 3. Slice to only show the top 8 best-sellers in the carousel
+      .map(mapApiProductToCardProduct)
       .slice(0, 8);
   });
 

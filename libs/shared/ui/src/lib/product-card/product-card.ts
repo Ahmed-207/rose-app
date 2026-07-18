@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Product } from './models/productDto';
@@ -18,7 +18,6 @@ export class ProductCard {
   readonly wishlistToggle = output<Product>();
 
   private readonly router = inject(Router);
-  private readonly activeRoute = inject(ActivatedRoute);
 
   readonly starsArray = computed(() => {
     const rating = Math.floor(Number(this.product().rating || 0));

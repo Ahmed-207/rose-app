@@ -21,7 +21,9 @@ export class ProductsPageComponent implements OnInit {
   readonly isLoading = computed(() => this.productsStore.isLoading());
   readonly error = computed(() => this.productsStore.error());
   readonly totalResults = computed(() => this.productsStore.totalProducts());
-  readonly products = computed(() => this.productsStore.entities().map(mapApiProductToCardProduct));
+  readonly products = computed(() =>
+    this.productsStore.entities().map(mapApiProductToCardProduct),
+  );
 
   readonly productsPerPage = computed(() => this.productsStore.activeFilters().limit ?? 12);
   readonly first = signal(0);
@@ -39,7 +41,10 @@ export class ProductsPageComponent implements OnInit {
   onPageChange(pageIndex: number): void {
     const limit = this.productsPerPage();
     this.first.set(pageIndex * limit);
-    this.productsStore.loadProducts({ ...this.productsStore.activeFilters(), page: pageIndex + 1 });
+    this.productsStore.loadProducts({
+      ...this.productsStore.activeFilters(),
+      page: pageIndex + 1,
+    });
   }
 
   onAddToCart(product: Product): void {
@@ -50,5 +55,7 @@ export class ProductsPageComponent implements OnInit {
     });
   }
 
-  onWishlistToggle(_product: unknown): void { }
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
+  }
 }

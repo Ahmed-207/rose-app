@@ -5,7 +5,11 @@
       <product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
       </product-gallery>
 
-      <product-info [product]="item"></product-info>
+      <product-info
+        [product]="item"
+        (addToCart)="onAddToCart($event)"
+        (wishlistToggle)="onWishlistToggle($event)">
+      </product-info>
     </section>
 
     <product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></product-reviews>
