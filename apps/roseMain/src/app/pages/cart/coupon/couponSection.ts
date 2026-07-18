@@ -6,7 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-coupon-section',
-  imports: [ FormsModule , CommonModule , TranslatePipe],
+  imports: [FormsModule, CommonModule, TranslatePipe],
   templateUrl: './couponSection.html',
   styleUrl: './couponSection.css',
 })
@@ -17,12 +17,12 @@ export class CouponSection {
 
 
   // Signals
-  couponCode = signal<string>(''); 
-  appliedCoupon = signal<ICoupon | null>(null); 
-  errorMessage = signal<string>(''); 
-  
+  couponCode = signal<string>('');
+  appliedCoupon = signal<ICoupon | null>(null);
+  errorMessage = signal<string>('');
+
   // أسعار افتراضية للتجربة
-  subtotal = 250; 
+  subtotal = 250;
   discount = signal<number>(0);
 
   get total(): number {
@@ -39,7 +39,7 @@ export class CouponSection {
   //     next: (response) => {
   //       const coupon = response.data;
   //       this.appliedCoupon.set(coupon);
-        
+
   //       this.discount.set(coupon.discount); 
   //     },
   //     error: (err) => {
@@ -51,47 +51,48 @@ export class CouponSection {
   // }
 
 
-applyCoupon() {
-  const code = this.couponCode().trim();
-  if (!code) return;
+  applyCoupon() {
+    const code = this.couponCode().trim();
+    if (!code) return;
 
-  this.errorMessage.set('');
+    this.errorMessage.set('');
 
-  this.couponsService.getAllCoupons(1, 100)
+    this.couponsService.getAllCoupons(1, 100)
       .pipe(takeUntilDestroyed(this.destroyRef))
-  .subscribe({
-    next: (response: any) => {
-      const couponsList = response?.payload?.data || []; 
-      
-      const foundCoupon = couponsList.find((c: any) => c.code === code);
+      .subscribe({
+        next: (response: any) => {
+          const couponsList = response?.payload?.data || [];
 
-      if (foundCoupon) {
-        this.appliedCoupon.set(foundCoupon);
-        
-        const couponValue = Number(foundCoupon.value);
-        if (foundCoupon.type === 'PERCENT') {
-          const calculatedDiscount = (this.subtotal * couponValue) / 100;
-          this.discount.set(calculatedDiscount);
-        } else {
-          this.discount.set(couponValue);
+          const foundCoupon = couponsList.find((c: any) => c.code === code);
+
+          if (foundCoupon) {
+            this.appliedCoupon.set(foundCoupon);
+
+            const couponValue = Number(foundCoupon.value);
+            if (foundCoupon.type === 'PERCENT') {
+              const calculatedDiscount = (this.subtotal * couponValue) / 100;
+              this.discount.set(calculatedDiscount);
+            } else {
+              this.discount.set(couponValue);
+            }
+
+            this.errorMessage.set('');
+          } else {
+            this.resetCoupon('CART_SUMMARY.ERRORS.INVALID_COUPON');
+
+          }
+        },
+        error: () => {
+
+          this.resetCoupon('');
         }
-        
-        this.errorMessage.set('');
-      } else {
-        this.resetCoupon('CART_SUMMARY.ERRORS.INVALID_COUPON');
-        
-      }
-    },
-    error: (err) => {
-      
-      this.resetCoupon('');
-    }
-  });
-}
+      });
+  }
 
 
-private resetCoupon(msgKey: string) {
-  this.appliedCoupon.set(null);
-  this.discount.set(0);
-  if (msgKey) this.errorMessage.set(msgKey);}
+  private resetCoupon(msgKey: string) {
+    this.appliedCoupon.set(null);
+    this.discount.set(0);
+    if (msgKey) this.errorMessage.set(msgKey);
+  }
 }

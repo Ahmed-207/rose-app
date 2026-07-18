@@ -18,7 +18,6 @@ import { CartService } from '../../../pages/cart-page/services/cart.service';
     RouterLink,
     RouterLinkActive,
     LucideUser,
-    LucideHeart,
     LucideShoppingCart,
     LucideBell,
   ],

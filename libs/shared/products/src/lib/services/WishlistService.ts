@@ -1,97 +1,78 @@
-import { Token } from './../../../../../../node_modules/clipanion/lib/core.d';
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { API_URL } from '@org/auth';
-import {  Root } from '../models/i-wishlist';
-import { Observable, pipe, tap } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service'; 
+import { API_URL, AuthCookieStorage } from '@org/auth';
+import { Observable, tap } from 'rxjs';
+import { Root } from '../models/i-wishlist';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WishlistService {
-  
-//create signal property or wishlist array
-
-
-wishlistIds = signal<Set<string>>(new Set());
-
-wishlistProducts = signal<any[]>([]);
-
-wishlistCount = computed(()=> this.wishlistIds().size);
+  wishlistIds = signal<Set<string>>(new Set());
+  wishlistProducts = signal<any[]>([]);
+  wishlistCount = computed(() => this.wishlistIds().size);
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
-  private cookieService = inject(CookieService);
+  private readonly authCookieStorage = inject(AuthCookieStorage);
 
-   getLoggedUserWishlist(): Observable<Root> 
-    {
-      const token = this.cookieService.get('userToken')
-      
-       return this.httpClient.get<Root>(`${this.apiURL}wishlist` ,{
-      headers:{
-        token: token || ""
-      }
-    }
-       ).pipe(
+  private get token(): string {
+    return this.authCookieStorage.getSession()?.token ?? '';
+  }
+
+  getLoggedUserWishlist(): Observable<Root> {
+    return this.httpClient
+      .get<Root>(`${this.apiURL}wishlist`, {
+        headers: { token: this.token },
+      })
+      .pipe(
         tap((res) => {
           const items = res?.payload?.wishlistItems || [];
 
-          const ids = new Set<string>(items.map(item => String(item.productId || item.product?.id || '')))
-          this.wishlistIds.set(ids)
-          const proucts = items.map(item => item.product);
+          const ids = new Set<string>(
+            items.map((item) => String(item.productId || item.product?.id || '')),
+          );
+          this.wishlistIds.set(ids);
 
-          this.wishlistProducts.set(proucts)
-        })
-       )
-      
-    
-      
-    };
+          const products = items.map((item) => item.product);
+          this.wishlistProducts.set(products);
+        }),
+      );
+  }
 
-
-    addProductWishlist(productId:string): Observable<any> 
-    {
-       return this.httpClient.post(`${this.apiURL}wishlist` ,
-         {
-      productId
-    },{
-      headers:{
-        token:localStorage.getItem('userToken') || ""
-      }
-    }
-      ).pipe(
+  addProductWishlist(productId: string): Observable<any> {
+    return this.httpClient
+      .post(
+        `${this.apiURL}wishlist`,
+        { productId },
+        { headers: { token: this.token } },
+      )
+      .pipe(
         tap(() => {
-          this.wishlistIds.update(prev => {
+          this.wishlistIds.update((prev) => {
             const next = new Set(prev);
             next.add(productId);
             return next;
-          })
-        })
-      )
-    };
+          });
+        }),
+      );
+  }
 
-      removeProductFromWishlist(productId:string): Observable<any> 
-    {
-       return this.httpClient.delete(`${this.apiURL}wishlist/` ,{
-      headers:{
-        token:localStorage.getItem('userToken') || ""
-      },
-      body: {
-      productId: productId
-    }
-    }
-        
-      ).pipe(
+  removeProductFromWishlist(productId: string): Observable<any> {
+    return this.httpClient
+      .delete(`${this.apiURL}wishlist/`, {
+        headers: { token: this.token },
+        body: { productId },
+      })
+      .pipe(
         tap(() => {
-          this.wishlistIds.update(prev => {
+          this.wishlistIds.update((prev) => {
             const next = new Set(prev);
             next.delete(productId);
             return next;
           });
-          this.wishlistProducts.update(prev => prev.filter(p => p.id !== productId))
-        })
-      )
-        
-    }
+          this.wishlistProducts.update((prev) => prev.filter((p) => p.id !== productId));
+        }),
+      );
+  }
 }

@@ -1,15 +1,12 @@
-
-
-
-
+import { Product } from "./product.model"
 
 export interface Root {
   status: boolean
   code: number
-  payload: Payload
+  payload: WishListPayload
 }
 
-export interface Payload {
+export interface WishListPayload {
   wishlistItems: WishlistItem[]
 }
 
@@ -20,36 +17,3 @@ export interface WishlistItem {
   createdAt: string
   product: Product
 }
-
-export interface Product {
-  id: string
-  title: string
-  description: string
-  rating: number
-  ratings: number
-  stock: number
-  price: string
-  discountType: string
-  discountValue: string
-  cover: string
-  gallery: string
-  categoryId: string
-  subCategoryId?: string
-  immutable: boolean
-  deletedAt: any
-  createdAt: string
-  updatedAt: string
-  category: Category
-  subCategory?: SubCategory
-}
-
-export interface Category {
-  id: string
-  title: string
-}
-
-export interface SubCategory {
-  id: string
-  title: string
-}
-
