@@ -12,6 +12,8 @@
     </div>
     } @else {
     <div class="cart-page__layout">
+      @switch (pageCurrentState()) {
+      @case ('Cart') {
       <div class="cart-page__main">
         <div class="cart-page__header">
           <h1 class="cart-page__title">
@@ -48,6 +50,35 @@
           {{ 'Continue Shopping' | translate }}
         </button>
       </div>
+      }
+      @case ('Shipping Address') {
+      <div class="shipping-address-container">
+        <!-- Stepper -->
+        <div class="shrink-0">
+          <app-stepper [totalSteps]="totalSteps" [activeStep]="currentStep()" (stepChange)="onStepperNodeClick($event)">
+          </app-stepper>
+        </div>
+        <shipping-address (selectedAddressForCheckout)="selectedAddress($event)"></shipping-address>
+        <div class="w-full flex items-center justify-end">
+          <button type="button" class="continue-payment" [disabled]="!recievedAddressId()" (click)="goToPayment()">
+            {{ 'Next' | translate }}
+            <svg lucideArrowRight [size]="16" class="shrink-0" aria-hidden="true"></svg>
+          </button>
+        </div>
+      </div>
+      }
+      @case ('Payment Method') {
+      <div>
+        <!-- Stepper -->
+        <div class="shrink-0">
+          <app-stepper [totalSteps]="totalSteps" [activeStep]="currentStep()" (stepChange)="onStepperNodeClick($event)">
+          </app-stepper>
+        </div>
+        <!-- payment component here -->
+        <p>Hello from payment</p>
+      </div>
+      }
+      }
 
       <aside class="cart-summary">
         <h2 class="cart-summary__title">{{ 'Summary' | translate }}</h2>
@@ -90,11 +121,12 @@
             <strong>{{ total() | number: '1.2-2' }} {{ 'EGP' | translate }}</strong>
           </div>
         </div>
-
+        @if(pageCurrentState() === 'Cart'){
         <button type="button" class="cart-summary__checkout" [disabled]="!items().length" (click)="checkout()">
           {{ 'Checkout' | translate }}
           <svg lucideArrowRight [size]="16" class="shrink-0" aria-hidden="true"></svg>
         </button>
+        }
       </aside>
     </div>
     }
