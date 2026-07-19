@@ -1,4 +1,5 @@
 export interface AddressState {
     isLoading: boolean,
-    error: string | null
+    error: string | null,
+    lastSelectedAddressCity: string | null
 }

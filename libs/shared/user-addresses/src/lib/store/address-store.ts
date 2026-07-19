@@ -1,15 +1,18 @@
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { AddressState } from './../models/address-state';
 import { addEntity, removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { Address, EditAddressReq } from '../models/edit-address';
 import { inject } from '@angular/core';
 import { AddressService } from '../services/address-service';
 import { pipe, switchMap, tap } from 'rxjs';
+import { AuthActions } from '@org/auth';
+import { getUserScopedCookie } from '../utilities/helpers';
 
 const addressInitialState: AddressState = {
     isLoading: false,
-    error: null
+    error: null,
+    lastSelectedAddressCity: 'Cairo'
 }
 
 export const addressStore = signalStore(
@@ -22,6 +25,13 @@ export const addressStore = signalStore(
     withMethods(
         (store) => {
             const svc = inject(AddressService);
+            const authActions = inject(AuthActions); // <-- Gain access to current logged-in session
+
+            // Helper function to build the user-specific cookie key string
+            const getCookieKey = (): string | null => {
+                const session = authActions.getSession();
+                return session?.id ? `lastSelectedCity_${session.id}` : null;
+            };
 
             return {
 
@@ -72,9 +82,42 @@ export const addressStore = signalStore(
                         );
                     })
                 )),
+                changeLastSelected: rxMethod<string>(pipe(
+                    switchMap((id) => svc.getAddressById(id).pipe(
+                        tap({
+                            next: (res) => {
+                                const city = res.payload.address.city;
+                                patchState(store, { lastSelectedAddressCity: city });
 
+                                // Save cookie scoped to this specific user ID
+                                const cookieKey = getCookieKey();
+                                if (cookieKey) {
+                                    const maxAge = 30 * 24 * 60 * 60; // 30 days
+                                    document.cookie = `${cookieKey}=${encodeURIComponent(city)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+                                }
+                            },
+                            error: (e) => patchState(store, { error: e.message || 'failed to load city selection' })
+                        })
+                    ))
+                )),
+
+                // Method to read the correct user cookie and sync state on component load
+                syncUserPreferences(): void {
+                    const session = authActions.getSession();
+                    if (session?.id) {
+                        const savedCity = getUserScopedCookie(session.id);
+                        patchState(store, { lastSelectedAddressCity: savedCity || 'Cairo' });
+                    } else {
+                        patchState(store, { lastSelectedAddressCity: 'Cairo' });
+                    }
+                }
             }
 
         }
-    )
+    ),
+    withHooks({
+        onInit(store) {
+            store.syncUserPreferences();
+        }
+    })
 )

@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
   viewChild,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -28,6 +29,8 @@ import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
 import { Product } from '@org/shared-ui-components';
+import { Stepper } from "./components/stepper/stepper";
+import { ShippingAddress } from './components/addresses/shipping-address';
 
 @Component({
   selector: 'app-cart-page',
@@ -43,28 +46,29 @@ import { Product } from '@org/shared-ui-components';
     LucideTicketPercent,
     LucideChevronLeft,
     LucideChevronRight,
+    ShippingAddress,
+    Stepper
   ],
   templateUrl: './cart-page.html',
   styleUrl: './cart-page.css',
 })
 export class CartPage implements OnInit {
+
+  //services & injections
   private readonly cartService = inject(CartService);
   private readonly productsStore = inject(ProductsStore);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
+  //page-properities
   private readonly recommendTrack = viewChild<ElementRef<HTMLElement>>('recommendTrack');
-
   readonly items = signal<CartItem[]>([]);
   readonly isLoading = signal(true);
   readonly error = signal<string | null>(null);
   readonly busyItemId = signal<string | null>(null);
   readonly isClearing = signal(false);
   readonly isApplyingCoupon = signal(false);
-
-  // Recommended products now live in ProductsStore.bestProducts — this
-  // component no longer owns that list, just reads it.
   readonly recommended = computed<Product[]>(() => {
     return [...this.productsStore.bestProducts()]
       // 1. Sort by rating descending so the highest-rated items are first
@@ -82,26 +86,36 @@ export class CartPage implements OnInit {
       .slice(0, 8);
   });
   readonly isRecommendedLoading = computed(() => this.productsStore.isBestLoading());
-
   readonly couponCode = signal('');
   readonly couponError = signal<string | null>(null);
   readonly appliedCoupon = signal<AppliedCoupon | null>(null);
   private coupons: Coupon[] = [];
-
   readonly itemCount = computed(() =>
     this.items().reduce((sum, item) => sum + item.quantity, 0),
   );
-
   readonly subtotal = computed(() =>
     this.items().reduce(
       (sum, item) => sum + Number(item.product.price) * item.quantity,
       0,
     ),
   );
-
   readonly discount = computed(() => this.appliedCoupon()?.discountAmount ?? 0);
-
   readonly total = computed(() => Math.max(0, this.subtotal() - this.discount()));
+
+
+
+
+
+  //checkout-flow
+  pageCurrentState: WritableSignal<string> = signal<string>('Cart');
+  recievedAddressId: WritableSignal<string> = signal<string>('');
+
+  //stepper-logic
+  readonly totalSteps = 2;
+  currentStep: WritableSignal<number> = signal(1);
+
+
+
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -238,10 +252,6 @@ export class CartPage implements OnInit {
     this.router.navigateByUrl('/home/products');
   }
 
-  checkout(): void {
-    // Checkout flow is not available yet.
-  }
-
   scrollRecommended(direction: 'prev' | 'next'): void {
     const trackRef = this.recommendTrack();
     if (!trackRef) {
@@ -269,9 +279,6 @@ export class CartPage implements OnInit {
   }
 
   private loadRecommended(): void {
-    // Store-driven: ProductsStore.loadBestProducts populates bestProducts,
-    // which `recommended` above reads reactively. No local subscribe/signal
-    // needed — the store IS the state now.
     this.productsStore.loadBestProducts({ page: 1, limit: 8 });
   }
 
@@ -318,5 +325,42 @@ export class CartPage implements OnInit {
     }
 
     this.appliedCoupon.set({ coupon: applied.coupon, discountAmount });
+  }
+
+
+
+  //checkout-flow methods 
+  checkout(): void {
+    if (this.items().length) {
+      this.pageCurrentState.set('Shipping Address');
+    }
+  }
+
+  selectedAddress(addressId: string): void {
+    this.recievedAddressId.set(addressId);
+  }
+
+  goToPayment(): void {
+    if (!this.recievedAddressId()) {
+      return;
+    }
+    this.nextStep();
+    this.pageCurrentState.set('Payment Method');
+  }
+
+
+
+  //stepper-logic
+  onStepperNodeClick(step: number): void {
+    this.currentStep.set(step);
+  }
+
+  nextStep(): void {
+    this.currentStep.set(2);
+    return;
+  }
+
+  prevStep(): void {
+    this.currentStep.set(1);
   }
 }
