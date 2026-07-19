@@ -1,0 +1,162 @@
+<div class="max-w-7xl mx-auto p-4 md:p-6 bg-gray-50 dark:bg-[#0b1329] min-h-screen transition-colors duration-300">
+  
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    
+    <div class="lg:col-span-2 bg-white dark:bg-[#0f1d36] p-6 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/50 dark:shadow-none flex flex-col justify-between">
+      
+      <div>
+        <div class="flex items-center gap-4 mb-8">
+          <button class="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-medium py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors">
+            <i class="pi pi-arrow-left text-[10px]"></i> Back
+          </button>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+            {{ 'Payment Method' | translate }}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <label class="relative border-2 border-[#4A1525] dark:border-pink-700 bg-white dark:bg-[#13223f] p-6 rounded-2xl flex flex-col items-center text-center cursor-pointer transition-all">
+            <input type="radio" name="payment" value="cod" checked class="absolute top-4 right-4 accent-[#4A1525] dark:accent-pink-600 w-4 h-4">
+            
+            <div class="w-24 h-24 flex items-center justify-center text-gray-700 dark:text-slate-300 mb-4">
+              <img src="/assets/images/cash.png" alt="cash">
+            </div>
+            
+            <span class="block text-base font-bold text-gray-900 dark:text-white mb-1">
+                 {{ 'Cash on Delivery' | translate }}
+            </span>
+            <span class="block text-xs text-gray-500 dark:text-slate-400">You'll pay in cash when your order is delivered.</span>
+          </label>
+
+          <label class="relative border border-gray-200 dark:border-slate-850 hover:border-gray-300 dark:hover:border-slate-700 bg-white dark:bg-[#13223f] p-6 rounded-2xl flex flex-col items-center text-center cursor-pointer transition-all">
+            <input type="radio" name="payment" value="card" class="absolute top-4 right-4 accent-[#4A1525] dark:accent-pink-600 w-4 h-4">
+            
+            <div class="w-24 h-24 flex items-center justify-center text-gray-400 dark:text-slate-400 mb-4">
+              <img src="/assets/images/credit.png" alt="credit card">
+            </div>
+            
+            <span class="block text-base font-bold text-gray-900 dark:text-white mb-1">
+                 {{ 'Credit Card' | translate }}
+
+            </span>
+            <span class="block text-xs text-gray-500 dark:text-slate-400">You'll be securely redirected to Stripe to complete your payment.</span>
+          </label>
+
+        </div>
+      </div>
+
+      <div class="flex justify-end mt-8">
+        <button class="bg-[#4A1525] dark:bg-pink-700 hover:bg-[#36101b] dark:hover:bg-pink-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 cursor-pointer transition-colors">
+          Checkout <i class="pi pi-arrow-right text-xs"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="bg-white dark:bg-[#0f1d36] p-6 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/50 dark:shadow-none flex flex-col justify-between">
+      
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">    {{ 'CART_SUMMARY.TITLE' | translate }}
+</h2>
+        
+        <div class="flex gap-2 mb-6">
+          <input 
+            type="text" 
+          [placeholder]="'CART_SUMMARY.COUPON_PLACEHOLDER' | translate" 
+            class="flex-1 min-w-0 bg-gray-50 dark:bg-[#13223f] border border-gray-200 dark:border-slate-850 rounded-xl px-4 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-[#4A1525]"
+          >
+          <button class="bg-[#4A1525] dark:bg-pink-700 hover:bg-[#36101b] dark:hover:bg-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1 transition-colors whitespace-nowrap">
+            <i class="pi pi-ticket"></i> 
+        {{ 'CART_SUMMARY.APPLY_COUPON' | translate }}
+            
+          </button>
+        </div>
+
+        <div class="border border-dashed border-gray-200 dark:border-slate-800 rounded-2xl py-8 text-center text-sm text-gray-400 dark:text-slate-500 mb-6">
+                    {{ 'CART_SUMMARY.NO_COUPONS' | translate }}
+
+        </div>
+      </div>
+
+      <div class="border-t border-gray-100 dark:border-slate-850 pt-4 flex flex-col gap-3">
+        <div class="flex justify-between items-center text-sm text-gray-600 dark:text-slate-400">
+          <span>
+          {{ 'CART_SUMMARY.SUBTOTAL' | translate }}
+            
+          </span>
+          <span class="font-semibold text-gray-900 dark:text-white">250 EGP</span>
+        </div>
+        <div class="flex justify-between items-center text-xs text-emerald-600 dark:text-emerald-400">
+          <span>50% Discount</span>
+          <span class="font-semibold">-125 EGP</span>
+        </div>
+        <div class="flex justify-between items-center text-base font-bold border-t border-gray-150 dark:border-slate-800 pt-3 text-gray-900 dark:text-white">
+          <span>          {{ 'CART_SUMMARY.TOTAL' | translate }}
+</span>
+          <span class="text-lg font-extrabold text-[#4A1525] dark:text-pink-500">125 EGP</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+    <section class="max-w-7xl mx-auto p-6 bg-white dark:bg-[#0f1d36] rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/50 dark:shadow-none items-start transition-colors duration-300">
+  
+  <h2 class="text-xl text-left font-bold text-gray-900 dark:text-white mb-6">
+        <app-section-header [quote]="'Products You May Like' | translate"></app-section-header>
+
+  </h2>
+
+  @if (isRecommendedLoading()) {
+    <p class="text-center text-sm text-gray-500 dark:text-slate-400 py-8">
+      {{ 'Loading recommendations...' | translate }}
+    </p>
+  } @else {
+    <div class="relative flex items-center group">
+      
+      <button 
+        type="button" 
+        (click)="scrollRecommended('prev')"
+        [attr.aria-label]="'Previous products' | translate"
+        class="absolute -left-4 z-10 bg-[#4A1525] hover:bg-[#36101b] text-white p-2.5 rounded-full shadow-md cursor-pointer transition-all opacity-90 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center"
+      >
+        <svg lucideChevronLeft [size]="18" class="shrink-0" aria-hidden="true"></svg>
+      </button>
+
+      <div class="w-full overflow-hidden">
+        <div 
+          #recommendTrack 
+          class="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar py-2"
+          style="scrollbar-width: none; -ms-overflow-style: none;"
+        >
+          @for (product of recommended(); track product.id) {
+            <div class="w-70 sm:w-60 md:w-65 shrink-0">
+              <lib-product-card 
+                [product]="product" 
+                (addToCart)="onAddRecommended($event)"
+              >
+              </lib-product-card>
+            </div>
+          } @empty {
+            <p class="w-full text-center text-sm text-gray-400 dark:text-slate-500 py-8">
+              {{ 'No recommendations available' | translate }}
+            </p>
+          }
+        </div>
+      </div>
+
+      <button 
+        type="button" 
+        (click)="scrollRecommended('next')"
+        [attr.aria-label]="'Next products' | translate"
+        class="absolute -right-4 z-10 bg-[#4A1525] hover:bg-[#36101b] text-white p-2.5 rounded-full shadow-md cursor-pointer transition-all opacity-90 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center"
+      >
+        <svg lucideChevronRight [size]="18" class="shrink-0" aria-hidden="true"></svg>
+      </button>
+
+    </div>
+  }
+</section>
+</div>

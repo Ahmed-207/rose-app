@@ -263,5 +263,11 @@
   "Your cart is empty, wanna try shopping?": "Your cart is empty, wanna try shopping?",
   "Loading cart...": "Loading cart...",
   "Please sign in to view your cart.": "Please sign in to view your cart.",
-  "Failed to load cart. Please try again.": "Failed to load cart. Please try again."
+
+  "Failed to load cart. Please try again.": "Failed to load cart. Please try again.",
+  "Payment Method":"Payment Method",
+  "Cash on Delivery":"Cash on Delivery",
+  "Credit Card":"Credit Card"
+
+
 }

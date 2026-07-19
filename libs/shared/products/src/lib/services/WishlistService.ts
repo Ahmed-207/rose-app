@@ -75,4 +75,20 @@ export class WishlistService {
         }),
       );
   }
+
+
+  removeAllProduct(): Observable<any> {
+    return this.httpClient
+      .delete(`${this.apiURL}wishlist`, {
+        headers: { token: this.token },
+      })
+      .pipe(
+        tap(() => {
+          this.wishlistIds.set(new Set());
+          
+          this.wishlistProducts.set([]);
+        }),
+      );
+  }
+
 }

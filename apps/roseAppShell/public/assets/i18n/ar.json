@@ -263,5 +263,10 @@
   "Your cart is empty, wanna try shopping?": "سلتك فارغة، هل تريد التسوق؟",
   "Loading cart...": "جاري تحميل السلة...",
   "Please sign in to view your cart.": "يرجى تسجيل الدخول لعرض سلتك.",
-  "Failed to load cart. Please try again.": "فشل تحميل السلة. حاول مرة أخرى."
+  "Failed to load cart. Please try again.": "فشل تحميل السلة. حاول مرة أخرى.",
+  "Payment Method": "طريقة الدفع",
+  "Cash on Delivery":"الدفع عند الاستلام",
+  "Credit Card":"الدفع عن طريق الفيزا"
+
+
 }
