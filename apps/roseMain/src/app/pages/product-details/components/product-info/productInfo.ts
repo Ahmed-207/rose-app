@@ -79,30 +79,7 @@ export class ProductInfo implements AfterViewInit, OnDestroy, OnInit {
     this.addToCart.emit(current);
   }
 
-  // onWishlist(): void {
-  //   this.isWishlist.update((value) => !value);
-  //   this.wishlistToggle.emit(this.product());
-  // }
-
-
-  // addToWishlist(productId: string): void {
-
-    
-
-  //   this.wishlistService.addProductWishlist(productId)
-  //   .pipe(takeUntilDestroyed(this.destroyRef))
-  //   .subscribe({
-  //     next: (response) => {
-  //       console.log('Added to wishlist successfully', response);
-  //       this.onWishlist();
-  //       this.product().isWishlist = true; 
-  //       this.wishlistToggle.emit(this.product());
-  //     },
-  //     error: (err) => {
-  //       console.error('Error adding to wishlist', err);
-  //     }
-  //   });
-  // }
+ 
 
 
    ngOnInit(): void {
