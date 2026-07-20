@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, output, signal, WritableSignal } from '@angular/core';
 import { addressStore } from '@org/user-addresses';
 import { Spinner, Message } from "@org/shared-ui-components";
 import { SelectAddressCard } from "./components/select-address-card/select-address-card";
@@ -17,15 +17,11 @@ export class ShippingAddress implements OnInit {
 
   readonly _store = inject(addressStore);
   isModalOpened: WritableSignal<boolean> = signal<boolean>(false);
-  selectedAddressId: WritableSignal<string | null> = signal<string | null>(null);
-  selectedAddressForCheckout = output<string>();
+  selectedAddressId = computed(() => this._store.lastSelectedAddressId());
 
   onAddressSelect(addressId: string): void {
-    this.selectedAddressId.set(addressId);
     console.log("Selected ID updated in state:", this.selectedAddressId());
     this._store.changeLastSelected(addressId);
-    //-- here to use the address id that is selected to confirm and continue using it inside the checkout form 
-    this.selectedAddressForCheckout.emit(addressId);
   };
 
 

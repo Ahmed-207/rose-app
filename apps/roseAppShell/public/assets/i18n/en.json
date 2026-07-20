@@ -167,8 +167,7 @@
       "SERVER_ERROR": "An error occurred while connecting to the server.",
       "EMPTY_CODE": "Please enter a coupon code."
     }
-  }
-  ,
+  },
   "products": {
     "relatedTitle": "Related Products"
   },
@@ -237,7 +236,7 @@
   "What do you think of this product?": "What do you think of this product?",
   "Add Review": "Add Review",
   "No reviews yet": "No reviews yet",
-   "Category": "Category",
+  "Category": "Category",
   "Reset": "Reset",
   "Occasion": "Occasion",
   "Price": "Price",
@@ -263,11 +262,11 @@
   "Your cart is empty, wanna try shopping?": "Your cart is empty, wanna try shopping?",
   "Loading cart...": "Loading cart...",
   "Please sign in to view your cart.": "Please sign in to view your cart.",
-
   "Failed to load cart. Please try again.": "Failed to load cart. Please try again.",
-  "Payment Method":"Payment Method",
-  "Cash on Delivery":"Cash on Delivery",
-  "Credit Card":"Credit Card"
-
-
+  "Payment Method": "Payment Method",
+  "Cash on Delivery": "Cash on Delivery",
+  "Credit Card": "Credit Card",
+  "Back": "Back",
+  "You'll pay in cash when your order is delivered.": "You'll pay in cash when your order is delivered.",
+  "You'll be securely redirected to Stripe to complete your payment.": "You'll be securely redirected to Stripe to complete your payment."
 }

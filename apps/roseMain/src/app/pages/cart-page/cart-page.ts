@@ -31,6 +31,9 @@ import { CartService } from './services/cart.service';
 import { Product } from '@org/shared-ui-components';
 import { Stepper } from "./components/stepper/stepper";
 import { ShippingAddress } from './components/addresses/shipping-address';
+import { Payment } from "./components/payment/payment";
+import { addressStore } from '@org/user-addresses';
+import { OrderStore, AddOrderReq } from '@org/user-orders';
 
 @Component({
   selector: 'app-cart-page',
@@ -47,21 +50,23 @@ import { ShippingAddress } from './components/addresses/shipping-address';
     LucideChevronLeft,
     LucideChevronRight,
     ShippingAddress,
-    Stepper
+    Stepper,
+    Payment
   ],
   templateUrl: './cart-page.html',
   styleUrl: './cart-page.css',
 })
 export class CartPage implements OnInit {
 
-  //services & injections
+  // services & injections
   private readonly cartService = inject(CartService);
   private readonly productsStore = inject(ProductsStore);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  readonly orderStore = inject(OrderStore);
 
-  //page-properities
+  // page-properties
   private readonly recommendTrack = viewChild<ElementRef<HTMLElement>>('recommendTrack');
   readonly items = signal<CartItem[]>([]);
   readonly isLoading = signal(true);
@@ -71,9 +76,7 @@ export class CartPage implements OnInit {
   readonly isApplyingCoupon = signal(false);
   readonly recommended = computed<Product[]>(() => {
     return [...this.productsStore.bestProducts()]
-      // 1. Sort by rating descending so the highest-rated items are first
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-      // 2. Map them to the UI card structure
       .map((p) => ({
         id: p.id,
         name: p.title,
@@ -82,7 +85,6 @@ export class CartPage implements OnInit {
         rating: p.rating,
         oldPrice: p.discountValue ? String(Number(p.price) + Number(p.discountValue)) : undefined
       }) as unknown as Product)
-      // 3. Slice to only show the top 8 best-sellers in the carousel
       .slice(0, 8);
   });
   readonly isRecommendedLoading = computed(() => this.productsStore.isBestLoading());
@@ -102,20 +104,15 @@ export class CartPage implements OnInit {
   readonly discount = computed(() => this.appliedCoupon()?.discountAmount ?? 0);
   readonly total = computed(() => Math.max(0, this.subtotal() - this.discount()));
 
-
-
-
-
-  //checkout-flow
+  // checkout-flow
   pageCurrentState: WritableSignal<string> = signal<string>('Cart');
-  recievedAddressId: WritableSignal<string> = signal<string>('');
+  readonly _addressStore = inject(addressStore);
+  recievedAddressId = computed(() => this._addressStore.lastSelectedAddressId());
+  confirmedPaymentMethod: WritableSignal<string> = signal<string>('CASH_ON_DELIVERY');
 
-  //stepper-logic
+  // stepper-logic
   readonly totalSteps = 2;
   currentStep: WritableSignal<number> = signal(1);
-
-
-
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -327,17 +324,11 @@ export class CartPage implements OnInit {
     this.appliedCoupon.set({ coupon: applied.coupon, discountAmount });
   }
 
-
-
-  //checkout-flow methods 
+  // checkout-flow methods 
   checkout(): void {
     if (this.items().length) {
       this.pageCurrentState.set('Shipping Address');
     }
-  }
-
-  selectedAddress(addressId: string): void {
-    this.recievedAddressId.set(addressId);
   }
 
   goToPayment(): void {
@@ -348,11 +339,28 @@ export class CartPage implements OnInit {
     this.pageCurrentState.set('Payment Method');
   }
 
+  handleOrderCreation(): void {
+    const addressId = this.recievedAddressId();
+    if (!addressId) return;
 
+    const payload: AddOrderReq = {
+      addressId,
+      paymentMethod: this.confirmedPaymentMethod(),
+      couponCode: this.appliedCoupon()?.coupon.code,
+    };
 
-  //stepper-logic
+    this.orderStore.createOrder(payload);
+    this.router.navigateByUrl('/home/orders');
+  }
+
+  // stepper-logic
   onStepperNodeClick(step: number): void {
     this.currentStep.set(step);
+  }
+
+  goBackToShipping(): void {
+    this.prevStep();
+    this.pageCurrentState.set('Shipping Address');
   }
 
   nextStep(): void {

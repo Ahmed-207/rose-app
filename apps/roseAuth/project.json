@@ -80,10 +80,7 @@
           "buildTarget": "roseAuth:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "dependsOn": [
-        "roseAppShell:serve"
-      ]
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

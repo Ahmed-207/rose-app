@@ -1,15 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ApiResponse } from 'auth/src/lib/auth/models';
-import { environment } from 'apps/roseMain/src/environments/environment';
+import { API_URL, ApiResponse } from '@org/auth';
 
 @Injectable({
     providedIn: 'root',
 })
 export class APICallerService {
     private readonly http = inject(HttpClient);
-    private readonly apiUrl = environment.apiUrl;
+    private readonly apiUrl = inject(API_URL);
 
     private createWebApiUrl(url: string): string {
         if (/^https?:\/\//i.test(url)) {

@@ -21,7 +21,7 @@
             "glob": "**/*",
             "input": "apps/roseMain/public"
           },
-           "apps/roseMain/src/assets"
+          "apps/roseMain/src/assets"
         ],
         "styles": [
           "apps/roseMain/src/styles.css"
@@ -81,10 +81,7 @@
           "buildTarget": "roseMain:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "dependsOn": [
-        "roseAppShell:serve"
-      ]
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

@@ -31,9 +31,9 @@ export const remoteRoutes: Route[] = [
         title: 'wishlist'
       },
       {
-        path: 'payment',
-        loadComponent: () => import('../pages/payment/paymentPage').then((c) => c.PaymentPage),
-        title: 'payment'
+        path: 'orders',
+        loadComponent: () => import('../pages/orders-page/orders-page').then((c) => c.OrdersPage),
+        title: 'Orders'
       },
       {
         path: 'products/:id',

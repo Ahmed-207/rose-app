@@ -58,7 +58,7 @@
           <app-stepper [totalSteps]="totalSteps" [activeStep]="currentStep()" (stepChange)="onStepperNodeClick($event)">
           </app-stepper>
         </div>
-        <shipping-address (selectedAddressForCheckout)="selectedAddress($event)"></shipping-address>
+        <shipping-address></shipping-address>
         <div class="w-full flex items-center justify-end">
           <button type="button" class="continue-payment" [disabled]="!recievedAddressId()" (click)="goToPayment()">
             {{ 'Next' | translate }}
@@ -75,7 +75,11 @@
           </app-stepper>
         </div>
         <!-- payment component here -->
-        <p>Hello from payment</p>
+        <div>
+          <app-payment (selectedPaymentMethod)="confirmedPaymentMethod.set($event)"
+            (backToShipping)="goBackToShipping()" (checkoutConfirmed)="handleOrderCreation()">
+          </app-payment>
+        </div>
       </div>
       }
       }

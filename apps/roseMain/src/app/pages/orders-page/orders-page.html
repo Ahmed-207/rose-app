@@ -1,0 +1,5 @@
+<div class="min-h-screen">
+    @for(order of _OrdersStore.entities(); track order.id){
+    <span class="w-full text-center block">{{order.id}}</span>
+    }
+</div>
