@@ -168,8 +168,7 @@
       "SERVER_ERROR": "حدث خطأ أثناء الاتصال بالسيرفر.",
       "EMPTY_CODE": "برجاء إدخال كود الكوبون أولاً."
     }
-  }
-  ,
+  },
   "products": {
     "relatedTitle": "منتجات ذات صلة"
   },
@@ -237,7 +236,7 @@
   "What do you think of this product?": "ما رأيك في هذا المنتج؟",
   "Add Review": "إضافة مراجعة",
   "No reviews yet": "لا توجد مراجعات بعد",
-   "Category": "الفئة",
+  "Category": "الفئة",
   "Reset": "إعادة تعيين",
   "Occasion": "المناسبة",
   "Price": "السعر",
@@ -263,5 +262,10 @@
   "Your cart is empty, wanna try shopping?": "سلتك فارغة، هل تريد التسوق؟",
   "Loading cart...": "جاري تحميل السلة...",
   "Please sign in to view your cart.": "يرجى تسجيل الدخول لعرض سلتك.",
-  "Failed to load cart. Please try again.": "فشل تحميل السلة. حاول مرة أخرى."
+  "Failed to load cart. Please try again.": "فشل تحميل السلة. حاول مرة أخرى.",
+  "Payment Method": "طريقة الدفع",
+  "Cash on Delivery": "الدفع عند الاستلام",
+  "Credit Card": "الدفع عن طريق الفيزا",
+  "You'll pay in cash when your order is delivered.": "سوف تقوم بالدفع نقداً عند استلام الطلب.",
+  "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع."
 }

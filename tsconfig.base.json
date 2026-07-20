@@ -34,7 +34,8 @@
       "@org/ui-lang-switcher": ["./libs/shared/lang-switcher/src/index.ts"],
       "@org/shared-theme": ["./libs/shared/shared-theme/src/index.ts"],
       "@org/products": ["./libs/shared/products/src/index.ts"],
-      "@org/user-addresses": ["./libs/shared/user-addresses/src/index.ts"]
+      "@org/user-addresses": ["./libs/shared/user-addresses/src/index.ts"],
+      "@org/user-orders": ["./libs/shared/user-orders/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

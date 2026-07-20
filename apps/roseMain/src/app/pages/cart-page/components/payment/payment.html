@@ -1,0 +1,64 @@
+<div
+    class="payment-method-section p-6 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/50 dark:shadow-none flex flex-col justify-between">
+
+    <div>
+        <div class="flex items-center gap-4 mb-8">
+            <button
+                class="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-medium py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
+                (click)="onBackClicked()">
+                <i class="pi pi-arrow-left text-[10px]"></i> {{ 'Back' | translate }}
+            </button>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+                {{ 'Payment Method' | translate }}
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label
+                class="relative border border-gray-200 dark:border-slate-850 hover:border-gray-300 dark:hover:border-slate-700 p-6 rounded-2xl flex flex-col items-center text-center cursor-pointer transition-all">
+                <input type="radio" name="payment" value="CASH_ON_DELIVERY"
+                    [checked]="selectedMethod() === 'CASH_ON_DELIVERY'"
+                    (change)="onPaymentMethodChange('CASH_ON_DELIVERY')"
+                    class="absolute top-4 right-4 accent-[#4A1525] dark:accent-pink-600 w-4 h-4">
+
+                <div class="w-24 h-24 flex items-center justify-center text-gray-700 dark:text-slate-300 mb-4">
+                    <img src="/assets/images/cash.png" alt="cash">
+                </div>
+
+                <span class="block text-base font-bold text-gray-900 dark:text-white mb-1">
+                    {{ 'Cash on Delivery' | translate }}
+                </span>
+                <span class="block text-xs text-gray-500 dark:text-slate-400">
+                    {{ "You'll pay in cash when your order is delivered." | translate }}
+                </span>
+            </label>
+            <label
+                class="relative border border-gray-200 dark:border-slate-850 hover:border-gray-300 dark:hover:border-slate-700 p-6 rounded-2xl flex flex-col items-center text-center cursor-pointer transition-all">
+                <input type="radio" name="payment" value="CREDIT_CARD" [checked]="selectedMethod() === 'CREDIT_CARD'"
+                    (change)="onPaymentMethodChange('CREDIT_CARD')"
+                    class="absolute top-4 right-4 accent-[#4A1525] dark:accent-pink-600 w-4 h-4">
+
+                <div class="w-24 h-24 flex items-center justify-center text-gray-400 dark:text-slate-400 mb-4">
+                    <img src="/assets/images/credit.png" alt="credit card">
+                </div>
+
+                <span class="block text-base font-bold text-gray-900 dark:text-white mb-1">
+                    {{ 'Credit Card' | translate }}
+                </span>
+                <span class="block text-xs text-gray-500 dark:text-slate-400">
+                    {{ "You'll be securely redirected to Stripe to complete your payment." | translate }}
+                </span>
+            </label>
+
+        </div>
+    </div>
+
+    <div class="flex justify-end mt-8">
+        <button
+            class="bg-red-800 dark:bg-pink-200 hover:bg-red-900 dark:hover:bg-pink-300 text-white dark:text-black px-6 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 cursor-pointer transition-colors"
+            (click)="onCheckoutClicked()">
+            {{ 'Checkout' | translate }} <i class="pi pi-arrow-right text-xs"></i>
+        </button>
+    </div>
+
+</div>
