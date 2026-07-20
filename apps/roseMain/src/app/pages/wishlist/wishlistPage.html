@@ -1,25 +1,22 @@
+<section
+  class="max-w-5xl mx-auto p-6 my-6 bg-white dark:bg-[#0f1d36] rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/70 dark:shadow-none transition-colors duration-300">
 
+  @if (wishlistService.wishlistProducts().length) {
 
-
-<section 
-  class="max-w-5xl mx-auto p-6 my-6 bg-white dark:bg-[#0f1d36] rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/70 dark:shadow-none transition-colors duration-300"
->
-  
   <div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-4 mb-6">
     <div class="flex items-center gap-3">
-       <i class="pi pi-folder text-3xl text-heading dark:text-white"></i>
+      <i class="pi pi-folder text-3xl text-heading dark:text-white"></i>
       <div class="flex items-baseline gap-2">
         <h1 class="text-xl font-bold text-heading dark:text-white">
           {{ 'wishlist.Shop Wishlist' | translate }}
         </h1>
-        <span class="text-sm text-gray-500 dark:text-slate-400">( {{wishlistService.wishlistCount()}} {{ 'wishlist.items' | translate }})</span>
+        <span class="text-sm text-gray-500 dark:text-slate-400">( {{wishlistService.wishlistCount()}} {{
+          'wishlist.items' | translate }})</span>
       </div>
     </div>
-    
-    <button
-      (click)="removeAllProduct()"
-      class="bg-red-600 text-white px-4 py-2 rounded-md text-sm flex items-center gap-2 hover:bg-red-800 cursor-pointer transition-colors"
-    >
+
+    <button (click)="removeAllProduct()"
+      class="bg-red-600 text-white px-4 py-2 rounded-md text-sm flex items-center gap-2 hover:bg-red-800 cursor-pointer transition-colors">
       <i class="pi pi-eraser text-base"></i>
       {{ 'wishlist.Clear' | translate }}
     </button>
@@ -28,87 +25,91 @@
   <div class="flow-root">
     <ul role="list" class="divide-y divide-gray-100 dark:divide-slate-800">
       @for (item of wishlistService.wishlistProducts(); track $index) {
-        <li class="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          
-          <div class="flex items-start gap-4 flex-1 min-w-0">
-            <div class="shrink-0">
-              <img class="w-24 h-24 object-cover rounded-md border border-gray-200 dark:border-slate-700" [src]="item?.cover" alt="Product image">
-            </div>
+      <li class="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 
-            <div class="flex-1 min-w-0 flex flex-col gap-1">
-              @if (item?.stock > 0) {
-                <span class="text-emerald-600 text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400 px-2 py-0.5 rounded w-max">
-                  {{ 'wishlist.InStock' | translate }}
-                </span>
-              } @else {
-                <span class="text-red-600 text-xs font-semibold bg-red-50 dark:bg-red-950/30 dark:text-red-400 px-2 py-0.5 rounded w-max">
-                  {{ 'wishlist.OutOfStock' | translate }}
-                </span>
-              }
-
-              <h2 class="text-base font-bold text-heading dark:text-white truncate">
-                {{ item?.title }}
-              </h2>
-
-              @if (item.ratingsAverage) {
-                <div class="flex items-center gap-1 my-0.5">
-                  <span class="bg-amber-500 text-white text-[11px] px-1.5 py-0.5 rounded font-bold flex items-center gap-0.5">
-                    ★ {{ item.ratingsAverage || item.rating }}
-                  </span>
-                  <span class="text-xs text-blue-500 dark:text-sky-400">({{ item?.ratingsQuantity || item?.reviewCount }} {{ 'wishlist.ratings' | translate }})</span>
-                </div>
-              }
-              <div class="flex items-baseline gap-2 mt-1">
-                <span class="text-lg font-bold text-gray-900 dark:text-white">
-                  {{ item?.price }} {{ 'wishlist.EGP' | translate }}
-                </span>
-                @if (item?.discountValue) {
-                  <span class="text-sm text-gray-400 dark:text-slate-500 line-through">
-                    {{ item?.discountValue }} {{ 'wishlist.EGP' | translate }}
-                  </span>
-                }
-              </div>
-            </div>
+        <div class="flex items-start gap-4 flex-1 min-w-0">
+          <div class="shrink-0">
+            <img class="w-24 h-24 object-cover rounded-md border border-gray-200 dark:border-slate-700"
+              [src]="item?.cover" alt="Product image">
           </div>
 
-          <div class="flex flex-col items-end justify-between gap-3 self-end md:self-center">
-            
-            <button 
-              (click)="removeProductFromWishlist(item?._id || item?.id)"
-              class="bg-red-50 dark:bg-red-950/20 text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-full cursor-pointer transition-colors" 
-              title="{{ 'wishlist.Remove' | translate }}">
-              <i class="pi pi-trash text-lg"></i>
-            </button>
-
+          <div class="flex-1 min-w-0 flex flex-col gap-1">
             @if (item?.stock > 0) {
-              <button 
-                class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-5 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors"
-              >
-                <i class="pi pi-shopping-cart w-4 h-4"></i>
-                {{ 'wishlist.AddToCart' | translate }}
-              </button>
+            <span
+              class="text-emerald-600 text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400 px-2 py-0.5 rounded w-max">
+              {{ 'wishlist.InStock' | translate }}
+            </span>
             } @else {
-              <button
-                  [routerLink]="['/home/products']"
-               class="bg-red-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 border border-gray-300 dark:border-slate-700 px-5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer transition-colors">
-                {{ 'wishlist.ExploreSimilar' | translate }}
-              </button>
+            <span
+              class="text-red-600 text-xs font-semibold bg-red-50 dark:bg-red-950/30 dark:text-red-400 px-2 py-0.5 rounded w-max">
+              {{ 'wishlist.OutOfStock' | translate }}
+            </span>
             }
 
+            <h2 class="text-base font-bold text-heading dark:text-white truncate">
+              {{ item?.title }}
+            </h2>
+
+            @if (item.ratingsAverage) {
+            <div class="flex items-center gap-1 my-0.5">
+              <span
+                class="bg-amber-500 text-white text-[11px] px-1.5 py-0.5 rounded font-bold flex items-center gap-0.5">
+                ★ {{ item.ratingsAverage || item.rating }}
+              </span>
+              <span class="text-xs text-blue-500 dark:text-sky-400">({{ item?.ratingsQuantity || item?.reviewCount }} {{
+                'wishlist.ratings' | translate }})</span>
+            </div>
+            }
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-lg font-bold text-gray-900 dark:text-white">
+                {{ item?.price }} {{ 'wishlist.EGP' | translate }}
+              </span>
+              @if (item?.discountValue) {
+              <span class="text-sm text-gray-400 dark:text-slate-500 line-through">
+                {{ item?.discountValue }} {{ 'wishlist.EGP' | translate }}
+              </span>
+              }
+            </div>
           </div>
-        </li>
+        </div>
+
+        <div class="flex flex-col items-end justify-between gap-3 self-end md:self-center">
+
+          <button (click)="removeProductFromWishlist(item?._id || item?.id)"
+            class="bg-red-50 dark:bg-red-950/20 text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-full cursor-pointer transition-colors"
+            title="{{ 'wishlist.Remove' | translate }}">
+            <i class="pi pi-trash text-lg"></i>
+          </button>
+
+          @if (item?.stock > 0) {
+          <button
+            class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-5 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors">
+            <i class="pi pi-shopping-cart w-4 h-4"></i>
+            {{ 'wishlist.AddToCart' | translate }}
+          </button>
+          } @else {
+          <button [routerLink]="['/home/products']"
+            class="bg-red-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 border border-gray-300 dark:border-slate-700 px-5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-200 dark:hover:bg-slate-700 cursor-pointer transition-colors">
+            {{ 'wishlist.ExploreSimilar' | translate }}
+          </button>
+          }
+
+        </div>
+      </li>
       }
     </ul>
   </div>
 
   <div class="border-t border-gray-200 dark:border-slate-800 mt-6 pt-6">
-    <button
-      [routerLink]="['/home']"
-      class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-6 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors"
-    >
-       <i class="pi pi-arrow-left"></i>
+    <button [routerLink]="['/home']"
+      class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-6 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors">
+      <i class="pi pi-arrow-left"></i>
       {{ 'wishlist.ContinueShopping' | translate }}
     </button>
   </div>
+
+  } @else {
+  <app-empty-wishlist></app-empty-wishlist>
+  }
 
 </section>

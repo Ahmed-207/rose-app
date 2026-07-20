@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, inject, Output } from '@angular/core';
+import { Component, computed, EventEmitter, effect, inject, input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -17,6 +17,15 @@ export class FilterPanelComponent {
 
   @Output() filterEvent = new EventEmitter<FilterParams>();
 
+  /**
+   * Bump this input (any changed number, e.g. a counter incremented by the
+   * parent) to tell the panel to clear its own local selection state. The
+   * panel owns selectedCategory/selectedOccasion/rating/price internally,
+   * so the parent can't reach in and reset them directly — this is the
+   * one-way signal that does it instead.
+   */
+  readonly resetSignal = input<number>(0);
+
   readonly categories = computed(() => this.categoriesStore.entities());
   readonly occasions = computed(() => this.occasionsStore.entities());
 
@@ -28,9 +37,29 @@ export class FilterPanelComponent {
   priceFrom: number | null = null;
   priceTo: number | null = null;
 
+  private isFirstResetSignal = true;
+
   constructor() {
     this.categoriesStore.loadOnce();
     this.occasionsStore.loadOnce();
+
+    effect(() => {
+      this.resetSignal();
+
+      // Skip the initial run — input()'s effect fires once on init with
+      // the default value, and we don't want that to "reset" an already-
+      // empty panel or emit anything before the user has done anything.
+      if (this.isFirstResetSignal) {
+        this.isFirstResetSignal = false;
+        return;
+      }
+
+      this.selectedCategory = null;
+      this.selectedOccasion = null;
+      this.rating = 0;
+      this.priceFrom = null;
+      this.priceTo = null;
+    });
   }
 
   get hasAnyFilter(): boolean {

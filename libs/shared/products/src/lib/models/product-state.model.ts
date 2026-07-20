@@ -9,6 +9,7 @@ export interface ProductsState {
     // ADDED: Sub-state to hold best-selling products separately from the main catalog
     bestProducts: Product[];
     isBestLoading: boolean;
+    hasLoaded: boolean;
 }
 
 export interface LookupState {

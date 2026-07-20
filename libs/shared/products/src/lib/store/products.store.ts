@@ -15,6 +15,7 @@ const ProductsInitialState: ProductsState = {
     filters: { page: 1, limit: 12 },
     bestProducts: [],
     isBestLoading: false,
+    hasLoaded: false,
 };
 
 export const ProductsStore = signalStore(
@@ -52,6 +53,7 @@ export const ProductsStore = signalStore(
                                         {
                                             totalResults: trueTotal,
                                             isLoading: false,
+                                            hasLoaded: true,
                                         },
                                     );
                                 },
@@ -59,6 +61,7 @@ export const ProductsStore = signalStore(
                                     patchState(store, {
                                         error: e.message ?? 'Failed to load products',
                                         isLoading: false,
+                                        hasLoaded: true,
                                     }),
                             }),
                         ),
