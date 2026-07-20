@@ -6,11 +6,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 import { Product } from '@org/shared-ui-components';
+import { EmptyWishlist } from "./components/empty-wishlist/empty-wishlist";
 
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [TranslatePipe, RouterLink, CommonModule],
+  imports: [TranslatePipe, RouterLink, CommonModule, EmptyWishlist],
   templateUrl: './wishlistPage.html',
   styleUrl: './wishlistPage.css',
 })

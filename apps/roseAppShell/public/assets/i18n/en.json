@@ -57,7 +57,9 @@
     "Hello": "Hello",
     "DELIVER_TO": "Deliver To:",
     "CITY": "Cairo",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "Cart": "Cart",
+    "Wishlist": "Wishlist"
   },
   "Footer": {
     "Home": "Home",
@@ -150,7 +152,10 @@
     "AddToCart": "Add to Cart",
     "ExploreSimilar": "Explore Similar Products",
     "Remove": "Remove Item",
-    "ContinueShopping": "Continue Shopping"
+    "ContinueShopping": "Continue Shopping",
+    "EmptyTitle": "Your wishlist is empty",
+    "EmptySubtitle": "You haven't added any products to your wishlist yet. Browse our products and save the ones you like.",
+    "StartShopping": "Start Shopping"
   },
   "CART_SUMMARY": {
     "TITLE": "Summary",
@@ -169,7 +174,10 @@
     }
   },
   "products": {
-    "relatedTitle": "Related Products"
+    "relatedTitle": "Related Products",
+    "EmptyTitle": "No products match your filters",
+    "EmptySubtitle": "We couldn't find any products matching the selected filters. Try adjusting or clearing them.",
+    "ClearFilters": "Clear Filters"
   },
   "addresses": {
     "MY_ADDRESSES": "My Addresses",

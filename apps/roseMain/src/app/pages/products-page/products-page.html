@@ -1,18 +1,18 @@
-<section class="p-4 w-full h-full flex flex-col flex-1">
+<section class="p-4 w-full h-full flex flex-col flex-1" #topAnchor>
     <div class="grid grid-cols-12 gap-4 flex-1">
 
         <!-- Filter Container -->
         <div class="filter-container col-span-12 md:col-span-3">
-            <app-filter-panel (filterEvent)="filter($event)" />
+            <app-filter-panel [resetSignal]="filterResetCounter()" (filterEvent)="filter($event)" />
         </div>
 
         <!-- Products Container -->
-        @if(isLoading() && !error()){
+        @if((isLoading() || !hasLoaded()) && !error()){
         <div class="spinner-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
             <lib-spinner></lib-spinner>
         </div>
         }
-        @if(!isLoading() && !error()){
+        @if(!isLoading() && hasLoaded() && !error() && products().length){
         <div class="products-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
 
             <!-- Cards Container Grid -->
@@ -34,6 +34,9 @@
 
         </div>
         }
+        @if(!isLoading() && hasLoaded() && !error() && !products().length){
+        <app-empty-products (clearFilters)="onClearFilters()"></app-empty-products>
+        }
         @if(!isLoading() && error()){
         <div
             class="error-container col-span-12 md:col-span-9 flex flex-col items-center justify-center p-4 h-full flex-1">
@@ -43,4 +46,3 @@
 
     </div>
 </section>
-
