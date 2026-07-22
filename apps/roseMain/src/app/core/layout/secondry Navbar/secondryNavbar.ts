@@ -6,7 +6,7 @@ import { Component, DestroyRef, inject, input, OnInit, signal, WritableSignal } 
 import {
     LucideBell,
     LucideChevronDown,
-    LucideHeart,
+    LucideMapPinPen,
     LucideShoppingCart,
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -35,7 +35,8 @@ import { MyAddressesModal } from "../../../pages/cart-page/components/addresses/
         LucideShoppingCart,
         LucideBell,
         LucideChevronDown,
-        MyAddressesModal
+        MyAddressesModal,
+        LucideMapPinPen
     ],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',

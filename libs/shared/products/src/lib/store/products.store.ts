@@ -77,7 +77,11 @@ export const ProductsStore = signalStore(
                             tap({
                                 next: (res) => {
                                     patchState(store, {
-                                        bestProducts: res.data ?? [],
+                                        bestProducts: res.data.filter((product) => {
+                                            const hasNoRatings = !product.ratings || product.ratings === 0;
+                                            const isHighRating = product.rating >= 4;
+                                            return hasNoRatings || isHighRating;
+                                        }) ?? [],
                                         isBestLoading: false,
                                     });
                                 },

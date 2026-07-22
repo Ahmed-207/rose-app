@@ -33,6 +33,7 @@ export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
     price,
     oldPrice,
     rating: apiProduct.rating,
+    ratings: apiProduct.ratings,
     isOutOfStock: apiProduct.stock <= 0,
     badges,
   };

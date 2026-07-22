@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideBell, LucideHeart, LucideShoppingCart, LucideUser } from '@lucide/angular';
+import { LucideBell, LucideHeart, LucideMapPinPen, LucideShoppingCart, LucideUser } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
@@ -20,6 +20,7 @@ import { CartService } from '../../../pages/cart-page/services/cart.service';
     LucideUser,
     LucideShoppingCart,
     LucideBell,
+    LucideMapPinPen
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

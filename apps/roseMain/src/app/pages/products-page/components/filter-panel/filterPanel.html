@@ -11,7 +11,7 @@
       }
     </div>
 
-    <ul class="chip-list">
+    <ul class="chip-list scrollable-section">
       @for (cat of categories(); track cat.id) {
       <li>
         <button type="button" class="chip dark:text-white dark:bg-grey-500"
@@ -37,7 +37,7 @@
       }
     </div>
 
-    <div class="tile-grid">
+    <div class="tile-grid scrollable-section">
       @for (occ of occasions(); track occ.id) {
       <button type="button" class="tile" [class.tile--active]="selectedOccasion === occ.id"
         [style.background]="'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.6)), url(' + occ.image + ') center / cover no-repeat'"

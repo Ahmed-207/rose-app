@@ -67,7 +67,7 @@
   padding: 10px 14px;
   border-radius: 5px;
   border: 1px solid transparent;
-  background:#E4E4E7;
+  background: #E4E4E7;
   color: var(--ink);
   font-size: 14px;
   font-weight: 500;
@@ -75,25 +75,25 @@
   text-align: left;
   transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
- .chip:hover {
-    transform: translateX(2px);
-  }
 
-  .chip--active {
-    background: #FBEAEA;
-   
-  }
+.chip:hover {
+  transform: translateX(2px);
+}
 
- .chip.dark {
-    background: #bdbdbd;
-    color:#fff
-   
-  }
+.chip--active {
+  background: #FBEAEA;
+
+}
+
+.chip.dark {
+  background: #bdbdbd;
+  color: #fff
+}
 
 .chip__icon {
   font-size: 16px;
   line-height: 1;
-      width: 20px;
+  width: 20px;
 }
 
 /* Occasion tiles */
@@ -115,13 +115,14 @@
   overflow: hidden;
   transition: border-color 0.15s ease, transform 0.1s ease;
 }
- .tile:hover {
-    transform: translateY(-1px);
-  }
 
-  .tile--active {
-    border-color: var(--rose);
-  }
+.tile:hover {
+  transform: translateY(-1px);
+}
+
+.tile--active {
+  border-color: var(--rose);
+}
 
 
 .tile__label {
@@ -250,7 +251,35 @@
     background: var(--rose);
   }
 }
+
 ::ng-deep .p-rating-icon {
-   
-    width: 1.5rem !important;
-    height: 1.5rem !important;}
+
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.scrollable-section {
+  overflow-y: auto;
+  max-height: 300px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--blush);
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--rose);
+  }
+}

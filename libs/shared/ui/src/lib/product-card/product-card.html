@@ -1,5 +1,5 @@
 <div
-  class="card p-4 w-full h-full flex flex-col bg-white dark:bg-[#202938] border border-gray-100 dark:border-[#202938] rounded-3xl shadow-sm hover:shadow-md transition-all duration-300"
+  class="card p-3 sm:p-4 w-full h-full flex flex-col bg-white dark:bg-[#202938] border border-gray-100 dark:border-[#202938] rounded-3xl shadow-sm hover:shadow-md transition-all duration-300"
   (click)="navigateToDetails()">
 
   <div
@@ -7,9 +7,30 @@
     <img [src]="product().image || '/assets/images/rose-auth-image.png'" alt="Product Image"
       class="block w-full h-full object-cover rounded-2xl" onerror="this.src='/assets/images/rose-auth-image.png'">
 
-    <div class="icons-container absolute inset-0">
+    <!-- BEGIN: BADGES (Positioned z-10 so wishlist panel overlaps them on hover) -->
+    <div
+      class="badges-container absolute top-2 right-2 z-10 flex flex-wrap justify-end gap-1 max-w-[70%] pointer-events-none">
+      @if (isHot()) {
+      <span
+        class="bg-[#FBEAEA] text-[#C4364A] text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-2xs leading-none whitespace-nowrap">
+        {{ 'HOT' | translate }}
+      </span>
+      }
+
+      <!-- FIXED CONDITION: Only displays when item is actually out of stock -->
+      @if (isOutOfStock()) {
+      <span
+        class="bg-[#DC2626] text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-2xs leading-none whitespace-nowrap">
+        {{ 'OUT OF STOCK' | translate }}
+      </span>
+      }
+    </div>
+    <!-- END: BADGES -->
+
+    <!-- WISHLIST & SIGN-IN PROMPT (Positioned z-20 above badges) -->
+    <div class="icons-container absolute inset-0 z-20 pointer-events-none">
       <div
-        class="group absolute top-0 left-0 translate-y-2 translate-x-2 h-10 flex items-center bg-white dark:bg-pink-200 rounded-full overflow-hidden cursor-pointer shadow-md transition-all duration-300 max-w-10 hover:max-w-xs"
+        class="group absolute top-0 left-0 translate-y-2 translate-x-2 h-10 flex items-center bg-white dark:bg-pink-200 rounded-full overflow-hidden cursor-pointer shadow-md transition-all duration-300 max-w-10 hover:max-w-xs pointer-events-auto"
         (click)="onWishlistToggle($event)">
         <div
           class="w-10 h-10 flex items-center justify-center relative z-20 bg-white dark:bg-pink-200 rounded-full shrink-0">
@@ -17,14 +38,14 @@
             [class]="isInWishlist() ? 'text-red-600 fill-red-600' : 'text-red-900'"></svg>
         </div>
         <span
-          class="text-red-900 font-medium text-sm whitespace-nowrap pr-4 transition-all duration-300 transform -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 z-10 select-none">
+          class="text-red-900 font-medium text-xs sm:text-sm whitespace-nowrap pr-4 transition-all duration-300 transform -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 z-10 select-none">
           {{ (isInWishlist() ? 'Remove from wishlist' : 'Add to wishlist') | translate }}
         </span>
       </div>
 
       @if (showSignInPrompt()) {
       <div
-        class="absolute top-14 left-2 z-30 bg-white dark:bg-[#202938] rounded-xl shadow-lg p-3 flex flex-col gap-2 w-48"
+        class="absolute top-14 left-2 z-30 bg-white dark:bg-[#202938] rounded-xl shadow-lg p-3 flex flex-col gap-2 w-48 pointer-events-auto"
         (click)="$event.stopPropagation()">
         <span class="text-xs text-gray-700 dark:text-gray-200">
           {{ 'product-card.SIGN_IN_TO_WISHLIST' | translate }}
