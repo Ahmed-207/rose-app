@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ export class MostPopularSection implements OnInit {
   private readonly productsService = inject(ProductsService);
 
   readonly categoriesStore = inject(CategoriesStore);
-  readonly categories = this.categoriesStore.entities;
+  readonly categories = computed(() => this.categoriesStore.entities().filter((c) => c._count.products !== 0));
 
   readonly products = signal<Product[]>([]);
   readonly isLoading = signal(false);

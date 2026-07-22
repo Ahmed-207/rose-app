@@ -43,6 +43,17 @@ export class ProductCard implements OnInit {
 
   readonly showSignInPrompt = signal(false);
 
+  readonly isHot = computed(() => {
+    const ratingsCount = this.product().ratings ?? 0;
+    const ratingScore = this.product().rating ?? 0;
+    return ratingsCount === 0 || ratingScore >= 3;
+  });
+
+  readonly isOutOfStock = computed(() => {
+    const prod = this.product();
+    return Boolean(prod.isOutOfStock);
+  });
+
   ngOnInit(): void {
     if (!this.authCookieStorage.getSession()?.token) {
       return;

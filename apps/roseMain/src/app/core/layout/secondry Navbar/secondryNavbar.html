@@ -13,8 +13,10 @@
                 <i class="fa-solid fa-location-dot text-gray-400 dark:text-gray-400 text-lg"></i>
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-400">Deliver To:</p>
-                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc] cursor-pointer" (click)="openAddressModal()">
-                        {{_addressStore.lastSelectedAddressCity()}}
+                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc] cursor-pointer flex items-center gap-2"
+                        (click)="openAddressModal()">
+                        <svg lucideMapPinPen [size]="12"
+                            class="shrink-0"></svg>{{_addressStore.lastSelectedAddressCity()}}
                     </p>
                 </div>
             </div>

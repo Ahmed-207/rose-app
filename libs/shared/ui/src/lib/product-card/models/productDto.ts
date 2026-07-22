@@ -6,6 +6,7 @@ export interface Product {
     price: number;
     oldPrice?: number;
     rating?: number;
+    ratings?:number;
     isWishlist?: boolean;
     isOutOfStock?: boolean;
     badges?: ProductBadge[];
