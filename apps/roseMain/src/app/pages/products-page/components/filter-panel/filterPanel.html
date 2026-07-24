@@ -6,7 +6,7 @@
       <h3 class="dark:text-white">{{"Category" | translate}}</h3>
       @if(selectedCategory){
       <button type="button" class="reset-link" (click)="resetCategories()">
-        {{"Reset" | translate}}
+        <i class="pi pi-times text-[10px]"></i>  {{"Reset" | translate}}
       </button>
       }
     </div>
@@ -17,6 +17,7 @@
         <button type="button" class="chip dark:text-white dark:bg-grey-500"
           [class.chip--active]="selectedCategory === cat.id" (click)="selectCategory(cat.id)">
           @if (cat.image) {
+
           <img class="chip__icon" [src]="cat.image" [alt]="cat.title" />
           }
           <span class="chip__label">{{ cat.title }}</span>
@@ -32,7 +33,7 @@
       <h3 class="dark:text-white">{{"Occasion" | translate}}</h3>
       @if(selectedOccasion){
       <button type="button" class="reset-link" (click)="resetOccasions()">
-        {{"Reset" | translate}}
+         <i class="pi pi-times text-[10px]"></i> {{"Reset" | translate}}
       </button>
       }
     </div>
@@ -58,7 +59,7 @@
       <h3 class="dark:text-white">{{"Rating" | translate}}</h3>
       @if(rating){
       <button type="button" class="reset-link" (click)="resetRating()">
-        {{"Reset" | translate}}
+       <i class="pi pi-times text-[10px]"></i> {{"Reset" | translate}}
       </button>
       }
 
@@ -74,7 +75,7 @@
       <h3 class="dark:text-white">{{"Price" | translate}}</h3>
       @if(priceFrom !== null || priceTo !== null){
       <button type="button" class="reset-link" (click)="resetPrice()">
-        {{"Reset" | translate}}
+        <i class="pi pi-times text-[10px]"></i>  {{"Reset" | translate}}
       </button>
       }
     </div>
