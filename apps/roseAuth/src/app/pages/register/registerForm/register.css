@@ -5,7 +5,7 @@
 }
 
 .step-header {
-  margin: 1.5rem 0 2rem;
+  margin: 0 0 2rem;
 
 }
 
@@ -14,7 +14,12 @@
     font-weight: 600;
     margin: 0 0 0.5rem;
   }
+.step-header h2{
+ font-size: 1.1rem;
+    font-weight: 600;
 
+    color: #501419;
+}
   p {
     font-size: 0.9rem;
     color: #6b7280;
@@ -49,8 +54,8 @@ form > app-rose-button {
 
 .back-link {
   font-size: 0.85rem;
-  color:#18a711 !important;
-  text-decoration: none;
+ color: #074cde !important;
+    text-decoration: underline;
   cursor: pointer;
   margin-left: 0.25rem;
 
@@ -78,7 +83,7 @@ form > app-rose-button {
 
 }
  .login-link  a {
-    color: var(--color-primary);
+    color: #82181a ;
     font-weight: 500;
     text-decoration: none;
 
@@ -88,11 +93,11 @@ form > app-rose-button {
       text-decoration: underline;
     }
 ::ng-deep .p-step-active .p-step-title {
-    color: #a6252a!important;
+    color: #82181a  !important;
 }
 ::ng-deep .p-step-active .p-step-number {
-    background: #a6252a!important;
-    border-color:#a6252a!important;
+    background: #82181a !important;
+    border-color:#82181a !important;
     color: #fff !important;
 }
 .welcome-message h2{
@@ -106,4 +111,17 @@ form{
 :root, :host {
     --p-inputotp-input-width: 3.5rem;
 }
-
+:host ::ng-deep  .p-step .p-stepper-separator {
+    background: #FBEAEA;
+}
+:host ::ng-deep .p-step:has(~ .p-step-active) .p-stepper-separator {
+    background: #501419;
+}
+:host ::ng-deep  .p-step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #82181a;
+    border: 2px solid #FBEAEA;
+    background: #FBEAEA;
+}
