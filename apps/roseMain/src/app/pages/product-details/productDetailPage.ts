@@ -13,11 +13,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '@org/products';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
+import { catchError, EMPTY, switchMap } from 'rxjs';
 import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
+import { CartService } from '../cart-page/services/cart.service';
 import { ProductGallery } from './components/product-gallery/productGallery';
 import { ProductInfo } from './components/product-info/productInfo';
 import { ProductReviews } from './components/product-review/productReviews';
-import { RelatedProductsSection } from "./components/related-products/relateProductSection";
+import { RelatedProductsSection } from './components/related-products/relateProductSection';
 
 @Component({
   selector: 'app-product-detail-page',
@@ -29,6 +31,7 @@ export class ProductDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -41,22 +44,28 @@ export class ProductDetailPage implements OnInit {
       return;
     }
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      void this.router.navigate(['/home']);
-      return;
-    }
-    this.productId.set(id);
+    this.route.paramMap
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap((params) => {
+          const id = params.get('id');
+          if (!id) {
+            void this.router.navigate(['/home']);
+            return EMPTY;
+          }
 
-    this.loadProduct(id);
-  }
-
-  private loadProduct(id: string): void {
-    this.productsService.getProductById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (response) => {
-        console.log('RAW API RESPONSE:', response); // TEMP DEBUG
-
-        const apiProduct = response.payload?.product;
+          this.productId.set(id);
+          this.product.set(undefined);
+          return this.productsService.getProductById(id).pipe(
+            catchError((err) => {
+              console.error('HTTP error loading product:', err);
+              return EMPTY;
+            }),
+          );
+        }),
+      )
+      .subscribe((response) => {
+        const apiProduct = response.product;
         if (!apiProduct) {
           console.error('No product found in response, redirecting home');
           void this.router.navigate(['/home']);
@@ -65,9 +74,19 @@ export class ProductDetailPage implements OnInit {
 
         this.product.set(mapApiProductToDetail(apiProduct));
         this.selectedImageIndex.set(0);
-      },
-      error: (err) => console.error('HTTP error loading product:', err),
-    });
+      });
+  }
+
+  onAddToCart(product: ProductDetail): void {
+    this.cartService
+      .addToCart({ productId: String(product.id), quantity: 1 })
+      .subscribe({
+        error: (err) => console.error('Failed to add to cart', err),
+      });
+  }
+
+  onWishlistToggle(_product: ProductDetail): void {
+    // Wishlist API not wired yet.
   }
 
   onReviewAdded(review: ProductDetail['reviews'][number]): void {

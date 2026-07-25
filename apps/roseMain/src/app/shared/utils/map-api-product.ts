@@ -1,5 +1,5 @@
 import { Product as ApiProduct, Review as ApiReview } from '@org/products';
-import { Product, ProductBadge } from 'apps/shared/models/productDto';
+import { Product, ProductBadge } from '@org/shared-ui-components';
 import { ProductDetail, ProductReview } from 'apps/shared/models/productDetailDto';
 
 function normalizeUrl(url: string): string {
@@ -16,9 +16,6 @@ export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
   }
 
   const badges: ProductBadge[] = [];
-  if (discount > 0) {
-    // badges.push('NEW');
-  }
   if ((apiProduct._count?.cartItems ?? 0) >= 2) {
     badges.push('HOT');
   }
@@ -36,6 +33,7 @@ export function mapApiProductToCardProduct(apiProduct: ApiProduct): Product {
     price,
     oldPrice,
     rating: apiProduct.rating,
+    ratings: apiProduct.ratings,
     isOutOfStock: apiProduct.stock <= 0,
     badges,
   };

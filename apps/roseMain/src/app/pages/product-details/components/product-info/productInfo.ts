@@ -13,6 +13,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { LucideHeartPlus, LucidePackage } from '@lucide/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Product, WishlistService } from '@org/products';
@@ -21,7 +22,7 @@ import { ProductDetail } from 'apps/shared/models/productDetailDto';
 
 @Component({
   selector: 'product-info',
-  imports: [DecimalPipe, TranslatePipe, Button],
+  imports: [DecimalPipe, TranslatePipe, Button, LucidePackage],
   templateUrl: './productInfo.html',
   styleUrl: './productInfo.css',
 })
@@ -78,30 +79,7 @@ export class ProductInfo implements AfterViewInit, OnDestroy, OnInit {
     this.addToCart.emit(current);
   }
 
-  // onWishlist(): void {
-  //   this.isWishlist.update((value) => !value);
-  //   this.wishlistToggle.emit(this.product());
-  // }
-
-
-  // addToWishlist(productId: string): void {
-
-    
-
-  //   this.wishlistService.addProductWishlist(productId)
-  //   .pipe(takeUntilDestroyed(this.destroyRef))
-  //   .subscribe({
-  //     next: (response) => {
-  //       console.log('Added to wishlist successfully', response);
-  //       this.onWishlist();
-  //       this.product().isWishlist = true; 
-  //       this.wishlistToggle.emit(this.product());
-  //     },
-  //     error: (err) => {
-  //       console.error('Error adding to wishlist', err);
-  //     }
-  //   });
-  // }
+ 
 
 
    ngOnInit(): void {

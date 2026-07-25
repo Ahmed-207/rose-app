@@ -121,7 +121,7 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
-          const apiReview = response.payload?.review ?? response.payload?.data;
+          const apiReview = response.review;
           const createdReview = apiReview
             ? mapApiReviewToProductReview(apiReview)
             : this.mapSubmittedReview(review);

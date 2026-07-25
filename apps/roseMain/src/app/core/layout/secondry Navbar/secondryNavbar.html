@@ -13,7 +13,11 @@
                 <i class="fa-solid fa-location-dot text-gray-400 dark:text-gray-400 text-lg"></i>
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-400">Deliver To:</p>
-                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc]">Cairo</p>
+                    <p class="font-bold text-gray-700 dark:text-[#ffc2cc] cursor-pointer flex items-center gap-2"
+                        (click)="openAddressModal()">
+                        <svg lucideMapPinPen [size]="12"
+                            class="shrink-0"></svg>{{_addressStore.lastSelectedAddressCity()}}
+                    </p>
                 </div>
             </div>
             <button type="button"
@@ -47,34 +51,38 @@
                 <p class="text-sm font-bold dark:text-[#ffc2cc] leading-tight flex items-center gap-1 cursor-pointer"
                     (click)="menu.toggle($event)">
                     {{ userName() }}
-                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 cursor-pointer"></i>
+                    <svg lucideChevronDown [size]="12" class="text-gray-400 shrink-0"></svg>
                 </p>
                 <p-menu #menu [model]="items" [popup]="true"></p-menu>
             </div>
-            <button
-            [routerLink]="['/home/wishlist']"
-             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600">
+            <button [routerLink]="['/home/wishlist']"
+                class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600">
                 <i class="pi pi-heart text-lg"></i>
-                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
-                   {{wishlistService.wishlistCount()}}
-               </span>
-                
+                <span
+                    class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+                    {{wishlistService.wishlistCount()}}
+                </span>
+
             </button>
-               <button
-           
-             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 pl-1 transition">
-                <i class="pi pi-shopping-cart text-lg"></i>
-                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
-      0
-    </span>
-            </button>
-            <button
-           
-             class="relative flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 pl-1 transition">
-                <i class="pi pi-bell text-lg"></i>
-                <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
-      0
-    </span>
+            <a routerLink="/home/cart"
+                class="relative flex items-center text-gray-700 dark:text-white hover:text-rose-600 bg-transparent"
+                [attr.aria-label]="'Cart (' + cartCount() + ' items)'">
+                <svg lucideShoppingCart [size]="20" class="shrink-0"></svg>
+                @if (cartCount() > 0) {
+                <span
+                    class="absolute inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -inset-e-2">
+                    {{ cartCount() > 99 ? '99+' : cartCount() }}
+                </span>
+                }
+            </a>
+            <button type="button"
+                class="relative flex items-center text-gray-700 dark:text-white hover:text-rose-600 bg-transparent border-0 p-0"
+                aria-label="Notifications">
+                <svg lucideBell [size]="20" class="shrink-0"></svg>
+                <span
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -inset-e-2">
+                    0
+                </span>
             </button>
             <lib-ui-lang-switcher></lib-ui-lang-switcher>
             <lib-theme-toggler></lib-theme-toggler>
@@ -140,7 +148,42 @@
             <p class="text-sm font-bold text-gray-800 dark:text-[#ffc2cc]">{{ userName() }}</p>
         </div>
 
-        <ul class="flex flex-col gap-1 px-6 pb-4 list-none m-0">
+        <!-- ADDED: cart + wishlist quick links, same list-item style as the rest of
+             the mobile panel, with the same badge counts used on desktop -->
+        <ul class="flex flex-col gap-1 px-6 pb-2 list-none m-0">
+            <li>
+                <a routerLink="/home/wishlist" (click)="closeMobileMenu()"
+                    class="flex items-center justify-between gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <span class="flex items-center gap-3">
+                        <i class="pi pi-heart text-sm"></i> {{'navbar.Wishlist'| translate}}
+                    </span>
+                    @if (wishlistService.wishlistCount() > 0) {
+                    <span
+                        class="inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] rounded-full">
+                        {{ wishlistService.wishlistCount() }}
+                    </span>
+                    }
+                </a>
+            </li>
+            <li>
+                <a routerLink="/home/cart" (click)="closeMobileMenu()"
+                    class="flex items-center justify-between gap-3 px-4 py-3 rounded-lg no-underline
+                           text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <span class="flex items-center gap-3">
+                        <svg lucideShoppingCart [size]="16" class="shrink-0"></svg> {{'navbar.Cart'| translate}}
+                    </span>
+                    @if (cartCount() > 0) {
+                    <span
+                        class="inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] rounded-full">
+                        {{ cartCount() > 99 ? '99+' : cartCount() }}
+                    </span>
+                    }
+                </a>
+            </li>
+        </ul>
+
+        <ul class="flex flex-col gap-1 px-6 pb-4 list-none m-0 border-t border-gray-200 dark:border-gray-700 pt-2">
             <li>
                 <a href="#" (click)="closeMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline font-semibold
                            text-[#741c21] dark:text-[#ffc2cc] transition-colors">
@@ -202,3 +245,11 @@
     </div>
 
 </header>
+@if(isAddressModalOpened()){
+<div
+    class="overlay-container fixed inset-0 flex items-center justify-center bg-black/40 z-5000 backdrop-blur-sm animate-fade-in">
+    <div class="modal-container w-[90%] md:w-[60%] max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl">
+        <my-addresses-modal (modalClosed)="closeAddressModal($event)"></my-addresses-modal>
+    </div>
+</div>
+}

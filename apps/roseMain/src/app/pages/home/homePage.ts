@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { BestSellingSection } from './components/best-selling/bestSellingSection';
 import { FeatureServiceSection } from './components/feature-service/featureServiceSection';
 import { Testmonials } from "./components/testmonials/testmonials";
@@ -16,11 +16,13 @@ import { MostPopularSection } from "./components/most-popular/mostPopularSection
     BestSellingSection,
     TrustedbySection,
     GallerySection,
-    MostPopularSection,
-  
-],
+    MostPopularSection
+  ],
   templateUrl: './homePage.html',
   styleUrl: './homePage.css',
 })
 export class HomePage {
+
+
 }
+

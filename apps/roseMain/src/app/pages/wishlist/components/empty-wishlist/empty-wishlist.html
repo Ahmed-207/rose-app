@@ -1,0 +1,20 @@
+<div class="flex flex-col items-center justify-center text-center py-16 px-6">
+    <div
+        class="w-40 h-40 md:w-52 md:h-52 flex items-center justify-center rounded-full bg-red-50 dark:bg-slate-800/60 mb-6">
+        <i class="pi pi-heart text-6xl md:text-7xl text-[#4A1525]/30 dark:text-pink-300/30"></i>
+    </div>
+
+    <h2 class="text-lg md:text-xl font-bold text-heading dark:text-white mb-2">
+        {{ 'wishlist.EmptyTitle' | translate }}
+    </h2>
+
+    <p class="text-sm text-gray-500 dark:text-slate-400 max-w-sm mb-6">
+        {{ 'wishlist.EmptySubtitle' | translate }}
+    </p>
+
+    <button [routerLink]="['/home/products']"
+        class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-6 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors">
+        <i class="pi pi-shopping-bag"></i>
+        {{ 'wishlist.StartShopping' | translate }}
+    </button>
+</div>

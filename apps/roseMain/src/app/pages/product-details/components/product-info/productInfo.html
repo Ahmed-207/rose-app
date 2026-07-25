@@ -4,28 +4,40 @@
   <div class="product-info__meta">
     <div class="product-info__pricing">
       @if (product().oldPrice) {
-        <span class="product-info__old-price">
-          {{ product().oldPrice | number: '1.0-0' }}
-        </span>
+      <span class="product-info__old-price">
+        {{ product().oldPrice | number: '1.0-0' }}
+      </span>
       }
       <span class="product-info__price font-primary">
-        {{ product().price | number: '1.2-2' }} {{ 'EGP' | translate }}
+        {{ product().price | number: '1.2-2' }}
+        <span class="product-info__currency">{{ 'EGP' | translate }}</span>
       </span>
     </div>
 
-  @if (!product().isOutOfStock) {
-    <span class="product-info__stock">
-      <i class="pi pi-box" aria-hidden="true"></i>
+    @if (product().isOutOfStock) {
+    <span class="product-info__stock product-info__stock--out" role="status">
+      <svg lucidePackage [size]="16" class="shrink-0" aria-hidden="true"></svg>
+      {{ 'Out of stock' | translate }}
+    </span>
+    } @else {
+    <span class="product-info__stock product-info__stock--available" role="status">
+      <svg lucidePackage [size]="16" class="shrink-0" aria-hidden="true"></svg>
       {{ product().stockCount }} {{ 'left in stock' | translate }}
     </span>
-  }
+    }
   </div>
+
+  <hr class="product-info__divider" />
 
   <p class="product-info__rating">
     <i class="pi pi-star-fill" aria-hidden="true"></i>
-    {{ 'Rating' | translate }}:
-    <strong>{{ product().rating | number: '1.0-0' }}/5</strong>
-    ({{ product().reviewCount }} {{ 'ratings' | translate }})
+    <span class="product-info__rating-label">
+      {{ 'Rating' | translate }}:
+      <strong>{{ product().rating | number: '1.1-1' }}/5</strong>
+    </span>
+    <span class="product-info__rating-count">
+      ({{ product().reviewCount }} {{ 'ratings' | translate }})
+    </span>
   </p>
 
   <p class="product-info__description font-primary">
@@ -43,13 +55,8 @@
       
     </button>
 
-    <app-button
-      variant="danger"
-      size="lg"
-      class="product-info__cart-btn font-primary"
-      icon="pi pi-shopping-cart"
-      [disabled]="product().isOutOfStock ?? false"
-      (clicked)="onAddToCart()">
+    <app-button variant="danger" size="lg" class="product-info__cart-btn font-primary" icon="pi pi-shopping-cart"
+      [disabled]="product().isOutOfStock ?? false" (clicked)="onAddToCart()">
       {{ 'Add to Cart' | translate }}
     </app-button>
   </div>

@@ -1,0 +1,21 @@
+/* Custom subtle styling for the vertical scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f4f4f5;
+    /* zinc-100 */
+    border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #d4d4d8;
+    /* zinc-300 */
+    border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a1a1aa;
+    /* zinc-400 */
+}

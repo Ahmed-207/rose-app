@@ -1,21 +1,20 @@
+import { Product as CardProduct } from '@org/shared-ui-components';
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   PLATFORM_ID,
-  signal,
   viewChild,
+  computed,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
+import { ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
-import { Product } from 'apps/shared/models/productDto';
-import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { CartService } from '../../../cart-page/services/cart.service';
+import { ProductsStore } from '@org/products';
+import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',
@@ -25,18 +24,23 @@ import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-pro
 })
 export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
-  private readonly productsService = inject(ProductsService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-
-  readonly products = signal<Product[]>([]);
+  private readonly cartService = inject(CartService);
+  readonly _store = inject(ProductsStore);
+  // bestSellingSection.ts (UPDATED)
+  readonly mappedBestProducts = computed<CardProduct[]>(() => {
+    return [...this._store.bestProducts()]
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      .map(mapApiProductToCardProduct)
+      .slice(0, 8);
+  });
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    this.loadBestProducts();
+    this._store.loadBestProducts({ page: 1, limit: 20 });
   }
 
   scroll(direction: 'prev' | 'next'): void {
@@ -56,18 +60,12 @@ export class BestSellingSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void {}
-
-  onWishlistToggle(product: Product): void {
-    product.isWishlist = !product.isWishlist;
+  onAddToCart(product: CardProduct): void {
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
   }
 
-  private loadBestProducts(): void {
-    this.productsService
-      .getBestProducts(8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-      });
+  onWishlistToggle(product: CardProduct): void {
+    // product.isWishlist = !product.isWishlist;
   }
+
 }

@@ -1,7 +1,11 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, DestroyRef, inject, OnInit, input, output, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { LucideHeartPlus, LucideShoppingCart } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthCookieStorage } from '@org/auth';
+import { WishlistService } from '@org/products';
+import { Product } from '@org/shared-ui-components';
 
 @Component({
   selector: 'lib-product-card',
@@ -10,46 +14,102 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })
-export class ProductCard {
-  productImg = input<string | null | undefined>();
-  productName = input<string>();
-  productRating = input<string | number>();
-  productCurrentPrice = input<string | number>();
-  productDiscount = input<string | number>();
-  productId = input<string>();
+export class ProductCard implements OnInit {
+  readonly product = input.required<Product>();
 
-  protected readonly Number = Number;
+  readonly addToCart = output<Product>();
+  readonly wishlistToggle = output<Product>();
+
   private readonly router = inject(Router);
-  private readonly activeRoute = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly wishlistService = inject(WishlistService);
+  private readonly authCookieStorage = inject(AuthCookieStorage);
 
-  productOldPrice = computed(() => {
-    const currentPrice = Number(this.productCurrentPrice() || 0);
-    const discount = Number(this.productDiscount() || 0);
-
-    if (!discount || discount <= 0 || discount >= 100) {
-      return currentPrice;
-    }
-
-    const calculatedOldPrice = currentPrice / (1 - discount / 100);
-    return Math.round(calculatedOldPrice * 100) / 100;
-  });
-
-  starsArray = computed(() => {
-    const rating = Math.floor(Number(this.productRating() || 0));
+  readonly starsArray = computed(() => {
+    const rating = Math.floor(Number(this.product().rating || 0));
     const safeRating = Math.max(0, Math.min(rating, 5));
     return Array(safeRating).fill(0);
   });
 
-  emptyStarsArray = computed(() => {
-    const rating = Math.floor(Number(this.productRating() || 0));
+  readonly emptyStarsArray = computed(() => {
+    const rating = Math.floor(Number(this.product().rating || 0));
     const safeRating = Math.max(0, Math.min(rating, 5));
     return Array(5 - safeRating).fill(0);
   });
 
-  navigateToDetails(): void {
-    const id = this.productId();
-    if (id) {
-      this.router.navigate([id], { relativeTo: this.activeRoute });
+  readonly isInWishlist = computed(() =>
+    this.wishlistService.wishlistIds().has(this.product().id),
+  );
+
+  readonly showSignInPrompt = signal(false);
+
+  readonly isHot = computed(() => {
+    const ratingsCount = this.product().ratings ?? 0;
+    const ratingScore = this.product().rating ?? 0;
+    return ratingsCount === 0 || ratingScore >= 3;
+  });
+
+  readonly isOutOfStock = computed(() => {
+    const prod = this.product();
+    return Boolean(prod.isOutOfStock);
+  });
+
+  ngOnInit(): void {
+    if (!this.authCookieStorage.getSession()?.token) {
+      return;
     }
+
+    this.wishlistService
+      .getLoggedUserWishlist()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        error: (err) => console.error('Failed to load wishlist', err),
+      });
+  }
+
+  navigateToDetails(): void {
+    const id = this.product().id;
+    if (id) {
+      this.router.navigate(['/home/products', id]);
+    }
+  }
+
+  onAddToCart(event: Event): void {
+    event.stopPropagation();
+    this.addToCart.emit(this.product());
+  }
+
+  onWishlistToggle(event: Event): void {
+    event.stopPropagation();
+
+    const productId = this.product().id;
+    if (!productId) return;
+
+    if (!this.authCookieStorage.getSession()?.token) {
+      this.showSignInPrompt.set(true);
+      return;
+    }
+
+    const action$ = this.isInWishlist()
+      ? this.wishlistService.removeProductFromWishlist(productId)
+      : this.wishlistService.addProductWishlist(productId);
+
+    action$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => this.wishlistToggle.emit(this.product()),
+      error: (err) => console.error('Failed to update wishlist', err),
+    });
+  }
+
+  goToSignIn(event: Event): void {
+    event.stopPropagation();
+    this.showSignInPrompt.set(false);
+    void this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: this.router.url },
+    });
+  }
+
+  dismissSignInPrompt(event: Event): void {
+    event.stopPropagation();
+    this.showSignInPrompt.set(false);
   }
 }

@@ -21,7 +21,7 @@ export const remoteRoutes: Route[] = [
         path: 'products',
         loadComponent: () =>
           import('../pages/products-page/products-page').then(
-            (c) => c.ProductsPage,
+            (c) => c.ProductsPageComponent,
           ),
         title: 'Our Products',
       },
@@ -31,12 +31,23 @@ export const remoteRoutes: Route[] = [
         title: 'wishlist'
       },
       {
+        path: 'orders',
+        loadComponent: () => import('../pages/orders-page/orders-page').then((c) => c.OrdersPage),
+        title: 'Orders'
+      },
+      {
         path: 'products/:id',
         loadComponent: () =>
           import('../pages/product-details/productDetailPage').then(
             (c) => c.ProductDetailPage,
           ),
         title: 'Product Details',
+      },
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('../pages/cart-page/cart-page').then((c) => c.CartPage),
+        title: 'Cart',
       },
       {
         path: 'about',

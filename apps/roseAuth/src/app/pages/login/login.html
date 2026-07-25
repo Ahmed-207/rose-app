@@ -20,11 +20,6 @@
                 (click)="goToForgotPassword()">{{"auth.FORGOT_PASSWORD"
                 | translate}}</span>
         </div>
-
-        @if (errorMessage()) {
-            <p class="server-error w-full" role="alert">{{ errorMessage() }}</p>
-        }
-
         <div class="flex items-center justfify-start w-full">
             <p-checkbox inputId="remember" formControlName="remember" [binary]="true" />
             <label for="remember" class="ml-2">{{"auth.REMEMBER_ME" | translate}}</label>

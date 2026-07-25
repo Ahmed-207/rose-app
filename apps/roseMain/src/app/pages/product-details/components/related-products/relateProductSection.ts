@@ -4,18 +4,19 @@ import {
   DestroyRef,
   ElementRef,
   inject,
-  OnInit,
+  input,
   PLATFORM_ID,
   signal,
   viewChild,
-  input
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { ProductCard } from 'apps/shared/components/product-card/productCard';
-import { Product } from 'apps/shared/models/productDto';
+import { ProductCard } from '@org/shared-ui-components';
+import { Product } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
+import { CartService } from '../../../cart-page/services/cart.service';
+import { catchError, filter, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'related-products-section',
@@ -24,21 +25,34 @@ import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-pro
   templateUrl: './relateProductSection.html',
   styleUrl: './relateProductSection.css',
 })
-export class RelatedProductsSection implements OnInit {
-  readonly currentProductId = input.required<string>(); // لاستقبال الـ id الحالي للمنتج لجلب المنتجات الشبيهة به من الـ API
+export class RelatedProductsSection {
+  readonly currentProductId = input.required<string>();
 
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly products = signal<Product[]>([]);
 
-  ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-    this.loadRelatedProducts();
+  constructor() {
+    toObservable(this.currentProductId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((productId): productId is string => !!productId && isPlatformBrowser(this.platformId)),
+        switchMap((productId) =>
+          this.productsService.getRelatedProducts(productId, 8).pipe(
+            catchError((err) => {
+              console.error('Failed to load related products', err);
+              return of({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } });
+            }),
+          ),
+        ),
+      )
+      .subscribe((response) => {
+        this.products.set(response.data.map(mapApiProductToCardProduct));
+      });
   }
 
   scroll(direction: 'prev' | 'next'): void {
@@ -47,7 +61,7 @@ export class RelatedProductsSection implements OnInit {
 
     const trackEl = trackRef.nativeElement;
     const item = trackEl.querySelector<HTMLElement>('.carousel-item');
-    const gap = 24; // نفس قيمة الـ Gap في الـ Tailwind أو الـ CSS الخاص بك
+    const gap = 24;
     const amount = (item?.offsetWidth ?? 280) + gap;
 
     trackEl.scrollBy({
@@ -56,19 +70,12 @@ export class RelatedProductsSection implements OnInit {
     });
   }
 
-  onAddToCart(_product: Product): void { }
-
-  onWishlistToggle(product: Product): void {
-    product.isWishlist = !product.isWishlist;
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
   }
 
-  private loadRelatedProducts(): void {
-    // افترضنا أن الـ Service تحتوي على دالة لجلب المنتجات المرتبطة، يمكنك تعديلها حسب مسميات الـ API لديك
-    this.productsService
-      .getBestProducts(8)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        this.products.set(response.payload.data.map(mapApiProductToCardProduct));
-      });
+
+  onWishlistToggle(_product: Product): void {
+    // Wishlist API not wired yet.
   }
 }

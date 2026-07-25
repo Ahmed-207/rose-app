@@ -1,17 +1,19 @@
 @if (product(); as item) {
-  <div class="product-detail">
-    <div class="max-w-7xl mx-auto px-4">
-      <section class="product-detail__hero">
-        <product-gallery
-          [images]="item.images"
-          [(selectedIndex)]="selectedImageIndex">
-        </product-gallery>
+<div class="product-detail">
+  <div class="max-w-7xl mx-auto px-4">
+    <section class="product-detail__hero">
+      <product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
+      </product-gallery>
 
-        <product-info [product]="item"></product-info>
-      </section>
+      <product-info
+        [product]="item"
+        (addToCart)="onAddToCart($event)"
+        (wishlistToggle)="onWishlistToggle($event)">
+      </product-info>
+    </section>
 
-      <product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></product-reviews>
-      <related-products-section [currentProductId]="productId()"></related-products-section>
-    </div>
+    <product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></product-reviews>
+    <related-products-section [currentProductId]="productId()"></related-products-section>
   </div>
+</div>
 }

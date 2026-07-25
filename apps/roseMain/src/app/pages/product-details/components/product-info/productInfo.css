@@ -34,8 +34,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.875rem;
 }
 
 .product-info__pricing {
@@ -58,42 +58,67 @@
   transition: color 0.2s ease;
 }
 
+.product-info__currency {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 .product-info__stock {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid var(--product-detail-border);
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  background: var(--product-detail-surface);
-  color: var(--product-detail-muted);
   font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
   transition:
     background-color 0.2s ease,
-    border-color 0.2s ease,
     color 0.2s ease;
 }
 
-.product-info__stock i {
-  font-size: 0.9rem;
+.product-info__stock--available {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.product-info__stock--out {
+  background: #fff1f2;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.product-info__divider {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0 0 0.875rem;
+  border: 0;
+  border-top: 1px solid var(--product-detail-border);
 }
 
 .product-info__rating {
   flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
   margin: 0 0 1.25rem;
-  color: #2563eb;
+  color: var(--product-detail-heading);
   font-size: 0.95rem;
   transition: color 0.2s ease;
 }
 
 .product-info__rating i {
   color: #ffb800;
-  margin-inline-end: 0.25rem;
 }
 
 .product-info__rating strong {
   color: var(--product-detail-heading);
-  transition: color 0.2s ease;
+  font-weight: 700;
+}
+
+.product-info__rating-count {
+  color: #2563eb;
 }
 
 .product-info__description {
@@ -139,6 +164,11 @@
   transform: translateY(-1px);
 }
 
+.product-info__wishlist--active {
+  background: var(--product-detail-accent-soft);
+  border-color: var(--product-detail-accent);
+}
+
 .product-info__cart-btn {
   flex: 1;
 }
@@ -169,7 +199,17 @@
   --product-detail-accent-soft: #4a3a42;
 }
 
-:host-context(.dark) .product-info__rating {
+:host-context(.dark) .product-info__stock--available {
+  background: #3f3f46;
+  color: #d4d4d8;
+}
+
+:host-context(.dark) .product-info__stock--out {
+  background: #4a3a42;
+  color: #ffa3b9;
+}
+
+:host-context(.dark) .product-info__rating-count {
   color: #60a5fa;
 }
 
