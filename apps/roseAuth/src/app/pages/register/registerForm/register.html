@@ -5,21 +5,21 @@
     </div>
     <p-stepper [value]="activeStep()" (valueChange)="onStepChange($event)" [linear]="true">
       <p-step-list>
-        <p-step [value]="1">{{ 'auth.VERIFY_EMAIL' | translate }}</p-step>
-        <p-step [value]="2">{{ 'auth.ENTER_OTP' | translate }}</p-step>
-        <p-step [value]="3">{{ 'auth.REGISTER' | translate }}</p-step>
+        <p-step [value]="1"></p-step>
+        <p-step [value]="2"></p-step>
+        <p-step [value]="3"></p-step>
       </p-step-list>
 
       <p-step-panels>
         <p-step-panel [value]="1">
           <ng-template #content let-activateCallback="activateCallback">
-            <div class="step-header">
+            <!-- <div class="step-header">
               <h1>{{ 'auth.VERIFY_YOUR_EMAIL' | translate }}</h1>
               <p>{{ 'auth.VERIFY_EMAIL_DESC' | translate }}</p>
-            </div>
+            </div> -->
 
             <form [formGroup]="emailForm" novalidate>
-              <app-form-control formControlName="email" type="email" />
+              <app-form-control formControlName="email" type="email"  [label]="'auth.EMAIL' | translate" />
 
               @if (errorMessage()) {
               <p class="server-error" role="alert">{{ errorMessage() }}</p>
@@ -34,7 +34,8 @@
         <p-step-panel [value]="2">
           <ng-template #content let-activateCallback="activateCallback">
             <div class="step-header">
-              <h1>{{ 'auth.ENTER_THE_CODE' | translate }}</h1>
+              <h1>{{ 'auth.CREATE_ACCOUNT' | translate }}</h1>
+              <h2>{{ 'auth.ENTER_THE_CODE' | translate }}</h2>
               <p>
                 {{ 'auth.ENTER_OTP_DESC' | translate }}
                 <strong class="dark:text-pink-300">{{ email() }}</strong>.
@@ -68,6 +69,14 @@
 
         <p-step-panel [value]="3">
           <ng-template #content>
+              <div class="step-header">
+              <h1>{{ 'auth.CREATE_ACCOUNT' | translate }}</h1>
+              <h2>{{ 'auth.Tell-us-more-about-you' | translate }}</h2>
+              <p>
+                {{ 'auth.ENTER_about_DESC' | translate }}
+
+              </p>
+            </div>
             <form [formGroup]="detailsForm" novalidate>
               <div class="field-row">
                 <app-form-control formControlName="firstName" type="text" [placeholder]="'auth.FIRST_NAME' | translate"

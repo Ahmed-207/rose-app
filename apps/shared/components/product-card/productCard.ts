@@ -17,6 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 
+
 @Component({
   selector: 'product-card',
   imports: [CommonModule, RouterLink, TranslatePipe, RatingModule, FormsModule, Button],

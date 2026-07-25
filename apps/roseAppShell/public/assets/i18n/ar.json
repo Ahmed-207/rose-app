@@ -11,6 +11,8 @@
     "REGISTER": "إنشاء حساب",
     "VERIFY_EMAIL": "تحقق من البريد",
     "ENTER_OTP": "أدخل الرمز",
+     "ENTER_about_DESC":"بعض التفاصيل للبدء",
+    "Tell-us-more-about-you":"أخبرنا المزيد عن نفسك",
     "VERIFY_YOUR_EMAIL": "تحقق من بريدك الإلكتروني",
     "VERIFY_EMAIL_DESC": "سنرسل رمزاً لمرة واحدة للتحقق من عنوانك قبل إنشاء حسابك.",
     "ENTER_THE_CODE": "أدخل الرمز",

@@ -64,6 +64,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
   padding: 10px 14px;
   border-radius: 5px;
   border: 1px solid transparent;
@@ -86,14 +87,18 @@
 }
 
 .chip.dark {
-  background: #bdbdbd;
+  background: #3F3F46;
   color: #fff
 }
 
 .chip__icon {
   font-size: 16px;
-  line-height: 1;
+ height: 20px;
   width: 20px;
+  z-index: 2;
+      margin-inline-end: 15px;
+    filter: brightness(0) invert(1);
+
 }
 
 /* Occasion tiles */
@@ -216,10 +221,10 @@
   gap: 8px;
   width: 100%;
   padding: 12px;
-  border-radius: 999px;
-  border: 1px solid var(--blush);
-  background: #fff;
-  color: var(--rose);
+     border-radius: 10px;
+    border: 1px solid var(--blush);
+    background: var(--blush);
+    color: var(--rose) ;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -227,6 +232,7 @@
   &:disabled {
     color: var(--ink-muted);
     border-color: #e4dbd9;
+      background: transparent;
     cursor: not-allowed;
   }
 }
@@ -239,7 +245,7 @@
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 999px;
+  border-radius: 10px;
   background: var(--rose-deep);
   color: #fff;
   font-size: 15px;
@@ -282,4 +288,52 @@
   &::-webkit-scrollbar-thumb:hover {
     background-color: var(--rose);
   }
+}
+:host ::ng-deep .filter-rating .p-rating-icon {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #4caf50 !important; /* border */
+}
+
+:host ::ng-deep  .p-rating-icon {
+  color: #fdc700 !important; /* fill */
+
+}
+.chip::after{
+  position: absolute;
+  content: "";
+ width: 16%;
+  height: 100%;
+   inset-inline-start: 0px;
+    border-radius: 4px;
+  background-color: #3F3F46;
+}
+.chip--active::after{
+  position: absolute;
+  content: "";
+  width: 16%;
+  height: 100%;
+   inset-inline-start: 0px;
+    border-radius: 4px;
+  background-color: #c4364a;
+}
+.dark .chip::after{
+  position: absolute;
+  content: "";
+  width: 16%;
+  height: 100%;
+  inset-inline-start: 0px;
+    border-radius: 4px;
+  background-color: #71717A;
+}
+:host .dark .chip--active::after{
+  position: absolute;
+  content: "";
+  width: 16%;
+  height: 100%;
+  background-color: #FFA3B9;
+}
+
+:host .dark .chip--active .chip__icon{
+    filter: brightness(1) invert(1);
+
 }
