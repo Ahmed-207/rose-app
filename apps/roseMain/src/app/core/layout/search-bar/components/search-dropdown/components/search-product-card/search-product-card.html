@@ -1,0 +1,32 @@
+<div (click)="select.emit(product())"
+    class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-[#343e4f] cursor-pointer transition-colors duration-150 group">
+    <!-- Left: Thumbnail & Info -->
+    <div class="flex items-center gap-3.5 min-w-0">
+        <img [src]="product().cover || '/assets/images/rose-auth-image.png'" [alt]="product().title"
+            class="w-14 h-14 object-cover rounded-lg shrink-0 bg-gray-100 dark:bg-gray-700" />
+        <div class="min-w-0 flex flex-col justify-center">
+            <h4
+                class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate group-hover:text-[#741c21] dark:group-hover:text-[#ffc2cc] transition-colors">
+                {{ product().title }}
+            </h4>
+            <p class="text-sm font-bold text-gray-800 dark:text-gray-200 mt-0.5">
+                {{ product().price }} <span class="text-xs font-normal text-gray-500 dark:text-gray-400">EGP</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Right: Rating -->
+    <div class="flex items-center gap-1.5 shrink-0 pl-2">
+        <div class="rating flex gap-0.5 mb-1.5 shrink-0">
+            @for (star of starsArray(); track $index) {
+            <i class="pi pi-star-fill text-yellow-400 text-xs sm:text-sm"></i>
+            }
+            @for (emptyStar of emptyStarsArray(); track $index) {
+            <i class="pi pi-star text-yellow-400 text-xs sm:text-sm"></i>
+            }
+        </div>
+        <span class="text-xs text-blue-600 dark:text-blue-400">
+            ({{ product().ratings }} ratings)
+        </span>
+    </div>
+</div>

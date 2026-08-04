@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
 import { CartService } from '../../../pages/cart-page/services/cart.service';
+import { SearchBar } from "../search-bar/search-bar";
 
 
 @Component({
@@ -20,8 +21,9 @@ import { CartService } from '../../../pages/cart-page/services/cart.service';
     LucideUser,
     LucideShoppingCart,
     LucideBell,
-    LucideMapPinPen
-  ],
+    LucideMapPinPen,
+    SearchBar
+],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

@@ -16,6 +16,9 @@ const ProductsInitialState: ProductsState = {
     bestProducts: [],
     isBestLoading: false,
     hasLoaded: false,
+    searchResults: [],
+    isSearchLoading: false,
+    searchQuery: '',
 };
 
 export const ProductsStore = signalStore(
@@ -33,6 +36,19 @@ export const ProductsStore = signalStore(
                     b.rating - a.rating,
             ),
         ),
+        // for search bar results isolation
+        filteredSearchResults: computed(() => {
+            const query = store.searchQuery().trim().toLowerCase();
+            const results = store.searchResults();
+
+            if (!query) {
+                return results;
+            }
+
+            return results.filter((product) =>
+                product.title?.toLowerCase().includes(query)
+            );
+        }),
     })),
     withMethods((store) => {
         const _pService = inject(ProductsService);
@@ -91,7 +107,25 @@ export const ProductsStore = signalStore(
                     ),
                 ),
             ),
-
+            loadSearchDropdownProducts: rxMethod<void>(
+                pipe(
+                    tap(() => patchState(store, { isSearchLoading: true })),
+                    switchMap(() =>
+                        // Fetching with high limit (e.g. 100 or no limit) to get all products
+                        _pService.getAllProducts({ limit: 100, page: 1 }).pipe(
+                            tap({
+                                next: (res) => {
+                                    patchState(store, {
+                                        searchResults: res.data ?? [],
+                                        isSearchLoading: false,
+                                    });
+                                },
+                                error: () => patchState(store, { isSearchLoading: false }),
+                            }),
+                        ),
+                    ),
+                ),
+            ),
             applyCategoryFilter(this: { loadProducts: (f: FilterParams) => void }, categoryId: string | null) {
                 const nextFilters: FilterParams = {
                     page: 1,
@@ -111,6 +145,12 @@ export const ProductsStore = signalStore(
             resetFilters(this: { loadProducts: (f: FilterParams) => void }) {
                 this.loadProducts({ page: 1, limit: store.filters().limit ?? 12 });
             },
+            setSearchQuery(query: string) {
+                patchState(store, { searchQuery: query });
+            },
+            clearSearch() {
+                patchState(store, { searchQuery: '' });
+            }
         };
     }),
 );
