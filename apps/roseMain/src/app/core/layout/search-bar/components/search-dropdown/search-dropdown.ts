@@ -1,10 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { Product } from '@org/products';
 import { SearchProductCard } from "./components/search-product-card/search-product-card";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-dropdown',
-  imports: [SearchProductCard],
+  imports: [SearchProductCard, TranslatePipe],
   templateUrl: './search-dropdown.html',
   styleUrl: './search-dropdown.css',
 })

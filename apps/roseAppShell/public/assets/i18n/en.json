@@ -1,4 +1,5 @@
 {
+  "dir": "ltr",
   "auth": {
     "WELCOME_BACK": "Welcome Back!",
     "USERNAME": "Username",
@@ -28,8 +29,8 @@
     "GENDER_PLACEHOLDER": "Gender",
     "CONFIRM_PASSWORD": "Confirm password",
     "CREATE_ACCOUNT": "Create account",
-    "ENTER_about_DESC":"A few details to get started",
-    "Tell-us-more-about-you":"Tell us more about you",
+    "ENTER_about_DESC": "A few details to get started",
+    "Tell-us-more-about-you": "Tell us more about you",
     "ALREADY_HAVE_ACCOUNT": "Already have an account?",
     "PASSWORD_PLACEHOLDER": "Password",
     "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm password",
@@ -50,18 +51,27 @@
     "RESET_TOKEN_MISSING": "Reset link is invalid or expired. Please request a new one."
   },
   "navbar": {
+    "HELLO": "Hello",
     "Home": "Home",
     "Products": "Products",
     "Categories": "Categories",
     "Occasions": "Occasions",
     "Contact": "Contact",
     "About": "About",
-    "Hello": "Hello",
     "DELIVER_TO": "Deliver To:",
     "CITY": "Cairo",
     "LOGIN": "Login",
     "Cart": "Cart",
-    "Wishlist": "Wishlist"
+    "Wishlist": "Wishlist",
+    "SEARCH_PLACEHOLDER": "What awesome gift are you looking for?",
+    "PRODUCTS_YOU_MAY_LIKE": "Products you may like:",
+    "NO_PRODUCTS_FOUND": "No matching products found.",
+    "RATINGS": "ratings"
+  },
+  "common": {
+    "EGP": "EGP",
+    "LOADING": "Fetching products...",
+    "CLEAR": "Clear search"
   },
   "Footer": {
     "Home": "Home",

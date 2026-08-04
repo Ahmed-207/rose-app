@@ -2,10 +2,11 @@ import { Component, ElementRef, HostListener, inject, signal } from '@angular/co
 import { Router } from '@angular/router';
 import { Product, ProductsStore } from '@org/products';
 import { SearchDropdown } from "./components/search-dropdown/search-dropdown";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [SearchDropdown],
+  imports: [SearchDropdown, TranslatePipe],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
 })

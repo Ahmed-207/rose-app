@@ -1,10 +1,11 @@
-<div
-    class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#202938] rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/60 overflow-hidden z-50 transition-all duration-200">
-    <!-- Optional Title Header when query is empty (as seen in Figma) -->
+<div class="absolute top-full inset-s-0 inset-e-0 mt-2 bg-white dark:bg-[#202938] rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/60 overflow-hidden z-50 transition-all duration-200"
+    [dir]="'dir' | translate">
+
+    <!-- Title Header when query is empty -->
     @if (!searchQuery()) {
-    <div class="px-4 pt-3.5 pb-1">
+    <div class="px-4 pt-3.5 pb-1 text-start">
         <h3 class="text-xs font-bold text-[#741c21] dark:text-[#ffc2cc] uppercase tracking-wider">
-            Products you may like:
+            {{ 'navbar.PRODUCTS_YOU_MAY_LIKE' | translate }}
         </h3>
     </div>
     }
@@ -14,14 +15,14 @@
         @if (isLoading()) {
         <div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center gap-2">
             <i class="fa-solid fa-circle-notch animate-spin text-[#741c21] dark:text-[#ffc2cc]"></i>
-            <span>Fetching products...</span>
+            <span>{{ 'common.LOADING' | translate }}</span>
         </div>
         } @else {
         @for (product of products(); track product.id) {
         <app-search-product-card [product]="product" (select)="selectProduct.emit($event)" />
         } @empty {
         <div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
-            No matching products found.
+            {{ 'navbar.NO_PRODUCTS_FOUND' | translate }}
         </div>
         }
         }

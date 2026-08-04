@@ -1,20 +1,21 @@
-<div class="relative w-full">
+<div class="relative w-full" [dir]="'dir' | translate">
     <!-- Search Input Wrapper -->
     <div class="relative flex items-center w-full">
-        <!-- Search Icon (Left) -->
-        <span class="absolute left-3.5 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+        <!-- Search Icon (Start/Left in LTR, Right in RTL) -->
+        <span class="absolute inset-s-3.5 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
             <i class="fa-solid fa-magnifying-glass text-sm"></i>
         </span>
 
         <!-- Input Field -->
         <input #searchInput type="text" [value]="store.searchQuery()" (focus)="onFocus()" (input)="onInput($event)"
-            placeholder="What awesome gift are you looking for?"
-            class="w-full pl-10 pr-9 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#741c21]/20 focus:border-[#741c21] dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-[#ffc2cc]/20 dark:focus:border-[#ffc2cc]" />
+            [placeholder]="'navbar.SEARCH_PLACEHOLDER' | translate"
+            class="w-full ps-10 pe-9 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#741c21]/20 focus:border-[#741c21] dark:bg-[#2d3748] dark:border-transparent dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-[#ffc2cc]/20 dark:focus:border-[#ffc2cc] text-start" />
 
-        <!-- Clear Button (Right - visible when typing) -->
+        <!-- Clear Button (End/Right in LTR, Left in RTL) -->
         @if (store.searchQuery()) {
         <button type="button" (click)="clearSearch(searchInput)"
-            class="absolute right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+            class="absolute inset-e-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+            [attr.aria-label]="'common.CLEAR' | translate">
             <i class="fa-solid fa-xmark text-sm"></i>
         </button>
         }
