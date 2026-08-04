@@ -50,6 +50,16 @@
     "PASSWORDS_DO_NOT_MATCH": "Passwords do not match",
     "RESET_TOKEN_MISSING": "Reset link is invalid or expired. Please request a new one."
   },
+  "password": {
+    "OLD_PASSWORD": "Old Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_PASSWORD": "Confirm New Password",
+    "CHANGE_PASSWORD": "Change Password",
+    "OLD_PASSWORD_REQUIRED": "Old password is required.",
+    "NEW_PASSWORD_REQUIRED": "New password is required.",
+    "PASSWORD_REGEX_ERROR": "Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character.",
+    "MISMATCH_ERROR": "Passwords do not match."
+  },
   "navbar": {
     "HELLO": "Hello",
     "Home": "Home",
