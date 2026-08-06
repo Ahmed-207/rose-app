@@ -58,7 +58,11 @@
     "OLD_PASSWORD_REQUIRED": "Old password is required.",
     "NEW_PASSWORD_REQUIRED": "New password is required.",
     "PASSWORD_REGEX_ERROR": "Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character.",
-    "MISMATCH_ERROR": "Passwords do not match."
+    "MISMATCH_ERROR": "Passwords do not match.",
+    "TOAST_SUCCESS_TITLE": "Success",
+    "TOAST_SUCCESS_DETAIL": "Password changed successfully!",
+    "TOAST_ERROR_TITLE": "Error",
+    "TOAST_ERROR_DETAIL": "Failed to change password. Please verify your current password."
   },
   "navbar": {
     "HELLO": "Hello",

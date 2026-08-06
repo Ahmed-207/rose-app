@@ -1,3 +1,5 @@
+<p-toast position="top-right" />
+
 <div class="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-[#202938] rounded-2xl shadow-sm transition-colors duration-300"
     [dir]="'dir' | translate">
     <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()" class="space-y-6">
@@ -7,17 +9,9 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
                 {{ 'password.OLD_PASSWORD' | translate }}
             </label>
-            <div class="relative">
-                <input [type]="showOldPassword() ? 'text' : 'password'" formControlName="currentPassword"
-                    placeholder="********"
-                    class="w-full px-4 py-3 bg-gray-50 dark:bg-[#2d3748] border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#741c21]/20 focus:border-[#741c21] dark:focus:ring-[#ffc2cc]/20 dark:focus:border-[#ffc2cc] transition-all text-start" />
-                <button type="button" (click)="toggleVisibility('old')"
-                    class="absolute inset-e-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex items-center justify-center">
-                    <i class="pi" [class.pi-eye]="showOldPassword()" [class.pi-eye-slash]="!showOldPassword()"></i>
-                </button>
-            </div>
-            @if (changePasswordForm.get('oldPassword')?.touched &&
-            changePasswordForm.get('oldPassword')?.hasError('required')) {
+            <app-password-input formControlName="currentPassword" placeholder="********" />
+            @if (changePasswordForm.get('currentPassword')?.touched &&
+            changePasswordForm.get('currentPassword')?.hasError('required')) {
             <p class="text-xs text-red-500 text-start">{{ 'password.OLD_PASSWORD_REQUIRED' | translate }}</p>
             }
         </div>
@@ -30,15 +24,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
                 {{ 'password.NEW_PASSWORD' | translate }}
             </label>
-            <div class="relative">
-                <input [type]="showNewPassword() ? 'text' : 'password'" formControlName="newPassword"
-                    placeholder="********"
-                    class="w-full px-4 py-3 bg-gray-50 dark:bg-[#2d3748] border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#741c21]/20 focus:border-[#741c21] dark:focus:ring-[#ffc2cc]/20 dark:focus:border-[#ffc2cc] transition-all text-start" />
-                <button type="button" (click)="toggleVisibility('new')"
-                    class="absolute inset-e-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex items-center justify-center">
-                    <i class="pi" [class.pi-eye]="showNewPassword()" [class.pi-eye-slash]="!showNewPassword()"></i>
-                </button>
-            </div>
+            <app-password-input formControlName="newPassword" placeholder="********" />
             @if (changePasswordForm.get('newPassword')?.touched) {
             @if (changePasswordForm.get('newPassword')?.hasError('required')) {
             <p class="text-xs text-red-500 text-start">{{ 'password.NEW_PASSWORD_REQUIRED' | translate }}</p>
@@ -53,17 +39,8 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
                 {{ 'password.CONFIRM_PASSWORD' | translate }}
             </label>
-            <div class="relative">
-                <input [type]="showConfirmPassword() ? 'text' : 'password'" formControlName="confirmPassword"
-                    placeholder="********"
-                    class="w-full px-4 py-3 bg-gray-50 dark:bg-[#2d3748] border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#741c21]/20 focus:border-[#741c21] dark:focus:ring-[#ffc2cc]/20 dark:focus:border-[#ffc2cc] transition-all text-start" />
-                <button type="button" (click)="toggleVisibility('confirm')"
-                    class="absolute inset-e-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex items-center justify-center">
-                    <i class="pi" [class.pi-eye]="showConfirmPassword()"
-                        [class.pi-eye-slash]="!showConfirmPassword()"></i>
-                </button>
-            </div>
-            @if (changePasswordForm.get('rePassword')?.touched || changePasswordForm.touched) {
+            <app-password-input formControlName="confirmPassword" placeholder="********" />
+            @if (changePasswordForm.get('confirmPassword')?.touched || changePasswordForm.touched) {
             @if (changePasswordForm.hasError('passwordMismatch')) {
             <p class="text-xs text-red-500 text-start">{{ 'password.MISMATCH_ERROR' | translate }}</p>
             }
