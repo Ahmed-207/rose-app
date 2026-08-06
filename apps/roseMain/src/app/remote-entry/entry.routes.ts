@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { RemoteEntry } from './entry';
+import { authGuard } from '@org/auth';
 
 export const remoteRoutes: Route[] = [
   {
@@ -32,6 +33,7 @@ export const remoteRoutes: Route[] = [
       },
       {
         path: 'orders',
+        canActivate: [authGuard],
         loadComponent: () => import('../pages/orders-page/orders-page').then((c) => c.OrdersPage),
         title: 'Orders'
       },

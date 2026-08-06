@@ -68,7 +68,7 @@ export class SecondryNavbar implements OnInit {
                 items: [
                     { label: 'Account', icon: 'pi pi-user' },
                     { label: 'Adress', icon: 'pi pi-plus' },
-                    { label: 'Orders', icon: 'pi pi-cart-shopping' },
+                    { label: 'Orders', icon: 'pi pi-cart-shopping' , routerLink: ['/home/orders']},
                     { label: 'Dashboard', icon: 'pi pi-cog' },
                     { label: 'Logout', icon: 'pi pi-sign-out' }
                 ]

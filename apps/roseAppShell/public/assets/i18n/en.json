@@ -278,5 +278,6 @@
   "Credit Card": "Credit Card",
   "Back": "Back",
   "You'll pay in cash when your order is delivered.": "You'll pay in cash when your order is delivered.",
-  "You'll be securely redirected to Stripe to complete your payment.": "You'll be securely redirected to Stripe to complete your payment."
+  "You'll be securely redirected to Stripe to complete your payment.": "You'll be securely redirected to Stripe to complete your payment.",
+  "Orders" : "Orders"
 }

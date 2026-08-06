@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '../button/button';
 import { Product } from '../../models/productDto';
 import { HttpClient } from '@angular/common/http';
-import { WishlistService } from '@org/products';
+import { WishlistService } from '../../../../libs/shared/products/src/lib/services/WishlistService.ts';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
