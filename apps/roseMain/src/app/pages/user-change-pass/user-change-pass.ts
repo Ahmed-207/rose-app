@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { PasswordService } from './services/password-service';
 import { LoadingService } from './services/loading-service';
 import { passwordMatchValidator } from './utilities/pass-validator';
 import { PasswordInput } from './components/password-input/password-input';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-change-pass',
@@ -18,12 +19,13 @@ import { PasswordInput } from './components/password-input/password-input';
   templateUrl: './user-change-pass.html',
   styleUrl: './user-change-pass.css',
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly passwordService = inject(PasswordService);
   private readonly loadingService = inject(LoadingService);
   private readonly messageService = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  subscriptionRef!: Subscription;
 
   // Read loading status directly from the global loading signal
   isLoading = this.loadingService.isLoading;
@@ -46,7 +48,7 @@ export class ChangePasswordComponent {
 
     const formValue = this.changePasswordForm.value;
 
-    this.passwordService.changePass(formValue).subscribe({
+    this.subscriptionRef = this.passwordService.changePass(formValue).subscribe({
       next: (res) => {
         this.changePasswordForm.reset();
 
@@ -69,5 +71,11 @@ export class ChangePasswordComponent {
         });
       },
     });
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.subscriptionRef.unsubscribe();
   }
 }
