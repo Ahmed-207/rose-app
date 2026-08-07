@@ -279,5 +279,27 @@
   "Back": "Back",
   "You'll pay in cash when your order is delivered.": "You'll pay in cash when your order is delivered.",
   "You'll be securely redirected to Stripe to complete your payment.": "You'll be securely redirected to Stripe to complete your payment.",
-  "Orders" : "Orders"
+  "ORDERS": {
+    "TITLE": "Orders",
+    "ORDER_NUMBER": "Order #",
+    "CREATED_IN": "Created in",
+    "TOTAL_PRICE": "Total Price",
+    "EGP": "EGP",
+    "PAYMENT_METHOD": "Payment Method",
+    "DELIVERY_STATUS": "Delivery Status",
+    "ORDER_ITEMS": "Order Items",
+    "SHOW_ALL": "Show All",
+    "SHOW_LESS": "Show Less",
+    "RATING": "Rating",
+    "RATINGS_COUNT": "ratings",
+    "QTY": "Qty",
+    "STATUS_TITLE": "Status",
+    "STATUS": {
+      "IN_PROGRESS": "In Progress",
+      "CANCELED": "Canceled",
+      "DONE": "Done",
+      "PENDING": "Pending",
+      "PAID": "Paid"
+    }
+  }
 }

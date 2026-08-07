@@ -2,25 +2,25 @@
 
 <div class="max-w-7xl mx-auto p-6 bg-gray-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-slate-100">{{ 'Orders' | translate }}</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-slate-100">{{ 'ORDERS.TITLE' | translate }}</h1>
   </div>
 
   @if (!store.isLoading() && store.hasOrders()) {
     <div class="flex flex-col gap-6">
       @for (order of store.ordersByNewest(); track order.id) {
-        <div class="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden transition-colors duration-300">
+        <div class="bg-zinc-200 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden transition-colors duration-300">
           
           <div class="bg-[#A6252A] dark:bg-[#C8373D] text-white px-6 py-3 flex justify-between items-center text-sm font-medium">
-            <span class="font-semibold text-base">Order #{{ order.id.slice(-6).toUpperCase() }}</span>
-            <span class="text-gray-200 dark:text-slate-200">Created in: {{ order.createdAt | date:'dd MMMM, yyyy \'at\' hh:mm a' }}</span>
+            <span class="font-semibold text-base">{{ 'ORDERS.ORDER_NUMBER' | translate }}{{ order.id.slice(-6).toUpperCase() }}</span>
+            <span class="text-gray-200 dark:text-slate-200">{{ 'ORDERS.CREATED_IN' | translate }}: {{ order.createdAt | date:'dd MMMM, yyyy \'at\' hh:mm a' }}</span>
           </div>
 
-          <div class="p-6">
+          <div class="p-6 pb-2">
             <div class="flex justify-between items-center mb-4">
               
               <div class="flex items-center gap-3">
                 <span class="text-xl font-bold text-gray-900 dark:text-slate-50">
-                  Total Price: {{ order.total }} EGP
+                  {{ 'ORDERS.TOTAL_PRICE' | translate }}: {{ order.total }} {{ 'ORDERS.EGP' | translate }}
                 </span>
                 
                 <span 
@@ -30,12 +30,17 @@
                     'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400': order.paymentStatus.toLowerCase() === 'pending'
                   }"
                   class="px-3 py-1 rounded-full text-xs font-semibold uppercase">
-                  ● {{ order.paymentStatus  }}
+                  @switch (order.paymentStatus.toLowerCase()) {
+                    @case ('paid') { {{ 'ORDERS.STATUS.PAID' | translate }} }
+                    @case ('canceled') { {{ 'ORDERS.STATUS.CANCELED' | translate }} }
+                    @case ('pending') {{{ 'ORDERS.STATUS.PENDING' | translate }} }
+                     @default { ● {{ order.paymentStatus  }} }
+                  }
                 </span>
               </div>
 
               <div class="flex items-center gap-2">
-                <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">Status:</span>
+                <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">{{ 'ORDERS.STATUS_TITLE' | translate }}:</span>
                 
                 <span 
                   [ngClass]="{
@@ -46,9 +51,9 @@
                   class="text-white px-3 py-1 rounded-full text-xs font-semibold capitalize shadow-xs">
                   
                   @switch (order.status.toLowerCase()) {
-                    @case ('pending') { In Progress }
-                    @case ('canceled') { Canceled }
-                    @case ('delivered') { Done }
+                    @case ('pending') { {{ 'ORDERS.STATUS.IN_PROGRESS' | translate }} }
+                    @case ('canceled') { {{ 'ORDERS.STATUS.CANCELED' | translate }} }
+                    @case ('delivered') {{{ 'ORDERS.STATUS.DONE' | translate }} }
                     @default { {{ order.status }} }
                   }
                 </span>
@@ -58,11 +63,11 @@
 
             <div class="text-sm text-gray-500 dark:text-slate-400 space-y-1">
               <p>
-                <span class="font-medium text-gray-700 dark:text-slate-300">Payment Method:</span> 
+                <span class="font-medium text-gray-700 dark:text-slate-300">{{ 'ORDERS.PAYMENT_METHOD' | translate }}:</span> 
                 {{ order.paymentMethod }}
               </p>
               <p>
-                <span class="font-medium text-gray-700 dark:text-slate-300">Delivery Status:</span> 
+                <span class="font-medium text-gray-700 dark:text-slate-300">{{ 'ORDERS.DELIVERY_STATUS' | translate }}:</span> 
                 <span class="font-semibold capitalize ml-1 text-gray-700 dark:text-slate-300">
                   {{ order.status  }}
                 </span>
@@ -70,9 +75,9 @@
             </div>
 
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700/60">
-              <p class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-3">Order Items:</p>
+              <p class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-3">{{ 'ORDERS.ORDER_ITEMS' | translate }}:</p>
               
-              <div class="relative">
+              <div class="relative bg-white">
 
                 <div 
                   [class.max-h-[175px]]="!isExpanded(order.id)"
@@ -92,12 +97,12 @@
                         </h4>
                         <div class="flex items-center text-amber-500 text-xs my-1">
                           ★ <span class="text-gray-600 dark:text-slate-400 ml-1">
-                            Rating: {{ item.product.rating || 5 }}/5 ({{ item.product.ratings || 0 }} ratings)
+                            {{ 'ORDERS.RATING' | translate }}: {{ item.product.rating || 5 }}/5 ({{ item.product.ratings || 0 }} {{ 'ORDERS.RATINGS_COUNT' | translate }})
                           </span>
                         </div>
                         <div class="flex justify-between items-center text-xs mt-1">
-                          <span class="font-bold text-gray-900 dark:text-slate-100 text-sm">{{ item.price }} EGP</span>
-                          <span class="text-gray-500 dark:text-slate-400">Qty: {{ item.quantity }}</span>
+                          <span class="font-bold text-gray-900 dark:text-slate-100 text-sm">{{ item.price }} {{ 'ORDERS.EGP' | translate }}</span>
+                          <span class="text-gray-500 dark:text-slate-400">{{ 'ORDERS.QTY' | translate }}: {{ item.quantity }}</span>
                         </div>
                       </div>
                     </div>
@@ -105,7 +110,7 @@
                 </div>
 
                 @if (order.orderItems.length > 2 && !isExpanded(order.id)) {
-                  <div class="absolute bottom-0 inset-x-0 h-20 bg-linear-to-t from-white via-white/80 to-transparent dark:from-slate-800 dark:via-slate-800/80 pointer-events-none"></div>
+                  <div class="absolute bottom-0 inset-x-0 h-20 bg-linear-to-t from-zinc-200/50 via-zinc-200/80 to-transparent dark:from-slate-800 dark:via-slate-800/80 pointer-events-none"></div>
                 }
 
                 @if (order.orderItems.length > 2) {
@@ -117,8 +122,14 @@
                     
                     <button 
                       (click)="toggleShowMore(order.id)"
-                      class="pointer-events-auto text-xs font-medium text-gray-700 dark:text-slate-300 hover:text-black dark:hover:text-white flex items-center gap-1 py-1 px-3 rounded transition-colors">
-                      <span>{{ isExpanded(order.id) ? 'Show Less' : 'Show All (' + order.orderItems.length + ')' }}</span>
+                      class="pointer-events-auto text-xs font-medium text-[#A6252A] dark:text-slate-300 hover:text-black dark:hover:text-white flex items-center gap-1 py-1 px-3 rounded transition-colors">
+                      <span>
+                        @if ( isExpanded(order.id)) {
+                            {{ 'ORDERS.SHOW_LESS' | translate }}
+                        } @else{
+                            {{ 'ORDERS.SHOW_ALL' | translate }}
+                        }
+                        </span>
                       <svg 
                         [class.rotate-180]="isExpanded(order.id)"
                         class="w-3.5 h-3.5 transition-transform duration-200" 

@@ -26,7 +26,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ProductCard  implements OnInit{
   // @Input() product!: Product;
-  @Input() product!: any;
+  @Input() product!: Product;
 
   @Input() currency = 'EGP';
   @Input() productLink?: (string | number)[];
@@ -55,7 +55,6 @@ this.wishlistService.getLoggedUserWishlist()
     const ids =  new Set<string>( 
       Array.isArray(data)? data.map((p:any) => String(p._id || p.id ) ):[]);
    
-    // this.wishlistIds.set(ids)
   
   })
 
@@ -87,10 +86,7 @@ item: any;
       next: (response) => {
         console.log('Added to wishlist successfully', response);
         
-    // this.wishlistService.wishlistIds.set(new Set<string>(response.data));
     this.wishlistService.getLoggedUserWishlist()
-         //call getlogged 
-        // change signal in getlogged next
         this.product.isWishlist = true; 
         this.wishlistToggle.emit(this.product);
       },
@@ -108,7 +104,6 @@ item: any;
       next: (response) => {
         console.log('Removing from wishlist successfully', response);
         
-    // this.wishlistIds.set(new Set<string>(response.data));
     this.wishlistService.getLoggedUserWishlist()
 
         
