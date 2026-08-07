@@ -1,4 +1,5 @@
 {
+  "dir": "rtl",
   "auth": {
     "WELCOME_BACK": "مرحباً بك",
     "USERNAME": "اسم المستخدم",
@@ -11,8 +12,8 @@
     "REGISTER": "إنشاء حساب",
     "VERIFY_EMAIL": "تحقق من البريد",
     "ENTER_OTP": "أدخل الرمز",
-     "ENTER_about_DESC":"بعض التفاصيل للبدء",
-    "Tell-us-more-about-you":"أخبرنا المزيد عن نفسك",
+    "ENTER_about_DESC": "بعض التفاصيل للبدء",
+    "Tell-us-more-about-you": "أخبرنا المزيد عن نفسك",
     "VERIFY_YOUR_EMAIL": "تحقق من بريدك الإلكتروني",
     "VERIFY_EMAIL_DESC": "سنرسل رمزاً لمرة واحدة للتحقق من عنوانك قبل إنشاء حسابك.",
     "ENTER_THE_CODE": "أدخل الرمز",
@@ -50,6 +51,7 @@
     "RESET_TOKEN_MISSING": "رابط إعادة التعيين غير صالح أو منتهي الصلاحية. يرجى طلب رابط جديد."
   },
   "navbar": {
+    "HELLO": "مرحبا",
     "Home": "الرئيسية",
     "Products": "المنتجات",
     "Categories": "التصنيفات",
@@ -61,7 +63,16 @@
     "CITY": "القاهرة",
     "LOGIN": "تسجيل الدخول",
     "Cart": "عربة تسوقي",
-    "Wishlist": "قائمة امنياتي"
+    "Wishlist": "قائمة امنياتي",
+    "SEARCH_PLACEHOLDER": "عن أي هدية مميزة تبحث؟",
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك:",
+    "NO_PRODUCTS_FOUND": "لم يتم العثور على منتجات مطابقة.",
+    "RATINGS": "تقييمات"
+  },
+  "common": {
+    "EGP": "ج.م",
+    "LOADING": "جاري تحميل المنتجات...",
+    "CLEAR": "مسح البحث"
   },
   "Footer": {
     "Home": "الرئيسية",
