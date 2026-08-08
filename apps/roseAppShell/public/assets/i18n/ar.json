@@ -302,5 +302,29 @@
   "Cash on Delivery": "الدفع عند الاستلام",
   "Credit Card": "الدفع عن طريق الفيزا",
   "You'll pay in cash when your order is delivered.": "سوف تقوم بالدفع نقداً عند استلام الطلب.",
-  "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع."
+  "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع.",
+ "ORDERS": {
+    "TITLE": "الطلبات",
+    "ORDER_NUMBER": "طلب رقم",
+    "CREATED_IN": "أنشئ في",
+    "TOTAL_PRICE": "إجمالي السعر",
+    "EGP": "ج.م",
+    "PAYMENT_METHOD": "طريقة الدفع",
+    "DELIVERY_STATUS": "حالة التوصيل",
+    "ORDER_ITEMS": "عناصر الطلب",
+    "SHOW_ALL": "عرض الكل",
+    "SHOW_LESS": "عرض أقل",
+    "RATING": "التقييم",
+    "RATINGS_COUNT": "تقييمات",
+    "QTY": "الكمية",
+    "STATUS_TITLE": "الحالة",
+    "STATUS": {
+      "IN_PROGRESS": "قيد التنفيذ",
+      "CANCELED": "ملغي",
+      "DONE": "مكتمل",
+      "PENDING": "معلق",
+      "PAID": "مدفوع"
+    }
+  }
+
 }
