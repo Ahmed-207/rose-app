@@ -55,6 +55,12 @@ export const remoteRoutes: Route[] = [
         path: 'about',
         loadComponent: () => import('../pages/about-us/aboutUs').then((c) => c.AboutUs),
         title: 'About Us'
+      },
+      // until the account setting page is done 
+      {
+        path: 'change-password',
+        loadComponent: () => import('../pages/user-change-pass/user-change-pass').then((c) => c.ChangePasswordComponent),
+        title: 'Change Password'
       }
     ],
   }

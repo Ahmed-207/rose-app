@@ -10,6 +10,9 @@ export interface ProductsState {
     bestProducts: Product[];
     isBestLoading: boolean;
     hasLoaded: boolean;
+    searchResults: Product[];
+    isSearchLoading: boolean;
+    searchQuery: string;
 }
 
 export interface LookupState {

@@ -1,0 +1,64 @@
+<p-toast position="top-right" />
+
+<div class="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-[#202938] rounded-2xl shadow-sm transition-colors duration-300"
+    [dir]="'dir' | translate">
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+        <!-- Old Password -->
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
+                {{ 'password.OLD_PASSWORD' | translate }}
+            </label>
+            <app-password-input formControlName="currentPassword" placeholder="********" />
+            @if (changePasswordForm.get('currentPassword')?.touched &&
+            changePasswordForm.get('currentPassword')?.hasError('required')) {
+            <p class="text-xs text-red-500 text-start">{{ 'password.OLD_PASSWORD_REQUIRED' | translate }}</p>
+            }
+        </div>
+
+        <!-- Divider matching Figma layout -->
+        <div class="border-t border-gray-100 dark:border-gray-700/60 my-4"></div>
+
+        <!-- New Password -->
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
+                {{ 'password.NEW_PASSWORD' | translate }}
+            </label>
+            <app-password-input formControlName="newPassword" placeholder="********" />
+            @if (changePasswordForm.get('newPassword')?.touched) {
+            @if (changePasswordForm.get('newPassword')?.hasError('required')) {
+            <p class="text-xs text-red-500 text-start">{{ 'password.NEW_PASSWORD_REQUIRED' | translate }}</p>
+            } @else if (changePasswordForm.get('newPassword')?.hasError('pattern')) {
+            <p class="text-xs text-red-500 text-start">{{ 'password.PASSWORD_REGEX_ERROR' | translate }}</p>
+            }
+            }
+        </div>
+
+        <!-- Confirm New Password -->
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-start">
+                {{ 'password.CONFIRM_PASSWORD' | translate }}
+            </label>
+            <app-password-input formControlName="confirmPassword" placeholder="********" />
+            @if (changePasswordForm.get('confirmPassword')?.touched || changePasswordForm.touched) {
+            @if (changePasswordForm.hasError('passwordMismatch')) {
+            <p class="text-xs text-red-500 text-start">{{ 'password.MISMATCH_ERROR' | translate }}</p>
+            }
+            }
+        </div>
+
+        <!-- Submit Button Aligned Right -->
+        <div class="flex justify-end pt-4">
+            <button type="submit" [disabled]="changePasswordForm.invalid || isLoading()"
+                class="px-8 py-3 bg-[#a6252a] hover:bg-[#851d21] disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center gap-2 min-w-40">
+                @if (isLoading()) {
+                <i class="pi pi-spin pi-spinner text-sm"></i>
+                <span>{{ 'common.LOADING' | translate }}</span>
+                } @else {
+                <span>{{ 'password.CHANGE_PASSWORD' | translate }}</span>
+                }
+            </button>
+        </div>
+
+    </form>
+</div>

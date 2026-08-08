@@ -18,28 +18,28 @@ import { WishlistService } from '@org/products';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { addressStore } from '@org/user-addresses';
 import { MyAddressesModal } from "../../../pages/cart-page/components/addresses/components/my-addresses-modal/my-addresses-modal";
+import { SearchBar } from "../search-bar/search-bar";
 
 
 @Component({
     providers: [MessageService],
     selector: 'app-secondry-navbar',
     imports: [
-        MenuModule,
-        ButtonModule,
-        CommonModule,
-        TranslatePipe,
-        UiLangSwitcher,
-
-  
-        ThemeToggler,
-        RouterLink,
-        RouterLinkActive,
-        LucideShoppingCart,
-        LucideBell,
-        LucideChevronDown,
-        MyAddressesModal,
-        LucideMapPinPen
-    ],
+    MenuModule,
+    ButtonModule,
+    CommonModule,
+    TranslatePipe,
+    UiLangSwitcher,
+    ThemeToggler,
+    RouterLink,
+    RouterLinkActive,
+    LucideShoppingCart,
+    LucideBell,
+    LucideChevronDown,
+    MyAddressesModal,
+    LucideMapPinPen,
+    SearchBar
+],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
 })
