@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,19 @@ export const appConfig: ApplicationConfig = {
       const langService = inject(LangService);
       langService.init();
     }),
-    provideHttpClient(withInterceptors([addressInterceptor, authInterceptor]))
+    provideHttpClient(withInterceptors([addressInterceptor, authInterceptor])),
+    // provideAnimationsAsync(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true
+    })
+
   ]
 };
+function provideAnimationsAsync(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
+  throw new Error("Function not implemented.");
+}
+

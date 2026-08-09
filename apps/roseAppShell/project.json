@@ -24,7 +24,8 @@
         ],
         "styles": [
            "node_modules/primeicons/primeicons.css",
-          "apps/roseAppShell/src/styles.css"
+          "apps/roseAppShell/src/styles.css",
+            "node_modules/ngx-toastr/toastr.css"
         ],
         "customWebpackConfig": {
           "path": "apps/roseAppShell/webpack.config.ts"

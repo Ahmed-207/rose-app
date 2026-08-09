@@ -301,6 +301,8 @@
   "Payment Method": "طريقة الدفع",
   "Cash on Delivery": "الدفع عند الاستلام",
   "Credit Card": "الدفع عن طريق الفيزا",
+    "Payment successful":"تم الدفع بنجاح",
+  "Payment failed":"فشلت عملية الدفع",
   "You'll pay in cash when your order is delivered.": "سوف تقوم بالدفع نقداً عند استلام الطلب.",
   "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع.",
  "ORDERS": {
