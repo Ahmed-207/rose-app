@@ -1,0 +1,38 @@
+.account-settings {
+  padding: 2.5rem 0 4rem;
+  background: transparent;
+}
+
+.account-settings__title {
+  margin: 0 0 2rem;
+  color: #111827;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.account-settings__layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.account-settings__content {
+  min-width: 0;
+}
+
+:host-context(.dark) .account-settings__title {
+  color: #f4f4f5;
+}
+
+@media (max-width: 768px) {
+  .account-settings {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .account-settings__layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

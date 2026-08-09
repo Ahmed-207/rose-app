@@ -1,0 +1,24 @@
+<aside class="account-sidebar">
+  <nav class="account-sidebar__nav" aria-label="Account settings">
+    <a
+      routerLink="/home/account/profile"
+      routerLinkActive="account-sidebar__link--active"
+      class="account-sidebar__link">
+      <i class="pi pi-user" aria-hidden="true"></i>
+      <span>{{ 'account.PROFILE' | translate }}</span>
+    </a>
+
+    <a
+      routerLink="/home/account/change-password"
+      routerLinkActive="account-sidebar__link--active"
+      class="account-sidebar__link">
+      <i class="pi pi-lock" aria-hidden="true"></i>
+      <span>{{ 'account.CHANGE_PASSWORD' | translate }}</span>
+    </a>
+  </nav>
+
+  <button type="button" class="account-sidebar__logout" (click)="logout()">
+    <i class="pi pi-sign-out" aria-hidden="true"></i>
+    <span>{{ 'account.LOGOUT' | translate }}</span>
+  </button>
+</aside>

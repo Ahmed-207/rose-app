@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { authGuard } from '@org/auth';
 import { RemoteEntry } from './entry';
 
 export const remoteRoutes: Route[] = [
@@ -53,7 +54,39 @@ export const remoteRoutes: Route[] = [
         path: 'about',
         loadComponent: () => import('../pages/about-us/aboutUs').then((c) => c.AboutUs),
         title: 'About Us'
-      }
+      },
+      {
+        path: 'account',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('../pages/account-settings/accountSettingsPage').then(
+            (c) => c.AccountSettingsPage,
+          ),
+        title: 'Account Settings',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'profile',
+          },
+          {
+            path: 'profile',
+            loadComponent: () =>
+              import('../pages/account-settings/components/profile-form/profileForm').then(
+                (c) => c.ProfileForm,
+              ),
+            title: 'Account Settings',
+          },
+          {
+            path: 'change-password',
+            loadComponent: () =>
+              import(
+                '../pages/account-settings/components/change-password-form/changePasswordForm'
+              ).then((c) => c.ChangePasswordForm),
+            title: 'Change Password',
+          },
+        ],
+      },
     ],
   }
 ];

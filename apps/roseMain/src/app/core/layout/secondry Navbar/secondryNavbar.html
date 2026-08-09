@@ -230,17 +230,41 @@
             <li class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
                 <p class="px-4 pb-1 text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500">Account</p>
             </li>
-            @for (group of items; track group.label) {
-            @for (item of group.items; track item.label) {
+            <li>
+                <a routerLink="/home/account/profile" (click)="closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                               text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="pi pi-user text-sm"></i> Account
+                </a>
+            </li>
+            <li>
+                <button type="button" (click)="openAddressModal(); closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left border-0 bg-transparent cursor-pointer
+                               text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="pi pi-plus text-sm"></i> Adress
+                </button>
+            </li>
+            <li>
+                <a routerLink="/home/orders" (click)="closeMobileMenu()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
+                               text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
+                    <i class="pi pi-shopping-bag text-sm"></i> Orders
+                </a>
+            </li>
             <li>
                 <a href="#" (click)="closeMobileMenu()"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg no-underline
                                text-black dark:text-white hover:text-[#741c21] dark:hover:text-[#ffc2cc] transition-colors">
-                    <i [class]="item.icon + ' text-sm'"></i> {{ item.label }}
+                    <i class="pi pi-cog text-sm"></i> Dashboard
                 </a>
             </li>
-            }
-            }
+            <li>
+                <button type="button" (click)="logout()"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left border-0 bg-transparent cursor-pointer
+                               text-red-600 dark:text-red-400 hover:text-red-700 transition-colors">
+                    <i class="pi pi-sign-out text-sm"></i> Logout
+                </button>
+            </li>
         </ul>
     </div>
 

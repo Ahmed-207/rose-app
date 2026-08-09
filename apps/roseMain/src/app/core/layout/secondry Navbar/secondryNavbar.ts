@@ -12,7 +12,8 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { AuthActions } from '@org/auth';
 import { CartService } from '../../../pages/cart-page/services/cart.service';
 import { WishlistService } from '@org/products';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -45,6 +46,8 @@ export class SecondryNavbar implements OnInit {
     userName = input<string | undefined>('')
     private messageService = inject(MessageService);
     private readonly cartService = inject(CartService);
+    private readonly router = inject(Router);
+    private readonly authActions = inject(AuthActions);
     readonly _addressStore = inject(addressStore);
     readonly cartCount = this.cartService.itemCount;
     isAddressModalOpened: WritableSignal<boolean> = signal<boolean>(false);
@@ -63,14 +66,36 @@ export class SecondryNavbar implements OnInit {
             {
                 label: 'Documents',
                 items: [
-                    { label: 'Account', icon: 'pi pi-user' },
+                    {
+                        label: 'Account',
+                        icon: 'pi pi-user',
+                        command: () => {
+                            void this.router.navigateByUrl('/home/account/profile');
+                        },
+                    },
                     { label: 'Adress', icon: 'pi pi-plus' },
-                    { label: 'Orders', icon: 'pi pi-cart-shopping' },
+                    {
+                        label: 'Orders',
+                        icon: 'pi pi-shopping-bag',
+                        command: () => {
+                            void this.router.navigateByUrl('/home/orders');
+                        },
+                    },
                     { label: 'Dashboard', icon: 'pi pi-cog' },
-                    { label: 'Logout', icon: 'pi pi-sign-out' }
+                    {
+                        label: 'Logout',
+                        icon: 'pi pi-sign-out',
+                        command: () => this.logout(),
+                    },
                 ]
             }
         ];
+    }
+
+    logout(): void {
+        this.authActions.logout();
+        this.closeMobileMenu();
+        void this.router.navigateByUrl('/auth/login');
     }
 
     isMobileMenuOpen = signal(false);

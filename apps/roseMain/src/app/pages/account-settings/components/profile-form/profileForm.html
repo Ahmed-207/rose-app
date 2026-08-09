@@ -1,0 +1,105 @@
+<div class="profile-form">
+  @if (isLoading()) {
+  <p class="profile-form__status">{{ 'account.LOADING' | translate }}</p>
+  } @else {
+  <div class="profile-form__photo">
+    <div class="profile-form__avatar-wrap">
+      @if (photoPreview(); as preview) {
+      <img [src]="preview" alt="" class="profile-form__avatar" />
+      } @else {
+      <div class="profile-form__avatar profile-form__avatar--placeholder">
+        <i class="pi pi-user" aria-hidden="true"></i>
+      </div>
+      }
+
+      <label class="profile-form__upload-btn" [attr.aria-label]="'account.UPLOAD_PHOTO' | translate">
+        <i class="pi pi-cloud-upload" aria-hidden="true"></i>
+        <input type="file" accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif" (change)="onPhotoSelected($event)"
+          hidden />
+      </label>
+    </div>
+
+    <div class="profile-form__photo-text">
+      <p class="profile-form__photo-title">{{ 'account.UPLOAD_PHOTO' | translate }}</p>
+      <p class="profile-form__photo-hint">{{ 'account.UPLOAD_PHOTO_HINT' | translate }}</p>
+      @if (photoError(); as err) {
+      <p class="profile-form__error" role="alert">{{ err | translate }}</p>
+      }
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="saveChanges()" novalidate class="profile-form__fields">
+    <div class="profile-form__row">
+      <app-form-control formControlName="firstName" type="text" [label]="'auth.FIRST_NAME' | translate"
+        [placeholder]="'auth.FIRST_NAME' | translate" />
+      <app-form-control formControlName="lastName" type="text" [label]="'auth.LAST_NAME' | translate"
+        [placeholder]="'auth.LAST_NAME' | translate" />
+    </div>
+
+    <app-form-control formControlName="email" type="email" [label]="'auth.EMAIL' | translate"
+      [placeholder]="'auth.EMAIL_PLACEHOLDER' | translate" [readonly]="awaitingEmailCode()" />
+
+    @if (awaitingEmailCode()) {
+    <div class="profile-form__email-verify" [formGroup]="emailCodeForm">
+      <p class="profile-form__email-verify-title">{{ 'account.VERIFY_NEW_EMAIL' | translate }}</p>
+      <p class="profile-form__email-verify-hint">
+        {{ 'account.EMAIL_CODE_HINT' | translate }}
+        <strong>{{ pendingNewEmail() }}</strong>
+      </p>
+      <app-form-control formControlName="code" type="text" [label]="'account.EMAIL_CODE' | translate"
+        [placeholder]="'account.EMAIL_CODE_PLACEHOLDER' | translate" />
+      <div class="profile-form__email-verify-actions">
+        <button type="button" class="profile-form__cancel-email" (click)="cancelEmailChange()">
+          {{ 'account.CANCEL' | translate }}
+        </button>
+        <button type="button" class="profile-form__resend-email" (click)="resendEmailCode()"
+          [disabled]="isRequestingEmail()">
+          {{ 'account.RESEND_CODE' | translate }}
+        </button>
+        <app-button buttonType="button" variant="danger" size="md" [loading]="isConfirmingEmail()"
+          [disabled]="isConfirmingEmail()" (clicked)="confirmEmailChange()">
+          {{ 'account.CONFIRM_EMAIL' | translate }}
+        </app-button>
+      </div>
+    </div>
+    }
+
+    <div class="profile-form__phone">
+      <label class="profile-form__label">{{ 'account.PHONE' | translate }}</label>
+      <div class="profile-form__phone-input">
+        <span class="profile-form__dial" aria-hidden="true">
+          <span class="profile-form__flag">🇪🇬</span>
+          EG(+20)
+        </span>
+        <input type="tel" formControlName="phone" class="profile-form__tel"
+          [placeholder]="'account.PHONE_PLACEHOLDER' | translate" [readonly]="awaitingEmailCode()" />
+      </div>
+    </div>
+
+    <app-form-control formControlName="gender" type="select" [label]="'auth.GENDER' | translate"
+      [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" [options]="genderOptions" optionLabel="label"
+      optionValue="value" />
+
+    @if (errorMessage()) {
+    <p class="profile-form__error" role="alert">{{ errorMessage() }}</p>
+    }
+    @if (statusMessage(); as status) {
+    <p class="profile-form__status-msg" role="status">{{ status | translate }}</p>
+    }
+    @if (successMessage(); as success) {
+    <p class="profile-form__success" role="status">{{ success | translate }}</p>
+    }
+
+    <div class="profile-form__actions">
+      <button type="button" class="profile-form__delete" (click)="deleteAccount()" [disabled]="isDeleting()">
+        {{ 'account.DELETE_ACCOUNT' | translate }}
+      </button>
+
+      <app-button buttonType="button" variant="danger" size="lg" [loading]="isSaving()"
+        [disabled]="isSaving() || awaitingEmailCode()" (clicked)="saveChanges()">
+        {{ awaitingEmailCode() ? ('account.WAITING_EMAIL_CODE' | translate) : ('account.SAVE_CHANGES' | translate) }}
+      </app-button>
+    </div>
+  </form>
+  }
+</div>

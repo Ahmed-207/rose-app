@@ -13,3 +13,5 @@ export * from './forgot-password-request.model';
 export * from './forgot-password-response.model';
 export * from './reset-password-request.model';
 export * from './reset-password-response.model';
+export * from './user-profile.model';
+export * from './change-password-request.model';

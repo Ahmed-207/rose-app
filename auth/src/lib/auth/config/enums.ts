@@ -7,6 +7,18 @@ export enum AuthApiEndpoint {
   ResetPassword = 'reset-password',
 }
 
+export enum UsersApiEndpoint {
+  Profile = 'profile',
+  ChangePassword = 'change-password',
+  EmailRequest = 'email/request',
+  EmailConfirm = 'email/confirm',
+  Account = 'account',
+}
+
 export enum AuthHttpMethod {
+  Get = 'GET',
   Post = 'POST',
+  Put = 'PUT',
+  Patch = 'PATCH',
+  Delete = 'DELETE',
 }
