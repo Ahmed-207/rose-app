@@ -44,6 +44,7 @@ import { SearchBar } from "../search-bar/search-bar";
     styleUrl: './secondryNavbar.css',
 })
 export class SecondryNavbar implements OnInit {
+
     userName = input<string | undefined>('')
     private messageService = inject(MessageService);
     private readonly cartService = inject(CartService);
@@ -67,7 +68,7 @@ export class SecondryNavbar implements OnInit {
                 items: [
                     { label: 'Account', icon: 'pi pi-user' },
                     { label: 'Adress', icon: 'pi pi-plus' },
-                    { label: 'Orders', icon: 'pi pi-cart-shopping' },
+                    { label: 'Orders', icon: 'pi pi-cart-shopping' , routerLink: ['/home/orders']},
                     { label: 'Dashboard', icon: 'pi pi-cog' },
                     { label: 'Logout', icon: 'pi pi-sign-out' }
                 ]
@@ -103,4 +104,8 @@ export class SecondryNavbar implements OnInit {
     closeAddressModal(newModalState: boolean): void {
         this.isAddressModalOpened.set(newModalState);
     }
+}
+
+function openAddressModal(): readonly any[] | import("@angular/core").Type<any> {
+    throw new Error('Function not implemented.');
 }
