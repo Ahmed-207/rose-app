@@ -1,9 +1,17 @@
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+export function passwordMatchValidator(
+  passwordKey = 'password',
+  confirmKey = 'confirmPassword',
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get(passwordKey)?.value;
+    const confirmPassword = control.get(confirmKey)?.value;
 
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+    if (!password || !confirmPassword) {
+      return null;
+    }
 
-export function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-  const pw  = control.get('password')?.value;
-  const cpw = control.get('confirmPassword')?.value;
-  return pw && cpw && pw !== cpw ? { passwordMismatch: true } : null;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  };
 }

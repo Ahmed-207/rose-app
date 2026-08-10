@@ -1,0 +1,13 @@
+<section class="account-settings font-primary">
+  <div class="account-settings__container max-w-7xl mx-auto px-4">
+    <h1 class="account-settings__title">{{ 'account.TITLE' | translate }}</h1>
+
+    <div class="account-settings__layout">
+      <account-sidebar></account-sidebar>
+
+      <div class="account-settings__content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

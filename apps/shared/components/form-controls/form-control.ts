@@ -1,18 +1,20 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
   Optional,
   Self,
-  forwardRef
+  inject,
 } from '@angular/core';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
   FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControl
+  NgControl,
 } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -44,8 +46,11 @@ export type FormControlType =
 
 })
 export class FormControlComponent
-  implements ControlValueAccessor {
-@Input() groupError = '';
+  implements ControlValueAccessor, AfterViewInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+
+  @Input() groupError = '';
 
   @Input() type: FormControlType = 'text';
 
@@ -66,26 +71,30 @@ export class FormControlComponent
   value: any = null;
 
   disabled = false;
-constructor(
-    @Optional() @Self() public ngControl: NgControl
-  ) {
-    //  this component as the value accessor
+
+  constructor(@Optional() @Self() public ngControl: NgControl) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
   }
 
- get control(): FormControl | null {
-    return this.ngControl?.control as FormControl ?? null;
+  ngAfterViewInit(): void {
+    this.control?.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdr.markForCheck());
   }
 
+  get control(): FormControl | null {
+    return (this.ngControl?.control as FormControl) ?? null;
+  }
 
   private onChange = (_: any) => {};
 
   private onTouched = () => {};
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value = value ?? '';
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: any): void {
@@ -98,6 +107,7 @@ constructor(
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
   update(value: any): void {

@@ -15,11 +15,11 @@
     @case('text') {
       <input
         pInputText
-        [value]="value"
+        [ngModel]="value"
         [placeholder]="placeholder"
         [disabled]="disabled"
-         [readonly]="readonly"
-        (input)="update($any($event.target).value)"
+        [readonly]="readonly"
+        (ngModelChange)="update($event)"
       />
     }
 
@@ -27,11 +27,11 @@
       <input
         pInputText
         type="email"
-        [value]="value"
+        [ngModel]="value"
         [placeholder]="placeholder"
         [disabled]="disabled"
-         [readonly]="readonly"
-        (input)="update($any($event.target).value)"
+        [readonly]="readonly"
+        (ngModelChange)="update($event)"
       />
     }
 
@@ -56,16 +56,15 @@
     }
 
     @case('textarea') {
-
       <textarea
         pTextarea
         rows="4"
+        [ngModel]="value"
         [disabled]="disabled"
         [placeholder]="placeholder"
-         [readonly]="readonly"
-        (input)="update($any($event.target).value)"
-      >{{ value }}</textarea>
-
+        [readonly]="readonly"
+        (ngModelChange)="update($event)"
+      ></textarea>
     }
 
     @case('select') {

@@ -3,6 +3,7 @@ export * from './lib/auth/config/api';
 export * from './lib/auth/config/enums';
 export * from './lib/auth/config/provide-auth';
 export * from './lib/auth/config/role.enum';
+export * from './lib/auth/config/gender.enum';
 export * from './lib/auth/services/auth.actions';
 export * from './lib/auth/services/auth-error.service';
 export * from './lib/auth/storage/auth-cookie-storage';

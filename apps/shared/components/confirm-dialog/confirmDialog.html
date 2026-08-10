@@ -1,0 +1,63 @@
+<div
+  class="fixed inset-0 z-6000 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="relative w-full max-w-md bg-white dark:bg-[#202938] rounded-3xl shadow-2xl p-8 flex flex-col items-center justify-between text-center min-h-85 transform transition-all border border-zinc-100 dark:border-zinc-700"
+  >
+    <button
+      type="button"
+      class="absolute top-5 right-5 text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors p-1 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800"
+      [disabled]="loading()"
+      (click)="onCancel()"
+      [attr.aria-label]="cancelLabel()"
+    >
+      <svg lucideX [size]="20"></svg>
+    </button>
+
+    <div class="mt-4 flex items-center justify-center w-24 h-24 rounded-full bg-zinc-100/80 dark:bg-zinc-800">
+      <div
+        class="flex items-center justify-center w-16 h-16 rounded-full bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300"
+      >
+        <svg lucideTrash2 [size]="28"></svg>
+      </div>
+    </div>
+
+    <div class="my-6">
+      <h3 class="text-[19px] font-semibold text-zinc-900 dark:text-white tracking-tight leading-snug">
+        {{ title() }}
+      </h3>
+      @if (message()) {
+      <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        {{ message() }}
+      </p>
+      }
+    </div>
+
+    <div class="w-full flex items-center gap-4 mt-2">
+      <button
+        type="button"
+        class="flex-1 py-3.5 px-6 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 active:bg-zinc-100 dark:active:bg-zinc-700 transition-colors text-zinc-700 dark:text-zinc-200 text-sm font-semibold rounded-xl disabled:opacity-60 disabled:cursor-not-allowed"
+        [disabled]="loading()"
+        (click)="onCancel()"
+      >
+        {{ cancelLabel() }}
+      </button>
+
+      <button
+        type="button"
+        class="flex-1 py-3.5 px-6 text-sm font-semibold rounded-xl shadow-md transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        [class]="
+          destructive()
+            ? 'bg-[#D32F2F] dark:bg-pink-300 hover:bg-[#C62828] dark:hover:bg-pink-400 active:bg-[#B71C1C] dark:active:bg-pink-400 text-white dark:text-zinc-900 shadow-red-600/10 dark:shadow-none'
+            : 'bg-[#741c21] hover:bg-[#5c161a] text-white'
+        "
+        [disabled]="loading()"
+        (click)="onConfirm()"
+      >
+        {{ confirmLabel() }}
+      </button>
+    </div>
+  </div>
+</div>
