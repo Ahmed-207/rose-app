@@ -139,9 +139,15 @@ export const OrderStore = signalStore(
                                     isLoading: false,
                                     totalResults: store.totalResults() + 1,
                                 });
+  if (req.paymentMethod === "CASH_ON_DELIVERY") {
+                  toastr.success(translate.instant('The request was created successfully.'));
 
+                  setTimeout(() => router.navigate(['/home/orders']), 2500);
+                } else {
+                  payOrder({ orderId: res.payload.order.id });
+                }
 
-                                payOrder({ orderId: res.payload.order.id });
+                             
                             },
                             error: (e: { message?: string }) =>
                                 patchState(store, {
