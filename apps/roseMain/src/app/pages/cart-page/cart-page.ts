@@ -324,7 +324,7 @@ export class CartPage implements OnInit {
     this.appliedCoupon.set({ coupon: applied.coupon, discountAmount });
   }
 
-  // checkout-flow methods 
+  // checkout-flow methods
   checkout(): void {
     if (this.items().length) {
       this.pageCurrentState.set('Shipping Address');
@@ -350,7 +350,8 @@ export class CartPage implements OnInit {
     };
 
     this.orderStore.createOrder(payload);
-    this.router.navigateByUrl('/home/orders');
+   
+    // this.router.navigateByUrl('/home/orders');
   }
 
   // stepper-logic

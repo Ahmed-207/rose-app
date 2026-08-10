@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { addressInterceptor } from '@org/user-addresses';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const langService = inject(LangService);
       langService.init();
-    })
+    }),
+    provideHttpClient(withInterceptors([addressInterceptor, authInterceptor]))
   ]
 };

@@ -2,15 +2,23 @@ import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { addEntity, setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
 import { AddOrderReq, Order } from '../models/orders.model';
 import { OrderState } from '../models/order-state';
 import { OrdersService } from '../services/orders-service';
-
+import { Router } from '@angular/router';
+import { PaymentsService } from '../services/payment-service';
+import { ConfirmPaymentRes, CreateIntentRes } from '../models/payment';
+import { ToastrService } from 'ngx-toastr'; // عدّلي الـ import ده حسب المكتبة اللي بتستخدميها فعليًا
+import { TranslateService } from '@ngx-translate/core';
 const orderInitialState: OrderState = {
     isLoading: false,
     error: null,
     totalResults: 0,
+    isPaymentLoading: false,
+    paymentError: null,
+    paymentIntentId: null,
+    paymentStatus: 'idle',
 };
 
 export const OrderStore = signalStore(
@@ -28,60 +36,135 @@ export const OrderStore = signalStore(
     })),
     withMethods((store) => {
         const svc = inject(OrdersService);
+        const paymentsSvc = inject(PaymentsService);
+        const toastr = inject(ToastrService);
+        const router = inject(Router);
+  let translate = inject(TranslateService);
+
+        const payOrder = rxMethod<{ orderId: string; paymentMethodId?: string }>(
+            pipe(
+                tap(() =>
+                    patchState(store, {
+                        isPaymentLoading: true,
+                        paymentError: null,
+                        paymentStatus: 'idle',
+                    }),
+                ),
+                switchMap(({ orderId, paymentMethodId }) =>
+                    paymentsSvc.createIntent({ orderId }).pipe(
+                        switchMap((intentRes: CreateIntentRes) => {
+                            const paymentIntentId = intentRes.payload.paymentIntentId;
+
+                            patchState(store, { paymentIntentId });
+
+                            return paymentsSvc.confirmPayment({
+                                paymentIntentId,
+                                paymentMethodId: paymentMethodId ?? 'pm_card_visa',
+                            });
+                        }),
+                        tap({
+                            next: (res: ConfirmPaymentRes) => {
+                                const isSucceeded =
+                                    res.payload.paymentIntent.status === 'succeeded' ||
+                                    res.payload.order.paymentStatus === 'SUCCEEDED';
+
+                                if (isSucceeded) {
+                                    patchState(store, {
+                                        isPaymentLoading: false,
+                                        paymentStatus: 'succeeded',
+                                    });
+                                    toastr.success(translate.instant('Payment successful'));
+                                    setTimeout(()=>router.navigate(['/home/orders']) ,2000)
+
+                                } else {
+                                    patchState(store, {
+                                        isPaymentLoading: false,
+                                        paymentStatus: 'failed',
+                                        paymentError: 'فشلت عملية الدفع',
+                                    });
+
+                                    toastr.error(translate.instant('Payment failed'));
+
+                                     setTimeout(()=> router.navigate(['/home/cart']) ,2000)
+
+                                }
+                            },
+                            error: (e: { message?: string }) => {
+                                patchState(store, {
+                                    isPaymentLoading: false,
+                                    paymentStatus: 'failed',
+                                    paymentError: e.message || 'فشلت عملية الدفع',
+                                });
+                                toastr.error(e.message || 'فشلت عملية الدفع');
+                                router.navigate(['/home/cart']);
+                            },
+                        }),
+                        catchError(() => EMPTY),
+                    ),
+                ),
+            ),
+        );
+
+        const loadOrders = rxMethod<{ page?: number; limit?: number } | void>(
+            pipe(
+                tap(() => patchState(store, { isLoading: true, error: null })),
+                switchMap((params) =>
+                    svc.getAllOrders(params?.page ?? 1, params?.limit ?? 10).pipe(
+                        tap({
+                            next: (res) =>
+                                patchState(store, setAllEntities(res.payload.data ?? []), {
+                                    isLoading: false,
+                                    totalResults: res.payload.metadata?.total ?? 0,
+                                }),
+                            error: (e: { message?: string }) =>
+                                patchState(store, {
+                                    error: e.message || 'Failed to load orders',
+                                    isLoading: false,
+                                }),
+                        }),
+                        catchError(() => EMPTY),
+                    ),
+                ),
+            ),
+        );
+
+        const createOrder = rxMethod<AddOrderReq>(
+            pipe(
+                tap(() => patchState(store, { isLoading: true, error: null })),
+                switchMap((req) =>
+                    svc.createOrder(req).pipe(
+                        tap({
+                            next: (res) => {
+                                patchState(store, addEntity(res.payload.order), {
+                                    isLoading: false,
+                                    totalResults: store.totalResults() + 1,
+                                });
+  if (req.paymentMethod === "CASH_ON_DELIVERY") {
+                  toastr.success(translate.instant('The request was created successfully.'));
+
+                  setTimeout(() => router.navigate(['/home/orders']), 2500);
+                } else {
+                  payOrder({ orderId: res.payload.order.id });
+                }
+
+                             
+                            },
+                            error: (e: { message?: string }) =>
+                                patchState(store, {
+                                    error: e.message || 'Failed to create order',
+                                    isLoading: false,
+                                }),
+                        }),
+                        catchError(() => EMPTY),
+                    ),
+                ),
+            ),
+        );
 
         return {
-
-            loadOrders: rxMethod<{ page?: number; limit?: number } | void>(
-                pipe(
-                    tap(() => patchState(store, { isLoading: true, error: null })),
-                    switchMap((params) =>
-                        svc.getAllOrders(params?.page ?? 1, params?.limit ?? 10).pipe(
-                            tap({
-                                next: (res) =>
-                                    patchState(
-                                        store,
-                                        setAllEntities(res.payload.data ?? []),
-                                        {
-                                            isLoading: false,
-                                            totalResults: res.payload.metadata?.total ?? 0,
-                                        },
-                                    ),
-                                error: (e: { message?: string }) =>
-                                    patchState(store, {
-                                        error: e.message || 'Failed to load orders',
-                                        isLoading: false,
-                                    }),
-                            }),
-                        ),
-                    ),
-                ),
-            ),
-
-            createOrder: rxMethod<AddOrderReq>(
-                pipe(
-                    tap(() => patchState(store, { isLoading: true, error: null })),
-                    switchMap((req) =>
-                        svc.createOrder(req).pipe(
-                            tap({
-                                next: (res) =>
-                                    patchState(
-                                        store,
-                                        addEntity(res.payload.order),
-                                        {
-                                            isLoading: false,
-                                            totalResults: store.totalResults() + 1,
-                                        },
-                                    ),
-                                error: (e: { message?: string }) =>
-                                    patchState(store, {
-                                        error: e.message || 'Failed to create order',
-                                        isLoading: false,
-                                    }),
-                            }),
-                        ),
-                    ),
-                ),
-            ),
+            loadOrders,
+            createOrder,
+            payOrder,
         };
     }),
 );

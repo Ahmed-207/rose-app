@@ -19,30 +19,33 @@ import { WishlistService } from '@org/products';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { addressStore } from '@org/user-addresses';
 import { MyAddressesModal } from "../../../pages/cart-page/components/addresses/components/my-addresses-modal/my-addresses-modal";
+import { SearchBar } from "../search-bar/search-bar";
 
 
 @Component({
     providers: [MessageService],
     selector: 'app-secondry-navbar',
     imports: [
-        MenuModule,
-        ButtonModule,
-        CommonModule,
-        TranslatePipe,
-        UiLangSwitcher,
-        ThemeToggler,
-        RouterLink,
-        RouterLinkActive,
-        LucideShoppingCart,
-        LucideBell,
-        LucideChevronDown,
-        MyAddressesModal,
-        LucideMapPinPen
-    ],
+    MenuModule,
+    ButtonModule,
+    CommonModule,
+    TranslatePipe,
+    UiLangSwitcher,
+    ThemeToggler,
+    RouterLink,
+    RouterLinkActive,
+    LucideShoppingCart,
+    LucideBell,
+    LucideChevronDown,
+    MyAddressesModal,
+    LucideMapPinPen,
+    SearchBar
+],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
 })
 export class SecondryNavbar implements OnInit {
+
     userName = input<string | undefined>('')
     private messageService = inject(MessageService);
     private readonly cartService = inject(CartService);
@@ -73,14 +76,12 @@ export class SecondryNavbar implements OnInit {
                             void this.router.navigateByUrl('/home/account/profile');
                         },
                     },
-                    { label: 'Adress', icon: 'pi pi-plus' },
                     {
-                        label: 'Orders',
-                        icon: 'pi pi-shopping-bag',
-                        command: () => {
-                            void this.router.navigateByUrl('/home/orders');
-                        },
+                        label: 'Adress',
+                        icon: 'pi pi-plus',
+                        command: () => this.openAddressModal(),
                     },
+                    { label: 'Orders', icon: 'pi pi-cart-shopping', routerLink: ['/home/orders'] },
                     { label: 'Dashboard', icon: 'pi pi-cog' },
                     {
                         label: 'Logout',
@@ -126,4 +127,8 @@ export class SecondryNavbar implements OnInit {
     closeAddressModal(newModalState: boolean): void {
         this.isAddressModalOpened.set(newModalState);
     }
+}
+
+function openAddressModal(): readonly any[] | import("@angular/core").Type<any> {
+    throw new Error('Function not implemented.');
 }

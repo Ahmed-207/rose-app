@@ -33,6 +33,7 @@ export const remoteRoutes: Route[] = [
       },
       {
         path: 'orders',
+        canActivate: [authGuard],
         loadComponent: () => import('../pages/orders-page/orders-page').then((c) => c.OrdersPage),
         title: 'Orders'
       },

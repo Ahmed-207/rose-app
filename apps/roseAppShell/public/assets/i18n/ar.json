@@ -1,4 +1,5 @@
 {
+  "dir": "rtl",
   "auth": {
     "WELCOME_BACK": "مرحباً بك",
     "USERNAME": "اسم المستخدم",
@@ -11,8 +12,8 @@
     "REGISTER": "إنشاء حساب",
     "VERIFY_EMAIL": "تحقق من البريد",
     "ENTER_OTP": "أدخل الرمز",
-     "ENTER_about_DESC":"بعض التفاصيل للبدء",
-    "Tell-us-more-about-you":"أخبرنا المزيد عن نفسك",
+    "ENTER_about_DESC": "بعض التفاصيل للبدء",
+    "Tell-us-more-about-you": "أخبرنا المزيد عن نفسك",
     "VERIFY_YOUR_EMAIL": "تحقق من بريدك الإلكتروني",
     "VERIFY_EMAIL_DESC": "سنرسل رمزاً لمرة واحدة للتحقق من عنوانك قبل إنشاء حسابك.",
     "ENTER_THE_CODE": "أدخل الرمز",
@@ -48,6 +49,20 @@
     "PASSWORDS_DO_NOT_MATCH": "كلمتا المرور غير متطابقتين",
     "Become_part_of_our_family!": "انضم إلى عائلتنا",
     "RESET_TOKEN_MISSING": "رابط إعادة التعيين غير صالح أو منتهي الصلاحية. يرجى طلب رابط جديد."
+  },
+  "password": {
+    "OLD_PASSWORD": "كلمة المرور القديمة",
+    "NEW_PASSWORD": "كلمة المرور الجديدة",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور الجديدة",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "OLD_PASSWORD_REQUIRED": "كلمة المرور القديمة مطلوبة.",
+    "NEW_PASSWORD_REQUIRED": "كلمة المرور الجديدة مطلوبة.",
+    "PASSWORD_REGEX_ERROR": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وتتضمن حرفًا كبيرًا، وحرفًا صغيرًا، ورقمًا، ورمزًا خاصًا.",
+    "MISMATCH_ERROR": "كلمتا المرور غير متطابقتين.",
+    "TOAST_SUCCESS_TITLE": "تم بنجاح",
+    "TOAST_SUCCESS_DETAIL": "تم تغيير كلمة المرور بنجاح!",
+    "TOAST_ERROR_TITLE": "خطأ",
+    "TOAST_ERROR_DETAIL": "فشل تغيير كلمة المرور. يرجى التأكد من كلمة المرور الحالية."
   },
   "account": {
     "TITLE": "إعدادات الحساب",
@@ -85,6 +100,7 @@
     "LOAD_FAILED": "تعذر تحميل الملف الشخصي. يتم عرض بيانات الحساب المتاحة."
   },
   "navbar": {
+    "HELLO": "مرحبا",
     "Home": "الرئيسية",
     "Products": "المنتجات",
     "Categories": "التصنيفات",
@@ -96,7 +112,16 @@
     "CITY": "القاهرة",
     "LOGIN": "تسجيل الدخول",
     "Cart": "عربة تسوقي",
-    "Wishlist": "قائمة امنياتي"
+    "Wishlist": "قائمة امنياتي",
+    "SEARCH_PLACEHOLDER": "عن أي هدية مميزة تبحث؟",
+    "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك:",
+    "NO_PRODUCTS_FOUND": "لم يتم العثور على منتجات مطابقة.",
+    "RATINGS": "تقييمات"
+  },
+  "common": {
+    "EGP": "ج.م",
+    "LOADING": "جاري تحميل المنتجات...",
+    "CLEAR": "مسح البحث"
   },
   "Footer": {
     "Home": "الرئيسية",
@@ -311,6 +336,33 @@
   "Payment Method": "طريقة الدفع",
   "Cash on Delivery": "الدفع عند الاستلام",
   "Credit Card": "الدفع عن طريق الفيزا",
+    "Payment successful":"تم الدفع بنجاح",
+  "Payment failed":"فشلت عملية الدفع",
+   "The request was created successfully.":"تم انشاء الطلب بنجاح",
   "You'll pay in cash when your order is delivered.": "سوف تقوم بالدفع نقداً عند استلام الطلب.",
-  "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع."
+  "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع.",
+ "ORDERS": {
+    "TITLE": "الطلبات",
+    "ORDER_NUMBER": "طلب رقم",
+    "CREATED_IN": "أنشئ في",
+    "TOTAL_PRICE": "إجمالي السعر",
+    "EGP": "ج.م",
+    "PAYMENT_METHOD": "طريقة الدفع",
+    "DELIVERY_STATUS": "حالة التوصيل",
+    "ORDER_ITEMS": "عناصر الطلب",
+    "SHOW_ALL": "عرض الكل",
+    "SHOW_LESS": "عرض أقل",
+    "RATING": "التقييم",
+    "RATINGS_COUNT": "تقييمات",
+    "QTY": "الكمية",
+    "STATUS_TITLE": "الحالة",
+    "STATUS": {
+      "IN_PROGRESS": "قيد التنفيذ",
+      "CANCELED": "ملغي",
+      "DONE": "مكتمل",
+      "PENDING": "معلق",
+      "PAID": "مدفوع"
+    }
+  }
+
 }
