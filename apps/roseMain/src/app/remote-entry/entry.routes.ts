@@ -38,6 +38,12 @@ export const remoteRoutes: Route[] = [
         title: 'Orders'
       },
       {
+        path: 'checkout-result',
+        canActivate: [authGuard],
+        loadComponent: () => import('../pages/checkout-status/checkout-status').then((c) => c.checkoutStatus),
+        title: 'checkout-result'
+      },
+      {
         path: 'products/:id',
         loadComponent: () =>
           import('../pages/product-details/productDetailPage').then(
@@ -56,7 +62,7 @@ export const remoteRoutes: Route[] = [
         loadComponent: () => import('../pages/about-us/aboutUs').then((c) => c.AboutUs),
         title: 'About Us'
       },
-      // until the account setting page is done 
+      // until the account setting page is done
       {
         path: 'change-password',
         loadComponent: () => import('../pages/user-change-pass/user-change-pass').then((c) => c.ChangePasswordComponent),

@@ -73,8 +73,11 @@ export const OrderStore = signalStore(
                                         isPaymentLoading: false,
                                         paymentStatus: 'succeeded',
                                     });
-                                    toastr.success(translate.instant('Payment successful'));
-                                    setTimeout(()=>router.navigate(['/home/orders']) ,2000)
+
+                               router.navigate(['/home/checkout-result'], {
+  queryParams: { status: "success" , msg:"Payment successful",orderId: orderId}
+});
+
 
                                 } else {
                                     patchState(store, {
@@ -83,9 +86,10 @@ export const OrderStore = signalStore(
                                         paymentError: 'فشلت عملية الدفع',
                                     });
 
-                                    toastr.error(translate.instant('Payment failed'));
 
-                                     setTimeout(()=> router.navigate(['/home/cart']) ,2000)
+                                      router.navigate(['/home/checkout-result'], {
+  queryParams: { status: "fail" , msg:"Payment failed"}
+});
 
                                 }
                             },
@@ -95,8 +99,10 @@ export const OrderStore = signalStore(
                                     paymentStatus: 'failed',
                                     paymentError: e.message || 'فشلت عملية الدفع',
                                 });
-                                toastr.error(e.message || 'فشلت عملية الدفع');
-                                router.navigate(['/home/cart']);
+
+                              router.navigate(['/home/checkout-result'], {
+  queryParams: { status: "fail"}
+});
                             },
                         }),
                         catchError(() => EMPTY),
@@ -140,14 +146,16 @@ export const OrderStore = signalStore(
                                     totalResults: store.totalResults() + 1,
                                 });
   if (req.paymentMethod === "CASH_ON_DELIVERY") {
-                  toastr.success(translate.instant('The request was created successfully.'));
 
-                  setTimeout(() => router.navigate(['/home/orders']), 2500);
+                   router.navigate(['/home/checkout-result'], {
+  queryParams: { status: "success" , msg:"The request was created successfully.",orderId: res.payload.order.id}
+});
+
                 } else {
                   payOrder({ orderId: res.payload.order.id });
                 }
 
-                             
+
                             },
                             error: (e: { message?: string }) =>
                                 patchState(store, {
