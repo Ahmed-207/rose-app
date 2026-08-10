@@ -90,7 +90,7 @@ export class SecondryNavbar implements OnInit {
                     },
                     {
                         label: this.translate.instant('navbar.Orders'),
-                        icon: 'pi pi-cart-shopping',
+                        icon: 'pi pi-shopping-bag',
                         routerLink: ['/home/orders'],
                     },
                     {
