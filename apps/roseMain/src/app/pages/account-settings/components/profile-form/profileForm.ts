@@ -6,14 +6,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   AuthActions,
   AuthErrorService,
+  Gender,
   UpdateProfileRequest,
   UserProfile,
 } from '@org/auth';
 import { Button } from 'apps/shared/components/button/button';
+import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { finalize, of, switchMap } from 'rxjs';
 
@@ -22,7 +24,13 @@ const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif']);
 
 @Component({
   selector: 'account-profile-form',
-  imports: [ReactiveFormsModule, TranslatePipe, FormControlComponent, Button],
+  imports: [
+    ReactiveFormsModule,
+    TranslatePipe,
+    FormControlComponent,
+    Button,
+    ConfirmDialog,
+  ],
   templateUrl: './profileForm.html',
   styleUrl: './profileForm.css',
 })
@@ -32,6 +40,7 @@ export class ProfileForm implements OnInit {
   private readonly authErrorService = inject(AuthErrorService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly translate = inject(TranslateService);
 
   readonly errorMessage = this.authErrorService.message;
   readonly isLoading = signal(false);
@@ -40,6 +49,7 @@ export class ProfileForm implements OnInit {
   readonly isConfirmingEmail = signal(false);
   readonly isRequestingEmail = signal(false);
   readonly awaitingEmailCode = signal(false);
+  readonly showDeleteConfirm = signal(false);
   readonly photoPreview = signal<string | null>(null);
   readonly photoError = signal<string | null>(null);
   readonly successMessage = signal<string | null>(null);
@@ -51,8 +61,14 @@ export class ProfileForm implements OnInit {
   private loadedProfile: UserProfile | null = null;
 
   readonly genderOptions = [
-    { value: 'MALE', label: 'Male' },
-    { value: 'FEMALE', label: 'Female' },
+    {
+      value: Gender.Male,
+      label: this.translate.instant('auth.GENDER_MALE'),
+    },
+    {
+      value: Gender.Female,
+      label: this.translate.instant('auth.GENDER_FEMALE'),
+    },
   ];
 
   readonly form = this.fb.nonNullable.group({
@@ -263,15 +279,22 @@ export class ProfileForm implements OnInit {
     this.statusMessage.set(null);
   }
 
-  deleteAccount(): void {
+  openDeleteConfirm(): void {
     if (this.isDeleting()) {
       return;
     }
+    this.showDeleteConfirm.set(true);
+  }
 
-    const confirmed = window.confirm(
-      'Are you sure you want to delete your account? This action cannot be undone.',
-    );
-    if (!confirmed) {
+  cancelDeleteAccount(): void {
+    if (this.isDeleting()) {
+      return;
+    }
+    this.showDeleteConfirm.set(false);
+  }
+
+  deleteAccount(): void {
+    if (this.isDeleting()) {
       return;
     }
 
@@ -287,11 +310,13 @@ export class ProfileForm implements OnInit {
           this.isDeleting.set(false);
           if (!finishedOk && !this.errorMessage()) {
             this.statusMessage.set('account.SAVE_FAILED');
+            this.showDeleteConfirm.set(false);
           }
         }),
       )
       .subscribe(() => {
         finishedOk = true;
+        this.showDeleteConfirm.set(false);
         void this.router.navigateByUrl('/auth/login');
       });
   }

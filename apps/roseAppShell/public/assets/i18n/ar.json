@@ -28,6 +28,8 @@
     "USERNAME_PLACEHOLDER": "ادخل اسم المستخدم الخاص بك",
     "GENDER": "الجنس",
     "GENDER_PLACEHOLDER": "الجنس",
+    "GENDER_MALE": "ذكر",
+    "GENDER_FEMALE": "أنثى",
     "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
     "CREATE_ACCOUNT": "إنشاء الحساب",
     "ALREADY_HAVE_ACCOUNT": "هل لديك حساب بالفعل؟",
@@ -76,6 +78,8 @@
     "PHONE": "الهاتف",
     "PHONE_PLACEHOLDER": "1012345678",
     "DELETE_ACCOUNT": "حذف حسابي",
+    "DELETE_CONFIRM_TITLE": "حذف الحساب؟",
+    "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
     "SAVE_CHANGES": "حفظ التغييرات",
     "SAVE_SUCCESS": "تم تحديث ملفك الشخصي.",
     "LOADING": "جاري تحميل الملف الشخصي...",
@@ -116,7 +120,13 @@
     "SEARCH_PLACEHOLDER": "عن أي هدية مميزة تبحث؟",
     "PRODUCTS_YOU_MAY_LIKE": "منتجات قد تعجبك:",
     "NO_PRODUCTS_FOUND": "لم يتم العثور على منتجات مطابقة.",
-    "RATINGS": "تقييمات"
+    "RATINGS": "تقييمات",
+    "ACCOUNT_SECTION": "الحساب",
+    "Account": "الحساب",
+    "Address": "العنوان",
+    "Orders": "الطلبات",
+    "Dashboard": "لوحة التحكم",
+    "Logout": "تسجيل الخروج"
   },
   "common": {
     "EGP": "ج.م",

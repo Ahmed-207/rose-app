@@ -1,3 +1,5 @@
+import { Gender } from '../config/gender.enum';
+
 export interface UserProfile {
   id: string;
   username?: string;
@@ -5,7 +7,7 @@ export interface UserProfile {
   firstName?: string;
   lastName?: string;
   phone?: string | null;
-  gender?: string;
+  gender?: Gender | string;
   photoUrl?: string | null;
 }
 

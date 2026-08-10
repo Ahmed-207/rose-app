@@ -9,7 +9,7 @@ import {
     LucideMapPinPen,
     LucideShoppingCart,
 } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from "@org/shared-theme";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
@@ -51,6 +51,7 @@ export class SecondryNavbar implements OnInit {
     private readonly cartService = inject(CartService);
     private readonly router = inject(Router);
     private readonly authActions = inject(AuthActions);
+    private readonly translate = inject(TranslateService);
     readonly _addressStore = inject(addressStore);
     readonly cartCount = this.cartService.itemCount;
     isAddressModalOpened: WritableSignal<boolean> = signal<boolean>(false);
@@ -64,27 +65,40 @@ export class SecondryNavbar implements OnInit {
 
     ngOnInit() {
         this.cartService.refreshCount();
+        this.buildMenuItems();
+        this.translate.onLangChange
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => this.buildMenuItems());
+    }
 
+    private buildMenuItems(): void {
         this.items = [
             {
-                label: 'Documents',
+                label: this.translate.instant('navbar.ACCOUNT_SECTION'),
                 items: [
                     {
-                        label: 'Account',
+                        label: this.translate.instant('navbar.Account'),
                         icon: 'pi pi-user',
                         command: () => {
                             void this.router.navigateByUrl('/home/account/profile');
                         },
                     },
                     {
-                        label: 'Adress',
+                        label: this.translate.instant('navbar.Address'),
                         icon: 'pi pi-plus',
                         command: () => this.openAddressModal(),
                     },
-                    { label: 'Orders', icon: 'pi pi-cart-shopping', routerLink: ['/home/orders'] },
-                    { label: 'Dashboard', icon: 'pi pi-cog' },
                     {
-                        label: 'Logout',
+                        label: this.translate.instant('navbar.Orders'),
+                        icon: 'pi pi-cart-shopping',
+                        routerLink: ['/home/orders'],
+                    },
+                    {
+                        label: this.translate.instant('navbar.Dashboard'),
+                        icon: 'pi pi-cog',
+                    },
+                    {
+                        label: this.translate.instant('navbar.Logout'),
                         icon: 'pi pi-sign-out',
                         command: () => this.logout(),
                     },
@@ -127,8 +141,4 @@ export class SecondryNavbar implements OnInit {
     closeAddressModal(newModalState: boolean): void {
         this.isAddressModalOpened.set(newModalState);
     }
-}
-
-function openAddressModal(): readonly any[] | import("@angular/core").Type<any> {
-    throw new Error('Function not implemented.');
 }

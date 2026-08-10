@@ -27,6 +27,8 @@
     "USERNAME_PLACEHOLDER": "Enter your username",
     "GENDER": "Gender",
     "GENDER_PLACEHOLDER": "Gender",
+    "GENDER_MALE": "Male",
+    "GENDER_FEMALE": "Female",
     "CONFIRM_PASSWORD": "Confirm password",
     "CREATE_ACCOUNT": "Create account",
     "ENTER_about_DESC": "A few details to get started",
@@ -80,7 +82,13 @@
     "SEARCH_PLACEHOLDER": "What awesome gift are you looking for?",
     "PRODUCTS_YOU_MAY_LIKE": "Products you may like:",
     "NO_PRODUCTS_FOUND": "No matching products found.",
-    "RATINGS": "ratings"
+    "RATINGS": "ratings",
+    "ACCOUNT_SECTION": "Account",
+    "Account": "Account",
+    "Address": "Address",
+    "Orders": "Orders",
+    "Dashboard": "Dashboard",
+    "Logout": "Logout"
   },
   "common": {
     "EGP": "EGP",
@@ -99,6 +107,8 @@
     "PHONE": "Phone",
     "PHONE_PLACEHOLDER": "1012345678",
     "DELETE_ACCOUNT": "Delete My Account",
+    "DELETE_CONFIRM_TITLE": "Delete account?",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete your account? This action cannot be undone.",
     "SAVE_CHANGES": "Save Changes",
     "SAVE_SUCCESS": "Your profile has been updated.",
     "LOADING": "Loading profile...",

@@ -91,7 +91,7 @@
     }
 
     <div class="profile-form__actions">
-      <button type="button" class="profile-form__delete" (click)="deleteAccount()" [disabled]="isDeleting()">
+      <button type="button" class="profile-form__delete" (click)="openDeleteConfirm()" [disabled]="isDeleting()">
         {{ 'account.DELETE_ACCOUNT' | translate }}
       </button>
 
@@ -101,5 +101,17 @@
       </app-button>
     </div>
   </form>
+  }
+
+  @if (showDeleteConfirm()) {
+  <app-confirm-dialog
+    [title]="'account.DELETE_CONFIRM_TITLE' | translate"
+    [message]="'account.DELETE_CONFIRM_MESSAGE' | translate"
+    [confirmLabel]="'account.DELETE_ACCOUNT' | translate"
+    [cancelLabel]="'account.CANCEL' | translate"
+    [loading]="isDeleting()"
+    (confirmed)="deleteAccount()"
+    (cancelled)="cancelDeleteAccount()"
+  />
   }
 </div>

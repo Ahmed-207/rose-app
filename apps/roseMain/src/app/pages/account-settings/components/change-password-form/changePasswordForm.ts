@@ -1,26 +1,12 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthActions, AuthErrorService, ChangePasswordRequest } from '@org/auth';
 import { Button } from 'apps/shared/components/button/button';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
+import { passwordMatchValidator } from 'apps/shared/utils/passwordMatchValidator';
 import { finalize } from 'rxjs';
-
-function passwordsMatch(group: AbstractControl): ValidationErrors | null {
-  const newPassword = group.get('newPassword')?.value;
-  const confirmPassword = group.get('confirmPassword')?.value;
-  if (!newPassword || !confirmPassword) {
-    return null;
-  }
-  return newPassword === confirmPassword ? null : { passwordsMismatch: true };
-}
 
 @Component({
   selector: 'account-change-password-form',
@@ -45,7 +31,7 @@ export class ChangePasswordForm {
       newPassword: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
     },
-    { validators: passwordsMatch },
+    { validators: passwordMatchValidator('newPassword', 'confirmPassword') },
   );
 
   submit(): void {
@@ -91,5 +77,3 @@ export class ChangePasswordForm {
       });
   }
 }
-
-
