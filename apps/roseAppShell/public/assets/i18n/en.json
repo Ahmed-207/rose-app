@@ -346,31 +346,19 @@
   "Cash on Delivery": "Cash on Delivery",
   "Credit Card": "Credit Card",
   "Back": "Back",
-  "Payment successful":"Payment successful",
-  "Payment failed":"Payment Failed",
+   "The request was created successfully.":"The request was created successfully.",
+    "Open Order": "View Orders",
+
   "You'll pay in cash when your order is delivered.": "You'll pay in cash when your order is delivered.",
   "You'll be securely redirected to Stripe to complete your payment.": "You'll be securely redirected to Stripe to complete your payment.",
-  "ORDERS": {
-    "TITLE": "Orders",
-    "ORDER_NUMBER": "Order #",
-    "CREATED_IN": "Created in",
-    "TOTAL_PRICE": "Total Price",
-    "EGP": "EGP",
-    "PAYMENT_METHOD": "Payment Method",
-    "DELIVERY_STATUS": "Delivery Status",
-    "ORDER_ITEMS": "Order Items",
-    "SHOW_ALL": "Show All",
-    "SHOW_LESS": "Show Less",
-    "RATING": "Rating",
-    "RATINGS_COUNT": "ratings",
-    "QTY": "Qty",
-    "STATUS_TITLE": "Status",
-    "STATUS": {
-      "IN_PROGRESS": "In Progress",
-      "CANCELED": "Canceled",
-      "DONE": "Done",
-      "PENDING": "Pending",
-      "PAID": "Paid"
-    }
+    "checkout": {
+    "orderPlaced": "Thank you, your order has been placed",
+    "orderNumber": "Order Number",
+    "paidSuccess": "Payment successful",
+    "orderFail": "Payment failed",
+    "backToCart": "Back to Cart",
+    "paymentFailedTag": "Payment could not be completed",
+    "tryAgainHint": "No amount was charged to your account. Check your payment details and try again, or return to your cart.",
+    "needHelp": "Need help? Contact support"
   }
 }

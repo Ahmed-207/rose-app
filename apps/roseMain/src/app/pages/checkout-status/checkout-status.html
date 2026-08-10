@@ -1,0 +1,35 @@
+<div class="checkout-area">
+@if(status == true){
+  <div class="result-card success" >
+    <div class="icon-ring success">
+      <svg viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25"/>
+        <path class="checkmark-path" d="M15 27l7 7 15-15" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="eyebrow success">{{ 'checkout.paidSuccess' | translate }}</p>
+    <h1 class="headline">{{ "checkout.orderPlaced" | translate }}</h1>
+    <div class="order-chip">{{ 'checkout.orderNumber' | translate }} <span class="num">#{{orderId}}</span></div>
+    <button (click)="viewOrderDetails()" class="btn-main primary">
+      {{ 'Open Order' | translate }}
+    </button>
+  </div>
+}
+@if(status == false){
+  <div class="result-card fail">
+    <div class="icon-ring fail">
+      <svg viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25"/>
+        <path d="M19 19l14 14M33 19L19 33" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="eyebrow fail">{{ 'checkout.paymentFailedTag' | translate }}</p>
+    <h1 class="headline">{{ "checkout.orderFail" | translate }}</h1>
+
+    <button routerLink="/home/cart" class="btn-main primary">
+      {{ 'checkout.backToCart' | translate }}
+    </button>
+
+  </div>
+}
+</div>
