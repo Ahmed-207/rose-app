@@ -1,6 +1,6 @@
-
 :host {
-  --focus-border-color: #a6252a; /* default */
+  --focus-border-color: #a6252a;
+  /* default */
 }
 
 :host .p-inputtext:enabled:focus,
@@ -11,11 +11,11 @@
 
 
 ::ng-deep .p-inputtext {
-    width: 100% !important;
-  }
+  width: 100% !important;
+}
 
-::ng-deep .p-error{
-  color:red !important;
+::ng-deep .p-error {
+  color: red !important;
 }
 
 
@@ -25,4 +25,16 @@
 :host .p-inputtext:active {
   border-color: #a6252a !important;
   box-shadow: 0 0 0 1px #a6252a !important;
+}
+
+/* Force PrimeNG password wrapper & input to 100% width globally */
+.p-password {
+  width: 100% !important;
+  display: flex !important;
+}
+
+.p-password .p-inputtext,
+.p-password input {
+  width: 100% !important;
+  flex: 1 1 auto;
 }
