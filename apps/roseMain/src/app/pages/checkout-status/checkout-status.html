@@ -1,35 +1,62 @@
 <div class="checkout-area">
-@if(status == true){
-  <div class="result-card success" >
-    <div class="icon-ring success">
+  <!-- SUCCESS STATE CARD -->
+  @if(status === true) {
+  <div
+    class="result-card success bg-white dark:bg-[#202938] border-gray-100 dark:border-gray-700/60 shadow-xl transition-colors duration-300">
+
+    <div class="icon-ring success dark:bg-emerald-950/40 dark:text-emerald-400">
       <svg viewBox="0 0 52 52" fill="none">
-        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25"/>
-        <path class="checkmark-path" d="M15 27l7 7 15-15" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25" />
+        <path class="checkmark-path" d="M15 27l7 7 15-15" stroke="currentColor" stroke-width="3.5"
+          stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <p class="eyebrow success">{{ 'checkout.paidSuccess' | translate }}</p>
-    <h1 class="headline">{{ "checkout.orderPlaced" | translate }}</h1>
-    <div class="order-chip">{{ 'checkout.orderNumber' | translate }} <span class="num">#{{orderId}}</span></div>
-    <button (click)="viewOrderDetails()" class="btn-main primary">
-      {{ 'Open Order' | translate }}
-    </button>
+
+    <p class="eyebrow success dark:text-emerald-400">{{ 'checkout.paidSuccess' | translate }}</p>
+    <h1 class="headline text-gray-900 dark:text-gray-100">{{ "checkout.orderPlaced" | translate }}</h1>
+
+    <div
+      class="order-chip bg-gray-50 dark:bg-[#2d3748] border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200">
+      {{ 'checkout.orderNumber' | translate }}
+      <span class="num text-[#a6252a] dark:text-[#ffc2cc] font-mono">#{{ orderId }}</span>
+    </div>
+
+    <!-- EDITED: Both buttons now execute programmatic routing click handlers -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4 w-full max-w-md mx-auto">
+      <button (click)="viewOrderDetails()" class="btn-main primary w-full sm:w-1/2">
+        {{ 'checkout.viewOrders' | translate }}
+      </button>
+      <button (click)="continueShopping()" class="btn-main secondary w-full sm:w-1/2">
+        {{ 'checkout.continueShopping' | translate }}
+      </button>
+    </div>
   </div>
-}
-@if(status == false){
-  <div class="result-card fail">
-    <div class="icon-ring fail">
+  }
+
+  <!-- FAILURE STATE CARD -->
+  @if(status === false) {
+  <div
+    class="result-card fail bg-white dark:bg-[#202938] border-gray-100 dark:border-gray-700/60 shadow-xl transition-colors duration-300">
+
+    <div class="icon-ring fail dark:bg-rose-950/40 dark:text-rose-400">
       <svg viewBox="0 0 52 52" fill="none">
-        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25"/>
-        <path d="M19 19l14 14M33 19L19 33" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="26" cy="26" r="25" stroke="currentColor" stroke-width="2" opacity=".25" />
+        <path d="M19 19l14 14M33 19L19 33" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
       </svg>
     </div>
-    <p class="eyebrow fail">{{ 'checkout.paymentFailedTag' | translate }}</p>
-    <h1 class="headline">{{ "checkout.orderFail" | translate }}</h1>
 
-    <button routerLink="/home/cart" class="btn-main primary">
-      {{ 'checkout.backToCart' | translate }}
-    </button>
+    <p class="eyebrow fail dark:text-rose-400">{{ 'checkout.paymentFailedTag' | translate }}</p>
+    <h1 class="headline text-gray-900 dark:text-gray-100">{{ "checkout.orderFail" | translate }}</h1>
 
+    <!-- EDITED: Replaced routerLink bindings with (click) handlers calling TypeScript methods -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 w-full max-w-md mx-auto">
+      <button (click)="backToCart()" class="btn-main primary w-full sm:w-1/2">
+        {{ 'checkout.backToCart' | translate }}
+      </button>
+      <button (click)="continueShopping()" class="btn-main secondary w-full sm:w-1/2">
+        {{ 'checkout.continueShopping' | translate }}
+      </button>
+    </div>
   </div>
-}
+  }
 </div>
