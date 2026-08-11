@@ -346,12 +346,12 @@
   "Payment Method": "طريقة الدفع",
   "Cash on Delivery": "الدفع عند الاستلام",
   "Credit Card": "الدفع عن طريق الفيزا",
-    "Payment successful":"تم الدفع بنجاح",
-  "Payment failed":"فشلت عملية الدفع",
-   "The request was created successfully.":"تم انشاء الطلب بنجاح",
+  "Payment successful": "تم الدفع بنجاح",
+  "Payment failed": "فشلت عملية الدفع",
+  "The request was created successfully.": "تم انشاء الطلب بنجاح",
   "You'll pay in cash when your order is delivered.": "سوف تقوم بالدفع نقداً عند استلام الطلب.",
   "You'll be securely redirected to Stripe to complete your payment.": "سيتم توجيهك بشكل آمن إلى Stripe لإتمام عملية الدفع.",
- "ORDERS": {
+  "ORDERS": {
     "TITLE": "الطلبات",
     "ORDER_NUMBER": "طلب رقم",
     "CREATED_IN": "أنشئ في",
@@ -373,18 +373,17 @@
       "PENDING": "معلق",
       "PAID": "مدفوع"
     }
-  }
-,
- "Open Order": "عرض تفاصيل الطلب",
+  },
   "checkout": {
     "orderPlaced": "شكرًا لك، تم استلام طلبك",
-     "backToCart": "العودة إلى سلة التسوق",
+    "backToCart": "العودة إلى سلة التسوق",
     "orderNumber": "رقم الطلب",
     "paidSuccess": "تم الدفع بنجاح",
     "orderFail": "لم تنجح عملية الدفع",
     "paymentFailedTag": "تعذّر إتمام الدفع",
     "tryAgainHint": "لم يتم خصم أي مبلغ من حسابك. تحقق من بيانات الدفع وحاول مرة أخرى، أو عد إلى سلة التسوق.",
-    "needHelp": "تحتاج مساعدة؟ تواصل مع الدعم"
+    "needHelp": "تحتاج مساعدة؟ تواصل مع الدعم",
+    "viewOrders": "عرض الطلبات",
+    "continueShopping": "متابعة التسوق"
   }
-
 }

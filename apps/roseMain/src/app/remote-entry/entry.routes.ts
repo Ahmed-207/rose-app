@@ -40,7 +40,7 @@ export const remoteRoutes: Route[] = [
       {
         path: 'checkout-result',
         canActivate: [authGuard],
-        loadComponent: () => import('../pages/checkout-status/checkout-status').then((c) => c.checkoutStatus),
+        loadComponent: () => import('../pages/checkout-status/checkout-status').then((c) => c.CheckoutStatus),
         title: 'checkout-result'
       },
       {

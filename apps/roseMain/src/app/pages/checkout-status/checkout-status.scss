@@ -1,169 +1,179 @@
-:host{
-  --bg: #F6F4EF;
-  --card: #FFFFFF;
-  --ink: #22201C;
-  --ink-soft: #6B675F;
+:host {
+  // Brand status colors
   --success: #1C7A52;
   --success-soft: #E4F2EA;
   --fail: #C2452F;
   --fail-soft: #FBE9E4;
-  --gold: #C79A3C;
-  --line: #E7E2D8;
-  --radius: 20px;
-  --shadow: 0 20px 50px -20px rgba(34,32,28,.18);
+  --radius: 24px;
 }
 
-.checkout-area{width:100%; max-width:520px; margin:0 auto; padding:40px 16px;}
-
-.result-card{
-  background:var(--card);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  border:1px solid var(--line);
-  padding:56px 40px 44px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-  animation:rise .55s cubic-bezier(.2,.8,.2,1);
-}
-@keyframes rise{
-  from{opacity:0; transform:translateY(18px);}
-  to{opacity:1; transform:translateY(0);}
+.checkout-area {
+  width: 100%;
+  max-width: 580px; // EDITED: Increased card max-width slightly to cleanly accommodate 2 action buttons side-by-side
+  margin: 0 auto;
+  padding: 40px 16px;
 }
 
-.result-card::before{
-  content:"";
-  position:absolute; inset-inline-start:0; top:0; height:6px; width:100%;
-}
-.result-card.success::before{background:linear-gradient(90deg, var(--success), #2cc43e);}
-.result-card.fail::before{background:linear-gradient(90deg, var(--fail), #c28b29);}
-
-.icon-ring{
-  width:96px; height:96px; margin:0 auto 28px;
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  position:relative;
-}
-.icon-ring.success{background:var(--success-soft); color:var(--success);}
-.icon-ring.fail{background:var(--fail-soft); color:var(--fail);}
-
-.icon-ring::after{
-  content:""; position:absolute; inset:-8px; border-radius:50%;
-  border:1.5px solid currentColor; opacity:0;
-}
-.icon-ring.success::after{animation:pulse-ring 1.8s ease-out .3s 2;}
-
-@keyframes pulse-ring{
-  0%{transform:scale(.85); opacity:.6;}
-  100%{transform:scale(1.35); opacity:0;}
+.result-card {
+  border-radius: var(--radius);
+  padding: 48px 32px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.icon-ring svg{width:44px; height:44px; position:relative; z-index:1;}
-
-.checkmark-path{
-  stroke-dasharray:48; stroke-dashoffset:48;
-  animation:draw .5s ease .35s forwards;
-}
-@keyframes draw{ to{stroke-dashoffset:0;} }
-
-.icon-ring.fail svg{ animation:shake .5s ease .1s; }
-@keyframes shake{
-  0%,100%{transform:translateX(0);}
-  20%{transform:translateX(-6px);}
-  40%{transform:translateX(5px);}
-  60%{transform:translateX(-4px);}
-  80%{transform:translateX(3px);}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.eyebrow{
-
-  font-size:17px; font-weight:700; letter-spacing:.02em;
-  text-transform:uppercase;
-  margin:0 0 10px;
-}
-.eyebrow.success{color:var(--success);}
-.eyebrow.fail{color:var(--fail);}
-
-h1.headline{
-
-  font-weight:900;
-  font-size:26px;
-  line-height:1.4;
-  margin:0 0 8px;
-  color:var(--main-color);
+.result-card::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  height: 6px;
+  width: 100%;
 }
 
-.order-chip{
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--bg);
-  border:1px dashed var(--line);
-  border-radius:100px;
-  padding:8px 18px;
+.result-card.success::before { background: linear-gradient(90deg, #1C7A52, #2cc43e); }
+.result-card.fail::before { background: linear-gradient(90deg, #C2452F, #e06d53); }
 
-  font-weight:700;
-  font-size:15px;
-  color:var(--main-color);
-  margin:14px 0 30px;
-}
-.order-chip .num{ color:var(--secondary-color); }
-
-.subtext{
-
-  font-size:15px;
-  color:var(--ink-soft);
-  line-height:1.8;
-  margin:0 0 32px;
-  max-width:380px;
-  margin-inline:auto;
+.icon-ring {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.btn-main{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  width:100%;
-  max-width:280px;
-  padding:15px 24px;
-  border-radius:100px;
-  border:none;
+.icon-ring.success { background: var(--success-soft); color: var(--success); }
+.icon-ring.fail { background: var(--fail-soft); color: var(--fail); }
 
-  font-weight:700;
-  font-size:16px;
-  cursor:pointer;
-  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-  text-decoration:none;
-}
-.btn-main:active{ transform:scale(.97); }
-
-.btn-main.primary{
-  background:#a6252a;
-  color:#fff;
-  box-shadow:0 12px 24px -10px rgba(34,32,28,.45);
-}
-.btn-main.primary:hover{ background:#3a3730; }
-
-.btn-main svg{width:18px; height:18px;}
-
-.help-link{
-  display:block;
-  margin-top:22px;
-  font-size:13px;
-  color:var(--ink-soft);
-  text-decoration:underline;
-  text-underline-offset:3px;
+.icon-ring::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0;
 }
 
-@media (max-width:480px){
-  .result-card{ padding:44px 22px 34px; border-radius:16px; }
-  h1.headline{ font-size:21px; }
-  .icon-ring{ width:80px; height:80px; margin-bottom:22px;}
-  .icon-ring svg{ width:36px; height:36px; }
+.icon-ring.success::after { animation: pulse-ring 1.8s ease-out 0.3s 2; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.35); opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce){
-  .result-card, .icon-ring::after, .checkmark-path, .icon-ring.fail svg{
-    animation:none !important;
+.icon-ring svg { width: 40px; height: 40px; position: relative; z-index: 1; }
+
+.checkmark-path {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw 0.5s ease 0.35s forwards;
+}
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.icon-ring.fail svg { animation: shake 0.5s ease 0.1s; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.eyebrow {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+h1.headline {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.order-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px dashed;
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 10px 0 24px;
+}
+
+/* EDITED: Base button setup supporting primary and outline secondary styles */
+.btn-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-main:active { transform: scale(0.97); }
+
+/* EDITED: Main primary button styled to match brand deep red palette (#a6252a) */
+.btn-main.primary {
+  background-color: #a6252a;
+  color: #ffffff;
+  border: 1px solid #a6252a;
+}
+.btn-main.primary:hover {
+  background-color: #851d21;
+  border-color: #851d21;
+}
+
+/* ADDED: Secondary button style for "Continue Shopping" with dark mode theme context support */
+.btn-main.secondary {
+  background-color: transparent;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+:host-context(.dark) .btn-main.secondary {
+  color: #e5e7eb;
+  border-color: #4b5563;
+}
+
+.btn-main.secondary:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+:host-context(.dark) .btn-main.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 480px) {
+  .result-card { padding: 36px 20px 28px; }
+  h1.headline { font-size: 20px; }
+  .icon-ring { width: 72px; height: 72px; }
+  .icon-ring svg { width: 32px; height: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-card, .icon-ring::after, .checkmark-path, .icon-ring.fail svg {
+    animation: none !important;
   }
-  .checkmark-path{ stroke-dashoffset:0; }
+  .checkmark-path { stroke-dashoffset: 0; }
 }
