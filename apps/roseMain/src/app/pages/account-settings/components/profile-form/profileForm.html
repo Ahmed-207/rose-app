@@ -80,14 +80,8 @@
       [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" [options]="genderOptions" optionLabel="label"
       optionValue="value" />
 
-    @if (errorMessage()) {
-    <p class="profile-form__error" role="alert">{{ errorMessage() }}</p>
-    }
     @if (statusMessage(); as status) {
     <p class="profile-form__status-msg" role="status">{{ status | translate }}</p>
-    }
-    @if (successMessage(); as success) {
-    <p class="profile-form__success" role="status">{{ success | translate }}</p>
     }
 
     <div class="profile-form__actions">

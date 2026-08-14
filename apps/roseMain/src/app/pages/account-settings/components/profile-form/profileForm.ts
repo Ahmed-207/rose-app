@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   AuthActions,
-  AuthErrorService,
   Gender,
   UpdateProfileRequest,
   UserProfile,
 } from '@org/auth';
+import { AppToastService } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
@@ -37,12 +37,11 @@ const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif']);
 export class ProfileForm implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
-  private readonly authErrorService = inject(AuthErrorService);
+  private readonly toast = inject(AppToastService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly translate = inject(TranslateService);
 
-  readonly errorMessage = this.authErrorService.message;
   readonly isLoading = signal(false);
   readonly isSaving = signal(false);
   readonly isDeleting = signal(false);
@@ -52,7 +51,6 @@ export class ProfileForm implements OnInit {
   readonly showDeleteConfirm = signal(false);
   readonly photoPreview = signal<string | null>(null);
   readonly photoError = signal<string | null>(null);
-  readonly successMessage = signal<string | null>(null);
   readonly statusMessage = signal<string | null>(null);
   readonly pendingNewEmail = signal('');
 
@@ -121,9 +119,7 @@ export class ProfileForm implements OnInit {
       return;
     }
 
-    this.successMessage.set(null);
     this.statusMessage.set(null);
-    this.authErrorService.clear();
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -157,7 +153,6 @@ export class ProfileForm implements OnInit {
     }
 
     this.isSaving.set(true);
-    let finishedOk = false;
 
     this.authActions
       .updateProfile(request)
@@ -175,22 +170,15 @@ export class ProfileForm implements OnInit {
             switchMap(() => of({ emailRequested: true as const })),
           );
         }),
-        finalize(() => {
-          this.isSaving.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-          }
-        }),
+        finalize(() => this.isSaving.set(false)),
       )
       .subscribe((result) => {
-        finishedOk = true;
-
         if (result.emailRequested) {
           this.enterEmailVerification(newEmail);
           return;
         }
 
-        this.successMessage.set('account.SAVE_SUCCESS');
+        this.toast.success('toast.PROFILE_UPDATED');
         this.statusMessage.set(null);
       });
   }
@@ -200,7 +188,6 @@ export class ProfileForm implements OnInit {
       return;
     }
 
-    this.authErrorService.clear();
     this.statusMessage.set(null);
     if (this.emailCodeForm.invalid) {
       this.emailCodeForm.markAllAsTouched();
@@ -210,7 +197,6 @@ export class ProfileForm implements OnInit {
 
     const newEmail = this.pendingNewEmail();
     this.isConfirmingEmail.set(true);
-    let finishedOk = false;
     this.authActions
       .confirmEmailChange(
         { code: this.emailCodeForm.getRawValue().code.trim() },
@@ -218,15 +204,9 @@ export class ProfileForm implements OnInit {
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
-          this.isConfirmingEmail.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-          }
-        }),
+        finalize(() => this.isConfirmingEmail.set(false)),
       )
       .subscribe((profile) => {
-        finishedOk = true;
         if (profile) {
           this.patchForm(profile);
         } else {
@@ -239,7 +219,7 @@ export class ProfileForm implements OnInit {
         this.pendingNewEmail.set('');
         this.awaitingEmailCode.set(false);
         this.emailCodeForm.reset();
-        this.successMessage.set('account.EMAIL_CHANGE_SUCCESS');
+        this.toast.success('toast.EMAIL_CHANGED');
         this.statusMessage.set(null);
       });
   }
@@ -250,23 +230,15 @@ export class ProfileForm implements OnInit {
       return;
     }
 
-    this.authErrorService.clear();
     this.statusMessage.set(null);
     this.isRequestingEmail.set(true);
-    let finishedOk = false;
     this.requestEmailCode$(newEmail)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
-          this.isRequestingEmail.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-          }
-        }),
+        finalize(() => this.isRequestingEmail.set(false)),
       )
       .subscribe(() => {
-        finishedOk = true;
-        this.successMessage.set('account.EMAIL_CODE_SENT');
+        this.toast.success('toast.EMAIL_CHANGE_REQUESTED');
       });
   }
 
@@ -275,7 +247,6 @@ export class ProfileForm implements OnInit {
     this.pendingNewEmail.set('');
     this.emailCodeForm.reset();
     this.form.patchValue({ email: this.loadedEmail });
-    this.successMessage.set(null);
     this.statusMessage.set(null);
   }
 
@@ -299,44 +270,32 @@ export class ProfileForm implements OnInit {
     }
 
     this.isDeleting.set(true);
-    this.authErrorService.clear();
     this.statusMessage.set(null);
-    let finishedOk = false;
     this.authActions
       .deleteAccount()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.isDeleting.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-            this.showDeleteConfirm.set(false);
-          }
+          this.showDeleteConfirm.set(false);
         }),
       )
       .subscribe(() => {
-        finishedOk = true;
         this.showDeleteConfirm.set(false);
+        this.toast.success('toast.ACCOUNT_DELETED');
         void this.router.navigateByUrl('/auth/login');
       });
   }
 
   private startEmailChange(newEmail: string): void {
     this.isSaving.set(true);
-    let finishedOk = false;
 
     this.requestEmailCode$(newEmail)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
-          this.isSaving.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-          }
-        }),
+        finalize(() => this.isSaving.set(false)),
       )
       .subscribe(() => {
-        finishedOk = true;
         this.enterEmailVerification(newEmail);
       });
   }
@@ -351,7 +310,7 @@ export class ProfileForm implements OnInit {
     this.form.patchValue({ email: newEmail });
     this.awaitingEmailCode.set(true);
     this.emailCodeForm.reset();
-    this.successMessage.set('account.EMAIL_CODE_SENT');
+    this.toast.success('toast.EMAIL_CHANGE_REQUESTED');
     this.statusMessage.set(null);
   }
 
@@ -377,7 +336,6 @@ export class ProfileForm implements OnInit {
 
   private loadProfile(): void {
     this.isLoading.set(true);
-    this.authErrorService.clear();
     this.statusMessage.set(null);
     this.patchFromSession();
 

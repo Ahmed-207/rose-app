@@ -2,7 +2,8 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions, AuthErrorService, ChangePasswordRequest } from '@org/auth';
+import { AuthActions, ChangePasswordRequest } from '@org/auth';
+import { AppToastService } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
 import { passwordMatchValidator } from 'apps/shared/utils/passwordMatchValidator';
@@ -17,13 +18,10 @@ import { finalize } from 'rxjs';
 export class ChangePasswordForm {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
-  private readonly authErrorService = inject(AuthErrorService);
+  private readonly toast = inject(AppToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly errorMessage = this.authErrorService.message;
   readonly isSaving = signal(false);
-  readonly successMessage = signal<string | null>(null);
-  readonly statusMessage = signal<string | null>(null);
 
   readonly form = this.fb.nonNullable.group(
     {
@@ -39,13 +37,9 @@ export class ChangePasswordForm {
       return;
     }
 
-    this.successMessage.set(null);
-    this.statusMessage.set(null);
-    this.authErrorService.clear();
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.statusMessage.set('account.FORM_INVALID');
+      this.toast.error('account.FORM_INVALID');
       return;
     }
 
@@ -57,23 +51,15 @@ export class ChangePasswordForm {
     };
 
     this.isSaving.set(true);
-    let finishedOk = false;
     this.authActions
       .changePassword(request)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
-          this.isSaving.set(false);
-          if (!finishedOk && !this.errorMessage()) {
-            this.statusMessage.set('account.SAVE_FAILED');
-          }
-        }),
+        finalize(() => this.isSaving.set(false)),
       )
       .subscribe(() => {
-        finishedOk = true;
         this.form.reset();
-        this.successMessage.set('account.PASSWORD_CHANGE_SUCCESS');
-        this.statusMessage.set(null);
+        this.toast.success('toast.PASSWORD_CHANGED');
       });
   }
 }
