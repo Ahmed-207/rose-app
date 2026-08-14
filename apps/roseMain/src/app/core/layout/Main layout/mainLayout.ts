@@ -5,10 +5,11 @@ import { RouterOutlet } from '@angular/router';
 import { Footer } from "../Footer/footer";
 import { AuthActions, Role } from '@org/auth';
 import { SecondryNavbar } from "../secondry Navbar/secondryNavbar";
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, RouterOutlet, Navbar, Footer, SecondryNavbar],
+  imports: [CommonModule, RouterOutlet, Navbar, Footer, SecondryNavbar, ToastModule],
   templateUrl: './mainLayout.html',
   styleUrl: './mainLayout.css',
 })

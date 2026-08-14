@@ -12,11 +12,12 @@ import { provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
-import { toastErrorInterceptor } from '@org/shared-ui-components';
+import { provideAppToast, toastErrorInterceptor } from '@org/shared-ui-components';
 import { addressInterceptor } from '@org/user-addresses';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppToast(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     providePrimeNGTheme(),
