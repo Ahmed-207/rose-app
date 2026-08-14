@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthActions, AuthErrorService, LoginRequest } from '@org/auth';
-import { FormControlComponent, Button } from '@org/shared-ui-components';
+import { AuthActions, LoginRequest } from '@org/auth';
+import { AppToastService, FormControlComponent, Button } from '@org/shared-ui-components';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -18,12 +18,11 @@ export class Login implements OnInit {
 
   private readonly _fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
-  private readonly authErrorService = inject(AuthErrorService);
+  private readonly toast = inject(AppToastService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   loginForm!: FormGroup;
-  readonly errorMessage = this.authErrorService.message;
   isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -58,13 +57,12 @@ export class Login implements OnInit {
     };
 
     this.isLoading.set(true);
-    this.authErrorService.clear();
-
     this.authActions
       .login(request)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: () => {
+          this.toast.success('toast.LOGIN_SUCCESS');
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/home';
           void this.navigateAfterLogin(returnUrl);
         },

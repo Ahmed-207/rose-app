@@ -10,8 +10,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
-import { AuthActions, AuthErrorService, ResetPasswordRequest } from '@org/auth';
-import { FormControlComponent } from '@org/shared-ui-components';
+import { AuthActions, ResetPasswordRequest } from '@org/auth';
+import { AppToastService, FormControlComponent } from '@org/shared-ui-components';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const newPassword = control.get('newPassword')?.value;
@@ -31,13 +31,12 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 export class ResetPassword implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authActions = inject(AuthActions);
-  private readonly authErrorService = inject(AuthErrorService);
+  private readonly toast = inject(AppToastService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   resetPasswordForm!: FormGroup;
   readonly isLoading = signal(false);
-  readonly errorMessage = this.authErrorService.message;
   readonly isSuccess = signal(false);
   readonly tokenMissing = signal(false);
 
@@ -81,7 +80,6 @@ export class ResetPassword implements OnInit {
     }
 
     this.isLoading.set(true);
-    this.authErrorService.clear();
     this.isSuccess.set(false);
 
     const request: ResetPasswordRequest = {
@@ -96,6 +94,7 @@ export class ResetPassword implements OnInit {
       .subscribe({
         next: () => {
           this.isSuccess.set(true);
+          this.toast.success('toast.PASSWORD_RESET_SUCCESS');
           void this.router.navigateByUrl('/auth/login');
         },
       });

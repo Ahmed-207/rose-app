@@ -45,8 +45,6 @@
               </p>
             </div>
 
-            <p-toast />
-
             <form [formGroup]="otpForm" novalidate>
               <div class="flex flex-col gap-1 otp-box">
                 <p-inputotp formControlName="code" [length]="6" [integerOnly]="true" [invalid]="isOtpInvalid()" />

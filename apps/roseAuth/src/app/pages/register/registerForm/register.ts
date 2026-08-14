@@ -9,12 +9,10 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Button } from '@org/shared-ui-components';
+import { Button, AppToastService } from '@org/shared-ui-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputOtpModule } from 'primeng/inputotp';
 import { MessageModule } from 'primeng/message';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { StepperModule } from 'primeng/stepper';
 import { RegisterService } from '../services/register-service';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
@@ -41,12 +39,10 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     AuthCardComponent,
     InputOtpModule,
     MessageModule,
-    ToastModule,
     StepperModule,
   ],
   templateUrl: './register.html',
   styleUrl: './register.css',
-  providers: [MessageService],
 })
 export class Register {
   private fb = inject(FormBuilder);
@@ -54,7 +50,7 @@ export class Register {
   private authActions = inject(AuthActions);
   private router = inject(Router);
   private registrationService = inject(RegisterService);
-  private messageService = inject(MessageService);
+  private readonly toast = inject(AppToastService);
 
   // ---- stepper state ----
   // 1 = email, 2 = otp, 3 = account details
@@ -119,7 +115,6 @@ export class Register {
 
   // ---- step 1 -> 2 ----
   submitEmail(activate: ActivateFn): void {
-    debugger
     if (this.emailForm.invalid) {
       this.emailForm.markAllAsTouched();
       return;
@@ -135,20 +130,16 @@ export class Register {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          debugger
           this.isLoading.set(false);
           if (res.status) {
             this.registrationService.setEmail(email);
+            this.toast.success('toast.EMAIL_SENT');
             activate(2);
           } else {
 
             this.errorMessage.set(res.message);
+            this.toast.error(res.message);
           }
-        },
-        error: (err) => {
-
-          this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message ?? 'Something went wrong. Please try again.');
         },
       });
   }
@@ -158,7 +149,7 @@ export class Register {
     this.otpForm.markAllAsTouched();
 
     if (this.otpForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'OTP is invalid', life: 3000 });
+      this.toast.error('toast.OTP_INVALID');
       return;
     }
 
@@ -176,16 +167,12 @@ export class Register {
           this.isLoading.set(false);
           if (res.status) {
             this.registrationService.markVerified();
+            this.toast.success('toast.EMAIL_VERIFIED');
             activate(3);
           } else {
             this.errorMessage.set(res.message);
             this.otpForm.reset();
           }
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message ?? 'Invalid code. Please try again.');
-          this.otpForm.reset();
         },
       });
   }
@@ -221,11 +208,8 @@ export class Register {
         next: () => {
           this.isLoading.set(false);
           this.registrationService.clear();
+          this.toast.success('toast.REGISTER_SUCCESS');
           this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message ?? 'Registration failed. Please try again.');
         },
       });
   }
