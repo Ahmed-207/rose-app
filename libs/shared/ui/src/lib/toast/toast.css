@@ -1,0 +1,100 @@
+.p-toast {
+  width: 22rem;
+}
+
+.p-toast .p-toast-message {
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+}
+
+.p-toast .p-toast-message .p-toast-message-text {
+  color: #27272a;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.p-toast .p-toast-message .p-toast-icon-close {
+  color: #71717a;
+}
+
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #f4f4f5;
+  border-color: #d4d4d8;
+}
+
+.p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
+  color: #71717a;
+}
+
+.p-toast .p-toast-message.p-toast-message-success {
+  background: #ecfdf5;
+  border-color: #00bc7d;
+}
+
+.p-toast .p-toast-message.p-toast-message-success .p-toast-icon {
+  color: #00bc7d;
+}
+
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.p-toast .p-toast-message.p-toast-message-error .p-toast-icon {
+  color: #dc2626;
+}
+
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: #fffbeb;
+  border-color: #facc15;
+}
+
+.p-toast .p-toast-message.p-toast-message-warn .p-toast-icon {
+  color: #facc15;
+}
+
+html.dark .p-toast .p-toast-message {
+  box-shadow: none;
+}
+
+html.dark .p-toast .p-toast-message .p-toast-message-text {
+  color: #fafafa;
+}
+
+html.dark .p-toast .p-toast-message .p-toast-icon-close {
+  color: #d9d9d9;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-info {
+  background: #18181b;
+  border-color: #52525b;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-success {
+  background: #073627;
+  border-color: #00bc7d;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-success .p-toast-icon {
+  color: #00bc7d;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-error {
+  background: #431819;
+  border-color: #ef4444;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-error .p-toast-icon {
+  color: #ef4444;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-warn {
+  background: #1c1803;
+  border-color: #eab308;
+}
+
+html.dark .p-toast .p-toast-message.p-toast-message-warn .p-toast-icon {
+  color: #eab308;
+}
