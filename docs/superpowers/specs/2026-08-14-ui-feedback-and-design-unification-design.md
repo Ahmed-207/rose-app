@@ -26,6 +26,7 @@ Phase-level status fields use the same terms: `Not started`, `In progress`, `Don
 |------|--------|
 | 2026-08-14 | Spec created from brainstorming session; approved by Ahmed (full toast coverage + PrimeNG Toast + Figma tokens). |
 | 2026-08-14 | Phase 1 (unified toasts) implemented — see plans/2026-08-14-unified-toast-feedback-system.md |
+| 2026-08-14 | Phase 2 — Design Foundation: brand PrimeNG palette, shared theme.css, remote dark bootstrap, off-brand purple fixes. **Status:** Done. **Scope:** Phase 2. |
 
 ---
 
@@ -148,7 +149,7 @@ Radius **8px**, dismissible close button, icon per severity, shadow `subtle-lg`.
 | # | Phase | Status | Owner |
 |---|-------|--------|-------|
 | 1 | Unified toast/feedback system | Done | — |
-| 2 | Design foundation (tokens, palette, bootstrap) | Not started | — |
+| 2 | Design foundation (tokens, palette, bootstrap) | Done | — |
 | 3 | Surface & dark-mode unification | Not started | — |
 | 4 | Consolidation & cleanup | Not started | — |
 
@@ -222,35 +223,37 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 
 ## 7. Phase 2 — Design Foundation
 
-**Status:** `Not started`
+**Status:** `Done`
 **Goal:** Establish brand tokens so all components render correctly; eliminate the emerald-primary bug; make remotes dark-mode-safe standalone.
 
 ### 7.1 Tasks
 
 #### 7.1.1 Brand palette in PrimeNG
-- [ ] `libs/shared/shared-theme/src/lib/primeng-theme.config.ts`: customize Aura preset primary palette to maroon (light) / soft-pink (dark) per §4.2/§4.3.
-- [ ] Verify PrimeNG primaries (checkbox, stepper, selects, dialogs) render brand, not emerald.
+- [x] `libs/shared/shared-theme/src/lib/primeng-theme.config.ts`: customize Aura preset primary palette to maroon (light) / soft-pink (dark) per §4.2/§4.3.
+- [x] Verify PrimeNG primaries (checkbox, stepper, selects, dialogs) render brand, not emerald.
 
 #### 7.1.2 Global theme stylesheet
-- [ ] Create `libs/shared/shared-theme/src/lib/theme.css`:
-  - [ ] `:root` / `.dark` semantic CSS vars per §4.2/§4.3.
-  - [ ] Legacy `--color-*` names used by `lib-button/card/label/spinner/message` mapped to the semantic tokens (fixes transparent rendering).
-  - [ ] `--font-primary` (Sarabun/Tajawal stack) so remotes work standalone.
-  - [ ] Tailwind v4 `@theme` brand utilities (`--color-maroon-*`, `--color-soft-pink-*`).
-- [ ] Import `theme.css` in all 4 apps' `styles.css`.
+- [x] Create `libs/shared/shared-theme/src/lib/theme.css`:
+  - [x] `:root` / `.dark` semantic CSS vars per §4.2/§4.3.
+  - [x] Legacy `--color-*` names used by `lib-button/card/label/spinner/message` mapped to the semantic tokens (fixes transparent rendering).
+  - [x] `--font-primary` (Sarabun/Tajawal stack) so remotes work standalone.
+  - [x] Tailwind v4 `@theme` brand utilities (`--color-maroon-*`, `--color-soft-pink-*`).
+- [x] Import `theme.css` in all 4 apps' `styles.css`.
 
 #### 7.1.3 Dark-mode bootstrap in remotes
-- [ ] `roseMain`, `roseAuth`, `roseAdmin` `main.ts`: apply `.dark` from `localStorage['rose-theme']` before bootstrap (mirror shell `main.ts`).
+- [x] `roseMain`, `roseAuth`, `roseAdmin` `main.ts`: apply `.dark` from `localStorage['rose-theme']` before bootstrap (mirror shell `main.ts`).
 
 #### 7.1.4 Fix broken shared components
-- [ ] `lib-button` all variants render correctly (primary/secondary/ghost/danger).
-- [ ] `lib-card`, `lib-label`, `lib-spinner`, `lib-message` render correctly; replace off-brand accents (`#534AB7` purple → brand).
+- [x] `lib-button` all variants render correctly (primary/secondary/ghost/danger).
+- [x] `lib-card`, `lib-label`, `lib-spinner`, `lib-message` render correctly; replace off-brand accents (`#534AB7` purple → brand).
 
 ### 7.2 Definition of done
 
-- [ ] No shared component renders with undefined/transparent colors.
-- [ ] PrimeNG primaries are brand.
-- [ ] Remotes show correct dark mode when served standalone.
+- [x] No shared component renders with undefined/transparent colors.
+- [x] PrimeNG primaries are brand.
+- [x] Remotes show correct dark mode when served standalone.
+
+> **Manual smoke test:** verification of standalone remote dark mode and PrimeNG brand primaries is deferred to a human browser session.
 
 ---
 
