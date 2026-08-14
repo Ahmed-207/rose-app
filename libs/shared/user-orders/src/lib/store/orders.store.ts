@@ -9,8 +9,7 @@ import { OrdersService } from '../services/orders-service';
 import { Router } from '@angular/router';
 import { PaymentsService } from '../services/payment-service';
 import { ConfirmPaymentRes, CreateIntentRes } from '../models/payment';
-import { ToastrService } from 'ngx-toastr'; // عدّلي الـ import ده حسب المكتبة اللي بتستخدميها فعليًا
-import { TranslateService } from '@ngx-translate/core';
+import { AppToastService } from '@org/shared-ui-components';
 const orderInitialState: OrderState = {
     isLoading: false,
     error: null,
@@ -37,9 +36,8 @@ export const OrderStore = signalStore(
     withMethods((store) => {
         const svc = inject(OrdersService);
         const paymentsSvc = inject(PaymentsService);
-        const toastr = inject(ToastrService);
+        const toast = inject(AppToastService);
         const router = inject(Router);
-  let translate = inject(TranslateService);
 
         const payOrder = rxMethod<{ orderId: string; paymentMethodId?: string }>(
             pipe(
@@ -74,10 +72,10 @@ export const OrderStore = signalStore(
                                         paymentStatus: 'succeeded',
                                     });
 
+                               toast.success('toast.PAYMENT_SUCCEEDED');
                                router.navigate(['/home/checkout-result'], {
   queryParams: { status: "success" , msg:"Payment successful",orderId: orderId}
 });
-
 
                                 } else {
                                     patchState(store, {
@@ -86,7 +84,7 @@ export const OrderStore = signalStore(
                                         paymentError: 'فشلت عملية الدفع',
                                     });
 
-
+                              toast.error('toast.PAYMENT_FAILED');
                                       router.navigate(['/home/checkout-result'], {
   queryParams: { status: "fail" , msg:"Payment failed"}
 });
@@ -100,6 +98,7 @@ export const OrderStore = signalStore(
                                     paymentError: e.message || 'فشلت عملية الدفع',
                                 });
 
+                              toast.error(e.message ?? 'toast.PAYMENT_FAILED');
                               router.navigate(['/home/checkout-result'], {
   queryParams: { status: "fail"}
 });
@@ -147,6 +146,7 @@ export const OrderStore = signalStore(
                                 });
   if (req.paymentMethod === "CASH_ON_DELIVERY") {
 
+                   toast.success('toast.ORDER_PLACED');
                    router.navigate(['/home/checkout-result'], {
   queryParams: { status: "success" , msg:"The request was created successfully.",orderId: res.payload.order.id}
 });

@@ -346,6 +346,7 @@ export class CartPage implements OnInit {
   }
 
   handleOrderCreation(): void {
+    if (this.orderStore.isLoading()) return;
     const addressId = this.recievedAddressId();
     if (!addressId) return;
 
