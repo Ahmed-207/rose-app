@@ -131,7 +131,36 @@
   "common": {
     "EGP": "ج.م",
     "LOADING": "جاري تحميل المنتجات...",
-    "CLEAR": "مسح البحث"
+    "CLEAR": "مسح البحث",
+    "NETWORK_ERROR": "خطأ في الشبكة. تحقق من اتصالك.",
+    "REQUEST_FAILED": "حدث خطأ ما. حاول مرة أخرى."
+  },
+  "toast": {
+    "LOGIN_SUCCESS": "مرحبًا بعودتك!",
+    "REGISTER_SUCCESS": "تم إنشاء الحساب بنجاح!",
+    "EMAIL_SENT": "تم إرسال رمز التحقق.",
+    "EMAIL_VERIFIED": "تم التحقق من البريد الإلكتروني بنجاح.",
+    "OTP_INVALID": "رمز التحقق غير صالح.",
+    "PASSWORD_RESET_SUCCESS": "تمت إعادة تعيين كلمة المرور. يمكنك الآن تسجيل الدخول.",
+    "RESET_LINK_SENT": "إذا كان هناك حساب بهذا البريد، فقد تم إرسال رابط إعادة التعيين.",
+    "ADDED_TO_CART": "تمت الإضافة إلى السلة.",
+    "REMOVED_FROM_CART": "تمت الإزالة من السلة.",
+    "CART_CLEARED": "تم مسح السلة.",
+    "ADDED_TO_WISHLIST": "تمت الإضافة إلى المفضلة.",
+    "REMOVED_FROM_WISHLIST": "تمت الإزالة من المفضلة.",
+    "WISHLIST_CLEARED": "تم مسح المفضلة.",
+    "ORDER_PLACED": "تم إنشاء طلبك.",
+    "PAYMENT_SUCCEEDED": "تم الدفع بنجاح.",
+    "PAYMENT_FAILED": "فشل الدفع.",
+    "REVIEW_ADDED": "تم إرسال التقييم. شكرًا لك!",
+    "PROFILE_UPDATED": "تم تحديث ملفك الشخصي.",
+    "PASSWORD_CHANGED": "تم تغيير كلمة المرور.",
+    "EMAIL_CHANGE_REQUESTED": "تم إرسال رمز التحقق إلى بريدك الجديد.",
+    "EMAIL_CHANGED": "تم تحديث بريدك الإلكتروني.",
+    "ACCOUNT_DELETED": "تم حذف حسابك.",
+    "ADDRESS_ADDED": "تمت إضافة العنوان.",
+    "ADDRESS_UPDATED": "تم تحديث العنوان.",
+    "ADDRESS_DELETED": "تم حذف العنوان."
   },
   "Footer": {
     "Home": "الرئيسية",

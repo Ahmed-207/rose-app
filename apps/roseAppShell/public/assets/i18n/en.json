@@ -93,7 +93,36 @@
   "common": {
     "EGP": "EGP",
     "LOADING": "Fetching products...",
-    "CLEAR": "Clear search"
+    "CLEAR": "Clear search",
+    "NETWORK_ERROR": "Network error. Please check your connection.",
+    "REQUEST_FAILED": "Something went wrong. Please try again."
+  },
+  "toast": {
+    "LOGIN_SUCCESS": "Welcome back!",
+    "REGISTER_SUCCESS": "Account created successfully!",
+    "EMAIL_SENT": "Verification code sent.",
+    "EMAIL_VERIFIED": "Email verified successfully.",
+    "OTP_INVALID": "The OTP code is invalid.",
+    "PASSWORD_RESET_SUCCESS": "Your password has been reset. You can now log in.",
+    "RESET_LINK_SENT": "If an account exists for that email, a reset link has been sent.",
+    "ADDED_TO_CART": "Added to cart.",
+    "REMOVED_FROM_CART": "Removed from cart.",
+    "CART_CLEARED": "Cart cleared.",
+    "ADDED_TO_WISHLIST": "Added to wishlist.",
+    "REMOVED_FROM_WISHLIST": "Removed from wishlist.",
+    "WISHLIST_CLEARED": "Wishlist cleared.",
+    "ORDER_PLACED": "Your order has been placed.",
+    "PAYMENT_SUCCEEDED": "Payment successful.",
+    "PAYMENT_FAILED": "Payment failed.",
+    "REVIEW_ADDED": "Review submitted. Thank you!",
+    "PROFILE_UPDATED": "Your profile has been updated.",
+    "PASSWORD_CHANGED": "Your password has been changed.",
+    "EMAIL_CHANGE_REQUESTED": "A verification code was sent to your new email.",
+    "EMAIL_CHANGED": "Your email has been updated.",
+    "ACCOUNT_DELETED": "Your account has been deleted.",
+    "ADDRESS_ADDED": "Address added.",
+    "ADDRESS_UPDATED": "Address updated.",
+    "ADDRESS_DELETED": "Address deleted."
   },
   "account": {
     "TITLE": "Account Settings",
