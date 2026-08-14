@@ -24,7 +24,6 @@
     "@tailwindcss/postcss": "^4.3.0",
     "express": "^4.21.2",
     "ngx-cookie-service": "^21.3.1",
-    "ngx-toastr": "^20.0.5",
     "postcss": "^8.5.15",
     "primeicons": "^7.0.0",
     "primeng": "^21.1.9",

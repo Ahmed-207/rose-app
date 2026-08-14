@@ -14,8 +14,7 @@ const config: ModuleFederationConfig = {
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader' ||
       libraryName === '@ngrx/signals' ||
-      libraryName === '@angular/google-maps'||
-      libraryName === 'ngx-toastr'
+      libraryName === '@angular/google-maps'
     ) {
       return {
         ...sharedConfig,
