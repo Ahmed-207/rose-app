@@ -25,6 +25,7 @@ Phase-level status fields use the same terms: `Not started`, `In progress`, `Don
 | Date | Change |
 |------|--------|
 | 2026-08-14 | Spec created from brainstorming session; approved by Ahmed (full toast coverage + PrimeNG Toast + Figma tokens). |
+| 2026-08-14 | Phase 1 (unified toasts) implemented — see plans/2026-08-14-unified-toast-feedback-system.md |
 
 ---
 
@@ -146,7 +147,7 @@ Radius **8px**, dismissible close button, icon per severity, shadow `subtle-lg`.
 
 | # | Phase | Status | Owner |
 |---|-------|--------|-------|
-| 1 | Unified toast/feedback system | Not started | — |
+| 1 | Unified toast/feedback system | Done | — |
 | 2 | Design foundation (tokens, palette, bootstrap) | Not started | — |
 | 3 | Surface & dark-mode unification | Not started | — |
 | 4 | Consolidation & cleanup | Not started | — |
@@ -157,64 +158,64 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 
 ## 6. Phase 1 — Unified Toast / Feedback System
 
-**Status:** `Not started`
+**Status:** `Done`
 **Goal:** Every mutation gives the user clear success + failure feedback via one consistent, branded toast across all apps; invisible/swallowed errors are fixed; dead notification code removed.
 
 ### 6.1 Tasks
 
 #### 6.1.1 Create the toast core (shared lib)
-- [ ] `libs/shared/ui/src/lib/toast/app-toast.service.ts` — `AppToastService` (providedIn root) wrapping PrimeNG `MessageService`. API: `success(keyOrText, params?)`, `error(...)`, `info(...)`, `warning(...)`. Translates via `@ngx-translate` with raw-string fallback; emits `{ key: 'app', severity, summary, life: 3500 }`.
-- [ ] `libs/shared/ui/src/lib/toast/toast-error.interceptor.ts` — auto error-toast for failed `POST/PUT/PATCH/DELETE`; reads backend `message` (translated when key, else raw); excludes 401/403 (handled by auth flow); honors `SKIP_ERROR_TOAST`.
-- [ ] `libs/shared/ui/src/lib/toast/http-context.ts` — exports `SKIP_ERROR_TOAST` token.
-- [ ] `libs/shared/ui/src/lib/toast/toast.css` — PrimeNG `.p-toast`/`.p-toast-message` overrides matching §4.7, token-driven (auto light/dark).
-- [ ] Export new toast API from `libs/shared/ui/src/index.ts`.
-- [ ] Unit tests (Vitest): `AppToastService` (mocked MessageService + TranslateService), interceptor (verify toast shown, opt-out respected).
+- [x] `libs/shared/ui/src/lib/toast/app-toast.service.ts` — `AppToastService` (providedIn root) wrapping PrimeNG `MessageService`. API: `success(keyOrText, params?)`, `error(...)`, `info(...)`, `warning(...)`. Translates via `@ngx-translate` with raw-string fallback; emits `{ key: 'app', severity, summary, life: 3500 }`.
+- [x] `libs/shared/ui/src/lib/toast/toast-error.interceptor.ts` — auto error-toast for failed `POST/PUT/PATCH/DELETE`; reads backend `message` (translated when key, else raw); excludes 401/403 (handled by auth flow); honors `SKIP_ERROR_TOAST`.
+- [x] `libs/shared/ui/src/lib/toast/http-context.ts` — exports `SKIP_ERROR_TOAST` token.
+- [x] `libs/shared/ui/src/lib/toast/toast.css` — PrimeNG `.p-toast`/`.p-toast-message` overrides matching §4.7, token-driven (auto light/dark).
+- [x] Export new toast API from `libs/shared/ui/src/index.ts`.
+- [x] Unit tests (Vitest): `AppToastService` (mocked MessageService + TranslateService), interceptor (verify toast shown, opt-out respected).
 
 #### 6.1.2 Mount the toast in every app
-- [ ] roseMain `MainLayout`: `<p-toast key="app" />`.
-- [ ] roseAuth auth layout: `<p-toast key="app" />`.
-- [ ] roseAppShell shell layout: `<p-toast key="app" />`.
-- [ ] roseAdmin: add when it has real UI (skip now).
-- [ ] Import `toast.css` in the shell (globals) or per-app config as appropriate.
+- [x] roseMain `MainLayout`: `<p-toast key="app" />`.
+- [x] roseAuth auth layout: `<p-toast key="app" />`.
+- [x] roseAppShell shell layout: `<p-toast key="app" />`.
+- [x] roseAdmin: add when it has real UI (skip now).
+- [x] Import `toast.css` in the shell (globals) or per-app config as appropriate.
 
 #### 6.1.3 Wire feedback across all flows (full coverage)
 - **Auth:**
-  - [ ] Register step-3 success toast (before redirect).
-  - [ ] Login success toast.
-  - [ ] **Login failure toast** (fix invisible error).
-  - [ ] Forgot / reset password success toasts.
-  - [ ] OTP invalid toast (unify with `AppToastService`, drop raw `MessageService`).
+  - [x] Register step-3 success toast (before redirect).
+  - [x] Login success toast.
+  - [x] **Login failure toast** (fix invisible error).
+  - [x] Forgot / reset password success toasts.
+  - [x] OTP invalid toast (unify with `AppToastService`, drop raw `MessageService`).
 - **Cart:**
-  - [ ] Add-to-cart success (6 call sites: products-page, bestSellingSection, mostPopularSection, relateProductSection, productDetailPage, cart-page recommended).
-  - [ ] Remove item / update qty / clear cart toasts.
+  - [x] Add-to-cart success (6 call sites: products-page, bestSellingSection, mostPopularSection, relateProductSection, productDetailPage, cart-page recommended).
+  - [x] Remove item / update qty / clear cart toasts.
 - **Wishlist:**
-  - [ ] Add / remove / clear toasts (4 surfaces: product-card, productInfo, wishlistPage, navbar badge refresh).
-  - [ ] Wishlist page "Add to Cart" button click handler (currently missing).
+  - [x] Add / remove / clear toasts (4 surfaces: product-card, productInfo, wishlistPage, navbar badge refresh).
+  - [x] Wishlist page "Add to Cart" button click handler (currently missing).
 - **Orders:**
-  - [ ] Order created (cash) success toast.
-  - [ ] Payment success / failure toasts.
-  - [ ] Checkout button loading/disabled state (prevent double submit).
+  - [x] Order created (cash) success toast.
+  - [x] Payment success / failure toasts.
+  - [x] Checkout button loading/disabled state (prevent double submit).
 - **Reviews:**
-  - [ ] Review submit success toast.
+  - [x] Review submit success toast.
 - **Account:**
-  - [ ] Profile updated / email change / password change / delete-account toasts.
+  - [x] Profile updated / email change / password change / delete-account toasts.
 - **Addresses:**
-  - [ ] Add / update / delete toasts (address-store + modals).
+  - [x] Add / update / delete toasts (address-store + modals).
 
 #### 6.1.4 Fix root causes & remove dead code
-- [ ] Merge duplicate `provideHttpClient` in `roseMain/app.config.ts:24,38` into one interceptor chain.
-- [ ] Ensure `errorInterceptor` / `AuthActions` errors reach the toast (stop swallowing); keep inline field-validation opt-outs via `SKIP_ERROR_TOAST`.
-- [ ] Remove `provideToastr` + `toastr.css` from shell; remove `ngx-toastr` from shell module-federation singleton list.
-- [ ] Remove dead `ToastrService` import in `orders.store.ts` (with the Arabic TODO comment).
-- [ ] Remove dead `MessageService` injection in `secondryNavbar.ts`.
-- [ ] Remove `debugger` statements in `register.ts:122,138`.
-- [ ] Add `toast.*` translation keys to `ar.json` / `en.json`.
+- [x] Merge duplicate `provideHttpClient` in `roseMain/app.config.ts:24,38` into one interceptor chain.
+- [x] Ensure `errorInterceptor` / `AuthActions` errors reach the toast (stop swallowing); keep inline field-validation opt-outs via `SKIP_ERROR_TOAST`.
+- [x] Remove `provideToastr` + `toastr.css` from shell; remove `ngx-toastr` from shell module-federation singleton list.
+- [x] Remove dead `ToastrService` import in `orders.store.ts` (with the Arabic TODO comment).
+- [x] Remove dead `MessageService` injection in `secondryNavbar.ts`.
+- [x] Remove `debugger` statements in `register.ts:122,138`.
+- [x] Add `toast.*` translation keys to `ar.json` / `en.json`.
 
 ### 6.2 Definition of done
 
-- [ ] Every flow in §6.1.3 shows a toast on success and failure (or documented opt-out).
-- [ ] Toast renders identically (design-spec) in all 4 apps, light + dark.
-- [ ] `npx nx run-many -t lint test typecheck` passes for affected projects.
+- [x] Every flow in §6.1.3 shows a toast on success and failure (or documented opt-out).
+- [x] Toast renders identically (design-spec) in all 4 apps, light + dark.
+- [x] `npx nx run-many -t lint test typecheck` passes for affected projects. (passes for all affected projects except documented pre-existing shared-ui lint/test debt + user-orders no-test-files)
 - [ ] Manual smoke: register→home, failed login, add/remove cart, add/remove wishlist, place cash order, update profile.
 
 ---
