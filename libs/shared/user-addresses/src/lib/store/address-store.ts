@@ -7,6 +7,7 @@ import { inject } from '@angular/core';
 import { AddressService } from '../services/address-service';
 import { pipe, switchMap, tap } from 'rxjs';
 import { AuthActions } from '@org/auth';
+import { AppToastService } from '@org/shared-ui-components';
 import { getUserScopedCookieData } from '../utilities/helpers';
 
 const addressInitialState: AddressState = {
@@ -27,6 +28,7 @@ export const addressStore = signalStore(
         (store) => {
             const svc = inject(AddressService);
             const authActions = inject(AuthActions); // <-- Gain access to current logged-in session
+            const toast = inject(AppToastService);
 
             // Helper function to build the user-specific cookie key string
             const getCookieKey = (): string | null => {
@@ -45,7 +47,7 @@ export const addressStore = signalStore(
 
                 addAddress: rxMethod<EditAddressReq>(pipe(
                     switchMap((a) => svc.addAddress(a).pipe(
-                        tap({ next: (res) => patchState(store, addEntity(res.payload.address)), error: (e) => patchState(store, { error: e.message || 'failed to add the new address' }) })
+                        tap({ next: (res) => { patchState(store, addEntity(res.payload.address)); toast.success('toast.ADDRESS_ADDED'); }, error: (e) => patchState(store, { error: e.message || 'failed to add the new address' }) })
                     ))
                 )),
 
@@ -58,7 +60,7 @@ export const addressStore = signalStore(
 
                         return svc.updateAddress(changes, id).pipe(
                             tap({
-                                next: () => { },
+                                next: () => toast.success('toast.ADDRESS_UPDATED'),
                                 error: (e) => {
                                     if (original) patchState(store, updateEntity({ id, changes: original }));
                                     patchState(store, { error: e.message || 'failed to update the address' });
@@ -74,7 +76,7 @@ export const addressStore = signalStore(
                         patchState(store, removeEntity(id));
                         return svc.deleteAddress(id).pipe(
                             tap({
-                                next: () => { },
+                                next: () => toast.success('toast.ADDRESS_DELETED'),
                                 error: (e) => {
                                     if (snap) patchState(store, addEntity(snap));
                                     patchState(store, { error: e.message || `the address can't be deleted` });
