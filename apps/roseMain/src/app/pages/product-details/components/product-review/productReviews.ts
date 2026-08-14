@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthCookieStorage } from '@org/auth';
 import { ProductsService } from '@org/products';
+import { AppToastService } from '@org/shared-ui-components';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -50,6 +51,7 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly authCookieStorage = inject(AuthCookieStorage);
   private readonly router = inject(Router);
+  private readonly toast = inject(AppToastService);
 
   readonly product = input.required<ProductDetail>();
   readonly reviewAdded = output<ProductReview>();
@@ -128,6 +130,7 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
 
           this.reviewAdded.emit(createdReview);
           this.reviewForm.reset();
+          this.toast.success('toast.REVIEW_ADDED');
           this.formRating.set(0);
           this.showSignInPrompt.set(false);
         },
@@ -136,8 +139,6 @@ export class ProductReviews implements AfterViewInit, OnDestroy {
             this.showSignInFirst();
             return;
           }
-
-          this.submitError.set('Review could not be added. Please try again.');
         },
       });
   }
