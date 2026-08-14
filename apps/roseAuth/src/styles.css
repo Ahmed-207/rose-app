@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '../../../../libs/shared/shared-theme/src/lib/theme.css';
+@import '../../../libs/shared/shared-theme/src/lib/theme.css';
 @custom-variant dark (&:where(.dark, .dark *));
 
 
