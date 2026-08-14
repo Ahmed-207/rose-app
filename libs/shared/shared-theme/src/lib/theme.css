@@ -1,0 +1,77 @@
+@theme {
+  --font-primary: 'Sarabun', 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+
+  --color-maroon-50: #fbeaea;
+  --color-maroon-100: #f3c5c7;
+  --color-maroon-200: #ea9fa2;
+  --color-maroon-300: #e07a7d;
+  --color-maroon-400: #d75458;
+  --color-maroon-500: #cd2e33;
+  --color-maroon-600: #a6252a;
+  --color-maroon-700: #741c21;
+  --color-maroon-800: #501419;
+  --color-maroon-900: #2c0c10;
+  --color-maroon-950: #20090c;
+
+  --color-soft-pink-50: #fff1f5;
+  --color-soft-pink-100: #ffe0e7;
+  --color-soft-pink-200: #ffc2d0;
+  --color-soft-pink-300: #ffa3b9;
+  --color-soft-pink-400: #ff85a2;
+}
+
+:root {
+  --bg-plain: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f4f5;
+  --bg-soft: #e4e4e7;
+  --text-default: #71717a;
+  --text-inverse: #27272a;
+  --primary: #501419;
+  --primary-saturated: #741c21;
+  --primary-faint: #f3c5c7;
+  --primary-fade: #fbeaea;
+  --secondary: #ff85a2;
+  --success: #00bc7d;
+  --warning: #facc15;
+  --danger: #dc2626;
+  --info: #155dfc;
+  --overlay: rgba(0,0,0,.5);
+
+  --color-text-primary: var(--text-inverse);
+  --color-text-secondary: var(--text-default);
+  --color-text-danger: var(--danger);
+  --color-background-primary: #ffffff;
+  --color-background-secondary: var(--bg-subtle);
+  --color-border-primary: var(--text-inverse);
+  --color-border-secondary: var(--bg-soft);
+  --color-border-tertiary: var(--bg-soft);
+}
+
+.dark {
+  --bg-plain: #3f3f46;
+  --bg-subtle: #27272a;
+  --bg-muted: #18181b;
+  --bg-soft: #3f3f46;
+  --text-default: #52525b;
+  --text-inverse: #fafafa;
+  --primary: #ffa3b9;
+  --primary-saturated: #ffc2d0;
+  --primary-faint: rgba(255,163,185,.75);
+  --primary-fade: rgba(255,163,185,.25);
+  --secondary: #a6252a;
+  --success: #00bc7d;
+  --warning: #eab308;
+  --danger: #ef4444;
+  --info: #2b7fff;
+  --overlay: rgba(0,0,0,.5);
+
+  --color-text-primary: var(--text-inverse);
+  --color-text-secondary: var(--text-default);
+  --color-text-danger: var(--danger);
+  --color-background-primary: var(--bg-muted);
+  --color-background-secondary: var(--bg-subtle);
+  --color-border-primary: var(--text-inverse);
+  --color-border-secondary: var(--text-default);
+  --color-border-tertiary: var(--text-default);
+}
