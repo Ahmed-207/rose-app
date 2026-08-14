@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsStore, FilterParams } from '@org/products';
 import { EmptyProducts } from './components/empty-products/empty-products';
 import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
-import { Spinner, Paginator, ProductCard } from "@org/shared-ui-components";
+import { AppToastService, Spinner, Paginator, ProductCard } from "@org/shared-ui-components";
 import { CartService } from '../cart-page/services/cart.service';
 import { Product } from '@org/shared-ui-components';
 import { FilterPanelComponent } from './components/filter-panel/filterPanel';
@@ -20,6 +20,7 @@ export class ProductsPageComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly productsStore = inject(ProductsStore);
   private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -78,9 +79,7 @@ export class ProductsPageComponent implements OnInit {
 
   onAddToCart(product: Product): void {
     this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
-      error: (err) => {
-        console.error('Failed to add to cart', err);
-      },
+      next: () => this.toast.success('toast.ADDED_TO_CART'),
     });
   }
 

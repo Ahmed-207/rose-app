@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsService } from '@org/products';
-import { ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard } from '@org/shared-ui-components';
 import { Product } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
@@ -31,6 +31,7 @@ export class RelatedProductsSection {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly productsService = inject(ProductsService);
   private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -71,7 +72,9 @@ export class RelatedProductsSection {
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
+      next: () => this.toast.success('toast.ADDED_TO_CART'),
+    });
   }
 
 

@@ -10,7 +10,7 @@ import {
   computed,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { CartService } from '../../../cart-page/services/cart.service';
 import { ProductsStore } from '@org/products';
@@ -26,6 +26,7 @@ export class BestSellingSection implements OnInit {
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private readonly platformId = inject(PLATFORM_ID);
   private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   readonly _store = inject(ProductsStore);
   // bestSellingSection.ts (UPDATED)
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
@@ -61,7 +62,9 @@ export class BestSellingSection implements OnInit {
   }
 
   onAddToCart(product: CardProduct): void {
-    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe();
+    this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
+      next: () => this.toast.success('toast.ADDED_TO_CART'),
+    });
   }
 
   onWishlistToggle(product: CardProduct): void {

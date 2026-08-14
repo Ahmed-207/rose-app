@@ -24,7 +24,7 @@ import {
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsStore } from '@org/products';
-import { ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard } from '@org/shared-ui-components';
 import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
@@ -60,6 +60,7 @@ export class CartPage implements OnInit {
 
   // services & injections
   private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   private readonly productsStore = inject(ProductsStore);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
@@ -176,6 +177,7 @@ export class CartPage implements OnInit {
         this.items.update((list) => list.filter((entry) => entry.id !== item.id));
         this.recalculateAppliedCoupon();
         this.busyItemId.set(null);
+        this.toast.success('toast.REMOVED_FROM_CART');
       },
       error: () => {
         this.busyItemId.set(null);
@@ -195,6 +197,7 @@ export class CartPage implements OnInit {
         this.appliedCoupon.set(null);
         this.couponError.set(null);
         this.isClearing.set(false);
+        this.toast.success('toast.CART_CLEARED');
       },
       error: () => {
         this.isClearing.set(false);
@@ -268,7 +271,10 @@ export class CartPage implements OnInit {
 
   onAddRecommended(product: Product): void {
     this.cartService.addToCart({ productId: product.id as string, quantity: 1 }).subscribe({
-      next: () => this.loadCart(),
+      next: () => {
+        this.toast.success('toast.ADDED_TO_CART');
+        this.loadCart();
+      },
       error: () => {
         this.error.set('Failed to add product to cart. Please sign in and try again.');
       },

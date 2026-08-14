@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '@org/products';
+import { AppToastService } from '@org/shared-ui-components';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
@@ -32,6 +33,7 @@ export class ProductDetailPage implements OnInit {
   private readonly router = inject(Router);
   private readonly productsService = inject(ProductsService);
   private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -81,7 +83,7 @@ export class ProductDetailPage implements OnInit {
     this.cartService
       .addToCart({ productId: String(product.id), quantity: 1 })
       .subscribe({
-        error: (err) => console.error('Failed to add to cart', err),
+        next: () => this.toast.success('toast.ADDED_TO_CART'),
       });
   }
 
