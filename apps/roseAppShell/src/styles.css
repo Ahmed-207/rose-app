@@ -1,9 +1,6 @@
 @import 'tailwindcss';
+@import '../../../../libs/shared/shared-theme/src/lib/theme.css';
 @custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --font-primary: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
 
 @font-face {
     font-family: 'Edward';
