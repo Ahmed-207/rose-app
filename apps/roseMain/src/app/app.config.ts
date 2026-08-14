@@ -8,11 +8,11 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
-import { authInterceptor, errorInterceptor, provideAuth } from '@org/auth';
+import { provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { toastErrorInterceptor } from '@org/shared-ui-components';
 import { addressInterceptor } from '@org/user-addresses';
 
 export const appConfig: ApplicationConfig = {
@@ -20,8 +20,10 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     providePrimeNGTheme(),
-    provideAuth({ apiUrl: environment.apiUrl }),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor])),
+    provideAuth({
+      apiUrl: environment.apiUrl,
+      extraInterceptors: [addressInterceptor, toastErrorInterceptor],
+    }),
 
     provideTranslateService({
       loader: provideTranslateHttpLoader({
@@ -35,6 +37,5 @@ export const appConfig: ApplicationConfig = {
       const langService = inject(LangService);
       langService.init();
     }),
-    provideHttpClient(withInterceptors([addressInterceptor, authInterceptor]))
   ]
 };

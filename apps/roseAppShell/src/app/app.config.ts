@@ -9,19 +9,21 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
-import { authInterceptor, provideAuth } from '@org/auth';
+import { provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
 import { LangService } from '@org/ui-lang-switcher';
 import { providePrimeNGTheme } from '@org/shared-theme';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideToastr } from 'ngx-toastr';
+import { toastErrorInterceptor } from '@org/shared-ui-components';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     providePrimeNGTheme(),
-    provideAuth({ apiUrl: environment.apiUrl }),
+    provideAuth({
+      apiUrl: environment.apiUrl,
+      extraInterceptors: [addressInterceptor, toastErrorInterceptor],
+    }),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: `${environment.shellUrl}/assets/i18n/`,
@@ -34,16 +36,5 @@ export const appConfig: ApplicationConfig = {
       const langService = inject(LangService);
       langService.init();
     }),
-    provideHttpClient(withInterceptors([addressInterceptor, authInterceptor])),
-    provideToastr({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-      progressBar: true,
-      closeButton: true
-    })
-
   ]
 };
-
-
