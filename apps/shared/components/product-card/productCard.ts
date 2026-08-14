@@ -10,6 +10,7 @@ import { Button } from '../button/button';
 import { Product } from '../../models/productDto';
 import { HttpClient } from '@angular/common/http';
 import { WishlistService } from '../../../../libs/shared/products/src/lib/services/WishlistService.ts';
+import { AppToastService } from '@org/shared-ui-components';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -36,6 +37,7 @@ export class ProductCard  implements OnInit{
   private readonly httpClient = inject(HttpClient);
 
   public wishlistService = inject(WishlistService);
+  private readonly toast = inject(AppToastService);
   protected readonly String =String ;
   private destroyRef = inject(DestroyRef);
   // wishlistIds = signal<Set<string>>(new Set<string>());
@@ -85,7 +87,7 @@ item: any;
     .subscribe({
       next: (response) => {
         console.log('Added to wishlist successfully', response);
-        
+        this.toast.success('toast.ADDED_TO_WISHLIST');
     this.wishlistService.getLoggedUserWishlist()
         this.product.isWishlist = true; 
         this.wishlistToggle.emit(this.product);
@@ -103,7 +105,7 @@ item: any;
     .subscribe({
       next: (response) => {
         console.log('Removing from wishlist successfully', response);
-        
+        this.toast.success('toast.REMOVED_FROM_WISHLIST');
     this.wishlistService.getLoggedUserWishlist()
 
         

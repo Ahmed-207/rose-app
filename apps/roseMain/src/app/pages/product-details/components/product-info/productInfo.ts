@@ -19,6 +19,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Product, WishlistService } from '@org/products';
 import { Button } from 'apps/shared/components/button/button';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
+import { AppToastService } from '@org/shared-ui-components';
 
 @Component({
   selector: 'product-info',
@@ -41,6 +42,7 @@ export class ProductInfo implements AfterViewInit, OnDestroy, OnInit {
   private destroyRef = inject(DestroyRef);
 
   public wishlistService = inject(WishlistService);
+  private readonly toast = inject(AppToastService);
   protected readonly String =String ;
   // @Input() Product!: any;
 
@@ -113,6 +115,7 @@ this.wishlistService.getLoggedUserWishlist()
     .subscribe({
       next: (response) => {
         console.log('Added to wishlist successfully', response);
+        this.toast.success('toast.ADDED_TO_WISHLIST');
         
     // this.wishlistService.wishlistIds.set(new Set<string>(response.data));
     this.wishlistService.getLoggedUserWishlist()
@@ -134,6 +137,7 @@ this.wishlistService.getLoggedUserWishlist()
     .subscribe({
       next: (response) => {
         console.log('Removing from wishlist successfully', response);
+        this.toast.success('toast.REMOVED_FROM_WISHLIST');
         
     // this.wishlistIds.set(new Set<string>(response.data));
     this.wishlistService.getLoggedUserWishlist()

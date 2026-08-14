@@ -82,7 +82,7 @@
           </button>
 
           @if (item?.stock > 0) {
-          <button
+          <button (click)="onAddToCart(item)"
             class="bg-[#4A1525] dark:bg-pink-700/80 text-white px-5 py-2.5 rounded-md text-sm font-medium flex items-center gap-2 hover:bg-[#36101b] dark:hover:bg-pink-700 cursor-pointer transition-colors">
             <i class="pi pi-shopping-cart w-4 h-4"></i>
             {{ 'wishlist.AddToCart' | translate }}

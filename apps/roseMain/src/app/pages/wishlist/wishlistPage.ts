@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 import { Product } from '@org/shared-ui-components';
 import { EmptyWishlist } from "./components/empty-wishlist/empty-wishlist";
+import { CartService } from '../cart-page/services/cart.service';
+import { AppToastService } from '@org/shared-ui-components';
 
 
 @Component({
@@ -18,6 +20,8 @@ import { EmptyWishlist } from "./components/empty-wishlist/empty-wishlist";
 export class WishlistPage implements OnInit {
 
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
+  private readonly toast = inject(AppToastService);
   readonly addToCart = output<Product>();
 
   readonly product = input.required<Product>();
@@ -49,6 +53,7 @@ export class WishlistPage implements OnInit {
     .subscribe( res => {
 
       console.log(res)
+      this.toast.success('toast.REMOVED_FROM_WISHLIST');
     })
   }
 
@@ -59,7 +64,14 @@ export class WishlistPage implements OnInit {
     .subscribe( res => {
 
       console.log(res)
+      this.toast.success('toast.WISHLIST_CLEARED');
     })
+  }
+
+  onAddToCart(item: Product): void {
+    this.cartService.addToCart({ productId: String((item as any)._id ?? item.id), quantity: 1 }).subscribe({
+      next: () => this.toast.success('toast.ADDED_TO_CART'),
+    });
   }
 
    
