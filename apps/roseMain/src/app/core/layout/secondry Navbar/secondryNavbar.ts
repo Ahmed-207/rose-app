@@ -1,6 +1,6 @@
 import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import {
@@ -23,7 +23,6 @@ import { SearchBar } from "../search-bar/search-bar";
 
 
 @Component({
-    providers: [MessageService],
     selector: 'app-secondry-navbar',
     imports: [
     MenuModule,
@@ -47,7 +46,6 @@ import { SearchBar } from "../search-bar/search-bar";
 export class SecondryNavbar implements OnInit {
 
     userName = input<string | undefined>('')
-    private messageService = inject(MessageService);
     private readonly cartService = inject(CartService);
     private readonly router = inject(Router);
     private readonly authActions = inject(AuthActions);
