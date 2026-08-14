@@ -9,4 +9,4 @@ span {
     .label-success { background: #EAF3DE; color: #27500A; }
     .label-warning { background: #FAEEDA; color: #633806; }
     .label-danger  { background: #FCEBEB; color: #791F1F; }
-    .label-purple  { background: #EEEDFE; color: #3C3489; }
+    .label-purple  { background: var(--primary-fade); color: var(--primary-saturated); }

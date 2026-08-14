@@ -11,7 +11,7 @@
     .card-accent {
       background: var(--color-background-primary);
       border: 0.5px solid var(--color-border-tertiary);
-      border-left: 3px solid #534AB7;
+      border-left: 3px solid var(--primary);
       border-radius: 0 12px 12px 0; overflow: hidden;
     }
     .card-metric {
