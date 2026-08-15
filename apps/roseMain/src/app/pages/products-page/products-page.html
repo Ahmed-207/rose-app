@@ -29,7 +29,7 @@
             <!--paginator-->
             <div class="paginator-container flex justify-center mt-auto pt-6">
                 <lib-paginator [pFirst]="first()" [pItemsPerPage]="productsPerPage()"
-                    [pTotalItems]="totalResults()"></lib-paginator>
+                    [pTotalItems]="totalResults()" (pPageChange)="onPageChange($event)"></lib-paginator>
             </div>
 
         </div>

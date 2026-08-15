@@ -1,5 +1,4 @@
-import { Component, inject, input, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, input, output, ViewEncapsulation } from '@angular/core';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 
 @Component({
@@ -12,28 +11,12 @@ import { PaginatorState, PaginatorModule } from 'primeng/paginator';
   encapsulation: ViewEncapsulation.None,
 })
 export class Paginator {
-
-  private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
   pFirst = input.required<number>();
   pItemsPerPage = input.required<number>();
   pTotalItems = input.required<number>();
-
+  pPageChange = output<number>();
 
   onPageChange(event: PaginatorState) {
-
-    const page = (event.page ?? 0) + 1;
-    this.updateURL({ page });
-
-  }
-
-  private updateURL(params: any): void {
-
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: params,
-      queryParamsHandling: 'merge'
-    })
-
+    this.pPageChange.emit(event.page ?? 0);
   }
 }
