@@ -88,7 +88,7 @@
 
 :host-context(.dark) .chip {
   background: #3F3F46;
-  color: #fff;
+  color: #fff
 }
 
 .chip__icon {
@@ -316,10 +316,20 @@
     border-radius: 4px;
   background-color: #c4364a;
 }
-:host-context(.dark) .chip::after {
+:host-context(.dark) .chip::after{
+  position: absolute;
+  content: "";
+  width: 16%;
+  height: 100%;
+  inset-inline-start: 0px;
+    border-radius: 4px;
   background-color: #71717A;
 }
-:host-context(.dark) .chip--active::after {
+:host-context(.dark) .chip--active::after{
+  position: absolute;
+  content: "";
+  width: 16%;
+  height: 100%;
   background-color: #FFA3B9;
 }
 
