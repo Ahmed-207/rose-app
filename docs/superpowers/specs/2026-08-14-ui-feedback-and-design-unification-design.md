@@ -165,6 +165,7 @@ Radius **8px**, dismissible close button, icon per severity, shadow `subtle-lg`.
 | 2 | Design foundation (tokens, palette, bootstrap) | Done | — |
 | 3 | Surface & dark-mode unification | Done | — |
 | 4 | Consolidation & cleanup | Not started | — |
+| 5 | Loading states & entrance animations | Not started | — |
 
 Update the `Status` cell in-place as each phase moves through `Not started → In progress → Done`.
 
@@ -327,7 +328,36 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 
 ---
 
-## 10. Testing Strategy
+## 10. Phase 5 — Loading States & Entrance Animations
+
+**Status:** `Not started`
+**Goal:** Every `roseMain` GET-request page shows a consistent skeleton/spinner loading pattern and reveals content with a smooth entrance animation instead of popping in.
+
+**Spec:** `docs/superpowers/specs/2026-08-15-loading-states-and-animations-design.md`
+**Implementation plan:** `docs/superpowers/plans/2026-08-15-loading-states-and-animations.md`
+
+### 10.1 Scope
+
+- `roseMain` pages: products, product details, cart, addresses, wishlist, orders, home sections, account settings profile form.
+- Shared libs: `libs/shared/products`, `libs/shared/user-addresses`, `libs/shared/user-orders`, `libs/shared/ui` (new skeleton components).
+
+### 10.2 Key decisions
+
+- Skeleton screens for lists/grids/cards; `lib-spinner` retained for full-page initial loads.
+- Pure CSS/Tailwind entrance animations (`fade-in`, `slide-up`, `stagger`) with `prefers-reduced-motion` support.
+- No new runtime dependencies.
+
+### 10.3 Definition of done
+
+- [ ] Reusable skeleton components (`lib-skeleton`, `lib-skeleton-card`, `lib-skeleton-list`) exist in `libs/shared/ui`.
+- [ ] Animation utilities exist in `libs/shared/shared-theme`.
+- [ ] Every in-scope page uses the new loading pattern.
+- [ ] `npx nx typecheck roseMain` passes.
+- [ ] `npx nx test shared-ui-components` passes (pre-existing failures unchanged).
+
+---
+
+## 11. Testing Strategy
 
 - **Unit (Vitest):** `AppToastService`, toast-error interceptor, theme token presence.
 - **Commands:**
