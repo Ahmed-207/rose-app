@@ -278,12 +278,12 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 ### 8.1 Tasks
 
 #### 8.1.1 Migrate dark surfaces to Figma values
-- [x] `roseMain` MainLayout `<main>`: `#202938` → `--bg-subtle` (`#27272a`).
-- [x] Navbar: `#202938` → `--bg-muted` (`#18181b`).
-- [x] orders-page: navy `#0f1d36` → `--bg-subtle` (`#27272a`).
-- [x] wishlistPage: navy `#0f1d36` → `--bg-subtle` (`#27272a`).
-- [x] Modals/dialogs/dropdowns/panels → `--bg-plain` (`#3f3f46`) / `--bg-muted` (`#18181b`) per §4.4.
-- [x] Convert remaining hardcoded dark values (grep audit) to tokens.
+- [x] `roseMain` MainLayout `<main>`: `#202938` → `dark:bg-[#27272a]` (`mainLayout.html:9`).
+- [x] Navbar: `#202938` → `dark:bg-[#18181b]` (`navbar.html:1`, mobile drawer `:109`).
+- [x] orders-page: navy `#0f1d36` → `dark:bg-[#27272a]` (`orders-page.html:3`).
+- [x] wishlistPage: navy `#0f1d36` → `dark:bg-[#27272a]` (`wishlistPage.html:2`).
+- [x] Modals/dialogs/dropdowns/panels → `dark:bg-[#3f3f46]` / `dark:bg-[#18181b]` per §4.4 (e.g. search-dropdown, address-form-modal, delete-modal, address-card).
+- [ ] Convert remaining hardcoded dark values (grep audit) to spec-aligned hex values or tokens. **Deferred to Phase 4** — many component-level surfaces still use hardcoded hex values that are intentionally aligned to the spec palette but are not yet wrapped in CSS variables.
 
 #### 8.1.2 Dark-mode coverage gaps
 - [x] about-us page: full dark mode.
@@ -317,6 +317,8 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 - [ ] Remove dead `CouponsService` create/update/delete scaffolding (no consumers).
 - [ ] Migrate `WishlistService` from raw `token` header to the auth interceptor.
 - [ ] Audit + remove any remaining `console.log`/`console.error` used as user feedback.
+- [ ] Fix `apps/roseAuth/src/app/pages/register/registerForm/register.ts:18` import from `apps/shared/components/form-controls/form-control`, which causes `register.spec.ts` path-resolution failure under Vitest.
+- [ ] Mock `window.matchMedia` in `libs/shared/shared-theme/src/lib/theme-toggler.spec.ts` so it passes in the Vitest DOM.
 
 ### 9.2 Definition of done
 
