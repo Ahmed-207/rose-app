@@ -86,9 +86,9 @@
 
 }
 
-.chip.dark {
+:host-context(.dark) .chip {
   background: #3F3F46;
-  color: #fff
+  color: #fff;
 }
 
 .chip__icon {
@@ -316,24 +316,13 @@
     border-radius: 4px;
   background-color: #c4364a;
 }
-.dark .chip::after{
-  position: absolute;
-  content: "";
-  width: 16%;
-  height: 100%;
-  inset-inline-start: 0px;
-    border-radius: 4px;
+:host-context(.dark) .chip::after {
   background-color: #71717A;
 }
-:host .dark .chip--active::after{
-  position: absolute;
-  content: "";
-  width: 16%;
-  height: 100%;
+:host-context(.dark) .chip--active::after {
   background-color: #FFA3B9;
 }
 
-:host .dark .chip--active .chip__icon{
-    filter: brightness(1) invert(1);
-
+:host-context(.dark) .chip--active .chip__icon {
+  filter: brightness(1) invert(1);
 }
