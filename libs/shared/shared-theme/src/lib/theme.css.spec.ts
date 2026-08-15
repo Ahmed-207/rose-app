@@ -25,7 +25,7 @@ describe('theme.css', () => {
   });
 
   it('maps legacy color variables', () => {
-    expect(css).toContain('--color-text-primary: var(--text-inverse)');
+    expect(css).toContain('--color-text-primary: var(--text-primary)');
     expect(css).toContain('--color-background-primary:');
   });
 
