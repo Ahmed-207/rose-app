@@ -28,4 +28,11 @@ describe('theme.css', () => {
     expect(css).toContain('--color-text-primary: var(--text-inverse)');
     expect(css).toContain('--color-background-primary:');
   });
+
+  it('declares Phase 3 tokens', () => {
+    expect(css).toContain('--rating:');
+    expect(css).toContain('--chip-info-bg:');
+    expect(css).toContain('--chip-danger-text:');
+    expect(css).toContain('--shadow-subtle-lg:');
+  });
 });

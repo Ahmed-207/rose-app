@@ -37,6 +37,17 @@
   --danger: #dc2626;
   --info: #155dfc;
   --overlay: rgba(0,0,0,.5);
+  --rating: #ffb800;
+  --chip-info-bg: #E6F1FB;
+  --chip-info-text: #0C447C;
+  --chip-success-bg: #EAF3DE;
+  --chip-success-text: #27500A;
+  --chip-warning-bg: #FAEEDA;
+  --chip-warning-text: #633806;
+  --chip-danger-bg: #FCEBEB;
+  --chip-danger-text: #791F1F;
+  --shadow-subtle-lg: 0 4px 18px rgba(0,0,0,0.07);
+  --shadow-soft-lg: 0 4px 18px rgba(0,0,0,0.10);
 
   --color-text-primary: var(--text-inverse);
   --color-text-secondary: var(--text-default);
@@ -65,6 +76,15 @@
   --danger: #ef4444;
   --info: #2b7fff;
   --overlay: rgba(0,0,0,.5);
+  --rating: #ffb800;
+  --chip-info-bg: #1e3a8a;
+  --chip-info-text: #93c5fd;
+  --chip-success-bg: #14532d;
+  --chip-success-text: #86efac;
+  --chip-warning-bg: #713f12;
+  --chip-warning-text: #fde047;
+  --chip-danger-bg: #7f1d1d;
+  --chip-danger-text: #fca5a5;
 
   --color-text-primary: var(--text-inverse);
   --color-text-secondary: var(--text-default);
