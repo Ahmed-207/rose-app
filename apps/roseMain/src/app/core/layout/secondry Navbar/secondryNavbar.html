@@ -1,4 +1,4 @@
-<header class="w-full bg-white dark:bg-[#202938] shadow-sm transition-colors duration-300">
+<header class="w-full bg-white dark:bg-[#18181b] shadow-sm transition-colors duration-300">
 
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
 
@@ -63,7 +63,7 @@
                 <svg lucideShoppingCart [size]="20" class="shrink-0"></svg>
                 @if (cartCount() > 0) {
                 <span
-                    class="absolute inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -inset-e-2">
+                    class="absolute inline-flex items-center justify-center min-w-5 h-5 px-1 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#18181b] rounded-full -top-1.5 -inset-e-2">
                     {{ cartCount() > 99 ? '99+' : cartCount() }}
                 </span>
                 }
@@ -73,7 +73,7 @@
                 aria-label="Notifications">
                 <svg lucideBell [size]="20" class="shrink-0"></svg>
                 <span
-                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#202938] rounded-full -top-1.5 -inset-e-2">
+                    class="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-[#a6252a] border-2 border-white dark:border-[#18181b] rounded-full -top-1.5 -inset-e-2">
                     0
                 </span>
             </button>
@@ -132,7 +132,7 @@
         (click)="closeMobileMenu()" aria-hidden="true"></div>
     }
 
-    <div class="fixed top-0 right-0 h-full w-72 max-w-[80%] bg-white dark:bg-[#202938] z-40 md:hidden
+    <div class="fixed top-0 right-0 h-full w-72 max-w-[80%] bg-white dark:bg-[#18181b] z-40 md:hidden
                shadow-2xl transition-transform duration-300 ease-in-out overflow-y-auto"
         [class.translate-x-0]="isMobileMenuOpen()" [class.translate-x-full]="!isMobileMenuOpen()">
 

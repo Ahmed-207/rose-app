@@ -1,5 +1,5 @@
 <div
-    class="address-form-modal bg-white dark:bg-[#202938] p-6 md:p-8 flex flex-col gap-6 w-full h-full max-h-[85vh] overflow-hidden">
+    class="address-form-modal bg-white dark:bg-[#3f3f46] p-6 md:p-8 flex flex-col gap-6 w-full h-full max-h-[85vh] overflow-hidden">
 
     <!-- Header -->
     <div class="flex items-center justify-between shrink-0">
@@ -97,7 +97,7 @@
                 </google-map>
 
                 <button type="button" [disabled]="isLocating()"
-                    class="absolute top-4 right-4 flex items-center gap-2 rounded-xl bg-white dark:bg-[#202938] border border-red-900 dark:border-pink-300 text-red-900 dark:text-pink-300 hover:bg-red-50 dark:hover:bg-zinc-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors px-4 py-2.5 text-sm font-semibold shadow-sm z-10"
+                    class="absolute top-4 right-4 flex items-center gap-2 rounded-xl bg-white dark:bg-[#3f3f46] border border-red-900 dark:border-pink-300 text-red-900 dark:text-pink-300 hover:bg-red-50 dark:hover:bg-zinc-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors px-4 py-2.5 text-sm font-semibold shadow-sm z-10"
                     (click)="findMyLocation()">
                     <svg lucideLocate [size]="16" [class.animate-spin]="isLocating()"></svg>
                     {{ (isLocating() ? 'addresses.LOCATING' : 'addresses.FIND_MY_LOCATION') | translate }}
