@@ -34,7 +34,7 @@
 }
 
 .product-reviews__summary ::ng-deep .p-rating-option-active .p-rating-icon {
-  color: #ffb800 !important;
+  color: var(--rating) !important;
 }
 
 .product-reviews__layout {
@@ -94,7 +94,7 @@
 }
 
 .review-card__rating ::ng-deep .p-rating-option-active .p-rating-icon {
-  color: #ffb800 !important;
+  color: var(--rating) !important;
 }
 
 .review-card__title {
@@ -144,7 +144,7 @@
 }
 
 .review-form ::ng-deep .p-rating-option-active .p-rating-icon {
-  color: #ffb800 !important;
+  color: var(--rating) !important;
 }
 
 .review-form__submit ::ng-deep button {

@@ -295,7 +295,7 @@
 }
 
 :host ::ng-deep  .p-rating-icon {
-  color: #fdc700 !important; /* fill */
+  color: var(--rating) !important; /* fill */
 
 }
 .chip::after{

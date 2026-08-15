@@ -62,7 +62,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.65rem;
-  color: #5b7cfa;
+  color: var(--primary);
   font-size: 0.8125rem;
 }
 

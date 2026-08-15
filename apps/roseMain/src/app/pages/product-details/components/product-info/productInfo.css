@@ -109,7 +109,7 @@
 }
 
 .product-info__rating i {
-  color: #ffb800;
+  color: var(--rating);
 }
 
 .product-info__rating strong {
