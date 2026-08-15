@@ -42,13 +42,13 @@
               <div class="flex items-center gap-2">
                 <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">{{ 'ORDERS.STATUS_TITLE' | translate }}:</span>
                 
-                <span 
+                <span
                   [ngClass]="{
-                    'bg-[#2B99E5]': order.status.toLowerCase() === 'pending',
-                    'bg-[#D9383A]': order.status.toLowerCase() === 'canceled',
-                    'bg-[#34B3A0]': order.status.toLowerCase() === 'delivered'
+                    'bg-[var(--chip-info-bg)] text-[var(--chip-info-text)]': order.status.toLowerCase() === 'pending',
+                    'bg-[var(--chip-danger-bg)] text-[var(--chip-danger-text)]': order.status.toLowerCase() === 'canceled',
+                    'bg-[var(--chip-success-bg)] text-[var(--chip-success-text)]': order.status.toLowerCase() === 'delivered'
                   }"
-                  class="text-white px-3 py-1 rounded-full text-xs font-semibold capitalize shadow-xs">
+                  class="px-3 py-1 rounded-full text-xs font-semibold capitalize shadow-xs">
                   
                   @switch (order.status.toLowerCase()) {
                     @case ('pending') { {{ 'ORDERS.STATUS.IN_PROGRESS' | translate }} }
