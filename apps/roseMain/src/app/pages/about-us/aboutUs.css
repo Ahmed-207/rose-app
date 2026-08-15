@@ -188,3 +188,57 @@
     margin-right: auto;
   }
 }
+
+.dark .about-section {
+  background: #27272a;
+}
+
+.dark .about-title {
+  color: #fafafa;
+}
+
+.dark .about-description,
+.dark .feature-item {
+  color: #a1a1aa;
+}
+
+.dark .text-pink {
+  color: #ff85a2;
+}
+
+.dark .text-dark-red {
+  color: #ffa3b9;
+}
+
+.dark .about-tag,
+.dark .feature-icon {
+  color: #d4d4d8;
+}
+
+.dark .about-shape-outline {
+  border-color: rgba(255, 163, 185, 0.5);
+}
+
+.dark .oval-img {
+  background-color: #3f3f46;
+}
+
+.dark .btn-discover {
+  background-color: #741c21;
+}
+
+.dark .btn-discover:hover {
+  background-color: #501419;
+}
+
+.dark .about-features-grid {
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .main-image-wrapper {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.dark .sub-image-wrapper {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
