@@ -4,9 +4,9 @@
     }
     .msg-inline i { font-size: 13px; }
     .msg-inline-error   { color: var(--color-text-danger); }
-    .msg-inline-warning { color: #854F0B; }
-    .msg-inline-success { color: #3B6D11; }
-    .msg-inline-info    { color: #185FA5; }
+    .msg-inline-warning { color: var(--chip-warning-text); }
+    .msg-inline-success { color: var(--chip-success-text); }
+    .msg-inline-info { color: var(--chip-info-text); }
 
     .msg-banner {
       display: flex; align-items: flex-start; gap: 10px;
@@ -23,7 +23,7 @@
     .msg-dismiss:hover { opacity: 1; }
     .msg-dismiss i { font-size: 14px; }
 
-    .msg-banner-error   { background: #FCEBEB; color: #791F1F; border-color: #F09595; }
-    .msg-banner-warning { background: #FAEEDA; color: #633806; border-color: #EF9F27; }
-    .msg-banner-success { background: #EAF3DE; color: #27500A; border-color: #97C459; }
-    .msg-banner-info    { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; }
+    .msg-banner-error { background: var(--chip-danger-bg); color: var(--chip-danger-text); border-color: color-mix(in srgb, var(--chip-danger-text) 40%, transparent); }
+    .msg-banner-warning { background: var(--chip-warning-bg); color: var(--chip-warning-text); border-color: color-mix(in srgb, var(--chip-warning-text) 40%, transparent); }
+    .msg-banner-success { background: var(--chip-success-bg); color: var(--chip-success-text); border-color: color-mix(in srgb, var(--chip-success-text) 40%, transparent); }
+    .msg-banner-info { background: var(--chip-info-bg); color: var(--chip-info-text); border-color: color-mix(in srgb, var(--chip-info-text) 40%, transparent); }

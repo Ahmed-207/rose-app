@@ -5,8 +5,8 @@ span {
     }
     .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
     .label-default { background: var(--color-background-secondary); color: var(--color-text-secondary); }
-    .label-info    { background: #E6F1FB; color: #0C447C; }
-    .label-success { background: #EAF3DE; color: #27500A; }
-    .label-warning { background: #FAEEDA; color: #633806; }
-    .label-danger  { background: #FCEBEB; color: #791F1F; }
+    .label-info { background: var(--chip-info-bg); color: var(--chip-info-text); }
+    .label-success { background: var(--chip-success-bg); color: var(--chip-success-text); }
+    .label-warning { background: var(--chip-warning-bg); color: var(--chip-warning-text); }
+    .label-danger { background: var(--chip-danger-bg); color: var(--chip-danger-text); }
     .label-purple  { background: var(--primary-fade); color: var(--primary-saturated); }

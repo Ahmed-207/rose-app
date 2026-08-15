@@ -13,8 +13,8 @@
     .spinner-lg { width: 36px; height: 36px; border-width: 3px; }
 
     .spinner-primary { border-top-color: var(--primary); border-color: var(--primary-fade); }
-    .spinner-danger  { border-top-color: #E24B4A; border-color: #F7C1C1; }
-    .spinner-success { border-top-color: #3B6D11; border-color: #C0DD97; }
+    .spinner-danger { border-top-color: var(--chip-danger-text); border-color: var(--chip-danger-bg); }
+    .spinner-success { border-top-color: var(--chip-success-text); border-color: var(--chip-success-bg); }
 
     .spinner-overlay {
       display: flex; flex-direction: column; align-items: center; gap: 10px;
