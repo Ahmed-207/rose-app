@@ -330,6 +330,8 @@
   content: "";
   width: 16%;
   height: 100%;
+  inset-inline-start: 0px;
+    border-radius: 4px;
   background-color: #FFA3B9;
 }
 
