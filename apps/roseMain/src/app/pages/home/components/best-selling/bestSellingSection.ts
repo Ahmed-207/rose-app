@@ -14,7 +14,7 @@ import { AppToastService, ProductCard } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { CartService } from '../../../cart-page/services/cart.service';
 import { ProductsStore } from '@org/products';
-import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({
   selector: 'best-selling-section',

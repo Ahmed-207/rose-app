@@ -7,7 +7,7 @@ import { ProductsService, CategoriesStore } from '@org/products';
 import { Product } from '@org/shared-ui-components';
 import { SectionHeader } from '../section-header/section-header';
 import { AppToastService, ProductCard } from '@org/shared-ui-components';
-import { mapApiProductToCardProduct } from 'apps/roseMain/src/app/shared/utils/map-api-product';
+import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
