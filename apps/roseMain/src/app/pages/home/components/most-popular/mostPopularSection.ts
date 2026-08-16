@@ -11,7 +11,7 @@ import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-pro
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
-  selector: 'most-popular-section',
+  selector: 'app-most-popular-section',
   imports: [TranslatePipe, ProductCard, SectionHeader],
   templateUrl: './mostPopularSection.html',
   styleUrl: './mostPopularSection.css',

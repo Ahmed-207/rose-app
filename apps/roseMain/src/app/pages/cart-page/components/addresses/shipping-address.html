@@ -11,16 +11,16 @@
         @if(_store.entities().length){
         <div class="cards-container flex flex-col items-stretch gap-4 w-full">
             @for(address of _store.entities(); track address.id){
-            <select-address-card [cardCity]="address.city" [cardStreet]="address.street" [cardPhone]="address.phone"
+            <app-select-address-card [cardCity]="address.city" [cardStreet]="address.street" [cardPhone]="address.phone"
                 [isMainAddress]="address.isPrimary" [addressId]="address.id"
                 [isSelected]="selectedAddressId() === address.id"
-                (cardSelectedId)="onAddressSelect($event)"></select-address-card>
+                (cardSelectedId)="onAddressSelect($event)"></app-select-address-card>
             }
         </div>
         }
         @if(_store.entities().length === 0){
         <div class="empty-page-conatiner w-full">
-            <empty-page></empty-page>
+            <app-empty-page></app-empty-page>
         </div>
         }
         }
@@ -36,13 +36,13 @@
         <span
             class="text-zinc-300 dark:text-zinc-200 text-[18px] absolute top-0 left-[50%] -translate-1/2 font-medium bg-white dark:bg-[#18181b]">{{
             'addresses.OR' | translate }}</span>
-        <address-modal-button (modalOpened)="toggleModal($event)"></address-modal-button>
+        <app-address-modal-button (modalOpened)="toggleModal($event)"></app-address-modal-button>
     </div>
     @if(isModalOpened()){
     <div
         class="overlay-container fixed inset-0 flex items-center justify-center bg-black/40 z-5000 backdrop-blur-sm animate-fade-in">
         <div class="modal-container w-[90%] md:w-[60%] max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl">
-            <my-addresses-modal (modalClosed)="toggleModal($event)"></my-addresses-modal>
+            <app-my-addresses-modal (modalClosed)="toggleModal($event)"></app-my-addresses-modal>
         </div>
     </div>
     }

@@ -9,7 +9,7 @@ import { CategoryCard, HeroSlide } from '../special-gift/models/special-gift-Dto
 
 
 @Component({
-  selector: 'special-gift-section',
+  selector: 'app-special-gift-section',
   imports: [CommonModule, GalleriaModule, ButtonModule, BadgeModule, TranslatePipe],
   templateUrl: './specialGiftSection.html',
   styleUrls: ['./specialGiftSection.css'],

@@ -1,7 +1,7 @@
 import { Component, input, model } from '@angular/core';
 
 @Component({
-  selector: 'product-gallery',
+  selector: 'app-product-gallery',
   templateUrl: './productGallery.html',
   styleUrl: './productGallery.css',
 })

@@ -30,7 +30,7 @@ import { ProductDetail, ProductReview } from 'apps/shared/models/productDetailDt
 import { mapApiReviewToProductReview } from '../../../../shared/utils/map-api-product';
 
 @Component({
-  selector: 'product-reviews',
+  selector: 'app-product-reviews',
   imports: [
     TranslatePipe,
     DecimalPipe,

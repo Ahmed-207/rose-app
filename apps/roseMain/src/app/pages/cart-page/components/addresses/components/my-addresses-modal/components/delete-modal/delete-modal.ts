@@ -5,7 +5,7 @@ import { addressStore } from '@org/user-addresses';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'delete-modal',
+  selector: 'app-delete-modal',
   imports: [LucideX, LucideTrash2, TranslatePipe],
   templateUrl: './delete-modal.html',
   styleUrl: './delete-modal.css',

@@ -13,7 +13,7 @@ import { LucideX } from '@lucide/angular';
 
 
 @Component({
-  selector: 'my-addresses-modal',
+  selector: 'app-my-addresses-modal',
   imports: [Spinner, AddressCard, EmptyPage, DeleteModal, AddressFormModal, TranslatePipe, LucideX],
   templateUrl: './my-addresses-modal.html',
   styleUrl: './my-addresses-modal.css',

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SectionHeader } from 'apps/shared/components/section-header/sectionHeader';
 
 @Component({
-  selector: 'trusted-by-section',
+  selector: 'app-trusted-by-section',
   imports: [SectionHeader],
   templateUrl: './trustedbySection.html',
   styleUrl: './trustedbySection.css',

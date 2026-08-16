@@ -22,7 +22,7 @@ import { ProductDetail } from 'apps/shared/models/productDetailDto';
 import { AppToastService } from '@org/shared-ui-components';
 
 @Component({
-  selector: 'product-info',
+  selector: 'app-product-info',
   imports: [DecimalPipe, TranslatePipe, Button, LucidePackage],
   templateUrl: './productInfo.html',
   styleUrl: './productInfo.css',

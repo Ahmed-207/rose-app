@@ -17,7 +17,7 @@ import { ProductsStore } from '@org/products';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 
 @Component({
-  selector: 'best-selling-section',
+  selector: 'app-best-selling-section',
   imports: [TranslatePipe, ProductCard, Button],
   templateUrl: './bestSellingSection.html',
   styleUrl: './bestSellingSection.css',

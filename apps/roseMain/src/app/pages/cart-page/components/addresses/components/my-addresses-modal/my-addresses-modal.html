@@ -38,28 +38,28 @@
         @if(!_store.isLoading() && !_store.error()){
         @if(_store.entities()){
         @for(address of _store.entities() ; track address.id ){
-        <address-card [cardCity]="address.city" [cardTitle]="address.title" [cardStreet]="address.street"
+        <app-address-card [cardCity]="address.city" [cardTitle]="address.title" [cardStreet]="address.street"
             [cardPhone]="address.phone" [addressId]="address.id" [isMainAddress]="address.isPrimary"
-            (deleteModalData)="toggleDeleteModal($event)" (editModalData)="openEditAddressForm(address)"></address-card>
+            (deleteModalData)="toggleDeleteModal($event)" (editModalData)="openEditAddressForm(address)"></app-address-card>
         }
         }@if(_store.entities().length === 0) {
-        <empty-page></empty-page>
+        <app-empty-page></app-empty-page>
         }
         }
     </div>
 </div>
 
 @if(deletionModalForParent().isModalOpened){
-<delete-modal [deletionId]="deletionModalForParent().deletionId"
-    (updatedModalStatus)="toggleDeleteModal($event)"></delete-modal>
+<app-delete-modal [deletionId]="deletionModalForParent().deletionId"
+    (updatedModalStatus)="toggleDeleteModal($event)"></app-delete-modal>
 }
 
 @if(addressFormState().isOpen){
 <div class="fixed inset-0 flex items-center justify-center bg-black/40 z-6000 backdrop-blur-sm animate-fade-in">
     <div class="w-[90%] md:w-[60%] max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl">
-        <address-form-modal [mode]="addressFormState().mode" [seedData]="addressFormState().seed"
+        <app-address-form-modal [mode]="addressFormState().mode" [seedData]="addressFormState().seed"
             (formClosed)="closeAddressForm()">
-        </address-form-modal>
+        </app-address-form-modal>
     </div>
 </div>
 }

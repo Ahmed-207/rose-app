@@ -23,7 +23,7 @@ const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif']);
 
 @Component({
-  selector: 'account-profile-form',
+  selector: 'app-account-profile-form',
   imports: [
     ReactiveFormsModule,
     TranslatePipe,

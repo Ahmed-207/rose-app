@@ -4,7 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AuthActions } from '@org/auth';
 
 @Component({
-  selector: 'account-sidebar',
+  selector: 'app-account-sidebar',
   imports: [RouterLink, RouterLinkActive, TranslatePipe],
   templateUrl: './accountSidebar.html',
   styleUrl: './accountSidebar.css',

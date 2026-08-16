@@ -19,7 +19,7 @@ import { CartService } from '../../../cart-page/services/cart.service';
 import { catchError, filter, of, switchMap } from 'rxjs';
 
 @Component({
-  selector: 'related-products-section',
+  selector: 'app-related-products-section',
   standalone: true,
   imports: [TranslatePipe, ProductCard],
   templateUrl: './relateProductSection.html',

@@ -2,18 +2,18 @@
 <div class="product-detail">
   <div class="max-w-7xl mx-auto px-4">
     <section class="product-detail__hero">
-      <product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
-      </product-gallery>
+      <app-product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
+      </app-product-gallery>
 
-      <product-info
+      <app-product-info
         [product]="item"
         (addToCart)="onAddToCart($event)"
         (wishlistToggle)="onWishlistToggle($event)">
-      </product-info>
+      </app-product-info>
     </section>
 
-    <product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></product-reviews>
-    <related-products-section [currentProductId]="productId()"></related-products-section>
+    <app-product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></app-product-reviews>
+    <app-related-products-section [currentProductId]="productId()"></app-related-products-section>
   </div>
 </div>
 }

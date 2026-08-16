@@ -10,7 +10,7 @@ import { passwordMatchValidator } from 'apps/shared/utils/passwordMatchValidator
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'account-change-password-form',
+  selector: 'app-account-change-password-form',
   imports: [ReactiveFormsModule, TranslatePipe, FormControlComponent, Button],
   templateUrl: './changePasswordForm.html',
   styleUrl: './changePasswordForm.css',

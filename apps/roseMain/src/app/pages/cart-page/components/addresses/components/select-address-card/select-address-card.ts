@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { LucidePhone } from '@lucide/angular';
 
 @Component({
-  selector: 'select-address-card',
+  selector: 'app-select-address-card',
   imports: [LucidePhone],
   templateUrl: './select-address-card.html',
   styleUrl: './select-address-card.css',

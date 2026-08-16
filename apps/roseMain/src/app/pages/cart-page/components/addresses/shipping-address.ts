@@ -8,7 +8,7 @@ import { MyAddressesModal } from "./components/my-addresses-modal/my-addresses-m
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'shipping-address',
+  selector: 'app-shipping-address',
   imports: [Spinner, SelectAddressCard, EmptyPage, Message, AddressModalButton, MyAddressesModal, TranslatePipe],
   templateUrl: './shipping-address.html',
   styleUrl: './shipping-address.css',

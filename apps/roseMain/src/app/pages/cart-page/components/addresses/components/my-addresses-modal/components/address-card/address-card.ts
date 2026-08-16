@@ -3,7 +3,7 @@ import { LucideMapPin, LucidePhone, LucidePencil, LucideTrash2 } from '@lucide/a
 import { DeletionModalData } from '../../../../models/delete-modal-data';
 
 @Component({
-  selector: 'address-card',
+  selector: 'app-address-card',
   imports: [LucideMapPin, LucidePhone, LucidePencil, LucideTrash2],
   templateUrl: './address-card.html',
   styleUrl: './address-card.css',

@@ -9,7 +9,7 @@ import { AddressFormMode } from '../../../../types/address-form-mode';
 import { Stepper } from '../../../../../stepper/stepper';
 
 @Component({
-  selector: 'address-form-modal',
+  selector: 'app-address-form-modal',
   imports: [ReactiveFormsModule, LucideArrowLeft, LucideLocate, Stepper, GoogleMap, MapMarker, TranslatePipe],
   templateUrl: './address-form-modal.html',
   styleUrl: './address-form-modal.css',
