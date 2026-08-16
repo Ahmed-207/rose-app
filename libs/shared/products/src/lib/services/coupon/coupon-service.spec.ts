@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { API_URL } from '@org/auth';
 
-import { CouponService } from './coupon-service';
+import { CouponsService } from './coupon-service';
 
-describe('CouponService', () => {
-  let service: CouponService;
+describe('CouponsService', () => {
+  let service: CouponsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(CouponService);
+    TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(),
+        { provide: API_URL, useValue: 'https://test.com/api/' },
+      ],
+    });
+    service = TestBed.inject(CouponsService);
   });
 
   it('should be created', () => {
