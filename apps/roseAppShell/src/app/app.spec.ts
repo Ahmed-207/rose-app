@@ -1,39 +1,34 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { App } from './app';
-import { NxWelcome } from './nx-welcome';
-import { Router, RouterModule } from '@angular/router';
 
 describe('App', () => {
+  let component: App;
+  let fixture: ComponentFixture<App>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([{ path: '', component: NxWelcome }]),
-        App,
-        NxWelcome,
-      ],
+      imports: [App],
+      providers: [provideRouter([]), MessageService],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(App);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it(`should have as title 'roseAppShell'`, () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
+    const app = fixture.componentRef.instance;
     expect(app.title).toEqual('roseAppShell');
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    const router = TestBed.inject(Router);
-    await router.navigate(['']);
-    await fixture.whenStable();
+  it('should render the shell layout', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome roseAppShell',
-    );
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });
