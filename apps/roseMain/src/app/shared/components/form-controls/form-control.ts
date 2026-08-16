@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  Optional,
-  Self,
+  inject,
   forwardRef
 } from '@angular/core';
 
@@ -66,9 +65,10 @@ export class FormControlComponent
   value: any = null;
 
   disabled = false;
-constructor(
-    @Optional() @Self() public ngControl: NgControl
-  ) {
+
+  public ngControl = inject(NgControl, { optional: true, self: true });
+
+  constructor() {
     //  this component as the value accessor
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
@@ -79,10 +79,17 @@ constructor(
     return this.ngControl?.control as FormControl ?? null;
   }
 
+  get controlId(): string {
+    return this.ngControl?.name ? String(this.ngControl.name) : 'form-control';
+  }
 
-  private onChange = (_: any) => {};
+  private onChange = (value: any): void => {
+    this.writeValue(value);
+  };
 
-  private onTouched = () => {};
+  private onTouched = (): void => {
+    this.control?.markAsTouched();
+  };
 
   writeValue(value: any): void {
     this.value = value;

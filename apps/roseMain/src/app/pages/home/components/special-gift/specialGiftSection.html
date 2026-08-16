@@ -123,15 +123,15 @@
   </div>
 
   <div class="cards-grid">
+    @for (card of categoryCards; track $index) {
     <div
-      *ngFor="let card of categoryCards"
       class="cat-card"
       [style.background]="card.bgGradient"
       tabindex="0"
       role="button"
       [attr.aria-label]="card.tag + ': ' + card.title">
 
-      <img [src]="card.imagUrl" class="cat-emoji" aria-hidden="true"/>
+      <img [src]="card.imagUrl" class="cat-emoji" alt="" aria-hidden="true"/>
 
 
 
@@ -145,6 +145,7 @@
 
 
     </div>
+    }
   </div>
 
 

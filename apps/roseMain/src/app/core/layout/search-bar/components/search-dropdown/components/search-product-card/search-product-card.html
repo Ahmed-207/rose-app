@@ -1,4 +1,5 @@
-<div (click)="select.emit(product())" [dir]="'dir' | translate"
+<div (click)="productSelected.emit(product())" (keydown.enter)="productSelected.emit(product())"
+    (keydown.space)="productSelected.emit(product())" role="button" tabindex="0" [dir]="'dir' | translate"
     class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-[#343e4f] cursor-pointer transition-colors duration-150 group">
 
     <!-- Thumbnail & Info -->

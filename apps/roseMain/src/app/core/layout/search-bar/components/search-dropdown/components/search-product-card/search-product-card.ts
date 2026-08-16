@@ -10,7 +10,7 @@ import { Product } from '@org/products';
 })
 export class SearchProductCard {
   product = input.required<Product>();
-  select = output<Product>();
+  productSelected = output<Product>();
 
   readonly starsArray = computed(() => {
     const rating = Math.floor(Number(this.product().rating || 0));

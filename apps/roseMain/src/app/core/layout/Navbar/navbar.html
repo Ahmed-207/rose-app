@@ -29,9 +29,10 @@
         </div>
 
         <div class="hidden md:flex items-center gap-2">
-            <button class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition">
+            <button type="button" (click)="goToLogin()"
+                class="flex items-center gap-2 text-gray-700 dark:text-white hover:text-rose-600 transition cursor-pointer">
                 <svg lucideUser [size]="20" class="shrink-0"></svg>
-                <span class="text-sm font-medium cursor-pointer" (click)="goToLogin()">{{ 'navbar.LOGIN' | translate
+                <span class="text-sm font-medium cursor-pointer">{{ 'navbar.LOGIN' | translate
                     }}</span>
             </button>
             <button [routerLink]="['/home/wishlist']"

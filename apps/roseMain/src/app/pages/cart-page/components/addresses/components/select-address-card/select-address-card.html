@@ -3,7 +3,8 @@
     [class.border-zinc-200]="!isSelected() && !isMainAddress()"
     [class.dark:border-zinc-700]="!isSelected() && !isMainAddress()"
     [class.border-red-800]="isSelected() || isMainAddress()"
-    [class.dark:border-pink-300]="isSelected() || isMainAddress()" (click)="onCardClick()">
+    [class.dark:border-pink-300]="isSelected() || isMainAddress()" (click)="onCardClick()" role="button" tabindex="0"
+    (keydown.enter)="onCardClick()" (keydown.space)="onCardClick()">
     <!-- Content grid -->
     <div class="flex items-start justify-between w-full gap-4">
 

@@ -19,7 +19,7 @@
         </div>
         } @else {
         @for (product of products(); track product.id) {
-        <app-search-product-card [product]="product" (select)="selectProduct.emit($event)" />
+        <app-search-product-card [product]="product" (productSelected)="selectProduct.emit($event)" />
         } @empty {
         <div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
             {{ 'navbar.NO_PRODUCTS_FOUND' | translate }}

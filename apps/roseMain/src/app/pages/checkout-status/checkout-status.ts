@@ -15,9 +15,9 @@ export class CheckoutStatus implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  status: boolean = false;
-  orderId: string = '';
-  msg: string = '';
+  status = false;
+  orderId = '';
+  msg = '';
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {

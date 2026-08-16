@@ -65,13 +65,13 @@
     }
 
     <div class="profile-form__phone">
-      <label class="profile-form__label">{{ 'account.PHONE' | translate }}</label>
+      <label class="profile-form__label" for="phone">{{ 'account.PHONE' | translate }}</label>
       <div class="profile-form__phone-input">
         <span class="profile-form__dial" aria-hidden="true">
           <span class="profile-form__flag">🇪🇬</span>
           EG(+20)
         </span>
-        <input type="tel" formControlName="phone" class="profile-form__tel"
+        <input type="tel" id="phone" formControlName="phone" class="profile-form__tel"
           [placeholder]="'account.PHONE_PLACEHOLDER' | translate" [readonly]="awaitingEmailCode()" />
       </div>
     </div>

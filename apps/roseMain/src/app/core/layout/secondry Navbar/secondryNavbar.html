@@ -14,7 +14,8 @@
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-400">{{'navbar.DELIVER_TO' | translate }}</p>
                     <p class="font-bold text-gray-700 dark:text-[#ffc2cc] cursor-pointer flex items-center gap-2"
-                        (click)="openAddressModal()">
+                        (click)="openAddressModal()" role="button" tabindex="0"
+                        (keydown.enter)="openAddressModal()" (keydown.space)="openAddressModal()">
                         <svg lucideMapPinPen [size]="12"
                             class="shrink-0"></svg>{{_addressStore.lastSelectedAddressCity()}}
                     </p>
@@ -42,7 +43,8 @@
             <div class="text-right">
                 <p class="text-xs text-gray-400 dark:text-gray-500 leading-tight">{{'navbar.HELLO' | translate}}</p>
                 <p class="text-sm font-bold dark:text-[#ffc2cc] leading-tight flex items-center gap-1 cursor-pointer"
-                    (click)="menu.toggle($event)">
+                    (click)="menu.toggle($event)" role="button" tabindex="0"
+                    (keydown.enter)="menu.toggle($event)" (keydown.space)="menu.toggle($event)">
                     {{ userName() }}
                     <svg lucideChevronDown [size]="12" class="text-gray-400 shrink-0"></svg>
                 </p>

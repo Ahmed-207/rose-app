@@ -1,7 +1,7 @@
 <div class="flex flex-column gap-2">
 
   @if(label) {
-    <label>
+    <label [for]="controlId">
       {{ label }}
 
       @if(required) {
@@ -15,6 +15,7 @@
     @case('text') {
       <input
         pInputText
+        [id]="controlId"
         [value]="value"
         [placeholder]="placeholder"
         [disabled]="disabled"
@@ -27,6 +28,7 @@
       <input
         pInputText
         type="email"
+        [id]="controlId"
         [value]="value"
         [placeholder]="placeholder"
         [disabled]="disabled"
@@ -59,6 +61,7 @@
 
       <textarea
         pTextarea
+        [id]="controlId"
         rows="4"
         [disabled]="disabled"
         [placeholder]="placeholder"
