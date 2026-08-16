@@ -16,7 +16,7 @@ export class OrdersService {
     return new HttpContext().set(IS_ORDER_REQUEST, true);
   }
 
-  getAllOrders(page: number = 1, limit: number = 10): Observable<GetOrdersRes> {
+  getAllOrders(page = 1, limit = 10): Observable<GetOrdersRes> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
