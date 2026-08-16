@@ -39,9 +39,9 @@
               <p>
                 {{ 'auth.ENTER_OTP_DESC' | translate }}
                 <strong class="dark:text-pink-300">{{ email() }}</strong>.
-                <a class="back-link" (click)="editEmail(activateCallback)">
+                <button type="button" class="back-link" (click)="editEmail(activateCallback)">
                   {{ 'auth.EDIT' | translate }}
-                </a>
+                </button>
               </p>
             </div>
 

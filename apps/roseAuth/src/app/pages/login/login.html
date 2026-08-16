@@ -16,9 +16,9 @@
         </div>
 
         <div class="forgot-password w-full">
-            <span class="block text-end cursor-pointer text-red-900 dark:text-pink-300"
+            <button type="button" class="block text-end cursor-pointer text-red-900 dark:text-pink-300"
                 (click)="goToForgotPassword()">{{"auth.FORGOT_PASSWORD"
-                | translate}}</span>
+                | translate}}</button>
         </div>
         <div class="flex items-center justfify-start w-full">
             <p-checkbox inputId="remember" formControlName="remember" [binary]="true" />
@@ -33,8 +33,8 @@
     <div class="register-redirect w-full text-center">
         <span class="block">
             {{"auth.NO_ACCOUNT" | translate}}
-            <a class="text-red-900 dark:text-pink-300 cursor-pointer font-medium hover:text-red-950"
-                (click)="goToRegister()">{{"auth.CREATE_ONE" | translate}}</a>
+            <button type="button" class="text-red-900 dark:text-pink-300 cursor-pointer font-medium hover:text-red-950"
+                (click)="goToRegister()">{{"auth.CREATE_ONE" | translate}}</button>
         </span>
     </div>
 </section>
