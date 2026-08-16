@@ -1,17 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RelateProductSection } from './relateProductSection';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideTranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+import { API_URL } from '@org/auth';
+import { RelatedProductsSection } from './relateProductSection';
 
-describe('RelateProductSection', () => {
-  let component: RelateProductSection;
-  let fixture: ComponentFixture<RelateProductSection>;
+describe('RelatedProductsSection', () => {
+  let component: RelatedProductsSection;
+  let fixture: ComponentFixture<RelatedProductsSection>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RelateProductSection],
+      imports: [RelatedProductsSection],
+      providers: [
+        provideTranslateService(),
+        MessageService,
+        { provide: API_URL, useValue: 'https://rose-app.elevate-bootcamp.cloud/api/' },
+        provideHttpClientTesting(),
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RelateProductSection);
+    fixture = TestBed.createComponent(RelatedProductsSection);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('currentProductId', 'product-1');
     await fixture.whenStable();
   });
 

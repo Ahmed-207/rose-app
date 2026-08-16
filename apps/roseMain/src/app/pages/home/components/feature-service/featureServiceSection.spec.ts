@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureServiceSection } from '../featureServiceSection';
+import { provideTranslateService } from '@ngx-translate/core';
+import { FeatureServiceSection } from './featureServiceSection';
 
 describe('FeatureServiceSection', () => {
   let component: FeatureServiceSection;
@@ -8,6 +9,7 @@ describe('FeatureServiceSection', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FeatureServiceSection],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FeatureServiceSection);

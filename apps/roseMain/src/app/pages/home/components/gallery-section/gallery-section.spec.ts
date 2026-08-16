@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { GallerySection } from './gallery-section';
 
 describe('GallerySection', () => {
@@ -8,6 +9,7 @@ describe('GallerySection', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GallerySection],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GallerySection);

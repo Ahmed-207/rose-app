@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { AddressModalButton } from './address-modal-button';
 
 describe('AddressModalButton', () => {
@@ -8,6 +9,7 @@ describe('AddressModalButton', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AddressModalButton],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddressModalButton);
