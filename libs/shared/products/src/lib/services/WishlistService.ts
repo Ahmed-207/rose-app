@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { API_URL, AuthCookieStorage } from '@org/auth';
+import { API_URL } from '@org/auth';
 import { Observable, tap } from 'rxjs';
 import { Root } from '../models/i-wishlist';
 
@@ -14,17 +14,10 @@ export class WishlistService {
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
-  private readonly authCookieStorage = inject(AuthCookieStorage);
-
-  private get token(): string {
-    return this.authCookieStorage.getSession()?.token ?? '';
-  }
 
   getLoggedUserWishlist(): Observable<Root> {
     return this.httpClient
-      .get<Root>(`${this.apiURL}wishlist`, {
-        headers: { token: this.token },
-      })
+      .get<Root>(`${this.apiURL}wishlist`)
       .pipe(
         tap((res) => {
           const items = res?.payload?.wishlistItems || [];
@@ -42,11 +35,7 @@ export class WishlistService {
 
   addProductWishlist(productId: string): Observable<any> {
     return this.httpClient
-      .post(
-        `${this.apiURL}wishlist`,
-        { productId },
-        { headers: { token: this.token } },
-      )
+      .post(`${this.apiURL}wishlist`, { productId })
       .pipe(
         tap(() => {
           this.wishlistIds.update((prev) => {
@@ -61,7 +50,6 @@ export class WishlistService {
   removeProductFromWishlist(productId: string): Observable<any> {
     return this.httpClient
       .delete(`${this.apiURL}wishlist/`, {
-        headers: { token: this.token },
         body: { productId },
       })
       .pipe(
@@ -79,9 +67,7 @@ export class WishlistService {
 
   removeAllProduct(): Observable<any> {
     return this.httpClient
-      .delete(`${this.apiURL}wishlist`, {
-        headers: { token: this.token },
-      })
+      .delete(`${this.apiURL}wishlist`)
       .pipe(
         tap(() => {
           this.wishlistIds.set(new Set());
