@@ -5,7 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthCookieStorage } from '@org/auth';
 import { WishlistService } from '@org/products';
-import { Product } from '@org/shared-ui-components';
+import { Product } from './models/productDto';
 
 @Component({
   selector: 'lib-product-card',
@@ -111,5 +111,15 @@ export class ProductCard implements OnInit {
   dismissSignInPrompt(event: Event): void {
     event.stopPropagation();
     this.showSignInPrompt.set(false);
+  }
+
+  onCardKeydownSpace(event: Event): void {
+    event.preventDefault();
+    this.navigateToDetails();
+  }
+
+  onWishlistKeydownSpace(event: Event): void {
+    event.preventDefault();
+    this.onWishlistToggle(event);
   }
 }

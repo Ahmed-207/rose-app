@@ -3,8 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  Optional,
-  Self,
+  inject,
 } from '@angular/core';
 
 import {
@@ -13,6 +12,8 @@ import {
   FormsModule,
   NgControl
 } from '@angular/forms';
+
+const noop: () => void = () => undefined;
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -63,9 +64,10 @@ export class FormControlComponent implements ControlValueAccessor {
   value: any = null;
 
   disabled = false;
-  constructor(
-    @Optional() @Self() public ngControl: NgControl
-  ) {
+
+  public ngControl = inject(NgControl, { optional: true, self: true });
+
+  constructor() {
     //  this component as the value accessor
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
@@ -76,10 +78,13 @@ export class FormControlComponent implements ControlValueAccessor {
     return this.ngControl?.control as FormControl ?? null;
   }
 
+  get controlId(): string {
+    return this.ngControl?.name ? String(this.ngControl.name) : 'form-control';
+  }
 
-  private onChange = (_: any) => { };
+  private onChange = noop as (_: any) => void;
 
-  private onTouched = () => { };
+  private onTouched = noop;
 
   writeValue(value: any): void {
     this.value = value;
