@@ -35,7 +35,8 @@
       "@org/shared-theme": ["./libs/shared/shared-theme/src/index.ts"],
       "@org/products": ["./libs/shared/products/src/index.ts"],
       "@org/user-addresses": ["./libs/shared/user-addresses/src/index.ts"],
-      "@org/user-orders": ["./libs/shared/user-orders/src/index.ts"]
+      "@org/user-orders": ["./libs/shared/user-orders/src/index.ts"],
+      "apps/shared/*": ["apps/shared/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
