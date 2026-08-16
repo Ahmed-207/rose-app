@@ -14,6 +14,7 @@ export default defineConfig(() => ({
   // },
   test: {
     name: 'auth',
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'jsdom',
