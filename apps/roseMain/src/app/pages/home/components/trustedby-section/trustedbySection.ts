@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SectionHeader} from '../../../../../../../shared/components/section-header/sectionHeader'
+import { SectionHeader } from 'apps/shared/components/section-header/sectionHeader';
 
 @Component({
   selector: 'trusted-by-section',
