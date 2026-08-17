@@ -30,18 +30,20 @@
     <div
         class="cards-container flex-1 flex flex-col gap-5 overflow-y-auto overflow-x-hidden pr-2 sm:pr-4 custom-scrollbar">
         @if(_store.isLoading()){
-        <lib-spinner></lib-spinner>
+        <lib-skeleton-list [rows]="5"></lib-skeleton-list>
         }
         @if(!_store.isLoading() && _store.error()){
         <span class="text-zinc-700 dark:text-zinc-300">{{_store.error()}}</span>
         }
         @if(!_store.isLoading() && !_store.error()){
         @if(_store.entities()){
-        @for(address of _store.entities() ; track address.id ){
-        <app-address-card [cardCity]="address.city" [cardTitle]="address.title" [cardStreet]="address.street"
-            [cardPhone]="address.phone" [addressId]="address.id" [isMainAddress]="address.isPrimary"
-            (deleteModalData)="toggleDeleteModal($event)" (editModalData)="openEditAddressForm(address)"></app-address-card>
-        }
+        <div class="address-list flex flex-col gap-5 animate-fade-in">
+            @for(address of _store.entities() ; track address.id ){
+            <app-address-card [cardCity]="address.city" [cardTitle]="address.title" [cardStreet]="address.street"
+                [cardPhone]="address.phone" [addressId]="address.id" [isMainAddress]="address.isPrimary"
+                (deleteModalData)="toggleDeleteModal($event)" (editModalData)="openEditAddressForm(address)"></app-address-card>
+            }
+        </div>
         }@if(_store.entities().length === 0) {
         <app-empty-page></app-empty-page>
         }

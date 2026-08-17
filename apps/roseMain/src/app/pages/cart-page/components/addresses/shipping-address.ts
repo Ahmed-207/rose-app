@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, output, signal, WritableSignal } from '@angular/core';
 import { addressStore } from '@org/user-addresses';
-import { Spinner, Message } from "@org/shared-ui-components";
+import { SkeletonListComponent, Message } from "@org/shared-ui-components";
 import { SelectAddressCard } from "./components/select-address-card/select-address-card";
 import { EmptyPage } from "./components/my-addresses-modal/components/empty-page/empty-page";
 import { AddressModalButton } from "./components/address-modal-button/address-modal-button";
@@ -9,7 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shipping-address',
-  imports: [Spinner, SelectAddressCard, EmptyPage, Message, AddressModalButton, MyAddressesModal, TranslatePipe],
+  imports: [SkeletonListComponent, SelectAddressCard, EmptyPage, Message, AddressModalButton, MyAddressesModal, TranslatePipe],
   templateUrl: './shipping-address.html',
   styleUrl: './shipping-address.css',
 })

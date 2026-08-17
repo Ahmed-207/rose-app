@@ -3,13 +3,13 @@
     </h2>
     <div class="content-container w-full">
         @if(_store.isLoading()){
-        <div class="p-10 flex items-center justify-center">
-            <lib-spinner></lib-spinner>
+        <div class="p-10 flex items-center justify-center w-full">
+            <lib-skeleton-list [rows]="3"></lib-skeleton-list>
         </div>
         }
         @if(!_store.isLoading() && !_store.error()){
         @if(_store.entities().length){
-        <div class="cards-container flex flex-col items-stretch gap-4 w-full">
+        <div class="cards-container flex flex-col items-stretch gap-4 w-full animate-fade-in">
             @for(address of _store.entities(); track address.id){
             <app-select-address-card [cardCity]="address.city" [cardStreet]="address.street" [cardPhone]="address.phone"
                 [isMainAddress]="address.isPrimary" [addressId]="address.id"

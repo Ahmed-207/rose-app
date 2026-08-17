@@ -1,6 +1,6 @@
 import { addressStore } from "@org/user-addresses";
 import { Component, inject, OnInit, output, signal, WritableSignal } from '@angular/core';
-import { Spinner } from "@org/shared-ui-components";
+import { SkeletonListComponent } from "@org/shared-ui-components";
 import { AddressCard } from "./components/address-card/address-card";
 import { EmptyPage } from "./components/empty-page/empty-page";
 import { DeletionModalData } from "../../models/delete-modal-data";
@@ -14,7 +14,7 @@ import { LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-my-addresses-modal',
-  imports: [Spinner, AddressCard, EmptyPage, DeleteModal, AddressFormModal, TranslatePipe, LucideX],
+  imports: [SkeletonListComponent, AddressCard, EmptyPage, DeleteModal, AddressFormModal, TranslatePipe, LucideX],
   templateUrl: './my-addresses-modal.html',
   styleUrl: './my-addresses-modal.css',
 })
