@@ -5,8 +5,12 @@
     <h1 class="text-3xl font-bold text-gray-800 dark:text-zinc-100">{{ 'ORDERS.TITLE' | translate }}</h1>
   </div>
 
+  @if (store.isLoading()) {
+    <lib-skeleton-list [rows]="5"></lib-skeleton-list>
+  }
+
   @if (!store.isLoading() && store.hasOrders()) {
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 animate-slide-up">
       @for (order of store.ordersByNewest(); track order.id) {
         <div class="bg-zinc-200 dark:bg-zinc-800 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden transition-colors duration-300">
           

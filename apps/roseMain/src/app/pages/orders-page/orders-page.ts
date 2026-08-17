@@ -1,11 +1,12 @@
 import { CommonModule, DatePipe  } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SkeletonListComponent } from '@org/shared-ui-components';
 import { OrderStore } from '@org/user-orders';
 
 @Component({
   selector: 'app-orders-page',
-  imports: [CommonModule , DatePipe , TranslatePipe],
+  imports: [CommonModule , DatePipe , TranslatePipe, SkeletonListComponent],
   templateUrl: './orders-page.html',
   styleUrl: './orders-page.css',
 })
