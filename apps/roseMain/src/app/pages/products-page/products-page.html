@@ -7,7 +7,7 @@
         </div>
 
         <!-- Products Container -->
-        @if((isLoading() || !hasLoaded()) && !error()){
+        @if(!hasLoaded() && !error()){
         <div class="spinner-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
             <lib-spinner></lib-spinner>
         </div>

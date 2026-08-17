@@ -3,7 +3,9 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { patchState } from '@ngrx/signals';
 import { API_URL } from '@org/auth';
+import { ProductsStore } from '@org/products';
 import { ProductsPageComponent } from './products-page';
 
 describe('ProductsPageComponent', () => {
@@ -29,5 +31,17 @@ describe('ProductsPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not render the spinner container while refetching after first load', () => {
+    const store = TestBed.inject(ProductsStore);
+    patchState(store, { isLoading: true, hasLoaded: true, error: null });
+    fixture.detectChanges();
+
+    const spinner = fixture.nativeElement.querySelector('.spinner-container');
+    const productsContainer = fixture.nativeElement.querySelector('.products-container');
+
+    expect(spinner).toBeNull();
+    expect(productsContainer).toBeTruthy();
   });
 });
