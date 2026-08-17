@@ -30,7 +30,7 @@
         <div class="carousel-viewport">
           <div class="carousel-track" #track [class.animate-stagger]="!isLoading()">
             @if (isLoading()) {
-            @for (_ of [].constructor(4); track $index) {
+            @for (_ of [].constructor(8); track $index) {
             <div class="carousel-item">
               <lib-skeleton-card></lib-skeleton-card>
             </div>

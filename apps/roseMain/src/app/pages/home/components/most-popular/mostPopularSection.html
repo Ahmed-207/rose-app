@@ -59,7 +59,7 @@
 
     @if (isLoading()) {
     <div class="most-popular__grid-container grid grid-cols-12 gap-4 md:gap-5 lg:gap-6">
-      @for (_ of [].constructor(8); track $index) {
+      @for (_ of [].constructor(12); track $index) {
       <div class="most-popular__grid-item col-span-12 md:col-span-4 lg:col-span-3">
         <lib-skeleton-card></lib-skeleton-card>
       </div>

@@ -2,7 +2,7 @@
     <app-section-header [header]="'home.testmonials.TESTMONIALS_TITLE' | translate"
         [quote]="'home.testmonials.TESTMONIALS_QUOTE' | translate"></app-section-header>
     @if(_tStore.isLoading()){
-    <div class="spinner-container p-4 md:p-32 dark:bg-zinc-700 bg-[#FBEAE9] grid grid-cols-12 items-center gap-4">
+    <div class="spinner-container p-4 pt-16 md:p-32 dark:bg-zinc-700 bg-[#FBEAE9] grid grid-cols-12 items-center gap-10">
         <lib-skeleton-list [rows]="3"></lib-skeleton-list>
     </div>
     }
