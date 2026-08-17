@@ -13,7 +13,7 @@ import {
   UpdateProfileRequest,
   UserProfile,
 } from '@org/auth';
-import { AppToastService } from '@org/shared-ui-components';
+import { AppToastService, SkeletonComponent } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
 import { FormControlComponent } from 'apps/shared/components/form-controls/form-control';
@@ -30,6 +30,7 @@ const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif']);
     FormControlComponent,
     Button,
     ConfirmDialog,
+    SkeletonComponent,
   ],
   templateUrl: './profileForm.html',
   styleUrl: './profileForm.css',

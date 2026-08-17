@@ -1,10 +1,46 @@
 <div class="profile-form">
   @if (isLoading()) {
-  <p class="profile-form__status">{{ 'account.LOADING' | translate }}</p>
+  <div class="profile-form__skeleton">
+    <div class="profile-form__photo">
+      <div class="profile-form__avatar-wrap">
+        <lib-skeleton class="h-[88px] w-[88px] rounded-full"></lib-skeleton>
+      </div>
+
+      <div class="profile-form__photo-text">
+        <lib-skeleton class="h-5 w-32 rounded-md profile-form__photo-title"></lib-skeleton>
+        <lib-skeleton class="h-4 w-48 rounded-md profile-form__photo-hint"></lib-skeleton>
+      </div>
+    </div>
+
+    <div class="profile-form__fields">
+      <div class="profile-form__row">
+        <lib-skeleton class="h-11 w-full rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-11 w-full rounded-md"></lib-skeleton>
+      </div>
+
+      <lib-skeleton class="h-11 w-full rounded-md"></lib-skeleton>
+
+      <div class="profile-form__phone">
+        <lib-skeleton class="h-4 w-20 rounded-md profile-form__label"></lib-skeleton>
+        <lib-skeleton class="h-11 w-full rounded-md"></lib-skeleton>
+      </div>
+
+      <div>
+        <lib-skeleton class="h-4 w-20 rounded-md profile-form__label"></lib-skeleton>
+        <lib-skeleton class="h-11 w-full rounded-md"></lib-skeleton>
+      </div>
+
+      <div class="profile-form__actions">
+        <lib-skeleton class="h-6 w-28 rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-12 w-40 rounded-full"></lib-skeleton>
+      </div>
+    </div>
+  </div>
   } @else {
-  <div class="profile-form__photo">
-    <div class="profile-form__avatar-wrap">
-      @if (photoPreview(); as preview) {
+  <div class="profile-form__content animate-fade-in">
+    <div class="profile-form__photo">
+      <div class="profile-form__avatar-wrap">
+        @if (photoPreview(); as preview) {
       <img [src]="preview" alt="" class="profile-form__avatar" />
       } @else {
       <div class="profile-form__avatar profile-form__avatar--placeholder">
@@ -95,6 +131,7 @@
       </app-button>
     </div>
   </form>
+  </div>
   }
 
   @if (showDeleteConfirm()) {
