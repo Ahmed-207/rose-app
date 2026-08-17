@@ -5,14 +5,14 @@ import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
-import { Product, Spinner, SkeletonCardComponent, AppToastService } from '@org/shared-ui-components';
+import { Product, Spinner, SkeletonListComponent, AppToastService } from '@org/shared-ui-components';
 import { EmptyWishlist } from "./components/empty-wishlist/empty-wishlist";
 import { CartService } from '../cart-page/services/cart.service';
 
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [TranslatePipe, RouterLink, CommonModule, EmptyWishlist, Spinner, SkeletonCardComponent],
+  imports: [TranslatePipe, RouterLink, CommonModule, EmptyWishlist, Spinner, SkeletonListComponent],
   templateUrl: './wishlistPage.html',
   styleUrl: './wishlistPage.css',
 })

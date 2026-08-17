@@ -6,11 +6,7 @@
     <lib-spinner></lib-spinner>
   </div>
   } @else if (wishlistService.isLoading()) {
-  <div class="grid grid-cols-1 gap-4">
-    @for (_ of [].constructor(3); track $index) {
-    <lib-skeleton-card></lib-skeleton-card>
-    }
-  </div>
+  <lib-skeleton-list [rows]="5"></lib-skeleton-list>
   } @else {
 
   @if (wishlistService.wishlistProducts().length) {
@@ -35,7 +31,7 @@
   </div>
 
   <div class="flow-root">
-    <ul role="list" class="animate-stagger divide-y divide-gray-100 dark:divide-slate-800">
+    <ul role="list" class="animate-slide-up divide-y divide-gray-100 dark:divide-slate-800">
       @for (item of wishlistService.wishlistProducts(); track $index) {
       <li class="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 

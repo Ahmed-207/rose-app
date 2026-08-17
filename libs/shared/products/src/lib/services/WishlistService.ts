@@ -38,6 +38,7 @@ export class WishlistService {
         }),
         catchError((error) => {
           this.isLoading.set(false);
+          this.hasLoaded.set(true);
           throw error;
         }),
       );
