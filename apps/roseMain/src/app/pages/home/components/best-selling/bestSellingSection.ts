@@ -10,7 +10,7 @@ import {
   computed,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AppToastService, ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard, SkeletonCardComponent } from '@org/shared-ui-components';
 import { Button } from 'apps/shared/components/button/button';
 import { CartService } from '../../../cart-page/services/cart.service';
 import { ProductsStore } from '@org/products';
@@ -18,7 +18,7 @@ import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-pro
 
 @Component({
   selector: 'app-best-selling-section',
-  imports: [TranslatePipe, ProductCard, Button],
+  imports: [TranslatePipe, ProductCard, Button, SkeletonCardComponent],
   templateUrl: './bestSellingSection.html',
   styleUrl: './bestSellingSection.css',
 })
@@ -28,6 +28,7 @@ export class BestSellingSection implements OnInit {
   private readonly cartService = inject(CartService);
   private readonly toast = inject(AppToastService);
   readonly _store = inject(ProductsStore);
+  readonly isLoading = computed(() => this._store.isBestLoading());
   // bestSellingSection.ts (UPDATED)
   readonly mappedBestProducts = computed<CardProduct[]>(() => {
     return [...this._store.bestProducts()]

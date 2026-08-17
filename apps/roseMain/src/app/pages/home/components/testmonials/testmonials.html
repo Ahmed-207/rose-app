@@ -3,11 +3,11 @@
         [quote]="'home.testmonials.TESTMONIALS_QUOTE' | translate"></app-section-header>
     @if(_tStore.isLoading()){
     <div class="spinner-container p-4 md:p-32 dark:bg-zinc-700 bg-[#FBEAE9] grid grid-cols-12 items-center gap-4">
-        <lib-spinner></lib-spinner>
+        <lib-skeleton-list [rows]="3"></lib-skeleton-list>
     </div>
     }
     @if(!_tStore.isLoading() && !_tStore.error()){
-    <div class="p-4 pt-16 md:p-32 dark:bg-zinc-700 bg-[#FBEAE9] grid grid-cols-12 items-center gap-10">
+    <div class="animate-fade-in p-4 pt-16 md:p-32 dark:bg-zinc-700 bg-[#FBEAE9] grid grid-cols-12 items-center gap-10">
         @for (testmonial of _tStore.entities(); track testmonial.id) {
         <div class="testmonial-card-container p-2 col-span-12 md:col-span-4">
             <app-testmonial-card [tImage]="testmonial.image" [tRating]="testmonial.rating"

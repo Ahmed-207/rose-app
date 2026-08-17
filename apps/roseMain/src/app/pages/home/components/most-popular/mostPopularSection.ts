@@ -6,13 +6,13 @@ import { Router } from '@angular/router';
 import { ProductsService, CategoriesStore } from '@org/products';
 import { Product } from '@org/shared-ui-components';
 import { SectionHeader } from '../section-header/section-header';
-import { AppToastService, ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard, SkeletonCardComponent } from '@org/shared-ui-components';
 import { mapApiProductToCardProduct } from '../../../../shared/utils/map-api-product';
 import { CartService } from '../../../cart-page/services/cart.service';
 
 @Component({
   selector: 'app-most-popular-section',
-  imports: [TranslatePipe, ProductCard, SectionHeader],
+  imports: [TranslatePipe, ProductCard, SectionHeader, SkeletonCardComponent],
   templateUrl: './mostPopularSection.html',
   styleUrl: './mostPopularSection.css',
 })

@@ -28,7 +28,14 @@
         </button>
 
         <div class="carousel-viewport">
-          <div class="carousel-track" #track>
+          <div class="carousel-track" #track [class.animate-stagger]="!isLoading()">
+            @if (isLoading()) {
+            @for (_ of [].constructor(4); track $index) {
+            <div class="carousel-item">
+              <lib-skeleton-card></lib-skeleton-card>
+            </div>
+            }
+            } @else {
             <!-- UPDATED: Looping over mappedBestProducts() instead of _store.bestProducts() -->
             @for (product of mappedBestProducts(); track product.id) {
             <div class="carousel-item">
@@ -37,6 +44,7 @@
                 (wishlistToggle)="onWishlistToggle($event)">
               </lib-product-card>
             </div>
+            }
             }
           </div>
         </div>
