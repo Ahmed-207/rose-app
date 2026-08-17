@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsStore, FilterParams } from '@org/products';
 import { EmptyProducts } from './components/empty-products/empty-products';
 import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
-import { AppToastService, Spinner, Paginator, ProductCard } from "@org/shared-ui-components";
+import { AppToastService, Spinner, Paginator, ProductCard, SkeletonCardComponent } from "@org/shared-ui-components";
 import { CartService } from '../cart-page/services/cart.service';
 import { Product } from '@org/shared-ui-components';
 import { FilterPanelComponent } from './components/filter-panel/filterPanel';
@@ -12,7 +12,7 @@ import { FilterPanelComponent } from './components/filter-panel/filterPanel';
 @Component({
   selector: 'app-products-page',
   standalone: true,
-  imports: [FilterPanelComponent, ProductCard, Spinner, Paginator, EmptyProducts],
+  imports: [FilterPanelComponent, ProductCard, Spinner, Paginator, SkeletonCardComponent, EmptyProducts],
   templateUrl: './products-page.html',
   styleUrl: './products-page.css',
 })

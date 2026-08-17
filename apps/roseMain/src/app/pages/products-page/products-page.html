@@ -12,12 +12,21 @@
             <lib-spinner></lib-spinner>
         </div>
         }
-        @if(!isLoading() && hasLoaded() && !error() && products().length){
+        @if(hasLoaded() && !error() && (isLoading() || products().length)){
         <div class="products-container col-span-12 md:col-span-9 flex flex-col p-4 h-full flex-1">
 
-            <!-- Cards Container Grid -->
+            @if(isLoading()){
+            <!-- Skeleton Cards Grid -->
             <div
                 class="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @for (_ of [].constructor(productsPerPage()); track $index) {
+                <lib-skeleton-card></lib-skeleton-card>
+                }
+            </div>
+            } @else {
+            <!-- Cards Container Grid -->
+            <div
+                class="cards-container animate-stagger grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @for (product of products(); track product.id) {
                 <div class="product-card-container w-full h-full">
                     <lib-product-card [product]="product" (addToCart)="onAddToCart($event)"
@@ -25,6 +34,7 @@
                 </div>
                 }
             </div>
+            }
 
             <!--paginator-->
             <div class="paginator-container flex justify-center mt-auto pt-6">
