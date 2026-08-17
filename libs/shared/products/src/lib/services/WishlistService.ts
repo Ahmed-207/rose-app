@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { API_URL } from '@org/auth';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap } from 'rxjs';
 import { Root } from '../models/i-wishlist';
 
 @Injectable({
@@ -11,11 +11,14 @@ export class WishlistService {
   wishlistIds = signal<Set<string>>(new Set());
   wishlistProducts = signal<any[]>([]);
   wishlistCount = computed(() => this.wishlistIds().size);
+  isLoading = signal<boolean>(false);
+  hasLoaded = signal<boolean>(false);
 
   private readonly httpClient = inject(HttpClient);
   private readonly apiURL = inject(API_URL);
 
   getLoggedUserWishlist(): Observable<Root> {
+    this.isLoading.set(true);
     return this.httpClient
       .get<Root>(`${this.apiURL}wishlist`)
       .pipe(
@@ -29,6 +32,13 @@ export class WishlistService {
 
           const products = items.map((item) => item.product);
           this.wishlistProducts.set(products);
+
+          this.isLoading.set(false);
+          this.hasLoaded.set(true);
+        }),
+        catchError((error) => {
+          this.isLoading.set(false);
+          throw error;
         }),
       );
   }

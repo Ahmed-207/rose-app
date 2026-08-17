@@ -1,6 +1,18 @@
 <section
   class="max-w-5xl mx-auto p-6 my-6 bg-white dark:bg-[#27272a] rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl shadow-gray-100/70 dark:shadow-none transition-colors duration-300">
 
+  @if (!wishlistService.hasLoaded()) {
+  <div class="flex items-center justify-center py-12">
+    <lib-spinner></lib-spinner>
+  </div>
+  } @else if (wishlistService.isLoading()) {
+  <div class="grid grid-cols-1 gap-4">
+    @for (_ of [].constructor(3); track $index) {
+    <lib-skeleton-card></lib-skeleton-card>
+    }
+  </div>
+  } @else {
+
   @if (wishlistService.wishlistProducts().length) {
 
   <div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-4 mb-6">
@@ -23,7 +35,7 @@
   </div>
 
   <div class="flow-root">
-    <ul role="list" class="divide-y divide-gray-100 dark:divide-slate-800">
+    <ul role="list" class="animate-stagger divide-y divide-gray-100 dark:divide-slate-800">
       @for (item of wishlistService.wishlistProducts(); track $index) {
       <li class="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 
@@ -110,6 +122,8 @@
 
   } @else {
   <app-empty-wishlist></app-empty-wishlist>
+  }
+
   }
 
 </section>
