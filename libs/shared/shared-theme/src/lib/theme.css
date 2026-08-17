@@ -1,3 +1,5 @@
+@import './animations.css';
+
 @theme {
   --font-primary: 'Sarabun', 'Tajawal', ui-sans-serif, system-ui, sans-serif;
 
