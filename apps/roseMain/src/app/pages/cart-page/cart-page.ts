@@ -24,7 +24,7 @@ import {
 } from '@lucide/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductsStore } from '@org/products';
-import { AppToastService, ProductCard } from '@org/shared-ui-components';
+import { AppToastService, ProductCard, SkeletonListComponent } from '@org/shared-ui-components';
 import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
@@ -43,6 +43,7 @@ import { OrderStore, AddOrderReq } from '@org/user-orders';
     DecimalPipe,
     CartItemComponent,
     ProductCard,
+    SkeletonListComponent,
     LucideBrushCleaning,
     LucideArrowLeft,
     LucideArrowRight,

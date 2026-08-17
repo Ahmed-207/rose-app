@@ -1,8 +1,6 @@
 <section class="cart-page font-primary">
   <div class="cart-page__container">
-    @if (isLoading()) {
-    <p class="cart-page__status">{{ 'Loading cart...' | translate }}</p>
-    } @else if (error() && !items().length) {
+    @if (error() && !items().length) {
     <div class="cart-page__status cart-page__status--error">
       <p>{{ error() }}</p>
       <button type="button" class="cart-page__continue" (click)="continueShopping()">
@@ -15,6 +13,7 @@
       @switch (pageCurrentState()) {
       @case ('Cart') {
       <div class="cart-page__main">
+        @if (!isLoading()) {
         <div class="cart-page__header">
           <h1 class="cart-page__title">
             {{ 'Cart' | translate }}
@@ -27,8 +26,11 @@
             {{ 'Clear Cart' | translate }}
           </button>
         </div>
+        }
 
-        @if (!items().length) {
+        @if (isLoading()) {
+        <lib-skeleton-list [rows]="3"></lib-skeleton-list>
+        } @else if (!items().length) {
         <div class="cart-page__empty" role="status">
           <img class="cart-page__empty-art" src="/assets/images/empty-cart.png" alt="" width="220" height="188" />
           <p class="cart-page__empty-text">
@@ -36,7 +38,7 @@
           </p>
         </div>
         } @else {
-        <div class="cart-page__items">
+        <div class="cart-page__items animate-slide-up">
           @for (item of items(); track item.id) {
           <app-cart-item [item]="item" [busy]="busyItemId() === item.id" (quantityChange)="updateQuantity(item, $event)"
             (remove)="removeItem(item)">
@@ -45,10 +47,12 @@
         </div>
         }
 
+        @if (!isLoading()) {
         <button type="button" class="cart-page__continue" (click)="continueShopping()">
           <svg lucideArrowLeft [size]="16" class="shrink-0" aria-hidden="true"></svg>
           {{ 'Continue Shopping' | translate }}
         </button>
+        }
       </div>
       }
       @case ('Shipping Address') {
@@ -84,7 +88,8 @@
       }
       }
 
-      <aside class="cart-summary">
+      @if (!isLoading()) {
+      <aside class="cart-summary animate-slide-up">
         <h2 class="cart-summary__title">{{ 'Summary' | translate }}</h2>
 
         <label class="cart-summary__label" for="coupon-code">
@@ -132,6 +137,7 @@
         </button>
         }
       </aside>
+      }
     </div>
     }
 
