@@ -54,7 +54,6 @@ export class ProductDetailPage implements OnInit {
         switchMap((params) => {
           const id = params.get('id');
           if (!id) {
-            this.isLoading.set(false);
             void this.router.navigate(['/home']);
             return EMPTY;
           }
@@ -67,6 +66,7 @@ export class ProductDetailPage implements OnInit {
             catchError((err) => {
               console.error('HTTP error loading product:', err);
               this.isLoading.set(false);
+              this.hasLoaded.set(true);
               return EMPTY;
             }),
           );
