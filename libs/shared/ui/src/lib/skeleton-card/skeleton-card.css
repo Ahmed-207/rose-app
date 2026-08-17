@@ -1,0 +1,4 @@
+.skeleton-card {
+  background-color: var(--bg-plain);
+  border: 1px solid var(--bg-soft);
+}
