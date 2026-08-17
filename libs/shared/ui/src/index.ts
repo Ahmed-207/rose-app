@@ -6,6 +6,7 @@ export * from './lib/label/label';
 export * from './lib/spinner/spinner';
 export * from './lib/skeleton/skeleton';
 export * from './lib/skeleton-card/skeleton-card';
+export * from './lib/skeleton-list/skeleton-list';
 export * from './lib/message/message';
 export * from './lib/form-control/form-control';
 export * from './lib/product-card/product-card';
