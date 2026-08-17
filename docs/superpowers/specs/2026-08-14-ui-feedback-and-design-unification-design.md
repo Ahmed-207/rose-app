@@ -165,7 +165,7 @@ Radius **8px**, dismissible close button, icon per severity, shadow `subtle-lg`.
 | 2 | Design foundation (tokens, palette, bootstrap) | Done | — |
 | 3 | Surface & dark-mode unification | Done | — |
 | 4 | Consolidation & cleanup | Not started | — |
-| 5 | Loading states & entrance animations | Not started | — |
+| 5 | Loading states & entrance animations | Done | — |
 
 Update the `Status` cell in-place as each phase moves through `Not started → In progress → Done`.
 
@@ -330,7 +330,7 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 
 ## 10. Phase 5 — Loading States & Entrance Animations
 
-**Status:** `Not started`
+**Status:** `Done`
 **Goal:** Every `roseMain` GET-request page shows a consistent skeleton/spinner loading pattern and reveals content with a smooth entrance animation instead of popping in.
 
 **Spec:** `docs/superpowers/specs/2026-08-15-loading-states-and-animations-design.md`
@@ -349,11 +349,11 @@ Update the `Status` cell in-place as each phase moves through `Not started → I
 
 ### 10.3 Definition of done
 
-- [ ] Reusable skeleton components (`lib-skeleton`, `lib-skeleton-card`, `lib-skeleton-list`) exist in `libs/shared/ui`.
-- [ ] Animation utilities exist in `libs/shared/shared-theme`.
-- [ ] Every in-scope page uses the new loading pattern.
-- [ ] `npx nx typecheck roseMain` passes.
-- [ ] `npx nx test shared-ui-components` passes (pre-existing failures unchanged).
+- [x] Reusable skeleton components (`lib-skeleton`, `lib-skeleton-card`, `lib-skeleton-list`) exist in `libs/shared/ui`.
+- [x] Animation utilities exist in `libs/shared/shared-theme`.
+- [x] Every in-scope page uses the new loading pattern.
+- [x] `npx nx typecheck roseMain` passes.
+- [x] `npx nx test shared-ui-components` passes (pre-existing failures unchanged).
 
 ---
 

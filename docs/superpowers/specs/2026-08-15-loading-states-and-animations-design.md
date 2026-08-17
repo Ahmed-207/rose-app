@@ -161,13 +161,19 @@ For simple cases, pages may apply `.animate-fade-in` directly to the content wra
 
 ## Definition of Done
 
-- [ ] New skeleton components exist in `libs/shared/ui`.
-- [ ] Animation CSS utilities exist in `libs/shared/shared-theme` or `libs/shared/ui`.
-- [ ] Every in-scope page switches from a plain spinner to the appropriate skeleton/animation pattern.
-- [ ] Loading state still reads from the existing store signal.
-- [ ] `npx nx typecheck roseMain` passes.
-- [ ] `npx nx test shared-ui-components` passes (pre-existing failures unchanged).
-- [ ] Manual smoke test confirms no layout shift when data arrives.
+- [x] New skeleton components exist in `libs/shared/ui`.
+- [x] Animation CSS utilities exist in `libs/shared/shared-theme` or `libs/shared/ui`.
+- [x] Every in-scope page switches from a plain spinner to the appropriate skeleton/animation pattern.
+- [x] Loading state still reads from the existing store signal.
+- [x] `npx nx typecheck roseMain` passes.
+- [x] `npx nx test shared-ui-components` passes (pre-existing failures unchanged).
+- [x] Manual smoke test confirms no layout shift when data arrives.
+
+## Change Log
+
+| Date | Change |
+|------|--------|
+| 2026-08-17 | Implemented skeleton components, animation utilities, and page loading states |
 
 ## Relation to other phases
 
