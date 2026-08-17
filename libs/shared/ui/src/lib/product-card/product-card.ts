@@ -76,6 +76,9 @@ export class ProductCard implements OnInit {
 
   onAddToCart(event: Event): void {
     event.stopPropagation();
+    if (this.isOutOfStock()) {
+      return;
+    }
     this.addToCart.emit(this.product());
   }
 

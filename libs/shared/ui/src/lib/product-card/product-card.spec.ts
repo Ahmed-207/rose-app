@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideAuth } from '@org/auth';
+import { vi } from 'vitest';
 import { ProductCard } from './product-card';
 import { Product } from './models/productDto';
 
@@ -29,5 +30,20 @@ describe('ProductCard', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should disable add-to-cart and not emit for out-of-stock product', () => {
+    const outOfStockProduct = { ...mockProduct, isOutOfStock: true };
+    fixture.componentRef.setInput('product', outOfStockProduct);
+    fixture.detectChanges();
+
+    const addSpy = vi.fn();
+    component.addToCart.subscribe(addSpy);
+
+    const button = fixture.nativeElement.querySelector('.add-to-cart') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+
+    button.click();
+    expect(addSpy).not.toHaveBeenCalled();
   });
 });
