@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '@org/products';
-import { AppToastService } from '@org/shared-ui-components';
+import { AppToastService, SkeletonComponent, Spinner } from '@org/shared-ui-components';
 import { ProductDetail } from 'apps/shared/models/productDetailDto';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { mapApiProductToDetail } from '../../shared/utils/map-api-product';
@@ -24,7 +24,7 @@ import { RelatedProductsSection } from './components/related-products/relateProd
 
 @Component({
   selector: 'app-product-detail-page',
-  imports: [ProductGallery, ProductInfo, ProductReviews, RelatedProductsSection],
+  imports: [ProductGallery, ProductInfo, ProductReviews, RelatedProductsSection, Spinner, SkeletonComponent],
   templateUrl: './productDetailPage.html',
   styleUrl: './productDetailPage.css',
 })
@@ -40,6 +40,8 @@ export class ProductDetailPage implements OnInit {
   readonly product = signal<ProductDetail | undefined>(undefined);
   readonly selectedImageIndex = model(0);
   productId: WritableSignal<string> = signal<string>('');
+  readonly isLoading = signal(false);
+  readonly hasLoaded = signal(false);
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -52,15 +54,19 @@ export class ProductDetailPage implements OnInit {
         switchMap((params) => {
           const id = params.get('id');
           if (!id) {
+            this.isLoading.set(false);
             void this.router.navigate(['/home']);
             return EMPTY;
           }
 
           this.productId.set(id);
           this.product.set(undefined);
+          this.isLoading.set(true);
+          this.hasLoaded.set(false);
           return this.productsService.getProductById(id).pipe(
             catchError((err) => {
               console.error('HTTP error loading product:', err);
+              this.isLoading.set(false);
               return EMPTY;
             }),
           );
@@ -70,12 +76,15 @@ export class ProductDetailPage implements OnInit {
         const apiProduct = response.product;
         if (!apiProduct) {
           console.error('No product found in response, redirecting home');
+          this.isLoading.set(false);
           void this.router.navigate(['/home']);
           return;
         }
 
         this.product.set(mapApiProductToDetail(apiProduct));
         this.selectedImageIndex.set(0);
+        this.isLoading.set(false);
+        this.hasLoaded.set(true);
       });
   }
 

@@ -1,19 +1,36 @@
-@if (product(); as item) {
-<div class="product-detail">
-  <div class="max-w-7xl mx-auto px-4">
-    <section class="product-detail__hero">
-      <app-product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
-      </app-product-gallery>
+@if (!hasLoaded() || isLoading()) {
+  @if (!hasLoaded()) {
+    <div class="flex justify-center items-center min-h-[50vh]">
+      <lib-spinner size="lg"></lib-spinner>
+    </div>
+  } @else {
+    <div class="product-detail-skeleton grid grid-cols-1 md:grid-cols-2 gap-8">
+      <lib-skeleton class="w-full aspect-square rounded-3xl"></lib-skeleton>
+      <div class="flex flex-col gap-4">
+        <lib-skeleton class="h-8 w-3/4 rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-6 w-1/3 rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-4 w-full rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-4 w-full rounded-md"></lib-skeleton>
+        <lib-skeleton class="h-12 w-40 rounded-full"></lib-skeleton>
+      </div>
+    </div>
+  }
+} @else if (product(); as item) {
+  <div class="product-detail animate-fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <section class="product-detail__hero">
+        <app-product-gallery [images]="item.images" [(selectedIndex)]="selectedImageIndex">
+        </app-product-gallery>
 
-      <app-product-info
-        [product]="item"
-        (addToCart)="onAddToCart($event)"
-        (wishlistToggle)="onWishlistToggle($event)">
-      </app-product-info>
-    </section>
+        <app-product-info
+          [product]="item"
+          (addToCart)="onAddToCart($event)"
+          (wishlistToggle)="onWishlistToggle($event)">
+        </app-product-info>
+      </section>
 
-    <app-product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></app-product-reviews>
-    <app-related-products-section [currentProductId]="productId()"></app-related-products-section>
+      <app-product-reviews [product]="item" (reviewAdded)="onReviewAdded($event)"></app-product-reviews>
+      <app-related-products-section [currentProductId]="productId()"></app-related-products-section>
+    </div>
   </div>
-</div>
 }
