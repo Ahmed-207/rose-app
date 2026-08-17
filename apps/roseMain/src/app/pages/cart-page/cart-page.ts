@@ -29,6 +29,7 @@ import { CartItemComponent } from './components/cart-item/cart-item';
 import { AppliedCoupon, CartItem, Coupon } from './models/cart.models';
 import { CartService } from './services/cart.service';
 import { Product } from '@org/shared-ui-components';
+import { mapApiProductToCardProduct } from '../../shared/utils/map-api-product';
 import { Stepper } from "./components/stepper/stepper";
 import { ShippingAddress } from './components/addresses/shipping-address';
 import { Payment } from "./components/payment/payment";
@@ -79,14 +80,7 @@ export class CartPage implements OnInit {
   readonly recommended = computed<Product[]>(() => {
     return [...this.productsStore.bestProducts()]
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-      .map((p) => ({
-        id: p.id,
-        name: p.title,
-        image: p.cover,
-        price: p.price,
-        rating: p.rating,
-        oldPrice: p.discountValue ? String(Number(p.price) + Number(p.discountValue)) : undefined
-      }) as unknown as Product)
+      .map(mapApiProductToCardProduct)
       .slice(0, 8);
   });
   readonly isRecommendedLoading = computed(() => this.productsStore.isBestLoading());
@@ -198,6 +192,7 @@ export class CartPage implements OnInit {
         this.appliedCoupon.set(null);
         this.couponError.set(null);
         this.isClearing.set(false);
+        this.error.set(null);
         this.toast.success('toast.CART_CLEARED');
       },
       error: () => {
@@ -276,9 +271,7 @@ export class CartPage implements OnInit {
         this.toast.success('toast.ADDED_TO_CART');
         this.loadCart();
       },
-      error: () => {
-        this.error.set('Failed to add product to cart. Please sign in and try again.');
-      },
+      error: () => undefined,
     });
   }
 
