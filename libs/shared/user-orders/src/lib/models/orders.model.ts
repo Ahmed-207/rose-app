@@ -1,3 +1,5 @@
+import { CheckoutSession } from './payment';
+
 // ==========================================
 // Base Entity Models
 // ==========================================
@@ -108,10 +110,13 @@ export interface AddOrderReq {
     paymentMethod: string;
     couponCode?: string;
     notes?: string;
+    successUrl?: string;
+    cancelUrl?: string;
 }
 
 export interface AddOrderPayload {
     order: Order;
+    checkout?: CheckoutSession | null;
 }
 
 export interface AddOrderRes {

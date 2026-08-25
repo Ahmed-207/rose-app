@@ -376,6 +376,7 @@
   "checkout": {
     "orderPlaced": "Thank you, your order has been placed",
     "orderNumber": "Order Number",
+    "verifyingPayment": "Verifying your payment...",
     "paidSuccess": "Payment successful",
     "orderFail": "Payment failed",
     "backToCart": "Back to Cart",

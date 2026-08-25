@@ -1,6 +1,19 @@
 <div class="checkout-area">
+  <!-- VERIFYING STATE -->
+  @if(isVerifying()) {
+  <div
+    class="result-card bg-white dark:bg-[#202938] border-gray-100 dark:border-gray-700/60 shadow-xl transition-colors duration-300">
+    <div class="flex flex-col items-center justify-center py-12">
+      <div
+        class="w-12 h-12 border-4 border-gray-200 dark:border-slate-700 border-t-[#4A1525] dark:border-t-pink-600 rounded-full animate-spin mb-4">
+      </div>
+      <p class="text-gray-900 dark:text-gray-100 font-medium">{{ 'checkout.verifyingPayment' | translate }}</p>
+    </div>
+  </div>
+  }
+
   <!-- SUCCESS STATE CARD -->
-  @if(status === true) {
+  @if(!isVerifying() && status === true) {
   <div
     class="result-card success bg-white dark:bg-[#202938] border-gray-100 dark:border-gray-700/60 shadow-xl transition-colors duration-300">
 
@@ -34,7 +47,7 @@
   }
 
   <!-- FAILURE STATE CARD -->
-  @if(status === false) {
+  @if(!isVerifying() && status === false) {
   <div
     class="result-card fail bg-white dark:bg-[#202938] border-gray-100 dark:border-gray-700/60 shadow-xl transition-colors duration-300">
 
