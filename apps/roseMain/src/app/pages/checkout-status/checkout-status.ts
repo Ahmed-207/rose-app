@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OrderStore } from '@org/user-orders';
 
@@ -23,20 +23,22 @@ export class CheckoutStatus implements OnInit {
   isVerifying = signal(false);
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      const sessionId = params.get('session_id');
+    this.route.queryParamMap.subscribe((params) => this.resolveCheckoutStatus(params));
+  }
 
-      if (sessionId) {
-        this.isVerifying.set(true);
-        this.orderStore.verifyCheckoutSession(sessionId);
-        return;
-      }
+  private resolveCheckoutStatus(params: ParamMap): void {
+    const sessionId = params.get('session_id');
 
-      this.isVerifying.set(false);
-      this.orderId = params.get('orderId') || '';
-      this.msg = params.get('msg') || '';
-      this.status = params.get('status') === 'success';
-    });
+    if (sessionId) {
+      this.isVerifying.set(true);
+      this.orderStore.verifyCheckoutSession(sessionId);
+      return;
+    }
+
+    this.isVerifying.set(false);
+    this.orderId = params.get('orderId') || '';
+    this.msg = params.get('msg') || '';
+    this.status = params.get('status') === 'success';
   }
 
   viewOrderDetails(): void {
@@ -51,4 +53,3 @@ export class CheckoutStatus implements OnInit {
     this.router.navigate(['/home/cart']);
   }
 }
-
