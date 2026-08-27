@@ -378,6 +378,7 @@
     "orderPlaced": "شكرًا لك، تم استلام طلبك",
     "backToCart": "العودة إلى سلة التسوق",
     "orderNumber": "رقم الطلب",
+    "verifyingPayment": "جاري التحقق من عملية الدفع...",
     "paidSuccess": "تم الدفع بنجاح",
     "orderFail": "لم تنجح عملية الدفع",
     "paymentFailedTag": "تعذّر إتمام الدفع",
