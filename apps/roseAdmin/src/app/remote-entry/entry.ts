@@ -1,9 +1,9 @@
+import { MainLayout } from '../core/layout/mainLayout/mainLayout';
 import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
 
 @Component({
-  imports: [NxWelcome],
+  imports: [MainLayout],
   selector: 'app-rose-admin-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: `<app-main-layout></app-main-layout>`,
 })
 export class RemoteEntry {}
