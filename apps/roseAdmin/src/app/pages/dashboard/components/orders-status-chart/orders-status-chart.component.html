@@ -1,0 +1,28 @@
+<div class="dash-card orders-status">
+  <div class="dash-card__header">
+    <h3>Orders Status</h3>
+  </div>
+
+  <div class="orders-status__chart">
+    <p-chart type="doughnut" [data]="chartData" [options]="chartOptions" height="180px"></p-chart>
+  </div>
+
+  <div class="orders-status__legend">
+   @for (slice of data; track slice.label) {
+  <div class="legend-item">
+    <span
+      class="legend-item__dot"
+      [style.background]="slice.color">
+    </span>
+
+    <span class="legend-item__label">
+      {{ slice.label }}
+    </span>
+
+    <span class="legend-item__value">
+      {{ slice.value }} ({{ percentOf(slice.value) }}%)
+    </span>
+  </div>
+}
+  </div>
+</div>
