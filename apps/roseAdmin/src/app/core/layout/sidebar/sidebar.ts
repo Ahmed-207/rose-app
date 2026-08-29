@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule , TranslatePipe],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
@@ -20,9 +21,9 @@ export class Sidebar {
   }
 
   menuItems = [
-  { label: 'Overview', path: 'overview', icon: 'pi pi-th-large' },
-  { label: 'Categories', path: 'categories', icon: 'pi pi-folder' },
-  { label: 'Occasions', path: 'occasions', icon: 'pi pi-calendar' },
-  { label: 'Products', path: 'products', icon: 'pi pi-box' } 
+  { label: 'ADMIN.NAVIGATION.OVERVIEW' , path: 'overview', icon: 'pi pi-th-large' },
+  { label: 'ADMIN.NAVIGATION.CATEGORIES' , path: 'categories', icon: 'pi pi-folder' },
+  { label: 'ADMIN.NAVIGATION.OCCASIONS' , path: 'occasions', icon: 'pi pi-calendar' },
+  { label: 'ADMIN.NAVIGATION.PRODUCTS' , path: 'products', icon: 'pi pi-box' } 
 ];
 }

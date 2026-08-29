@@ -1,12 +1,14 @@
 <div class="flex justify-around items-center h-16 bg-white border-t border-gray-100 px-2">
+  @for (item of navItems; track item.label) {
   <a 
-    *ngFor="let item of navItems"
+   
     [routerLink]="item.path"
       [routerLinkActiveOptions]="{ exact: false }"
     routerLinkActive="text-[#A31D36] font-semibold"
     class="flex flex-col items-center gap-1 text-xs text-gray-400 transition-colors"
   >
-    <span class="text-xl">{{ item.icon }}</span>
-    <span>{{ item.label }}</span>
+  <i class="text-xl" [class]="item.icon"></i>
+    <span>{{ item.label |translate }}</span>
   </a>
+  }
 </div>

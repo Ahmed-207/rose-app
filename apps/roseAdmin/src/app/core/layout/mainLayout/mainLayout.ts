@@ -5,12 +5,14 @@ import { Sidebar } from '../sidebar/sidebar';
 import { Navbar } from '../navbar/navbar';
 import { MobileBottom } from '../mobileBottom/mobileBottom';
 import { Footer } from '../footer/footer';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-layout',
   imports: [
     CommonModule,
     RouterModule,
+    TranslatePipe,
     Sidebar,
     Navbar,
     // MobileBottom,

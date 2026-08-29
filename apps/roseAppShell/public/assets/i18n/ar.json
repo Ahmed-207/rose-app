@@ -385,5 +385,24 @@
     "needHelp": "تحتاج مساعدة؟ تواصل مع الدعم",
     "viewOrders": "عرض الطلبات",
     "continueShopping": "متابعة التسوق"
+  },
+  "ADMIN":{
+    "NAVBAR": {
+    "DASHBOARD": "لوحة التحكم",
+    "PROFILE": "الملف الشخصي",
+    "LOGOUT": "تسجيل الخروج"
+  },
+  "SIDEBAR": {
+    "PREVIEW_WEBSITE": "معاينة الموقع",
+    "PROFILE": "الملف الشخصي",
+    "LOGOUT": "تسجيل الخروج",
+    "NAME":"الاسم الاول الاسم الاخير"
+  },
+  "NAVIGATION": {
+    "OVERVIEW": "نظرة عامة",
+    "CATEGORIES": "الأقسام",
+    "OCCASIONS": "المناسبات",
+    "PRODUCTS": "المنتجات"
+  }
   }
 }

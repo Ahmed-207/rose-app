@@ -1,10 +1,12 @@
 
 
-<header class="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 relative w-full">
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#202938] border-b border-gray-100 relative w-full">
  
   <div class="flex items-center gap-2">
     <img src="/assets/images/logo.png" alt="Rose Logo" class="w-8 h-8 rounded-full md:hidden" />
-    <span class="font-semibold text-gray-500 text-sm">Dashboard</span>
+    <span class="font-semibold text-gray-500  dark:text-white text-sm">
+      {{'ADMIN.NAVBAR.DASHBOARD' | translate}}
+    </span>
   </div>
 
   <div class="flex items-center gap-3 relative md:hidden">
@@ -30,11 +32,12 @@
     >
       <a routerLink="/profile" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
         <i class="pi pi-user text-gray-500"></i>
-        <span>Profile</span>
+        <span>      {{'ADMIN.NAVBAR.PROFILE' | translate}}
+</span>
       </a>
       <button class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
         <i class="pi pi-sign-out text-red-500"></i>
-        <span>Logout</span>
+        <span>{{'ADMIN.NAVBAR.LOGOUT' | translate}}</span>
       </button>
     </div>
     }

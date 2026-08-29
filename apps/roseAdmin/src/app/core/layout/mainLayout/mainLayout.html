@@ -21,30 +21,35 @@
     </main>
 
 
-<div class="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-3 pt-2 bg-linear-to-t from-white via-white to-transparent pointer-events-none">
-  <nav class="pointer-events-auto relative bg-white rounded-3xl shadow-xl border border-gray-100 flex items-center justify-around px-2 py-2 min-h-16">
+<div class="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-3 pt-2 bg-linear-to-t from-white via-white  to-transparent pointer-events-none">
+  <nav class="pointer-events-auto relative bg-white dark:bg-[#202938] rounded-3xl shadow-xl border border-gray-100 flex items-center justify-around px-2 py-2 min-h-16">
     
     <a 
       routerLink="/admin/overview" 
       routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
       [routerLinkActiveOptions]="{ exact: false }"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 transition-all text-[11px] font-medium gap-0.5"
+      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-th-large text-lg"></i>
-      <span>Overview</span>
+      <span>
+        {{'ADMIN.NAVIGATION.OVERVIEW' | translate}}
+      </span>
     </a>
 
     <a 
       routerLink="/admin/categories" 
       routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 transition-all text-[11px] font-medium gap-0.5"
+      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-list text-lg"></i>
-      <span>Categories</span>
+      <span>
+        {{'ADMIN.NAVIGATION.CATEGORIES' | translate}}
+
+      </span>
     </a>
 
     <div class="relative -top-5 flex items-center justify-center">
-      <button class="w-12 h-12 bg-[#85162B] hover:bg-[#6B1426] text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white transition-transform active:scale-95">
+      <button class="w-12 h-12 bg-[#85162B] dark:bg-[#ffc2cc] hover:bg-[#6B1426] text-white dark:text-[#ffc2cc] rounded-full flex items-center justify-center shadow-lg border-4 border-white transition-transform active:scale-95">
         <i class="pi pi-th-large text-xl"></i>
       </button>
     </div>
@@ -52,19 +57,25 @@
     <a 
       routerLink="/admin/occasions" 
       routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 transition-all text-[11px] font-medium gap-0.5"
+      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-calendar text-lg"></i>
-      <span>Occasions</span>
+      <span>
+        {{'ADMIN.NAVIGATION.OCCASIONS' | translate}}
+
+      </span>
     </a>
 
     <a 
       routerLink="/admin/products" 
       routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-sm text-gray-500 transition-all text-[11px] font-medium gap-0.5"
+      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-sm text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-box text-lg"></i>
-      <span>Products</span>
+      <span>
+        {{'ADMIN.NAVIGATION.PRODUCTS' | translate}}
+        
+      </span>
     </a>
 
   </nav>
