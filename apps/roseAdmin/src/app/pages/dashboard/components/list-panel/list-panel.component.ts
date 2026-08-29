@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListRowItem } from '../../models/dashboard.models';
+import {  TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,TranslatePipe],
   templateUrl: './list-panel.component.html',
   styleUrl: './list-panel.component.scss'
 })

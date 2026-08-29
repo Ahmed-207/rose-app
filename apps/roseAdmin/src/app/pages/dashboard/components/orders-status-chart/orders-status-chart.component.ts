@@ -2,20 +2,23 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { OrdersStatusSlice } from '../../models/dashboard.models';
+import { ChartData, ChartOptions } from 'chart.js';
+import { TranslatePipe } from '@ngx-translate/core';
+type OrdersStatusChartData = ChartData<'doughnut', number[], string>;
 
 
 @Component({
   selector: 'app-orders-status-chart',
   standalone: true,
-  imports: [CommonModule, ChartModule],
+  imports: [CommonModule, ChartModule,TranslatePipe],
   templateUrl: './orders-status-chart.component.html',
   styleUrl: './orders-status-chart.component.scss'
 })
 export class OrdersStatusChartComponent implements OnChanges {
   @Input({ required: true }) data: OrdersStatusSlice[] = [];
 
-  chartData: any;
-  chartOptions: any = {
+ chartData!: OrdersStatusChartData;
+  chartOptions: ChartOptions<'doughnut'> = {
     cutout: '72%',
     plugins: { legend: { display: false }, tooltip: { enabled: true } },
     maintainAspectRatio: false

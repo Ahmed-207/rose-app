@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { SelectModule } from 'primeng/select';
 import { RevenuePoint } from '../../models/dashboard.models';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-revenue-chart',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChartModule, SelectModule],
+  imports: [CommonModule, FormsModule, ChartModule, SelectModule,TranslatePipe],
   templateUrl: './revenue-chart.component.html',
   styleUrl: './revenue-chart.component.scss'
 })
