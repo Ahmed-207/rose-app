@@ -7,6 +7,7 @@ const config: ModuleFederationConfig = {
   },
   shared: (libraryName, sharedConfig) => {
     if (
+      
       libraryName.startsWith('primeng') ||
       libraryName === 'primeicons' ||
       libraryName === '@primeng/themes' ||
