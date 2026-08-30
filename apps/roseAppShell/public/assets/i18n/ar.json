@@ -385,8 +385,9 @@
     "tryAgainHint": "لم يتم خصم أي مبلغ من حسابك. تحقق من بيانات الدفع وحاول مرة أخرى، أو عد إلى سلة التسوق.",
     "needHelp": "تحتاج مساعدة؟ تواصل مع الدعم",
     "viewOrders": "عرض الطلبات",
-    "continueShopping": "متابعة التسوق",
-      "Revenue": "الإيرادات",
+    "continueShopping": "متابعة التسوق"
+  },
+  "Revenue": "الإيرادات",
   "Last Week": "الأسبوع الماضي",
   "Orders Status": "حالة الطلبات",
   "Total products": "إجمالي المنتجات",
@@ -395,8 +396,7 @@
   "Total revenue": "إجمالي الإيرادات",
   "Completed": "مكتمل",
   "In progress": "قيد التنفيذ",
-  "Canceled": "ملغي"
-  },
+  "Canceled": "ملغي",
   "notifications": {
     "TITLE": "الإشعارات",
     "TITLE_WITH_COUNT": "الإشعارات ({{count}})",
@@ -412,7 +412,7 @@
   "ADMIN": {
     "NAVIGATION": {
       "OVERVIEW": "نظرة عامة",
-      "CATEGORIES": "التصنيفات",
+      "CATEGORIES": "الأقسام",
       "OCCASIONS": "المناسبات",
       "PRODUCTS": "المنتجات",
       "NOTIFICATIONS": "الإشعارات"

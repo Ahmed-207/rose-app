@@ -384,8 +384,9 @@
     "tryAgainHint": "No amount was charged to your account. Check your payment details and try again, or return to your cart.",
     "needHelp": "Need help? Contact support",
     "viewOrders": "View Orders",
-    "continueShopping": "Continue Shopping",
-    "Revenue": "Revenue",
+    "continueShopping": "Continue Shopping"
+  },
+  "Revenue": "Revenue",
   "Last Week": "Last Week",
   "Orders Status": "Orders Status",
   "Total products": "Total Products",
@@ -394,9 +395,7 @@
   "Total revenue": "Total Revenue",
   "Completed": "Completed",
   "In progress": "In Progress",
-  "Canceled": "Canceled"
-
-  },
+  "Canceled": "Canceled",
   "notifications": {
     "TITLE": "Notifications",
     "TITLE_WITH_COUNT": "Notifications ({{count}})",
