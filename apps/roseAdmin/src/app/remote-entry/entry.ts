@@ -1,9 +1,9 @@
+import { MainLayout } from '../core/layout/mainLayout/mainLayout';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [MainLayout],
   selector: 'app-rose-admin-entry',
-  template: `<router-outlet></router-outlet>`,
+  template: `<app-main-layout></app-main-layout>`,
 })
 export class RemoteEntry { }
