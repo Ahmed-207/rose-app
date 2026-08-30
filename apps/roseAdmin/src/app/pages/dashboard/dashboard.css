@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.dashboard {
+  padding: 1.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.dashboard__grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    'stats stats stats stats stats stats stats stats cats cats cats cats'
+    'stats stats stats stats stats stats stats stats cats cats cats cats'
+    'orders orders orders orders revenue revenue revenue revenue revenue revenue revenue revenue'
+    'top top top top top top low low low low low low';
+}
+
+.area--stats {
+  grid-area: stats;
+  padding: 13px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow-card);
+}
+.area--categories {
+  grid-area: cats;
+}
+.area--orders {
+  grid-area: orders;
+}
+.area--revenue {
+  grid-area: revenue;
+}
+.area--top-selling {
+  grid-area: top;
+}
+.area--low-stock {
+  grid-area: low;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  height: 100%;
+}
+
+/* Tablet: stack the two-row top block into single columns, keep pairs side by side */
+@media (max-width: 1100px) {
+  .dashboard__grid {
+    grid-template-areas:
+      'stats stats stats stats stats stats stats stats stats stats stats stats'
+      'cats cats cats cats cats cats cats cats cats cats cats cats'
+      'orders orders orders orders orders orders revenue revenue revenue revenue revenue revenue'
+      'top top top top top top low low low low low low';
+  }
+}
+
+/* Mobile: everything stacks in a single column, in reading order */
+@media (max-width: 720px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'stats'
+      'cats'
+      'orders'
+      'revenue'
+      'top'
+      'low';
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

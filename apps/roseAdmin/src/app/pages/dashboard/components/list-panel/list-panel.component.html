@@ -1,0 +1,27 @@
+<div class="dash-card list-panel">
+  <div class="dash-card__header">
+    <h3>{{ title | translate }}</h3>
+  </div>
+
+  <div class="list-panel__scroll" [style.maxHeight.px]="maxHeight">
+    <div class="list-row" *ngFor="let item of items">
+
+
+      <div class="list-row__body">
+        <div class="list-row__title">{{ item.title }}
+@if(item.subtitle){
+  <span class="list-row__subtitle" > | {{ item.subtitle }}</span>
+}
+
+        </div>
+
+      </div>
+
+      <div class="list-row__value" [ngClass]="toneClass(item)">
+        {{ item.value }}
+      </div>
+    </div>
+
+    <div class="list-panel__empty" *ngIf="!items.length">No data yet.</div>
+  </div>
+</div>
