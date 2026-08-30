@@ -96,8 +96,6 @@ export class SecondryNavbar implements OnInit {
                     {
                         label: this.translate.instant('navbar.Dashboard'),
                         icon: 'pi pi-cog',
-                        routerLink: ['/admin'],
-
                     },
                     {
                         label: this.translate.instant('navbar.Logout'),
