@@ -16,7 +16,13 @@ export const remoteRoutes: Route[] = [
         loadComponent: () =>
           import('../pages/dashboard/dashboard').then((c) => c.Dashboard),
         title: 'Dashboard',
-      }
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('../pages/notifications/notifications').then((c) => c.NotificationsPage),
+        title: 'Notifications',
+      },
     ],
-  }
+  },
 ];

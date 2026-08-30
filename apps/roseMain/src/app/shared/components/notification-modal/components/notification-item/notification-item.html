@@ -1,0 +1,44 @@
+<div
+  class="notification-item"
+  [class.notification-item--read]="notification().isRead"
+  [class.notification-item--unread]="!notification().isRead"
+>
+  <div class="notification-item__content">
+    <h3 class="notification-item__title">{{ notification().title }}</h3>
+    <p class="notification-item__message">{{ notification().message }}</p>
+  </div>
+
+  <div class="notification-item__actions">
+    <button
+      type="button"
+      class="notification-item__menu-trigger"
+      [attr.aria-label]="'notifications.OPEN_MENU' | translate"
+      (click)="onMenuToggle($event)"
+    >
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    @if (isMenuOpen()) {
+    <div class="notification-item__menu" role="menu">
+      <button
+        type="button"
+        class="notification-item__menu-item"
+        [class.notification-item__menu-item--disabled]="notification().isRead"
+        [disabled]="notification().isRead"
+        (click)="onMarkAsRead($event)"
+      >
+        <i class="pi pi-check"></i>
+        <span>{{ 'notifications.MARK_AS_READ' | translate }}</span>
+      </button>
+      <button
+        type="button"
+        class="notification-item__menu-item notification-item__menu-item--danger"
+        (click)="onDelete($event)"
+      >
+        <i class="pi pi-trash"></i>
+        <span>{{ 'notifications.DELETE' | translate }}</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

@@ -396,5 +396,52 @@
   "In progress": "In Progress",
   "Canceled": "Canceled"
 
+  },
+  "notifications": {
+    "TITLE": "Notifications",
+    "TITLE_WITH_COUNT": "Notifications ({{count}})",
+    "CLEAR_ALL": "Clear all notifications",
+    "MARK_ALL_READ": "Mark all as read",
+    "EMPTY": "No notifications to display.",
+    "MARK_AS_READ": "Mark as read",
+    "DELETE": "Delete notification",
+    "CONFIRM_CLEAR_ALL": "Are you sure you want to clear all notifications?",
+    "CANCEL": "Cancel",
+    "OPEN_MENU": "Open notification menu"
+  },
+  "ADMIN": {
+    "NAVIGATION": {
+      "OVERVIEW": "Overview",
+      "CATEGORIES": "Categories",
+      "OCCASIONS": "Occasions",
+      "PRODUCTS": "Products",
+      "NOTIFICATIONS": "Notifications"
+    },
+    "SIDEBAR": {
+      "PREVIEW_WEBSITE": "Preview Website",
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout",
+      "NAME": "Admin"
+    },
+    "NAVBAR": {
+      "DASHBOARD": "Dashboard",
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "SUBTITLE": "Create and send in-app notifications to customers.",
+      "CREATE_TITLE": "Send notification",
+      "USER_ID": "User ID",
+      "NOTIFICATION_TITLE": "Title",
+      "MESSAGE": "Message",
+      "TYPE": "Type",
+      "SEND": "Send notification",
+      "SUCCESS": "Notification sent successfully.",
+      "ERROR_SEND": "Failed to send notification.",
+      "PUSH_CONFIGURED": "Web Push is configured. Subscribed devices: {{count}}.",
+      "PUSH_NOT_CONFIGURED": "Web Push is not configured on the server.",
+      "PUSH_UNAVAILABLE": "Unable to load push status."
+    }
   }
 }

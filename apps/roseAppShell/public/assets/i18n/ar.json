@@ -396,5 +396,52 @@
   "Completed": "مكتمل",
   "In progress": "قيد التنفيذ",
   "Canceled": "ملغي"
+  },
+  "notifications": {
+    "TITLE": "الإشعارات",
+    "TITLE_WITH_COUNT": "الإشعارات ({{count}})",
+    "CLEAR_ALL": "مسح جميع الإشعارات",
+    "MARK_ALL_READ": "تحديد الكل كمقروء",
+    "EMPTY": "لا توجد إشعارات للعرض.",
+    "MARK_AS_READ": "تحديد كمقروء",
+    "DELETE": "حذف الإشعار",
+    "CONFIRM_CLEAR_ALL": "هل أنت متأكد أنك تريد مسح جميع الإشعارات؟",
+    "CANCEL": "إلغاء",
+    "OPEN_MENU": "فتح قائمة الإشعار"
+  },
+  "ADMIN": {
+    "NAVIGATION": {
+      "OVERVIEW": "نظرة عامة",
+      "CATEGORIES": "التصنيفات",
+      "OCCASIONS": "المناسبات",
+      "PRODUCTS": "المنتجات",
+      "NOTIFICATIONS": "الإشعارات"
+    },
+    "SIDEBAR": {
+      "PREVIEW_WEBSITE": "معاينة الموقع",
+      "PROFILE": "الملف الشخصي",
+      "LOGOUT": "تسجيل الخروج",
+      "NAME": "المشرف"
+    },
+    "NAVBAR": {
+      "DASHBOARD": "لوحة التحكم",
+      "PROFILE": "الملف الشخصي",
+      "LOGOUT": "تسجيل الخروج"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "الإشعارات",
+      "SUBTITLE": "إنشاء وإرسال إشعارات داخل التطبيق للعملاء.",
+      "CREATE_TITLE": "إرسال إشعار",
+      "USER_ID": "معرف المستخدم",
+      "NOTIFICATION_TITLE": "العنوان",
+      "MESSAGE": "الرسالة",
+      "TYPE": "النوع",
+      "SEND": "إرسال الإشعار",
+      "SUCCESS": "تم إرسال الإشعار بنجاح.",
+      "ERROR_SEND": "فشل إرسال الإشعار.",
+      "PUSH_CONFIGURED": "إشعارات الويب مفعّلة. الأجهزة المشتركة: {{count}}.",
+      "PUSH_NOT_CONFIGURED": "إشعارات الويب غير مفعّلة على الخادم.",
+      "PUSH_UNAVAILABLE": "تعذّر تحميل حالة إشعارات الويب."
+    }
   }
 }

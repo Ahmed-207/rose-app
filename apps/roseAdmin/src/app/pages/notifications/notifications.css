@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.notifications-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.notifications-page__header {
+  margin-bottom: 1.5rem;
+}
+
+.notifications-page__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.notifications-page__subtitle {
+  margin: 0;
+  color: #6b7280;
+}
+
+.notifications-page__status {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.notifications-page__card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--card-bg, #ffffff);
+  box-shadow: var(--shadow-card, 0 10px 25px rgba(15, 23, 42, 0.08));
+}
+
+.notifications-page__card-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.notifications-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notifications-page__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.notifications-page__field input,
+.notifications-page__field textarea,
+.notifications-page__field select {
+  padding: 0.75rem 0.875rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font: inherit;
+}
+
+.notifications-page__success {
+  margin: 0;
+  color: #047857;
+  font-size: 0.875rem;
+}
+
+.notifications-page__error {
+  margin: 0;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.notifications-page__submit {
+  align-self: flex-start;
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: #741c21;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notifications-page__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

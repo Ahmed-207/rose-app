@@ -1,0 +1,54 @@
+<div class="notifications-page">
+  <div class="notifications-page__header">
+    <h1 class="notifications-page__title">{{ 'ADMIN.NOTIFICATIONS.TITLE' | translate }}</h1>
+    <p class="notifications-page__subtitle">{{ 'ADMIN.NOTIFICATIONS.SUBTITLE' | translate }}</p>
+  </div>
+
+  @if (pushStatusMessage()) {
+  <div class="notifications-page__status">{{ pushStatusMessage() }}</div>
+  }
+
+  <section class="notifications-page__card">
+    <h2 class="notifications-page__card-title">
+      {{ 'ADMIN.NOTIFICATIONS.CREATE_TITLE' | translate }}
+    </h2>
+
+    <form class="notifications-page__form" [formGroup]="form" (ngSubmit)="submit()">
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.USER_ID' | translate }}</span>
+        <input type="text" formControlName="userId" />
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.NOTIFICATION_TITLE' | translate }}</span>
+        <input type="text" formControlName="title" />
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.MESSAGE' | translate }}</span>
+        <textarea rows="4" formControlName="message"></textarea>
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.TYPE' | translate }}</span>
+        <select formControlName="type">
+          @for (type of notificationTypes; track type) {
+          <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      @if (successMessage()) {
+      <p class="notifications-page__success" role="status">{{ successMessage() }}</p>
+      }
+
+      @if (errorMessage()) {
+      <p class="notifications-page__error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      <button type="submit" class="notifications-page__submit" [disabled]="isSubmitting()">
+        {{ 'ADMIN.NOTIFICATIONS.SEND' | translate }}
+      </button>
+    </form>
+  </section>
+</div>
