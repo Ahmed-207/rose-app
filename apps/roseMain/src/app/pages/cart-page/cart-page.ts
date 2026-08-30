@@ -343,15 +343,18 @@ export class CartPage implements OnInit {
     const addressId = this.recievedAddressId();
     if (!addressId) return;
 
+    const paymentMethod = this.confirmedPaymentMethod();
     const payload: AddOrderReq = {
       addressId,
-      paymentMethod: this.confirmedPaymentMethod(),
+      paymentMethod,
       couponCode: this.appliedCoupon()?.coupon.code,
     };
 
+    if (paymentMethod === 'CREDIT_CARD' && isPlatformBrowser(this.platformId)) {
+      payload.successUrl = window.location.origin + '/home/checkout-result';
+    }
+
     this.orderStore.createOrder(payload);
-   
-    // this.router.navigateByUrl('/home/orders');
   }
 
   // stepper-logic

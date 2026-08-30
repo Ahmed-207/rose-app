@@ -1,3 +1,4 @@
+import { MainLayout } from '../core/layout/mainLayout/mainLayout';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
