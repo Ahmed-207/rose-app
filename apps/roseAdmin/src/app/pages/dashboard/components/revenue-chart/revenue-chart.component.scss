@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.revenue-card__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.revenue-card__chart-wrap {
+  position: relative;
+}
+
+.revenue-card__badge {
+  position: absolute;
+  top: -6px;
+  left: 46%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  z-index: 2;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: var(--text-primary);
+  }
+}

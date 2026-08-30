@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   selector: 'app-rose-admin-entry',
   template: `<app-main-layout></app-main-layout>`,
 })
-export class RemoteEntry {}
+export class RemoteEntry { }

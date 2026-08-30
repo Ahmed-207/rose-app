@@ -1,0 +1,57 @@
+<div class="dashboard">
+  @if(isLoading){
+<div class="dashboard__message" >Loading dashboard statistics...</div>
+  }
+  @if(errorMessage){
+  <div class="dashboard__message dashboard__message--error">{{ errorMessage }}</div>
+  }
+  <div class="dashboard__grid">
+    <section class="area area--stats">
+      <div class="stats-grid">
+        <app-stat-card *ngFor="let stat of statCards" [data]="stat"></app-stat-card>
+      </div>
+    </section>
+
+    <section class="area area--categories">
+      <app-list-panel
+        title="All Categories"
+        [items]="categories"
+        [showImage]="false"
+        defaultIcon="pi pi-box"
+        [maxHeight]="260"
+      ></app-list-panel>
+    </section>
+
+    <section class="area area--orders">
+      <app-orders-status-chart [data]="ordersStatus"></app-orders-status-chart>
+    </section>
+
+    <section class="area area--revenue">
+      <app-revenue-chart
+        [points]="revenuePoints"
+        [highlightLabel]="revenueHighlightLabel"
+        [highlightValue]="revenueHighlightValue"
+        [selectedPeriod]="revenuePeriod"
+        (periodChange)="onRevenuePeriodChange($event)"
+      ></app-revenue-chart>
+    </section>
+
+    <section class="area area--top-selling">
+      <app-list-panel
+        title="Top Selling Products"
+        [items]="topSelling"
+        [showImage]="true"
+        [maxHeight]="300"
+      ></app-list-panel>
+    </section>
+
+    <section class="area area--low-stock">
+      <app-list-panel
+        title="Low Stock Products"
+        [items]="lowStock"
+        [showImage]="true"
+        [maxHeight]="300"
+      ></app-list-panel>
+    </section>
+  </div>
+</div>

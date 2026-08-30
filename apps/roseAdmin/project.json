@@ -23,6 +23,7 @@
           }
         ],
         "styles": [
+          "node_modules/primeicons/primeicons.css",
           "apps/roseAdmin/src/styles.css"
         ],
         "customWebpackConfig": {
