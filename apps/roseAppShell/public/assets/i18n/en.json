@@ -384,26 +384,17 @@
     "tryAgainHint": "No amount was charged to your account. Check your payment details and try again, or return to your cart.",
     "needHelp": "Need help? Contact support",
     "viewOrders": "View Orders",
-    "continueShopping": "Continue Shopping"
-  },
-  "ADMIN":{
-    "NAVBAR": {
-    "DASHBOARD": "Dashboard",
-    "PROFILE": "Profile",
-    "LOGOUT": "Logout"
-  },
-  "SIDEBAR": {
-    "PREVIEW_WEBSITE": "Preview website",
-    "PROFILE": "Profile",
-    "LOGOUT": "Logout",
-    "NAME":"First Name Laste Name"
-  },
-  "NAVIGATION": {
-    "OVERVIEW": "Overview",
-    "CATEGORIES": "Categories",
-    "OCCASIONS": "Occasions",
-    "PRODUCTS": "Products"
-  }
+    "continueShopping": "Continue Shopping",
+    "Revenue": "Revenue",
+  "Last Week": "Last Week",
+  "Orders Status": "Orders Status",
+  "Total products": "Total Products",
+  "Total orders": "Total Orders",
+  "Total categories": "Total Categories",
+  "Total revenue": "Total Revenue",
+  "Completed": "Completed",
+  "In progress": "In Progress",
+  "Canceled": "Canceled"
 
   }
 }
