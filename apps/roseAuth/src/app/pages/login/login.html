@@ -15,6 +15,10 @@
                 class="block w-full" />
         </div>
 
+        @if (errorMessage()) {
+        <p class="server-error w-full" role="alert">{{ errorMessage() }}</p>
+        }
+
         <div class="forgot-password w-full">
             <span class="block text-end cursor-pointer text-red-900 dark:text-pink-300"
                 (click)="goToForgotPassword()">{{"auth.FORGOT_PASSWORD"
