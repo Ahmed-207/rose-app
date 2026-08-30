@@ -25,4 +25,3 @@ export const COUPON = {
     getCoupons: 'coupons',
     getCoupon: (id: string) => `coupons/${id}`,
 } as const;
-
