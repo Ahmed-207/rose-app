@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
@@ -18,6 +19,7 @@ export class NotificationsPage implements OnInit {
   private readonly adminNotificationService = inject(AdminNotificationService);
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly isSubmitting = signal(false);
   readonly successMessage = signal<string | null>(null);
@@ -34,23 +36,30 @@ export class NotificationsPage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.adminNotificationService.getPushStatus().subscribe({
-      next: (res) => {
-        const { pushConfigured, subscriptionCount } = res.payload;
-        this.pushStatusMessage.set(
-          pushConfigured
-            ? this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_CONFIGURED', {
-                count: subscriptionCount,
-              })
-            : this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_NOT_CONFIGURED'),
-        );
-      },
-      error: () => {
-        this.pushStatusMessage.set(
-          this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_UNAVAILABLE'),
-        );
-      },
-    });
+    this.loadPushStatus();
+  }
+
+  private loadPushStatus(): void {
+    this.adminNotificationService
+      .getPushStatus()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const { pushConfigured, subscriptionCount } = res.payload;
+          this.pushStatusMessage.set(
+            pushConfigured
+              ? this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_CONFIGURED', {
+                  count: subscriptionCount,
+                })
+              : this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_NOT_CONFIGURED'),
+          );
+        },
+        error: () => {
+          this.pushStatusMessage.set(
+            this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_UNAVAILABLE'),
+          );
+        },
+      });
   }
 
   submit(): void {
