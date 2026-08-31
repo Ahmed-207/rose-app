@@ -3,6 +3,11 @@
     font-size: 48px;
 }
 
+.server-error {
+    color: #741c21;
+    font-size: 0.875rem;
+}
+
 /* --- Light Mode (Leave as is) --- */
 :host ::ng-deep .p-checkbox .p-checkbox-box {
     border-color: #741C21 !important;

@@ -49,7 +49,7 @@ private readonly authActions = inject(AuthActions);
 | `confirmEmailVerification({ email, code })` | `POST /api/auth/confirm-email-verification` | Step 2 of registration |
 | `register({ username, email, password, confirmPassword, firstName, lastName })` | `POST /api/auth/register` | Saves session on success |
 | `login({ username, password })` | `POST /api/auth/login` | Saves session on success |
-| `forgotPassword({ email, host })` | `POST /api/auth/forgot-password` | Sends reset email; `host` is the frontend origin for the reset link |
+| `forgotPassword({ email, redirectUrl })` | `POST /api/auth/forgot-password` | Sends reset email; `redirectUrl` is the frontend reset page URL (token appended as query param) |
 | `resetPassword({ token, newPassword, confirmPassword })` | `POST /api/auth/reset-password` | Uses token from email |
 | `logout()` | — | Clears stored session |
 | `getSession()` | — | Returns `AuthenticatedSession` or `null` |
