@@ -1,0 +1,78 @@
+@if (isOpen()) {
+<div class="notification-modal">
+  <div class="notification-modal__header">
+    @if (store.hasNotifications()) {
+    <h2 class="notification-modal__title">
+      {{ 'notifications.TITLE_WITH_COUNT' | translate: { count: store.totalResults() } }}
+    </h2>
+    } @else {
+    <h2 class="notification-modal__title">{{ 'notifications.TITLE' | translate }}</h2>
+    }
+    <button type="button" class="notification-modal__view-all" (click)="onViewAll()">
+      {{ 'notifications.VIEW_ALL' | translate }}
+    </button>
+  </div>
+
+  <div class="notification-modal__actions">
+    <button
+      type="button"
+      class="notification-modal__action notification-modal__action--clear"
+      [disabled]="!store.hasNotifications()"
+      (click)="onClearAll()"
+    >
+      <i class="pi pi-trash"></i>
+      <span>{{ 'notifications.CLEAR_ALL' | translate }}</span>
+    </button>
+
+    <button
+      type="button"
+      class="notification-modal__action notification-modal__action--mark-read"
+      [disabled]="!store.hasNotifications()"
+      (click)="onMarkAllAsRead()"
+    >
+      <span>{{ 'notifications.MARK_ALL_READ' | translate }}</span>
+      <span class="notification-modal__double-check" aria-hidden="true">
+        <i class="pi pi-check"></i>
+        <i class="pi pi-check"></i>
+      </span>
+    </button>
+  </div>
+
+  @if (store.error()) {
+  <p class="notification-modal__error" role="alert">{{ store.error() }}</p>
+  }
+
+  <div class="notification-modal__body">
+    @if (store.isLoading()) {
+    <div class="notification-modal__loading">
+      <lib-spinner></lib-spinner>
+    </div>
+    } @else if (!store.hasNotifications()) {
+    <app-notification-empty-state></app-notification-empty-state>
+    } @else {
+    <div class="notification-modal__list">
+      @for (notification of store.entities(); track notification.id) {
+      <app-notification-item
+        [notification]="notification"
+        [isMenuOpen]="openMenuId() === notification.id"
+        (menuToggle)="toggleMenu($event)"
+        (markAsRead)="onMarkAsRead($event)"
+        (deleteNotification)="onDelete($event)"
+        (openNotification)="onOpenNotification($event)"
+      ></app-notification-item>
+      }
+    </div>
+    }
+  </div>
+</div>
+
+@if (showClearConfirm()) {
+<app-confirm-dialog
+  [title]="'notifications.CONFIRM_CLEAR_ALL' | translate"
+  [confirmLabel]="'notifications.CLEAR_ALL' | translate"
+  [cancelLabel]="'notifications.CANCEL' | translate"
+  (confirmed)="confirmClearAll()"
+  (cancelled)="cancelClearAll()"
+></app-confirm-dialog>
+}
+}

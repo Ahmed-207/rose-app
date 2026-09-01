@@ -1,0 +1,57 @@
+<div
+  class="notification-item"
+  [class.notification-item--read]="notification().isRead"
+  [class.notification-item--unread]="!notification().isRead"
+  [class.notification-item--menu-open]="isMenuOpen()"
+>
+  <button type="button" class="notification-item__content" (click)="onOpen($event)">
+    <h3 class="notification-item__title">{{ notification().title }}</h3>
+    <p class="notification-item__message">{{ notification().message }}</p>
+  </button>
+
+  <div class="notification-item__actions">
+    <button
+      #menuTrigger
+      type="button"
+      class="notification-item__menu-trigger"
+      data-notification-menu
+      [attr.aria-label]="'notifications.OPEN_MENU' | translate"
+      [attr.aria-expanded]="isMenuOpen()"
+      (click)="onMenuToggle($event)"
+    >
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    @if (isMenuOpen() && menuStyle(); as position) {
+    <div
+      class="notification-item__menu notification-item__menu--fixed"
+      role="menu"
+      data-notification-menu
+      [style.top]="position.top"
+      [style.left]="position.left"
+      (click)="onMenuContainerClick($event)"
+    >
+      <button
+        type="button"
+        class="notification-item__menu-item"
+        role="menuitem"
+        [class.notification-item__menu-item--disabled]="notification().isRead"
+        [disabled]="notification().isRead"
+        (click)="onMarkAsRead($event)"
+      >
+        <i class="pi pi-check"></i>
+        <span>{{ 'notifications.MARK_AS_READ' | translate }}</span>
+      </button>
+      <button
+        type="button"
+        class="notification-item__menu-item notification-item__menu-item--danger"
+        role="menuitem"
+        (click)="onDelete($event)"
+      >
+        <i class="pi pi-trash"></i>
+        <span>{{ 'notifications.DELETE' | translate }}</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

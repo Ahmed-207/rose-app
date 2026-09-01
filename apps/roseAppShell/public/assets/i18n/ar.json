@@ -387,23 +387,75 @@
     "viewOrders": "عرض الطلبات",
     "continueShopping": "متابعة التسوق"
   },
-  "ADMIN":{
+  "Revenue": "الإيرادات",
+  "Last Week": "الأسبوع الماضي",
+  "Orders Status": "حالة الطلبات",
+  "Total products": "إجمالي المنتجات",
+  "Total orders": "إجمالي الطلبات",
+  "Total categories": "إجمالي التصنيفات",
+  "Total revenue": "إجمالي الإيرادات",
+  "Completed": "مكتمل",
+  "In progress": "قيد التنفيذ",
+  "Canceled": "ملغي",
+  "notifications": {
+    "TITLE": "الإشعارات",
+    "TITLE_WITH_COUNT": "الإشعارات ({{count}})",
+    "CLEAR_ALL": "مسح الكل",
+    "MARK_ALL_READ": "تحديد الكل كمقروء",
+    "EMPTY": "لا توجد إشعارات للعرض.",
+    "MARK_AS_READ": "تحديد كمقروء",
+    "DELETE": "حذف الإشعار",
+    "VIEW_ALL": "عرض الكل",
+    "BACK_TO_LIST": "العودة إلى الإشعارات",
+    "OPEN_LINK": "فتح الرابط",
+    "NOT_FOUND": "تعذّر العثور على هذا الإشعار.",
+    "CONFIRM_CLEAR_ALL": "هل أنت متأكد أنك تريد مسح جميع الإشعارات؟",
+    "CANCEL": "إلغاء",
+    "OPEN_MENU": "فتح قائمة الإشعار"
+  },
+  "ADMIN": {
+    "NAVIGATION": {
+      "OVERVIEW": "نظرة عامة",
+      "CATEGORIES": "الأقسام",
+      "OCCASIONS": "المناسبات",
+      "PRODUCTS": "المنتجات",
+      "NOTIFICATIONS": "الإشعارات"
+    },
+    "SIDEBAR": {
+      "PREVIEW_WEBSITE": "معاينة الموقع",
+      "PROFILE": "الملف الشخصي",
+      "LOGOUT": "تسجيل الخروج",
+      "NAME": "المشرف"
+    },
     "NAVBAR": {
-    "DASHBOARD": "لوحة التحكم",
-    "PROFILE": "الملف الشخصي",
-    "LOGOUT": "تسجيل الخروج"
-  },
-  "SIDEBAR": {
-    "PREVIEW_WEBSITE": "معاينة الموقع",
-    "PROFILE": "الملف الشخصي",
-    "LOGOUT": "تسجيل الخروج",
-    "NAME":"الاسم الاول الاسم الاخير"
-  },
-  "NAVIGATION": {
-    "OVERVIEW": "نظرة عامة",
-    "CATEGORIES": "الأقسام",
-    "OCCASIONS": "المناسبات",
-    "PRODUCTS": "المنتجات"
-  }
+      "DASHBOARD": "لوحة التحكم",
+      "PROFILE": "الملف الشخصي",
+      "LOGOUT": "تسجيل الخروج"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "الإشعارات",
+      "SUBTITLE": "إنشاء وإرسال إشعارات داخل التطبيق للعملاء.",
+      "CREATE_TITLE": "إرسال إشعار",
+      "RECIPIENT": "العميل",
+      "USER_SEARCH_PLACEHOLDER": "ابحث باسم المستخدم أو البريد الإلكتروني...",
+      "USER_SEARCH_HINT": "ابحث عن العملاء الذين قاموا بتقديم طلبات.",
+      "USER_SEARCHING": "جارٍ البحث...",
+      "USER_SEARCH_NO_RESULTS": "لم يتم العثور على عملاء. جرّب بحثًا آخر.",
+      "CHANGE_RECIPIENT": "تغيير",
+      "RECIPIENT_REQUIRED": "اختر عميلًا من نتائج البحث.",
+      "NOTIFICATION_TITLE": "العنوان",
+      "MESSAGE": "الرسالة",
+      "TYPE": "النوع",
+      "SEND": "إرسال الإشعار",
+      "SUCCESS": "تم إرسال الإشعار بنجاح.",
+      "ERROR_SEND": "فشل إرسال الإشعار.",
+      "PUSH_CONFIGURED": "إشعارات الويب مفعّلة. الأجهزة المشتركة: {{count}}.",
+      "PUSH_NOT_CONFIGURED": "إشعارات الويب غير مفعّلة على الخادم.",
+      "PUSH_UNAVAILABLE": "تعذّر تحميل حالة إشعارات الويب.",
+      "TITLE_REQUIRED": "العنوان مطلوب.",
+      "MESSAGE_REQUIRED": "الرسالة مطلوبة.",
+      "LINK": "الرابط (اختياري)",
+      "LINK_INVALID": "أدخل رابطًا صالحًا يبدأ بـ http:// أو https://"
+    }
   }
 }

@@ -1,0 +1,146 @@
+<div class="notifications-page">
+  <div class="notifications-page__header">
+    <h1 class="notifications-page__title">{{ 'ADMIN.NOTIFICATIONS.TITLE' | translate }}</h1>
+    <p class="notifications-page__subtitle">{{ 'ADMIN.NOTIFICATIONS.SUBTITLE' | translate }}</p>
+  </div>
+
+  @if (pushStatusMessage()) {
+  <div class="notifications-page__status">{{ pushStatusMessage() }}</div>
+  }
+
+  <section class="notifications-page__card">
+    <h2 class="notifications-page__card-title">
+      {{ 'ADMIN.NOTIFICATIONS.CREATE_TITLE' | translate }}
+    </h2>
+
+    <form class="notifications-page__form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.RECIPIENT' | translate }}</span>
+
+        @if (selectedUser(); as user) {
+        <div class="notifications-page__selected-user">
+          <div class="notifications-page__selected-user-info">
+            <strong>{{ user.username }}</strong>
+            <span>{{ user.email }}</span>
+          </div>
+          <button
+            type="button"
+            class="notifications-page__change-recipient"
+            (click)="clearSelectedUser()"
+          >
+            {{ 'ADMIN.NOTIFICATIONS.CHANGE_RECIPIENT' | translate }}
+          </button>
+        </div>
+        } @else {
+        <div class="notifications-page__user-search">
+          <input
+            type="search"
+            [value]="userSearchQuery()"
+            (input)="onUserSearchInput($any($event.target).value)"
+            (focus)="onSearchFocus()"
+            (blur)="onSearchBlur()"
+            [placeholder]="'ADMIN.NOTIFICATIONS.USER_SEARCH_PLACEHOLDER' | translate"
+            autocomplete="off"
+          />
+
+          @if (isSearching()) {
+          <span class="notifications-page__search-status">
+            {{ 'ADMIN.NOTIFICATIONS.USER_SEARCHING' | translate }}
+          </span>
+          }
+
+          @if (
+            searchAttempted() &&
+            !isSearching() &&
+            searchResults().length === 0 &&
+            userSearchQuery().trim().length >= 2
+          ) {
+          <span class="notifications-page__search-status">
+            {{ 'ADMIN.NOTIFICATIONS.USER_SEARCH_NO_RESULTS' | translate }}
+          </span>
+          }
+
+          @if (showResults()) {
+          <ul class="notifications-page__search-results" role="listbox">
+            @for (result of searchResults(); track result.id) {
+            <li role="presentation">
+              <button
+                type="button"
+                class="notifications-page__search-result"
+                role="option"
+                (mousedown)="selectUser(result)"
+              >
+                <strong>{{ result.username }}</strong>
+                <span>{{ result.email }}</span>
+              </button>
+            </li>
+            }
+          </ul>
+          }
+        </div>
+        }
+
+        <span class="notifications-page__hint">
+          {{ 'ADMIN.NOTIFICATIONS.USER_SEARCH_HINT' | translate }}
+        </span>
+
+        @if (fieldErrorKey('userId'); as errorKey) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ errorKey | translate }}
+        </span>
+        }
+      </div>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.NOTIFICATION_TITLE' | translate }}</span>
+        <input type="text" formControlName="title" />
+        @if (fieldErrorKey('title'); as errorKey) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ errorKey | translate }}
+        </span>
+        }
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.MESSAGE' | translate }}</span>
+        <textarea rows="4" formControlName="message"></textarea>
+        @if (fieldErrorKey('message'); as errorKey) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ errorKey | translate }}
+        </span>
+        }
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.TYPE' | translate }}</span>
+        <select formControlName="type">
+          @for (type of notificationTypes; track type) {
+          <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.LINK' | translate }}</span>
+        <input type="url" formControlName="link" placeholder="https://example.com/offers" />
+        @if (fieldErrorKey('link'); as errorKey) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ errorKey | translate }}
+        </span>
+        }
+      </label>
+
+      @if (successMessage()) {
+      <p class="notifications-page__success" role="status">{{ successMessage() }}</p>
+      }
+
+      @if (errorMessage()) {
+      <p class="notifications-page__error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      <button type="submit" class="notifications-page__submit" [disabled]="isSubmitting()">
+        {{ 'ADMIN.NOTIFICATIONS.SEND' | translate }}
+      </button>
+    </form>
+  </section>
+</div>

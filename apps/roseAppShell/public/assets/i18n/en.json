@@ -386,24 +386,75 @@
     "viewOrders": "View Orders",
     "continueShopping": "Continue Shopping"
   },
-  "ADMIN":{
+  "Revenue": "Revenue",
+  "Last Week": "Last Week",
+  "Orders Status": "Orders Status",
+  "Total products": "Total Products",
+  "Total orders": "Total Orders",
+  "Total categories": "Total Categories",
+  "Total revenue": "Total Revenue",
+  "Completed": "Completed",
+  "In progress": "In Progress",
+  "Canceled": "Canceled",
+  "notifications": {
+    "TITLE": "Notifications",
+    "TITLE_WITH_COUNT": "Notifications ({{count}})",
+    "CLEAR_ALL": "Clear all",
+    "MARK_ALL_READ": "Mark all as read",
+    "EMPTY": "No notifications to display.",
+    "MARK_AS_READ": "Mark as read",
+    "DELETE": "Delete notification",
+    "VIEW_ALL": "View all",
+    "BACK_TO_LIST": "Back to notifications",
+    "OPEN_LINK": "Open link",
+    "NOT_FOUND": "This notification could not be found.",
+    "CONFIRM_CLEAR_ALL": "Are you sure you want to clear all notifications?",
+    "CANCEL": "Cancel",
+    "OPEN_MENU": "Open notification menu"
+  },
+  "ADMIN": {
+    "NAVIGATION": {
+      "OVERVIEW": "Overview",
+      "CATEGORIES": "Categories",
+      "OCCASIONS": "Occasions",
+      "PRODUCTS": "Products",
+      "NOTIFICATIONS": "Notifications"
+    },
+    "SIDEBAR": {
+      "PREVIEW_WEBSITE": "Preview Website",
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout",
+      "NAME": "Admin"
+    },
     "NAVBAR": {
-    "DASHBOARD": "Dashboard",
-    "PROFILE": "Profile",
-    "LOGOUT": "Logout"
-  },
-  "SIDEBAR": {
-    "PREVIEW_WEBSITE": "Preview website",
-    "PROFILE": "Profile",
-    "LOGOUT": "Logout",
-    "NAME":"First Name Laste Name"
-  },
-  "NAVIGATION": {
-    "OVERVIEW": "Overview",
-    "CATEGORIES": "Categories",
-    "OCCASIONS": "Occasions",
-    "PRODUCTS": "Products"
-  }
-
+      "DASHBOARD": "Dashboard",
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "SUBTITLE": "Create and send in-app notifications to customers.",
+      "CREATE_TITLE": "Send notification",
+      "RECIPIENT": "Customer",
+      "USER_SEARCH_PLACEHOLDER": "Search by username or email...",
+      "USER_SEARCH_HINT": "Search customers who have placed orders.",
+      "USER_SEARCHING": "Searching...",
+      "USER_SEARCH_NO_RESULTS": "No customers found. Try another search.",
+      "CHANGE_RECIPIENT": "Change",
+      "RECIPIENT_REQUIRED": "Select a customer from the search results.",
+      "NOTIFICATION_TITLE": "Title",
+      "MESSAGE": "Message",
+      "TYPE": "Type",
+      "SEND": "Send notification",
+      "SUCCESS": "Notification sent successfully.",
+      "ERROR_SEND": "Failed to send notification.",
+      "PUSH_CONFIGURED": "Web Push is configured. Subscribed devices: {{count}}.",
+      "PUSH_NOT_CONFIGURED": "Web Push is not configured on the server.",
+      "PUSH_UNAVAILABLE": "Unable to load push status.",
+      "TITLE_REQUIRED": "Title is required.",
+      "MESSAGE_REQUIRED": "Message is required.",
+      "LINK": "Link (optional)",
+      "LINK_INVALID": "Enter a valid URL starting with http:// or https://"
+    }
   }
 }

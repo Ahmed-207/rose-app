@@ -1,8 +1,8 @@
 import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem, MessageService } from 'primeng/api';
-import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, computed, DestroyRef, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import {
     LucideBell,
     LucideChevronDown,
@@ -20,6 +20,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { addressStore } from '@org/user-addresses';
 import { MyAddressesModal } from "../../../pages/cart-page/components/addresses/components/my-addresses-modal/my-addresses-modal";
 import { SearchBar } from "../search-bar/search-bar";
+import { NotificationStore } from '@org/notifications';
+import { NotificationModal } from '../../../shared/components/notification-modal/notification-modal';
 
 
 @Component({
@@ -39,7 +41,8 @@ import { SearchBar } from "../search-bar/search-bar";
     LucideChevronDown,
     MyAddressesModal,
     LucideMapPinPen,
-    SearchBar
+    SearchBar,
+    NotificationModal,
 ],
     templateUrl: './secondryNavbar.html',
     styleUrl: './secondryNavbar.css',
@@ -52,6 +55,10 @@ export class SecondryNavbar implements OnInit {
     private readonly router = inject(Router);
     private readonly authActions = inject(AuthActions);
     private readonly translate = inject(TranslateService);
+    private readonly document = inject(DOCUMENT);
+    readonly notificationStore = inject(NotificationStore);
+    readonly isLoggedIn = computed(() => !!this.authActions.getSession());
+    readonly isNotificationPanelOpen = signal(false);
     readonly _addressStore = inject(addressStore);
     readonly cartCount = this.cartService.itemCount;
     isAddressModalOpened: WritableSignal<boolean> = signal<boolean>(false);
@@ -65,6 +72,7 @@ export class SecondryNavbar implements OnInit {
 
     ngOnInit() {
         this.cartService.refreshCount();
+        this.notificationStore.refreshUnreadCount();
         this.buildMenuItems();
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -143,4 +151,34 @@ export class SecondryNavbar implements OnInit {
     closeAddressModal(newModalState: boolean): void {
         this.isAddressModalOpened.set(newModalState);
     }
+
+    toggleNotificationPanel(event: Event): void {
+        event.stopPropagation();
+        const nextState = !this.isNotificationPanelOpen();
+        this.isNotificationPanelOpen.set(nextState);
+
+        if (nextState) {
+            this.notificationStore.loadNotifications();
+            this.notificationStore.refreshUnreadCount();
+            this.document.addEventListener('click', this.handleOutsideClick);
+        } else {
+            this.document.removeEventListener('click', this.handleOutsideClick);
+        }
+    }
+
+    closeNotificationPanel(): void {
+        this.isNotificationPanelOpen.set(false);
+        this.document.removeEventListener('click', this.handleOutsideClick);
+    }
+
+    private readonly handleOutsideClick = (event: Event): void => {
+        const target = event.target;
+        if (
+            target instanceof Node &&
+            this.document.querySelector('.notification-bell-wrapper')?.contains(target)
+        ) {
+            return;
+        }
+        this.closeNotificationPanel();
+    };
 }
