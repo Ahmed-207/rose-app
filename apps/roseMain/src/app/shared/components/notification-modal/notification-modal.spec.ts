@@ -18,7 +18,7 @@ const mockNotifications: Notification[] = [
     id: 'notification-2',
     title: 'Promo',
     message: 'Special offer today.',
-    type: 'PROMO',
+    type: 'PROMOTION',
     isRead: true,
     createdAt: new Date().toISOString(),
   },

@@ -1,12 +1,15 @@
-export type NotificationType = 'ORDER' | 'PROMO' | 'SYSTEM';
+export type NotificationType = 'ORDER' | 'PROMOTION' | 'SYSTEM' | 'REVIEW' | 'OTHER';
 
 export interface Notification {
   id: string;
+  userId?: string;
   title: string;
   message: string;
   type: NotificationType;
   isRead: boolean;
+  link?: string | null;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface Metadata {
@@ -34,6 +37,7 @@ export interface CreateNotificationReq {
   title: string;
   message: string;
   type: NotificationType;
+  link?: string;
 }
 
 export interface CreateNotificationPayload {

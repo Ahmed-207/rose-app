@@ -27,13 +27,20 @@ export class NotificationsPage implements OnInit {
   readonly errorMessage = signal<string | null>(null);
   readonly pushStatusMessage = signal<string | null>(null);
 
-  readonly notificationTypes: NotificationType[] = ['ORDER', 'PROMO', 'SYSTEM'];
+  readonly notificationTypes: NotificationType[] = [
+    'ORDER',
+    'PROMOTION',
+    'SYSTEM',
+    'REVIEW',
+    'OTHER',
+  ];
 
   readonly form = this.fb.nonNullable.group({
     userId: ['', Validators.required],
     title: ['', [Validators.required, Validators.maxLength(120)]],
     message: ['', [Validators.required, Validators.maxLength(500)]],
     type: ['ORDER' as NotificationType, Validators.required],
+    link: [''],
   });
 
   ngOnInit(): void {
@@ -73,7 +80,14 @@ export class NotificationsPage implements OnInit {
     this.successMessage.set(null);
     this.errorMessage.set(null);
 
-    const body = this.form.getRawValue() as CreateNotificationReq;
+    const raw = this.form.getRawValue();
+    const body: CreateNotificationReq = {
+      userId: raw.userId,
+      title: raw.title,
+      message: raw.message,
+      type: raw.type,
+      ...(raw.link?.trim() ? { link: raw.link.trim() } : {}),
+    };
 
     this.adminNotificationService
       .createNotification(body)
@@ -91,6 +105,7 @@ export class NotificationsPage implements OnInit {
             title: '',
             message: '',
             type: 'ORDER',
+            link: '',
           });
         },
         error: (error: unknown) => {

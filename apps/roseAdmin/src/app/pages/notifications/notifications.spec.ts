@@ -118,6 +118,7 @@ describe('NotificationsPage', () => {
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
+      link: '',
     });
 
     component.submit();
@@ -140,6 +141,7 @@ describe('NotificationsPage', () => {
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
+      link: '',
     });
 
     component.submit();
@@ -163,6 +165,7 @@ describe('NotificationsPage', () => {
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
+      link: '',
     });
 
     component.submit();

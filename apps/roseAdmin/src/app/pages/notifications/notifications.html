@@ -53,6 +53,11 @@
         </select>
       </label>
 
+      <label class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.LINK' | translate }}</span>
+        <input type="url" formControlName="link" placeholder="https://example.com/offers" />
+      </label>
+
       @if (successMessage()) {
       <p class="notifications-page__success" role="status">{{ successMessage() }}</p>
       }

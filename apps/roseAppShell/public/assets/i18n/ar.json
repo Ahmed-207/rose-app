@@ -444,7 +444,8 @@
       "PUSH_UNAVAILABLE": "تعذّر تحميل حالة إشعارات الويب.",
       "USER_ID_REQUIRED": "معرف المستخدم مطلوب.",
       "TITLE_REQUIRED": "العنوان مطلوب.",
-      "MESSAGE_REQUIRED": "الرسالة مطلوبة."
+      "MESSAGE_REQUIRED": "الرسالة مطلوبة.",
+      "LINK": "الرابط (اختياري)"
     }
   }
 }

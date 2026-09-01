@@ -443,7 +443,8 @@
       "PUSH_UNAVAILABLE": "Unable to load push status.",
       "USER_ID_REQUIRED": "User ID is required.",
       "TITLE_REQUIRED": "Title is required.",
-      "MESSAGE_REQUIRED": "Message is required."
+      "MESSAGE_REQUIRED": "Message is required.",
+      "LINK": "Link (optional)"
     }
   }
 }
