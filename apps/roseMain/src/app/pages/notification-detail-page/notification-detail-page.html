@@ -1,0 +1,49 @@
+<div class="notification-detail-page">
+  <a routerLink="/home/notifications" class="notification-detail-page__back">
+    <i class="pi pi-arrow-left"></i>
+    <span>{{ 'notifications.BACK_TO_LIST' | translate }}</span>
+  </a>
+
+  @if (store.isLoading() && !notification()) {
+  <div class="notification-detail-page__loading">
+    <lib-spinner></lib-spinner>
+  </div>
+  } @else if (notification(); as item) {
+  <article
+    class="notification-detail-page__card"
+    [class.notification-detail-page__card--unread]="!item.isRead"
+  >
+    <div class="notification-detail-page__meta">
+      <span class="notification-detail-page__type">{{ item.type }}</span>
+      <time [dateTime]="item.createdAt">
+        {{ item.createdAt | date: 'dd MMM yyyy, hh:mm a' }}
+      </time>
+    </div>
+
+    <h1 class="notification-detail-page__title">{{ item.title }}</h1>
+    <p class="notification-detail-page__message">{{ item.message }}</p>
+
+    <div class="notification-detail-page__actions">
+      @if (item.link) {
+      <button type="button" class="notification-detail-page__link" (click)="openLink()">
+        {{ 'notifications.OPEN_LINK' | translate }}
+      </button>
+      }
+
+      <button
+        type="button"
+        class="notification-detail-page__delete"
+        (click)="onDelete()"
+      >
+        <i class="pi pi-trash"></i>
+        <span>{{ 'notifications.DELETE' | translate }}</span>
+      </button>
+    </div>
+  </article>
+  } @else {
+  <div class="notification-detail-page__not-found">
+    <p>{{ 'notifications.NOT_FOUND' | translate }}</p>
+    <a routerLink="/home/notifications">{{ 'notifications.BACK_TO_LIST' | translate }}</a>
+  </div>
+  }
+</div>

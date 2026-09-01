@@ -8,6 +8,9 @@
     } @else {
     <h2 class="notification-modal__title">{{ 'notifications.TITLE' | translate }}</h2>
     }
+    <button type="button" class="notification-modal__view-all" (click)="onViewAll()">
+      {{ 'notifications.VIEW_ALL' | translate }}
+    </button>
   </div>
 
   <div class="notification-modal__actions">
@@ -55,6 +58,7 @@
         (menuToggle)="toggleMenu($event)"
         (markAsRead)="onMarkAsRead($event)"
         (deleteNotification)="onDelete($event)"
+        (openNotification)="onOpenNotification($event)"
       ></app-notification-item>
       }
     </div>

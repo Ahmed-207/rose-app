@@ -1,0 +1,138 @@
+:host {
+  display: block;
+}
+
+.notification-detail-page {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: 100%;
+}
+
+.notification-detail-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: #741c21;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.notification-detail-page__back:hover {
+  text-decoration: underline;
+}
+
+.notification-detail-page__loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.notification-detail-page__card {
+  padding: 1.5rem;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.notification-detail-page__card--unread {
+  border-color: #fecaca;
+  background: #fff7f7;
+}
+
+:host-context(.dark) .notification-detail-page__card {
+  border-color: #374151;
+  background: #1f2937;
+}
+
+:host-context(.dark) .notification-detail-page__card--unread {
+  border-color: #7f1d1d;
+  background: #2a1f1f;
+}
+
+.notification-detail-page__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.notification-detail-page__type {
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.notification-detail-page__title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+:host-context(.dark) .notification-detail-page__title {
+  color: #f9fafb;
+}
+
+.notification-detail-page__message {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #374151;
+  white-space: pre-wrap;
+}
+
+:host-context(.dark) .notification-detail-page__message {
+  color: #d1d5db;
+}
+
+.notification-detail-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.notification-detail-page__link,
+.notification-detail-page__delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notification-detail-page__link {
+  border: 0;
+  background: #741c21;
+  color: #ffffff;
+}
+
+.notification-detail-page__delete {
+  border: 1px solid #fecaca;
+  background: #ffffff;
+  color: #dc2626;
+}
+
+.notification-detail-page__not-found {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.notification-detail-page__not-found a {
+  color: #741c21;
+  font-weight: 600;
+}

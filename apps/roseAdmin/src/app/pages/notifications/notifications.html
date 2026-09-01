@@ -14,20 +14,82 @@
     </h2>
 
     <form class="notifications-page__form" [formGroup]="form" (ngSubmit)="submit()">
-      <label class="notifications-page__field">
-        <span>{{ 'ADMIN.NOTIFICATIONS.USER_ID' | translate }}</span>
-        <input
-          type="text"
-          formControlName="userId"
-          placeholder="550e8400-e29b-41d4-a716-446655440000"
-        />
-        <span class="notifications-page__hint">{{ 'ADMIN.NOTIFICATIONS.USER_ID_HINT' | translate }}</span>
+      <div class="notifications-page__field">
+        <span>{{ 'ADMIN.NOTIFICATIONS.RECIPIENT' | translate }}</span>
+
+        @if (selectedUser(); as user) {
+        <div class="notifications-page__selected-user">
+          <div class="notifications-page__selected-user-info">
+            <strong>{{ user.username }}</strong>
+            <span>{{ user.email }}</span>
+          </div>
+          <button
+            type="button"
+            class="notifications-page__change-recipient"
+            (click)="clearSelectedUser()"
+          >
+            {{ 'ADMIN.NOTIFICATIONS.CHANGE_RECIPIENT' | translate }}
+          </button>
+        </div>
+        } @else {
+        <div class="notifications-page__user-search">
+          <input
+            type="search"
+            [value]="userSearchQuery()"
+            (input)="onUserSearchInput($any($event.target).value)"
+            (focus)="onSearchFocus()"
+            (blur)="onSearchBlur()"
+            [placeholder]="'ADMIN.NOTIFICATIONS.USER_SEARCH_PLACEHOLDER' | translate"
+            autocomplete="off"
+          />
+
+          @if (isSearching()) {
+          <span class="notifications-page__search-status">
+            {{ 'ADMIN.NOTIFICATIONS.USER_SEARCHING' | translate }}
+          </span>
+          }
+
+          @if (
+            searchAttempted() &&
+            !isSearching() &&
+            searchResults().length === 0 &&
+            userSearchQuery().trim().length >= 2
+          ) {
+          <span class="notifications-page__search-status">
+            {{ 'ADMIN.NOTIFICATIONS.USER_SEARCH_NO_RESULTS' | translate }}
+          </span>
+          }
+
+          @if (showResults()) {
+          <ul class="notifications-page__search-results" role="listbox">
+            @for (result of searchResults(); track result.id) {
+            <li role="presentation">
+              <button
+                type="button"
+                class="notifications-page__search-result"
+                role="option"
+                (mousedown)="selectUser(result)"
+              >
+                <strong>{{ result.username }}</strong>
+                <span>{{ result.email }}</span>
+              </button>
+            </li>
+            }
+          </ul>
+          }
+        </div>
+        }
+
+        <span class="notifications-page__hint">
+          {{ 'ADMIN.NOTIFICATIONS.USER_SEARCH_HINT' | translate }}
+        </span>
+
         @if (fieldErrorKey('userId'); as errorKey) {
         <span class="notifications-page__field-error" role="alert">
           {{ errorKey | translate }}
         </span>
         }
-      </label>
+      </div>
 
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.NOTIFICATION_TITLE' | translate }}</span>

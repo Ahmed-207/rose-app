@@ -38,6 +38,24 @@ export const remoteRoutes: Route[] = [
         title: 'Orders'
       },
       {
+        path: 'notifications',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('../pages/notifications-page/notifications-page').then(
+            (c) => c.NotificationsPage,
+          ),
+        title: 'Notifications',
+      },
+      {
+        path: 'notifications/:id',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('../pages/notification-detail-page/notification-detail-page').then(
+            (c) => c.NotificationDetailPage,
+          ),
+        title: 'Notification',
+      },
+      {
         path: 'checkout-result',
         canActivate: [authGuard],
         loadComponent: () => import('../pages/checkout-status/checkout-status').then((c) => c.CheckoutStatus),

@@ -8,10 +8,22 @@ import {
   CreateNotificationReq,
   NotificationType,
 } from '@org/notifications';
-import { finalize } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  finalize,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
+import {
+  NotificationRecipient,
+  NotificationUserSearchService,
+} from './notification-user-search.service';
 
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MIN_SEARCH_LENGTH = 2;
 
 @Component({
   selector: 'app-notifications-page',
@@ -21,14 +33,22 @@ const UUID_REGEX =
 })
 export class NotificationsPage implements OnInit {
   private readonly adminNotificationService = inject(AdminNotificationService);
+  private readonly userSearchService = inject(NotificationUserSearchService);
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly searchQuery$ = new Subject<string>();
 
   readonly isSubmitting = signal(false);
   readonly successMessage = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
   readonly pushStatusMessage = signal<string | null>(null);
+  readonly userSearchQuery = signal('');
+  readonly searchResults = signal<NotificationRecipient[]>([]);
+  readonly selectedUser = signal<NotificationRecipient | null>(null);
+  readonly isSearching = signal(false);
+  readonly showResults = signal(false);
+  readonly searchAttempted = signal(false);
 
   readonly notificationTypes: NotificationType[] = [
     'ORDER',
@@ -39,7 +59,7 @@ export class NotificationsPage implements OnInit {
   ];
 
   readonly form = this.fb.nonNullable.group({
-    userId: ['', [Validators.required, Validators.pattern(UUID_REGEX)]],
+    userId: ['', Validators.required],
     title: ['', [Validators.required, Validators.maxLength(120)]],
     message: ['', [Validators.required, Validators.maxLength(500)]],
     type: ['ORDER' as NotificationType, Validators.required],
@@ -48,6 +68,46 @@ export class NotificationsPage implements OnInit {
 
   ngOnInit(): void {
     this.loadPushStatus();
+    this.setupUserSearch();
+  }
+
+  private setupUserSearch(): void {
+    this.searchQuery$
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap((query) => {
+          const trimmed = query.trim();
+          if (trimmed.length < MIN_SEARCH_LENGTH) {
+            this.searchResults.set([]);
+            this.showResults.set(false);
+            this.searchAttempted.set(false);
+            this.isSearching.set(false);
+          }
+        }),
+        switchMap((query) => {
+          const trimmed = query.trim();
+          if (trimmed.length < MIN_SEARCH_LENGTH) {
+            return EMPTY;
+          }
+
+          this.isSearching.set(true);
+          this.searchAttempted.set(true);
+
+          return this.userSearchService.searchUsers(trimmed).pipe(
+            catchError(() => {
+              this.searchResults.set([]);
+              return EMPTY;
+            }),
+            finalize(() => this.isSearching.set(false)),
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((results) => {
+        this.searchResults.set(results);
+        this.showResults.set(results.length > 0);
+      });
   }
 
   private loadPushStatus(): void {
@@ -71,6 +131,39 @@ export class NotificationsPage implements OnInit {
           );
         },
       });
+  }
+
+  onUserSearchInput(value: string): void {
+    this.userSearchQuery.set(value);
+    this.searchQuery$.next(value);
+  }
+
+  onSearchFocus(): void {
+    if (this.searchResults().length > 0) {
+      this.showResults.set(true);
+    }
+  }
+
+  onSearchBlur(): void {
+    setTimeout(() => this.showResults.set(false));
+  }
+
+  selectUser(user: NotificationRecipient): void {
+    this.selectedUser.set(user);
+    this.form.controls.userId.setValue(user.id);
+    this.userSearchQuery.set('');
+    this.searchResults.set([]);
+    this.showResults.set(false);
+    this.searchAttempted.set(false);
+  }
+
+  clearSelectedUser(): void {
+    this.selectedUser.set(null);
+    this.form.controls.userId.setValue('');
+    this.userSearchQuery.set('');
+    this.searchResults.set([]);
+    this.showResults.set(false);
+    this.searchAttempted.set(false);
   }
 
   submit(): void {
@@ -103,6 +196,7 @@ export class NotificationsPage implements OnInit {
           this.successMessage.set(
             this.translate.instant('ADMIN.NOTIFICATIONS.SUCCESS'),
           );
+          this.clearSelectedUser();
           this.form.reset({
             userId: '',
             title: '',
@@ -135,13 +229,8 @@ export class NotificationsPage implements OnInit {
       return null;
     }
 
-    if (controlName === 'userId') {
-      if (control.errors?.['required']) {
-        return 'ADMIN.NOTIFICATIONS.USER_ID_REQUIRED';
-      }
-      if (control.errors?.['pattern']) {
-        return 'ADMIN.NOTIFICATIONS.USER_ID_INVALID';
-      }
+    if (controlName === 'userId' && control.errors?.['required']) {
+      return 'ADMIN.NOTIFICATIONS.RECIPIENT_REQUIRED';
     }
 
     if (controlName === 'title' && control.errors?.['required']) {

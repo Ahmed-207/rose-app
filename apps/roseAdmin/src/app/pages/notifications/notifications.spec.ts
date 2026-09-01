@@ -5,8 +5,15 @@ import { of, throwError } from 'rxjs';
 import { AdminNotificationService } from '@org/notifications';
 import { NotificationsPage } from './notifications';
 import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
+import { NotificationUserSearchService } from './notification-user-search.service';
 
 const validUserId = 'f2d1d3ee-926d-4c57-b2bd-e1a82918192d';
+
+const mockRecipient = {
+  id: validUserId,
+  username: 'rose122042',
+  email: 'rosetest1788122042@emalupe.com',
+};
 
 const mockNotification = {
   id: 'notification-1',
@@ -26,11 +33,17 @@ describe('NotificationsPage', () => {
     createNotification: ReturnType<typeof vi.fn>;
     getPushStatus: ReturnType<typeof vi.fn>;
   };
+  let userSearchService: {
+    searchUsers: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(async () => {
     adminNotificationService = {
       createNotification: vi.fn(),
       getPushStatus: vi.fn(),
+    };
+    userSearchService = {
+      searchUsers: vi.fn(),
     };
 
     adminNotificationService.getPushStatus.mockReturnValue(
@@ -40,11 +53,13 @@ describe('NotificationsPage', () => {
         unreadCount: 0,
       }),
     );
+    userSearchService.searchUsers.mockReturnValue(of([mockRecipient]));
 
     await TestBed.configureTestingModule({
       imports: [NotificationsPage, TranslatePipe],
       providers: [
         { provide: AdminNotificationService, useValue: adminNotificationService },
+        { provide: NotificationUserSearchService, useValue: userSearchService },
         provideTestTranslate(),
       ],
     }).compileComponents();
@@ -110,9 +125,8 @@ describe('NotificationsPage', () => {
     expect(component.form.touched).toBe(true);
   });
 
-  it('should reject non-uuid userId before calling API', () => {
-    component.form.setValue({
-      userId: 'rose122042',
+  it('should require selecting a customer before submit', () => {
+    component.form.patchValue({
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -122,7 +136,14 @@ describe('NotificationsPage', () => {
     component.submit();
 
     expect(adminNotificationService.createNotification).not.toHaveBeenCalled();
-    expect(component.fieldErrorKey('userId')).toBe('ADMIN.NOTIFICATIONS.USER_ID_INVALID');
+    expect(component.fieldErrorKey('userId')).toBe('ADMIN.NOTIFICATIONS.RECIPIENT_REQUIRED');
+  });
+
+  it('should set userId when a search result is selected', () => {
+    component.selectUser(mockRecipient);
+
+    expect(component.selectedUser()).toEqual(mockRecipient);
+    expect(component.form.controls.userId.value).toBe(validUserId);
   });
 
   it('should call createNotification on valid submit', () => {
@@ -130,8 +151,8 @@ describe('NotificationsPage', () => {
       of({ notification: mockNotification }),
     );
 
-    component.form.setValue({
-      userId: validUserId,
+    component.selectUser(mockRecipient);
+    component.form.patchValue({
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -153,8 +174,8 @@ describe('NotificationsPage', () => {
       of({ notification: mockNotification }),
     );
 
-    component.form.setValue({
-      userId: validUserId,
+    component.selectUser(mockRecipient);
+    component.form.patchValue({
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -164,6 +185,7 @@ describe('NotificationsPage', () => {
     component.submit();
 
     expect(component.successMessage()).toBe('ADMIN.NOTIFICATIONS.SUCCESS');
+    expect(component.selectedUser()).toBeNull();
   });
 
   it('should show API error message on failure', () => {
@@ -182,8 +204,8 @@ describe('NotificationsPage', () => {
       ),
     );
 
-    component.form.setValue({
-      userId: validUserId,
+    component.selectUser(mockRecipient);
+    component.form.patchValue({
       title: 'Test',
       message: 'Message',
       type: 'ORDER',

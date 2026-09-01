@@ -46,6 +46,14 @@ describe('NotificationItem', () => {
     expect(row.classList.contains('notification-item--read')).toBe(true);
   });
 
+  it('should emit openNotification when content is clicked', () => {
+    fixture.detectChanges();
+    const spy = vi.spyOn(component.openNotification, 'emit');
+    const content = fixture.nativeElement.querySelector('.notification-item__content');
+    content.click();
+    expect(spy).toHaveBeenCalledWith('notification-1');
+  });
+
   it('should emit menu toggle on ellipsis click', () => {
     fixture.detectChanges();
     const spy = vi.spyOn(component.menuToggle, 'emit');
