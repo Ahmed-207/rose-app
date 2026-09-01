@@ -131,7 +131,7 @@ def main():
 
     print("\n=== 5. FORGOT PASSWORD ===")
   # host is the frontend origin; backend uses it to build the reset link in the email
-    print(req(f"{API}/api/auth/forgot-password", "POST", {"email": email, "host": "http://localhost:4200"}))
+    print(req(f"{API}/api/auth/forgot-password", "POST", {"email": email, "redirectUrl": "http://localhost:4200/auth/reset-password"}))
 
     reset_token = None
 

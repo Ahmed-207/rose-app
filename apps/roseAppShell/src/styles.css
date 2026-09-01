@@ -12,3 +12,89 @@
     font-style: normal;
     font-display: swap;
 }
+
+
+:root {
+  --dash-bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --text-primary: #1c2130;
+  --text-secondary: #9296a8;
+  --text-tertiary: #b7bbc9;
+  --border-soft: #eef0f5;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow-card: 0 4px 18px rgba(31, 41, 61, 0.05);
+
+  --icon-bg-pink: #fde9f0;
+  --icon-fg-pink: #ad0638;
+
+  --icon-bg-blue: #e8f0fe;
+  --icon-fg-blue: #0e45b4;
+
+  --icon-bg-purple: #efe9fd;
+  --icon-fg-purple: #633eba;
+
+  --icon-bg-green: #e6faf0;
+  --icon-fg-green: #0e834c;
+
+  --accent-red: #ef4577;
+  --accent-green: #1fce7a;
+  --accent-blue: #3d7bfa;
+  --accent-gray: #d7dae3;
+
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+.p-component {
+  font-family: var(--font-sans);
+}
+
+/* Shared "card" surface used across dashboard panels */
+.dash-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem;
+  height: 100%;
+}
+
+.dash-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+
+  h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}
+
+.dash-card__link {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 10px;
+}
