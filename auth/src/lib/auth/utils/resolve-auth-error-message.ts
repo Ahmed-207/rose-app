@@ -18,6 +18,14 @@ export function resolveAuthErrorMessage(
 ): string {
   if (error instanceof HttpErrorResponse) {
     if (isApiResponse(error.error)) {
+      const fieldMessages = error.error.errors
+        ?.map((item) => item.message || item.messages?.join(', '))
+        .filter((message): message is string => Boolean(message));
+
+      if (fieldMessages?.length) {
+        return fieldMessages.join(' ');
+      }
+
       return error.error.message || fallback;
     }
 

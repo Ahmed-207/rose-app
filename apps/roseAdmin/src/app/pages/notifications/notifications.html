@@ -16,10 +16,15 @@
     <form class="notifications-page__form" [formGroup]="form" (ngSubmit)="submit()">
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.USER_ID' | translate }}</span>
-        <input type="text" formControlName="userId" />
-        @if (showError('userId')) {
+        <input
+          type="text"
+          formControlName="userId"
+          placeholder="550e8400-e29b-41d4-a716-446655440000"
+        />
+        <span class="notifications-page__hint">{{ 'ADMIN.NOTIFICATIONS.USER_ID_HINT' | translate }}</span>
+        @if (fieldErrorKey('userId'); as errorKey) {
         <span class="notifications-page__field-error" role="alert">
-          {{ 'ADMIN.NOTIFICATIONS.USER_ID_REQUIRED' | translate }}
+          {{ errorKey | translate }}
         </span>
         }
       </label>
@@ -27,9 +32,9 @@
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.NOTIFICATION_TITLE' | translate }}</span>
         <input type="text" formControlName="title" />
-        @if (showError('title')) {
+        @if (fieldErrorKey('title'); as errorKey) {
         <span class="notifications-page__field-error" role="alert">
-          {{ 'ADMIN.NOTIFICATIONS.TITLE_REQUIRED' | translate }}
+          {{ errorKey | translate }}
         </span>
         }
       </label>
@@ -37,9 +42,9 @@
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.MESSAGE' | translate }}</span>
         <textarea rows="4" formControlName="message"></textarea>
-        @if (showError('message')) {
+        @if (fieldErrorKey('message'); as errorKey) {
         <span class="notifications-page__field-error" role="alert">
-          {{ 'ADMIN.NOTIFICATIONS.MESSAGE_REQUIRED' | translate }}
+          {{ errorKey | translate }}
         </span>
         }
       </label>
@@ -56,6 +61,11 @@
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.LINK' | translate }}</span>
         <input type="url" formControlName="link" placeholder="https://example.com/offers" />
+        @if (fieldErrorKey('link'); as errorKey) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ errorKey | translate }}
+        </span>
+        }
       </label>
 
       @if (successMessage()) {

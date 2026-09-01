@@ -10,6 +10,9 @@ import {
 } from '@org/notifications';
 import { finalize } from 'rxjs';
 
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 @Component({
   selector: 'app-notifications-page',
   imports: [ReactiveFormsModule, TranslatePipe],
@@ -36,11 +39,11 @@ export class NotificationsPage implements OnInit {
   ];
 
   readonly form = this.fb.nonNullable.group({
-    userId: ['', Validators.required],
+    userId: ['', [Validators.required, Validators.pattern(UUID_REGEX)]],
     title: ['', [Validators.required, Validators.maxLength(120)]],
     message: ['', [Validators.required, Validators.maxLength(500)]],
     type: ['ORDER' as NotificationType, Validators.required],
-    link: [''],
+    link: ['', Validators.pattern(/^$|^https?:\/\/.+/i)],
   });
 
   ngOnInit(): void {
@@ -82,11 +85,11 @@ export class NotificationsPage implements OnInit {
 
     const raw = this.form.getRawValue();
     const body: CreateNotificationReq = {
-      userId: raw.userId,
-      title: raw.title,
-      message: raw.message,
+      userId: raw.userId.trim(),
+      title: raw.title.trim(),
+      message: raw.message.trim(),
       type: raw.type,
-      ...(raw.link?.trim() ? { link: raw.link.trim() } : {}),
+      ...(raw.link.trim() ? { link: raw.link.trim() } : {}),
     };
 
     this.adminNotificationService
@@ -119,8 +122,40 @@ export class NotificationsPage implements OnInit {
       });
   }
 
-  showError(controlName: 'userId' | 'title' | 'message' | 'type'): boolean {
+  showError(controlName: 'userId' | 'title' | 'message' | 'type' | 'link'): boolean {
     const control = this.form.controls[controlName];
     return control.invalid && (control.touched || control.dirty);
+  }
+
+  fieldErrorKey(
+    controlName: 'userId' | 'title' | 'message' | 'link',
+  ): string | null {
+    const control = this.form.controls[controlName];
+    if (!this.showError(controlName)) {
+      return null;
+    }
+
+    if (controlName === 'userId') {
+      if (control.errors?.['required']) {
+        return 'ADMIN.NOTIFICATIONS.USER_ID_REQUIRED';
+      }
+      if (control.errors?.['pattern']) {
+        return 'ADMIN.NOTIFICATIONS.USER_ID_INVALID';
+      }
+    }
+
+    if (controlName === 'title' && control.errors?.['required']) {
+      return 'ADMIN.NOTIFICATIONS.TITLE_REQUIRED';
+    }
+
+    if (controlName === 'message' && control.errors?.['required']) {
+      return 'ADMIN.NOTIFICATIONS.MESSAGE_REQUIRED';
+    }
+
+    if (controlName === 'link' && control.errors?.['pattern']) {
+      return 'ADMIN.NOTIFICATIONS.LINK_INVALID';
+    }
+
+    return null;
   }
 }

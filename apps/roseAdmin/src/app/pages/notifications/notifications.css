@@ -74,6 +74,11 @@
   font-size: 0.75rem;
 }
 
+.notifications-page__hint {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
 .notifications-page__success {
   margin: 0;
   color: #047857;

@@ -6,9 +6,11 @@ import { AdminNotificationService } from '@org/notifications';
 import { NotificationsPage } from './notifications';
 import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
 
+const validUserId = 'f2d1d3ee-926d-4c57-b2bd-e1a82918192d';
+
 const mockNotification = {
   id: 'notification-1',
-  userId: 'user-1',
+  userId: validUserId,
   title: 'Test',
   message: 'Message',
   type: 'ORDER' as const,
@@ -108,13 +110,28 @@ describe('NotificationsPage', () => {
     expect(component.form.touched).toBe(true);
   });
 
+  it('should reject non-uuid userId before calling API', () => {
+    component.form.setValue({
+      userId: 'rose122042',
+      title: 'Test',
+      message: 'Message',
+      type: 'ORDER',
+      link: '',
+    });
+
+    component.submit();
+
+    expect(adminNotificationService.createNotification).not.toHaveBeenCalled();
+    expect(component.fieldErrorKey('userId')).toBe('ADMIN.NOTIFICATIONS.USER_ID_INVALID');
+  });
+
   it('should call createNotification on valid submit', () => {
     adminNotificationService.createNotification.mockReturnValue(
       of({ notification: mockNotification }),
     );
 
     component.form.setValue({
-      userId: 'user-1',
+      userId: validUserId,
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -124,7 +141,7 @@ describe('NotificationsPage', () => {
     component.submit();
 
     expect(adminNotificationService.createNotification).toHaveBeenCalledWith({
-      userId: 'user-1',
+      userId: validUserId,
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -137,7 +154,7 @@ describe('NotificationsPage', () => {
     );
 
     component.form.setValue({
-      userId: 'user-1',
+      userId: validUserId,
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -155,13 +172,18 @@ describe('NotificationsPage', () => {
         () =>
           new HttpErrorResponse({
             status: 400,
-            error: { status: false, code: 400, message: 'Validation failed' },
+            error: {
+              status: false,
+              code: 400,
+              message: 'Validation failed',
+              errors: [{ path: 'userId', message: 'Please provide a valid user ID' }],
+            },
           }),
       ),
     );
 
     component.form.setValue({
-      userId: 'user-1',
+      userId: validUserId,
       title: 'Test',
       message: 'Message',
       type: 'ORDER',
@@ -170,6 +192,6 @@ describe('NotificationsPage', () => {
 
     component.submit();
 
-    expect(component.errorMessage()).toBe('Validation failed');
+    expect(component.errorMessage()).toBe('Please provide a valid user ID');
   });
 });

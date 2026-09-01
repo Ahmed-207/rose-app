@@ -442,9 +442,12 @@
       "PUSH_NOT_CONFIGURED": "Web Push is not configured on the server.",
       "PUSH_UNAVAILABLE": "Unable to load push status.",
       "USER_ID_REQUIRED": "User ID is required.",
+      "USER_ID_INVALID": "Enter a valid user UUID (not username). Example: 550e8400-e29b-41d4-a716-446655440000",
+      "USER_ID_HINT": "Use the customer's UUID from the database, not their username.",
       "TITLE_REQUIRED": "Title is required.",
       "MESSAGE_REQUIRED": "Message is required.",
-      "LINK": "Link (optional)"
+      "LINK": "Link (optional)",
+      "LINK_INVALID": "Enter a valid URL starting with http:// or https://"
     }
   }
 }
