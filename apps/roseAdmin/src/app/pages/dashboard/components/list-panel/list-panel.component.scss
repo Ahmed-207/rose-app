@@ -5,7 +5,7 @@
 
 .list-panel__scroll {
   overflow-y: auto;
-  padding-right: 0.25rem;
+  padding-inline-end: 0.25rem;
   mask-image: linear-gradient(to bottom, black calc(100% - 22px), transparent 100%);
 }
 
@@ -60,7 +60,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   white-space: nowrap;
-  padding-left: 0.5rem;
+  padding-inline-start: 0.5rem;
 
   &--neutral {
     color: var(--text-secondary);

@@ -9,6 +9,11 @@
     </span>
   </div>
 
+  <div class="hidden md:flex items-center gap-3">
+    <lib-ui-lang-switcher></lib-ui-lang-switcher>
+    <lib-theme-toggler></lib-theme-toggler>
+  </div>
+
   <div class="flex items-center gap-3 relative md:hidden">
 
     <button (click)="toggleUserMenu()" class="focus:outline-none">
@@ -28,7 +33,7 @@
     </button>
 @if (isUserMenuOpen) {
     <div 
-      class="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-fadeIn"
+      class="absolute end-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-fadeIn"
     >
       <a routerLink="/profile" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
         <i class="pi pi-user text-gray-500"></i>

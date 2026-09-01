@@ -2,6 +2,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Sidebar } from './sidebar';
+import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 describe('Sidebar', () => {
   let component: Sidebar;
@@ -11,6 +12,7 @@ describe('Sidebar', () => {
     await TestBed.configureTestingModule({
       imports: [Sidebar],
       providers: [
+        provideTestTranslate(),
         provideRouter([])
       ]
     }).compileComponents();

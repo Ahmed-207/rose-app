@@ -30,5 +30,5 @@ export const appRoutes: Route[] = [
         (m) => m!.remoteRoutes,
       ),
   },
-  
+
 ];

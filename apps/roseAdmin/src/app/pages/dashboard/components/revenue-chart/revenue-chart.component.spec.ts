@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { TranslatePipe } from '@ngx-translate/core';
 import { RevenueChartComponent } from './revenue-chart.component';
 import { RevenuePoint } from '../../models/dashboard.models';
+import { provideTestTranslate } from '../../../../shared/testing/translate-test.providers';
 
 @Component({
   selector: 'p-chart',
@@ -44,9 +46,10 @@ describe('RevenueChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RevenueChartComponent],
+      providers: [provideTestTranslate()],
     })
       .overrideComponent(RevenueChartComponent, {
-        set: { imports: [CommonModule, MockPChartComponent, MockPSelectComponent] },
+        set: { imports: [CommonModule, MockPChartComponent, MockPSelectComponent, TranslatePipe] },
       })
       .compileComponents();
 

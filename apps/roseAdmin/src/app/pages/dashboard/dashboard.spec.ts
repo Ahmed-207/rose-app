@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EMPTY } from 'rxjs';
 import { Dashboard } from './dashboard';
 import { Statistics } from './service/statistics';
+import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
 
 describe('Dashboard', () => {
   let component: Dashboard;
@@ -11,6 +12,7 @@ describe('Dashboard', () => {
     await TestBed.configureTestingModule({
       imports: [Dashboard],
       providers: [
+        provideTestTranslate(),
         {
           provide: Statistics,
           useValue: { getStatistics: () => EMPTY },

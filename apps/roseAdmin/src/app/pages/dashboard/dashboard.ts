@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { ListPanelComponent } from './components/list-panel/list-panel.component';
 import { OrdersStatusChartComponent } from './components/orders-status-chart/orders-status-chart.component';
@@ -11,6 +12,7 @@ import { ListRowItem, OrdersStatusSlice, RevenuePoint, StatCardData } from './mo
   selector: 'app-dashboard',
  imports: [
     CommonModule,
+    TranslatePipe,
     StatCardComponent,
     ListPanelComponent,
     OrdersStatusChartComponent,
