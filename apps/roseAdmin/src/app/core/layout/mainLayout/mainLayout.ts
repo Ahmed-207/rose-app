@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UiLangSwitcher } from '@org/ui-lang-switcher';
+import { ThemeToggler } from '@org/shared-theme';
 import { Sidebar } from '../sidebar/sidebar';
 import { Navbar } from '../navbar/navbar';
 import { MobileBottom } from '../mobileBottom/mobileBottom';
@@ -13,6 +15,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     CommonModule,
     RouterModule,
     TranslatePipe,
+    UiLangSwitcher,
+    ThemeToggler,
     Sidebar,
     Navbar,
     // MobileBottom,

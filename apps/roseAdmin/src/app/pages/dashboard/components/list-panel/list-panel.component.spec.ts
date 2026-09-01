@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ListPanelComponent } from './list-panel.component';
 import { ListRowItem } from '../../models/dashboard.models';
+import { provideTestTranslate } from '../../../../shared/testing/translate-test.providers';
 
 describe('ListPanelComponent', () => {
   let fixture: ComponentFixture<ListPanelComponent>;
@@ -15,6 +16,7 @@ describe('ListPanelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ListPanelComponent],
+      providers: [provideTestTranslate()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListPanelComponent);

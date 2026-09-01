@@ -88,12 +88,12 @@
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--text-secondary);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 .stat-card__label {
   font-size: 1rem;
-  color: #000;
+  color: var(--text-primary);
   margin-top: 0.15rem;
 }
 

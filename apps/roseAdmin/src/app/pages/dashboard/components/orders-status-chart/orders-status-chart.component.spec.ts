@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach } from 'vitest';
+import { TranslatePipe } from '@ngx-translate/core';
 import { OrdersStatusChartComponent } from './orders-status-chart.component';
 import { OrdersStatusSlice } from '../../models/dashboard.models';
+import { provideTestTranslate } from '../../../../shared/testing/translate-test.providers';
 
 @Component({
   selector: 'p-chart',
@@ -31,9 +33,10 @@ describe('OrdersStatusChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OrdersStatusChartComponent],
+      providers: [provideTestTranslate()],
     })
       .overrideComponent(OrdersStatusChartComponent, {
-        set: { imports: [CommonModule, MockPChartComponent] },
+        set: { imports: [CommonModule, MockPChartComponent, TranslatePipe] },
       })
       .compileComponents();
 

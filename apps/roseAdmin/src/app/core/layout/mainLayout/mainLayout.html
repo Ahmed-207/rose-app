@@ -1,4 +1,4 @@
-<div class="flex h-screen bg-gray-50 overflow-hidden" dir="ltr">
+<div class="flex h-screen bg-gray-50 overflow-hidden">
   
   <aside class="hidden md:flex md:w-64 md:flex-col border-r h-screen border-gray-100 bg-white sticky top-0">
     <app-sidebar class="h-full w-full block"></app-sidebar>
@@ -6,8 +6,12 @@
   @if (isMobileMenuOpen()) {
   <div  class="fixed inset-0 z-50 flex md:hidden">
     <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm" (click)="toggleMobileMenu()"></div>
-    <div class="relative w-64 bg-white h-full z-10 shadow-2xl ml-auto">
-      <app-sidebar (closeMenu)="toggleMobileMenu()"></app-sidebar>
+    <div class="relative w-64 bg-white h-full z-10 shadow-2xl ms-auto flex flex-col">
+      <app-sidebar (closeMenu)="toggleMobileMenu()" class="flex-1 min-h-0"></app-sidebar>
+      <div class="flex items-center justify-around gap-4 px-6 pb-6 pt-2">
+        <lib-ui-lang-switcher></lib-ui-lang-switcher>
+        <lib-theme-toggler></lib-theme-toggler>
+      </div>
     </div>
   </div>
 

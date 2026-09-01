@@ -45,6 +45,25 @@
 
 }
 
+.dark {
+  --dash-bg: #1b2230;
+  --card-bg: #202938;
+  --text-primary: #f1f3f7;
+  --text-secondary: #9aa4b5;
+  --text-tertiary: #6b768a;
+  --border-soft: #2f3a4d;
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.25);
+
+  --icon-bg-pink: #3a1f2a;
+  --icon-fg-pink: #ff9ec0;
+  --icon-bg-blue: #1e2a3d;
+  --icon-fg-blue: #7fa8f5;
+  --icon-bg-purple: #2a2338;
+  --icon-fg-purple: #b79aef;
+  --icon-bg-green: #1c2f26;
+  --icon-fg-green: #58d998;
+}
+
 
 
 h1,

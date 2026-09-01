@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { StatCardComponent } from './stat-card.component';
 import { StatCardData } from '../../models/dashboard.models';
+import { provideTestTranslate } from '../../../../shared/testing/translate-test.providers';
 
 describe('StatCardComponent', () => {
   let fixture: ComponentFixture<StatCardComponent>;
@@ -17,6 +18,7 @@ describe('StatCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StatCardComponent],
+      providers: [provideTestTranslate()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StatCardComponent);
@@ -73,12 +75,14 @@ describe('StatCardComponent', () => {
     expect(suffixEl).toBeNull();
   });
 
-  it('should update the DOM when the data input changes', () => {
-    component.data = baseData;
+  it('should update the DOM when the data input changes', async () => {
+    fixture.componentRef.setInput('data', baseData);
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    component.data = { ...baseData, value: '256', label: 'Total Revenue' };
+    fixture.componentRef.setInput('data', { ...baseData, value: '256', label: 'Total Revenue' });
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const el: HTMLElement = fixture.nativeElement;
     expect(el.querySelector('.stat-card__value')?.textContent).toContain('256');

@@ -1,6 +1,6 @@
 <div class="dashboard">
   @if(isLoading){
-<div class="dashboard__message" >Loading dashboard statistics...</div>
+<div class="dashboard__message">{{ 'Loading dashboard statistics...' | translate }}</div>
   }
   @if(errorMessage){
   <div class="dashboard__message dashboard__message--error">{{ errorMessage }}</div>

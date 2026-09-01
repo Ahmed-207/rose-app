@@ -14,6 +14,7 @@ const config: ModuleFederationConfig = {
       libraryName === '@primeuix/themes' ||
       libraryName === '@org/shared-ui-components' ||
       libraryName === '@org/shared-theme' ||
+      libraryName === '@org/ui-lang-switcher' ||
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader' ||
       libraryName === '@ngrx/signals' ||
