@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  CreateNotificationPayload,
   CreateNotificationReq,
-  CreateNotificationRes,
-  PushStatusRes,
+  PushStatusPayload,
 } from '../models/notification.model';
 import { NOTIFICATIONS } from '../utilities/api-endpoints';
 import { ApiCallerService } from '../utilities/api-caller-service';
@@ -14,11 +14,11 @@ import { ApiCallerService } from '../utilities/api-caller-service';
 export class AdminNotificationService {
   private readonly api = inject(ApiCallerService);
 
-  createNotification(body: CreateNotificationReq): Observable<CreateNotificationRes> {
-    return this.api.post<CreateNotificationRes>(NOTIFICATIONS.list, body);
+  createNotification(body: CreateNotificationReq): Observable<CreateNotificationPayload> {
+    return this.api.post<CreateNotificationPayload>(NOTIFICATIONS.list, body);
   }
 
-  getPushStatus(): Observable<PushStatusRes> {
-    return this.api.get<PushStatusRes>(NOTIFICATIONS.pushStatus);
+  getPushStatus(): Observable<PushStatusPayload> {
+    return this.api.get<PushStatusPayload>(NOTIFICATIONS.pushStatus);
   }
 }

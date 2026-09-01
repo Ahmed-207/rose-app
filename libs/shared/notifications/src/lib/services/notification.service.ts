@@ -2,9 +2,11 @@ import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  GetNotificationsRes,
-  NotificationMutationRes,
-  UnreadCountRes,
+  CreateNotificationPayload,
+  GetNotificationsPayload,
+  NotificationMutationPayload,
+  PushStatusPayload,
+  UnreadCountPayload,
 } from '../models/notification.model';
 import { NOTIFICATIONS } from '../utilities/api-endpoints';
 import { ApiCallerService } from '../utilities/api-caller-service';
@@ -19,7 +21,7 @@ export class NotificationService {
     page = 1,
     limit = 20,
     search?: string,
-  ): Observable<GetNotificationsRes> {
+  ): Observable<GetNotificationsPayload> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
@@ -28,28 +30,28 @@ export class NotificationService {
       params = params.set('search', search.trim());
     }
 
-    return this.api.get<GetNotificationsRes>(NOTIFICATIONS.list, { params });
+    return this.api.get<GetNotificationsPayload>(NOTIFICATIONS.list, { params });
   }
 
-  getUnreadCount(): Observable<UnreadCountRes> {
-    return this.api.get<UnreadCountRes>(NOTIFICATIONS.unreadCount);
+  getUnreadCount(): Observable<UnreadCountPayload> {
+    return this.api.get<UnreadCountPayload>(NOTIFICATIONS.unreadCount);
   }
 
-  markAsRead(id: string): Observable<NotificationMutationRes> {
-    return this.api.patch<NotificationMutationRes>(NOTIFICATIONS.byId(id), {
+  markAsRead(id: string): Observable<NotificationMutationPayload> {
+    return this.api.patch<NotificationMutationPayload>(NOTIFICATIONS.byId(id), {
       isRead: true,
     });
   }
 
-  markAllAsRead(): Observable<NotificationMutationRes> {
-    return this.api.patch<NotificationMutationRes>(NOTIFICATIONS.markAllRead, {});
+  markAllAsRead(): Observable<NotificationMutationPayload> {
+    return this.api.patch<NotificationMutationPayload>(NOTIFICATIONS.markAllRead, {});
   }
 
-  deleteNotification(id: string): Observable<NotificationMutationRes> {
-    return this.api.delete<NotificationMutationRes>(NOTIFICATIONS.byId(id));
+  deleteNotification(id: string): Observable<NotificationMutationPayload> {
+    return this.api.delete<NotificationMutationPayload>(NOTIFICATIONS.byId(id));
   }
 
-  clearAll(): Observable<NotificationMutationRes> {
-    return this.api.delete<NotificationMutationRes>(NOTIFICATIONS.clearAll);
+  clearAll(): Observable<NotificationMutationPayload> {
+    return this.api.delete<NotificationMutationPayload>(NOTIFICATIONS.clearAll);
   }
 }

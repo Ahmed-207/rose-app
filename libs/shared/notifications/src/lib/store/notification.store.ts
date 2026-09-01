@@ -61,9 +61,9 @@ export const NotificationStore = signalStore(
             .pipe(
               tap({
                 next: (res) =>
-                  patchState(store, setAllEntities(res.payload.data ?? []), {
+                  patchState(store, setAllEntities(res.data ?? []), {
                     isLoading: false,
-                    totalResults: res.payload.metadata?.total ?? 0,
+                    totalResults: res.metadata?.total ?? 0,
                   }),
                 error: (e: { message?: string }) => {
                   const message = e.message || 'Failed to load notifications';
@@ -83,7 +83,7 @@ export const NotificationStore = signalStore(
           svc.getUnreadCount().pipe(
             tap({
               next: (res) =>
-                patchState(store, { unreadCount: res.payload.unreadCount ?? 0 }),
+                patchState(store, { unreadCount: res.unreadCount ?? 0 }),
               error: () => undefined,
             }),
             catchError(() => EMPTY),

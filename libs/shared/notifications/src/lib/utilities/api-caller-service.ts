@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { API_URL } from '@org/auth';
-import { Observable } from 'rxjs';
+import { API_URL, ApiResponse } from '@org/auth';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,16 +28,30 @@ export class ApiCallerService {
     return baseUrl + normalizedUrl.replace(/^\/+/, '');
   }
 
+  private unwrapPayload<T>(res: ApiResponse<T>): T {
+    if (res.payload === undefined) {
+      throw new Error('API returned no payload.');
+    }
+
+    return res.payload;
+  }
+
   get<T>(url: string, options?: { params?: HttpParams }): Observable<T> {
-    return this.http.get<T>(this.createWebApiUrl(url), options);
+    return this.http
+      .get<ApiResponse<T>>(this.createWebApiUrl(url), options)
+      .pipe(map((res) => this.unwrapPayload(res)));
   }
 
   post<T>(url: string, body: unknown): Observable<T> {
-    return this.http.post<T>(this.createWebApiUrl(url), body);
+    return this.http
+      .post<ApiResponse<T>>(this.createWebApiUrl(url), body)
+      .pipe(map((res) => this.unwrapPayload(res)));
   }
 
   patch<T>(url: string, body: unknown): Observable<T> {
-    return this.http.patch<T>(this.createWebApiUrl(url), body);
+    return this.http
+      .patch<ApiResponse<T>>(this.createWebApiUrl(url), body)
+      .pipe(map((res) => this.unwrapPayload(res)));
   }
 
   delete<T>(url: string): Observable<T> {

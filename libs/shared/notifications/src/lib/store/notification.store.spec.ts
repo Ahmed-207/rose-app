@@ -3,7 +3,7 @@ import { of, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationStore } from './notification.store';
 import { NotificationService } from '../services/notification.service';
-import { GetNotificationsRes, Notification, UnreadCountRes } from '../models/notification.model';
+import { GetNotificationsPayload, Notification, UnreadCountPayload } from '../models/notification.model';
 
 const mockNotification: Notification = {
   id: 'notification-1',
@@ -54,13 +54,9 @@ describe('NotificationStore', () => {
 
   describe('loadNotifications', () => {
     it('should set entities and totalResults on success', async () => {
-      const res: GetNotificationsRes = {
-        status: true,
-        code: 200,
-        payload: {
-          data: [mockNotification],
-          metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
-        },
+      const res: GetNotificationsPayload = {
+        data: [mockNotification],
+        metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
       };
       notificationService.getNotifications.mockReturnValue(of(res));
 
@@ -89,11 +85,7 @@ describe('NotificationStore', () => {
 
   describe('refreshUnreadCount', () => {
     it('should update unreadCount signal', async () => {
-      const res: UnreadCountRes = {
-        status: true,
-        code: 200,
-        payload: { unreadCount: 3 },
-      };
+      const res: UnreadCountPayload = { unreadCount: 3 };
       notificationService.getUnreadCount.mockReturnValue(of(res));
 
       store.refreshUnreadCount();
@@ -108,17 +100,11 @@ describe('NotificationStore', () => {
     it('should update entity and decrement unreadCount', async () => {
       notificationService.getNotifications.mockReturnValue(
         of({
-          status: true,
-          code: 200,
-          payload: {
-            data: [mockNotification],
-            metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
-          },
+          data: [mockNotification],
+          metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
         }),
       );
-      notificationService.getUnreadCount.mockReturnValue(
-        of({ status: true, code: 200, payload: { unreadCount: 1 } }),
-      );
+      notificationService.getUnreadCount.mockReturnValue(of({ unreadCount: 1 }));
       notificationService.markAsRead.mockReturnValue(of({ status: true, code: 200 }));
 
       store.loadNotifications();
@@ -141,12 +127,8 @@ describe('NotificationStore', () => {
     it('should mark all entities as read and reset unreadCount', async () => {
       notificationService.getNotifications.mockReturnValue(
         of({
-          status: true,
-          code: 200,
-          payload: {
-            data: [mockNotification, { ...mockReadNotification, id: 'notification-3', isRead: false }],
-            metadata: { page: 1, limit: 20, total: 2, totalPages: 1 },
-          },
+          data: [mockNotification, { ...mockReadNotification, id: 'notification-3', isRead: false }],
+          metadata: { page: 1, limit: 20, total: 2, totalPages: 1 },
         }),
       );
       notificationService.markAllAsRead.mockReturnValue(of({ status: true, code: 200 }));
@@ -170,12 +152,8 @@ describe('NotificationStore', () => {
     it('should remove entity from store', async () => {
       notificationService.getNotifications.mockReturnValue(
         of({
-          status: true,
-          code: 200,
-          payload: {
-            data: [mockNotification],
-            metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
-          },
+          data: [mockNotification],
+          metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
         }),
       );
       notificationService.deleteNotification.mockReturnValue(of({ status: true, code: 200 }));
@@ -197,17 +175,11 @@ describe('NotificationStore', () => {
     it('should decrement unreadCount when deleting an unread notification', async () => {
       notificationService.getNotifications.mockReturnValue(
         of({
-          status: true,
-          code: 200,
-          payload: {
-            data: [mockNotification],
-            metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
-          },
+          data: [mockNotification],
+          metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
         }),
       );
-      notificationService.getUnreadCount.mockReturnValue(
-        of({ status: true, code: 200, payload: { unreadCount: 1 } }),
-      );
+      notificationService.getUnreadCount.mockReturnValue(of({ unreadCount: 1 }));
       notificationService.deleteNotification.mockReturnValue(of({ status: true, code: 200 }));
 
       store.loadNotifications();
@@ -230,12 +202,8 @@ describe('NotificationStore', () => {
     it('should clear all entities', async () => {
       notificationService.getNotifications.mockReturnValue(
         of({
-          status: true,
-          code: 200,
-          payload: {
-            data: [mockNotification, mockReadNotification],
-            metadata: { page: 2, limit: 20, total: 2, totalPages: 1 },
-          },
+          data: [mockNotification, mockReadNotification],
+          metadata: { page: 2, limit: 20, total: 2, totalPages: 1 },
         }),
       );
       notificationService.clearAll.mockReturnValue(of({ status: true, code: 200 }));

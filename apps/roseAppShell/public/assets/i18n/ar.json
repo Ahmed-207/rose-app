@@ -441,7 +441,10 @@
       "ERROR_SEND": "فشل إرسال الإشعار.",
       "PUSH_CONFIGURED": "إشعارات الويب مفعّلة. الأجهزة المشتركة: {{count}}.",
       "PUSH_NOT_CONFIGURED": "إشعارات الويب غير مفعّلة على الخادم.",
-      "PUSH_UNAVAILABLE": "تعذّر تحميل حالة إشعارات الويب."
+      "PUSH_UNAVAILABLE": "تعذّر تحميل حالة إشعارات الويب.",
+      "USER_ID_REQUIRED": "معرف المستخدم مطلوب.",
+      "TITLE_REQUIRED": "العنوان مطلوب.",
+      "MESSAGE_REQUIRED": "الرسالة مطلوبة."
     }
   }
 }

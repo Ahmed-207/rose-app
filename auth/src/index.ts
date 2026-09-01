@@ -12,3 +12,4 @@ export * from './lib/auth/interceptors/error.interceptor';
 export * from './lib/auth/guards/auth.guard';
 export * from './lib/auth/guards/guest.guard';
 export * from './lib/auth/guards/role.guard';
+export * from './lib/auth/utils/resolve-auth-error-message';

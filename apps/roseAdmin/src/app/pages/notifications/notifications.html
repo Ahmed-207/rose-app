@@ -17,16 +17,31 @@
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.USER_ID' | translate }}</span>
         <input type="text" formControlName="userId" />
+        @if (showError('userId')) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ 'ADMIN.NOTIFICATIONS.USER_ID_REQUIRED' | translate }}
+        </span>
+        }
       </label>
 
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.NOTIFICATION_TITLE' | translate }}</span>
         <input type="text" formControlName="title" />
+        @if (showError('title')) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ 'ADMIN.NOTIFICATIONS.TITLE_REQUIRED' | translate }}
+        </span>
+        }
       </label>
 
       <label class="notifications-page__field">
         <span>{{ 'ADMIN.NOTIFICATIONS.MESSAGE' | translate }}</span>
         <textarea rows="4" formControlName="message"></textarea>
+        @if (showError('message')) {
+        <span class="notifications-page__field-error" role="alert">
+          {{ 'ADMIN.NOTIFICATIONS.MESSAGE_REQUIRED' | translate }}
+        </span>
+        }
       </label>
 
       <label class="notifications-page__field">

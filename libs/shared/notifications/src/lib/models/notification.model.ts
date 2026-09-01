@@ -21,27 +21,12 @@ export interface GetNotificationsPayload {
   metadata: Metadata;
 }
 
-export interface GetNotificationsRes {
-  status: boolean;
-  code: number;
-  payload: GetNotificationsPayload;
-}
-
 export interface UnreadCountPayload {
   unreadCount: number;
 }
 
-export interface UnreadCountRes {
-  status: boolean;
-  code: number;
-  payload: UnreadCountPayload;
-}
-
-export interface NotificationMutationRes {
-  status: boolean;
-  code: number;
-  message?: string;
-  payload?: Notification;
+export interface NotificationMutationPayload {
+  notification?: Notification;
 }
 
 export interface CreateNotificationReq {
@@ -51,12 +36,8 @@ export interface CreateNotificationReq {
   type: NotificationType;
 }
 
-export interface CreateNotificationRes {
-  status: boolean;
-  code: number;
-  payload: {
-    notification: Notification;
-  };
+export interface CreateNotificationPayload {
+  notification: Notification;
 }
 
 export interface PushStatusPayload {
@@ -65,6 +46,36 @@ export interface PushStatusPayload {
   unreadCount?: number;
 }
 
+/** @deprecated Use payload types returned by services after API unwrap. */
+export interface GetNotificationsRes {
+  status: boolean;
+  code: number;
+  payload: GetNotificationsPayload;
+}
+
+/** @deprecated Use UnreadCountPayload. */
+export interface UnreadCountRes {
+  status: boolean;
+  code: number;
+  payload: UnreadCountPayload;
+}
+
+/** @deprecated Use NotificationMutationPayload. */
+export interface NotificationMutationRes {
+  status: boolean;
+  code: number;
+  message?: string;
+  payload?: NotificationMutationPayload;
+}
+
+/** @deprecated Use CreateNotificationPayload. */
+export interface CreateNotificationRes {
+  status: boolean;
+  code: number;
+  payload: CreateNotificationPayload;
+}
+
+/** @deprecated Use PushStatusPayload. */
 export interface PushStatusRes {
   status: boolean;
   code: number;

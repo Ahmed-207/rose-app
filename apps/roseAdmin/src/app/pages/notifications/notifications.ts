@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { resolveAuthErrorMessage } from '@org/auth';
 import {
   AdminNotificationService,
   CreateNotificationReq,
@@ -44,8 +45,8 @@ export class NotificationsPage implements OnInit {
       .getPushStatus()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res) => {
-          const { pushConfigured, subscriptionCount } = res.payload;
+        next: (payload) => {
+          const { pushConfigured, subscriptionCount } = payload;
           this.pushStatusMessage.set(
             pushConfigured
               ? this.translate.instant('ADMIN.NOTIFICATIONS.PUSH_CONFIGURED', {
@@ -76,7 +77,10 @@ export class NotificationsPage implements OnInit {
 
     this.adminNotificationService
       .createNotification(body)
-      .pipe(finalize(() => this.isSubmitting.set(false)))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isSubmitting.set(false)),
+      )
       .subscribe({
         next: () => {
           this.successMessage.set(
@@ -89,12 +93,19 @@ export class NotificationsPage implements OnInit {
             type: 'ORDER',
           });
         },
-        error: (error: { message?: string }) => {
+        error: (error: unknown) => {
           this.errorMessage.set(
-            error.message ||
+            resolveAuthErrorMessage(
+              error,
               this.translate.instant('ADMIN.NOTIFICATIONS.ERROR_SEND'),
+            ),
           );
         },
       });
+  }
+
+  showError(controlName: 'userId' | 'title' | 'message' | 'type'): boolean {
+    const control = this.form.controls[controlName];
+    return control.invalid && (control.touched || control.dirty);
   }
 }

@@ -69,6 +69,11 @@
   font: inherit;
 }
 
+.notifications-page__field-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+}
+
 .notifications-page__success {
   margin: 0;
   color: #047857;

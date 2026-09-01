@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TranslatePipe } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { AdminNotificationService } from '@org/notifications';
@@ -32,9 +33,9 @@ describe('NotificationsPage', () => {
 
     adminNotificationService.getPushStatus.mockReturnValue(
       of({
-        status: true,
-        code: 200,
-        payload: { pushConfigured: true, subscriptionCount: 2, unreadCount: 0 },
+        pushConfigured: true,
+        subscriptionCount: 2,
+        unreadCount: 0,
       }),
     );
 
@@ -64,9 +65,9 @@ describe('NotificationsPage', () => {
   it('should show push not configured message when push is disabled', () => {
     adminNotificationService.getPushStatus.mockReturnValue(
       of({
-        status: true,
-        code: 200,
-        payload: { pushConfigured: false, subscriptionCount: 0, unreadCount: 0 },
+        pushConfigured: false,
+        subscriptionCount: 0,
+        unreadCount: 0,
       }),
     );
 
@@ -91,6 +92,15 @@ describe('NotificationsPage', () => {
     );
   });
 
+  it('should show validation errors when form is invalid', () => {
+    component.submit();
+
+    expect(adminNotificationService.createNotification).not.toHaveBeenCalled();
+    expect(component.showError('userId')).toBe(true);
+    expect(component.showError('title')).toBe(true);
+    expect(component.showError('message')).toBe(true);
+  });
+
   it('should not submit when form is invalid', () => {
     component.submit();
 
@@ -100,11 +110,7 @@ describe('NotificationsPage', () => {
 
   it('should call createNotification on valid submit', () => {
     adminNotificationService.createNotification.mockReturnValue(
-      of({
-        status: true,
-        code: 201,
-        payload: { notification: mockNotification },
-      }),
+      of({ notification: mockNotification }),
     );
 
     component.form.setValue({
@@ -126,11 +132,7 @@ describe('NotificationsPage', () => {
 
   it('should show success message on 201', () => {
     adminNotificationService.createNotification.mockReturnValue(
-      of({
-        status: true,
-        code: 201,
-        payload: { notification: mockNotification },
-      }),
+      of({ notification: mockNotification }),
     );
 
     component.form.setValue({
@@ -145,9 +147,15 @@ describe('NotificationsPage', () => {
     expect(component.successMessage()).toBe('ADMIN.NOTIFICATIONS.SUCCESS');
   });
 
-  it('should show error on failure', () => {
+  it('should show API error message on failure', () => {
     adminNotificationService.createNotification.mockReturnValue(
-      throwError(() => ({ message: 'Send failed' })),
+      throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: { status: false, code: 400, message: 'Validation failed' },
+          }),
+      ),
     );
 
     component.form.setValue({
@@ -159,6 +167,6 @@ describe('NotificationsPage', () => {
 
     component.submit();
 
-    expect(component.errorMessage()).toBe('Send failed');
+    expect(component.errorMessage()).toBe('Validation failed');
   });
 });
