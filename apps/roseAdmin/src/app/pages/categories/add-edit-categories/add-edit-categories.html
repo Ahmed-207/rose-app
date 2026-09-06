@@ -1,0 +1,28 @@
+<section class="mx-auto p-2">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">{{ title | translate }}
+
+      {{ categoryId ? ":" + initialValue['title'] :""  }}
+    </h1>
+  </div>
+
+  @if (isLoading) {
+    <p class="rounded-lg bg-gray-50 p-4 text-sm text-gray-500">{{"Loading category..." | translate}}</p>
+  } @else {
+    <div class=" bg-white p-5 shadow-sm md:p-8">
+      <app-dynamic-form
+        [fields]="fields"
+        [initialValue]="initialValue"
+        [submitLabel]="submitLabel"
+        [isSubmitting]="isSubmitting"
+        (submitted)="submit($event)"
+      />
+    </div>
+  }
+
+  @if (errorMessage) {
+    <p class="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700" role="alert">
+      {{ errorMessage }}
+    </p>
+  }
+</section>

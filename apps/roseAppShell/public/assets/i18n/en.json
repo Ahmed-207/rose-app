@@ -461,5 +461,15 @@
       "LINK": "Link (optional)",
       "LINK_INVALID": "Enter a valid URL starting with http:// or https://"
     }
-  }
+  },
+   "Add New Category": "Add New Category",
+  "Add Category": "Add Category",
+  "Edit Category": "Edit Category",
+  "Update Category": "Update Category",
+  "Name": "Name",
+  "Enter category name": "Enter category name",
+  "Description": "Description",
+  "Enter category description": "Enter category description",
+  "Image": "Image",
+  "image/*": "image/*"
 }
