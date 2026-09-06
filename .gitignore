@@ -53,3 +53,8 @@ vitest.config.*.timestamp*
 .nx/polygraph
 .nx/self-healing
 apps/roseMain/src/app/shared/Helpers/api-endpoints.ts
+
+# Agent / skill files (local-only)
+.agents/
+.skills-lock.json
+docs/agents/

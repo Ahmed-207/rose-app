@@ -20,3 +20,8 @@ export interface LookupState {
     error: string | null;
     loaded: boolean;
 }
+
+export interface LookupListState extends LookupState {
+    filters: FilterParams;
+    totalResults: number;
+}

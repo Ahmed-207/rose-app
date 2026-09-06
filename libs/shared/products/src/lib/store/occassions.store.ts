@@ -1,22 +1,30 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { setAllEntities, withEntities } from '@ngrx/signals/entities';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
 import { Occasion } from '../models/occassion.model';
-import { LookupState } from '../models/product-state.model';
+import { LookupListState } from '../models/product-state.model';
+import { FilterParams } from '../models/filter.model';
 import { OccasionsService } from '../services/occassions.service';
 
-const initialState: LookupState = {
+const initialState: LookupListState = {
     isLoading: false,
     error: null,
     loaded: false,
+    filters: { page: 1, limit: 10 },
+    totalResults: 0,
 };
 
 export const OccasionsStore = signalStore(
     { providedIn: 'root' },
     withEntities<Occasion>(),
-    withState<LookupState>(initialState),
+    withState<LookupListState>(initialState),
+    withComputed((store) => ({
+        totalOccasions: computed(() => store.totalResults()),
+        hasOccasions: computed(() => store.entities().length > 0),
+        activeFilters: computed(() => store.filters()),
+    })),
     withMethods((store) => {
         const _occasions = inject(OccasionsService);
 
@@ -48,6 +56,50 @@ export const OccasionsStore = signalStore(
                     }),
                 ),
             ),
+
+            loadOccasions: rxMethod<FilterParams>(
+                pipe(
+                    tap((filters) => patchState(store, { isLoading: true, error: null, filters })),
+                    switchMap((filters) =>
+                        _occasions.getOccasions(filters).pipe(
+                            tap({
+                                next: (res) => {
+                                    const trueTotal = res.metadata?.total || 0;
+
+                                    patchState(
+                                        store,
+                                        setAllEntities(res.data ?? []),
+                                        {
+                                            totalResults: trueTotal,
+                                            isLoading: false,
+                                            loaded: true,
+                                        },
+                                    );
+                                },
+                                error: (e: { message?: string }) =>
+                                    patchState(store, {
+                                        error: e.message ?? 'Failed to load occasions',
+                                        isLoading: false,
+                                        loaded: true,
+                                    }),
+                            }),
+                            catchError(() => EMPTY),
+                        ),
+                    ),
+                ),
+            ),
+
+            applyFilters(this: { loadOccasions: (f: FilterParams) => void }, filters: FilterParams) {
+                this.loadOccasions({
+                    page: 1,
+                    limit: store.filters().limit,
+                    ...filters,
+                });
+            },
+
+            resetFilters(this: { loadOccasions: (f: FilterParams) => void }) {
+                this.loadOccasions({ page: 1, limit: store.filters().limit ?? 10 });
+            },
         };
     }),
 );
