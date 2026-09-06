@@ -25,6 +25,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DatePickerModule } from 'primeng/datepicker';
+import { TranslatePipe } from '@ngx-translate/core';
 export type FormControlType =
   | 'text'
   | 'email'
@@ -35,13 +36,14 @@ export type FormControlType =
   | 'multiselect'
   | 'checkbox'
   | 'switch'
-  | 'date';
+  | 'date'
+  | 'file';
 
 @Component({
   selector: 'app-form-control',
   standalone: true,
   templateUrl: './form-control.html',
-  imports:[FormsModule,PasswordModule,InputTextModule,SelectModule,CheckboxModule,ToggleSwitchModule,MultiSelectModule,TextareaModule,InputNumberModule,DatePickerModule],
+  imports:[FormsModule,PasswordModule,InputTextModule,SelectModule,CheckboxModule,ToggleSwitchModule,MultiSelectModule,TextareaModule,InputNumberModule,DatePickerModule,TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
@@ -68,6 +70,8 @@ export class FormControlComponent
 
   @Input() required = false;
 
+  @Input() boundControl: FormControl | null = null;
+
   value: any = null;
 
   disabled = false;
@@ -85,7 +89,7 @@ export class FormControlComponent
   }
 
   get control(): FormControl | null {
-    return (this.ngControl?.control as FormControl) ?? null;
+    return this.boundControl ?? (this.ngControl?.control as FormControl) ?? null;
   }
 
   private onChange = (_: any) => {};
@@ -115,6 +119,12 @@ export class FormControlComponent
     this.onChange(value);
     this.onTouched();
   }
+
+  fileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.update(input.files?.[0] ?? null);
+  }
+
 get hasError(): boolean {
   const controlInvalid = !!(
     this.control?.invalid &&
