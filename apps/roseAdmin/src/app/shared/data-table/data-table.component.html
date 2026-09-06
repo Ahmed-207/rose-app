@@ -1,0 +1,74 @@
+<div class="data-table-wrapper">
+    @if (loading()) {
+        <div class="data-table-state">
+            <lib-spinner size="md" label="Loading..."></lib-spinner>
+        </div>
+    } @else if (error()) {
+        <div class="data-table-state">
+            <lib-message type="error" [title]="error() ?? undefined"></lib-message>
+        </div>
+    } @else {
+        <p-table
+            [value]="data()"
+            [paginator]="true"
+            [rows]="limit()"
+            [totalRecords]="totalRecords()"
+            [first]="firstRowIndex()"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="{first}-{last} of {totalRecords}"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            styleClass="rose-data-table"
+            (onPage)="onPageChange($event)">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    @for (col of columns(); track col.field) {
+                        <th [class]="col.width">{{ col.header }}</th>
+                    }
+                    <th class="w-32">Actions</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-row>
+                <tr>
+                    @for (col of columns(); track col.field) {
+                        <td [class]="col.width">
+                            @if (col.cellTemplate) {
+                                <ng-container *ngTemplateOutlet="col.cellTemplate; context: { $implicit: row }"></ng-container>
+                            } @else {
+                                {{ resolveField(row, col.field) }}
+                            }
+                        </td>
+                    }
+                    <td>
+                        <div class="data-table-actions">
+                            <lib-button
+                                size="sm"
+                                variant="ghost"
+                                ariaLabel="Edit"
+                                (clicked)="editRow.emit(row)">
+                                Edit
+                            </lib-button>
+                            <lib-button
+                                size="sm"
+                                variant="danger"
+                                ariaLabel="Delete"
+                                (clicked)="deleteRow.emit(row)">
+                                Delete
+                            </lib-button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td [attr.colspan]="columns().length + 1">
+                        <lib-message type="info" title="No records found"></lib-message>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>

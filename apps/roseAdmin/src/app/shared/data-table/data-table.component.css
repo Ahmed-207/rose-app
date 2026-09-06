@@ -1,0 +1,81 @@
+.data-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    background-color: var(--p-surface-0, #ffffff);
+    border: 1px solid var(--p-surface-200, #e5e7eb);
+}
+
+.data-table-state {
+    display: flex;
+    min-height: 16rem;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.rose-data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.rose-data-table .p-datatable-thead > tr > th {
+    background-color: var(--p-surface-50, #f9fafb);
+    color: var(--p-surface-700, #374151);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--p-surface-200, #e5e7eb);
+    white-space: nowrap;
+}
+
+.rose-data-table .p-datatable-tbody > tr > td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--p-surface-100, #f3f4f6);
+    color: var(--p-surface-800, #1f2937);
+    font-size: 0.875rem;
+    vertical-align: middle;
+}
+
+.rose-data-table .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none;
+}
+
+.rose-data-table .p-paginator {
+    border-top: 1px solid var(--p-surface-200, #e5e7eb);
+    background-color: transparent;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+.rose-data-table .p-paginator-current {
+    color: var(--p-surface-600, #4b5563);
+}
+
+.data-table-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dark .data-table-wrapper {
+    background-color: var(--p-surface-900, #111827);
+    border-color: var(--p-surface-700, #374151);
+}
+
+.dark .rose-data-table .p-datatable-thead > tr > th {
+    background-color: var(--p-surface-800, #1f2937);
+    color: var(--p-surface-200, #e5e7eb);
+    border-bottom-color: var(--p-surface-700, #374151);
+}
+
+.dark .rose-data-table .p-datatable-tbody > tr > td {
+    border-bottom-color: var(--p-surface-800, #1f2937);
+    color: var(--p-surface-100, #f3f4f6);
+}
+
+.dark .rose-data-table .p-paginator {
+    border-top-color: var(--p-surface-700, #374151);
+}
