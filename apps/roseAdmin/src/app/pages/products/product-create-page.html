@@ -1,0 +1,23 @@
+<div class="product-create-page">
+    <header class="product-create-page__header">
+        <h1 class="product-create-page__title">{{ 'ADMIN.PRODUCTS.CREATE_TITLE' | translate }}</h1>
+    </header>
+
+    @if (successMessage()) {
+        <lib-message type="success" [title]="successMessage() ?? undefined" class="product-create-page__feedback"></lib-message>
+    }
+
+    @if (error()) {
+        <lib-message type="error" [title]="error() ?? undefined" class="product-create-page__feedback"></lib-message>
+    }
+
+    <app-product-form
+        [categories]="categories()"
+        [subCategories]="subCategories()"
+        [occasions]="occasions()"
+        [isSubmitting]="isSubmitting()"
+        [error]="error()"
+        (save)="onSave($event)"
+        (cancel)="onCancel()"
+        (categoryChange)="onCategoryChange($event)" />
+</div>

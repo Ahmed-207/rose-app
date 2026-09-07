@@ -1,0 +1,129 @@
+<form class="product-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    @if (error()) {
+        <lib-message type="error" [title]="error() ?? undefined" class="product-form__feedback"></lib-message>
+    }
+
+    @if (uploadError()) {
+        <lib-message type="error" [title]="uploadError() ?? undefined" class="product-form__feedback"></lib-message>
+    }
+
+    <div class="product-form__grid">
+        <lib-form-control
+            type="text"
+            label="ADMIN.PRODUCTS.FORM.TITLE"
+            formControlName="title"
+            [required]="true" />
+
+        <lib-form-control
+            type="select"
+            label="ADMIN.PRODUCTS.FORM.CATEGORY"
+            formControlName="categoryId"
+            [options]="categories()"
+            optionLabel="title"
+            optionValue="id"
+            [required]="true" />
+
+        <lib-form-control
+            type="select"
+            label="ADMIN.PRODUCTS.FORM.SUB_CATEGORY"
+            formControlName="subCategoryId"
+            [options]="subCategories()"
+            optionLabel="title"
+            optionValue="id" />
+
+        <lib-form-control
+            type="number"
+            label="ADMIN.PRODUCTS.FORM.PRICE"
+            formControlName="price"
+            [required]="true" />
+
+        <lib-form-control
+            type="number"
+            label="ADMIN.PRODUCTS.FORM.STOCK"
+            formControlName="stock"
+            [required]="true" />
+
+        <lib-form-control
+            type="select"
+            label="ADMIN.PRODUCTS.FORM.DISCOUNT_TYPE"
+            formControlName="discountType"
+            [options]="discountTypeOptions"
+            optionLabel="title"
+            optionValue="id" />
+
+        @if (form.controls.discountType.value) {
+            <lib-form-control
+                type="number"
+                label="ADMIN.PRODUCTS.FORM.DISCOUNT_VALUE"
+                formControlName="discountValue"
+                [required]="true" />
+        }
+
+        <lib-form-control
+            type="multiselect"
+            label="ADMIN.PRODUCTS.FORM.OCCASIONS"
+            formControlName="occasionIds"
+            [options]="occasions()"
+            optionLabel="title"
+            optionValue="id" />
+    </div>
+
+    <lib-form-control
+        type="textarea"
+        label="ADMIN.PRODUCTS.FORM.DESCRIPTION"
+        formControlName="description" />
+
+    <div class="product-form__images">
+        <div class="product-form__cover">
+            <label>{{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}</label>
+            <input
+                type="file"
+                accept="image/*"
+                (change)="onCoverSelected($any($event.target).files?.[0] ?? null)" />
+
+            @if (isUploadingCover()) {
+                <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
+            }
+
+            @if (form.controls.cover.value) {
+                <img [src]="form.controls.cover.value" alt="Cover" class="product-form__image-preview" />
+                <lib-button size="sm" variant="ghost" (clicked)="form.controls.cover.setValue('')">
+                    {{ 'ADMIN.PRODUCTS.FORM.REMOVE' | translate }}
+                </lib-button>
+            }
+        </div>
+
+        <div class="product-form__gallery">
+            <label>{{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}</label>
+            <input
+                type="file"
+                accept="image/*"
+                multiple
+                (change)="onGallerySelected($any($event.target).files)" />
+
+            @if (isUploadingGallery()) {
+                <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
+            }
+
+            <div class="product-form__gallery-list">
+                @for (image of form.controls.gallery.value; track image; let i = $index) {
+                    <div class="product-form__gallery-item">
+                        <img [src]="image" alt="Gallery" class="product-form__image-preview" />
+                        <lib-button size="sm" variant="danger" (clicked)="removeGalleryImage(i)">
+                            {{ 'ADMIN.PRODUCTS.FORM.REMOVE' | translate }}
+                        </lib-button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="product-form__actions">
+        <lib-button type="submit" variant="primary" [disabled]="isSubmitting() || isUploadingCover() || isUploadingGallery()">
+            {{ 'ADMIN.PRODUCTS.FORM.SAVE' | translate }}
+        </lib-button>
+        <lib-button type="button" variant="ghost" (clicked)="onCancel()">
+            {{ 'ADMIN.PRODUCTS.FORM.CANCEL' | translate }}
+        </lib-button>
+    </div>
+</form>

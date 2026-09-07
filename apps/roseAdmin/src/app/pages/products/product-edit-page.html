@@ -1,0 +1,24 @@
+<div class="product-edit-page">
+    <header class="product-edit-page__header">
+        <h1 class="product-edit-page__title">{{ 'ADMIN.PRODUCTS.EDIT_TITLE' | translate }}</h1>
+    </header>
+
+    @if (isLoading()) {
+        <div class="product-edit-page__state">
+            <lib-spinner size="md" label="ADMIN.DATA_TABLE.LOADING"></lib-spinner>
+        </div>
+    } @else if (error()) {
+        <lib-message type="error" [title]="error() ?? undefined" class="product-edit-page__feedback"></lib-message>
+    } @else {
+        <app-product-form
+            [initialValue]="initialValue()"
+            [categories]="categories()"
+            [subCategories]="subCategories()"
+            [occasions]="occasions()"
+            [isSubmitting]="isSubmitting()"
+            [error]="error()"
+            (save)="onSave($event)"
+            (cancel)="onCancel()"
+            (categoryChange)="onCategoryChange($event)" />
+    }
+</div>
