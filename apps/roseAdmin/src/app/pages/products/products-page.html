@@ -1,0 +1,46 @@
+<div class="products-page">
+    <header class="products-page__header">
+        <h1 class="products-page__title">{{ 'ADMIN.PRODUCTS.TITLE' | translate }}</h1>
+        <lib-button variant="primary" (clicked)="onAddProduct()">
+            {{ 'ADMIN.PRODUCTS.ADD_BUTTON' | translate }}
+        </lib-button>
+    </header>
+
+    @if (successMessage()) {
+        <lib-message type="success" [title]="successMessage() ?? undefined" class="products-page__feedback"></lib-message>
+    }
+
+    @if (error()) {
+        <lib-message type="error" [title]="error() ?? undefined" class="products-page__feedback"></lib-message>
+    }
+
+    <div class="products-page__filters">
+        <input
+            type="text"
+            pInputText
+            class="products-page__search"
+            [formControl]="searchControl"
+            [placeholder]="'ADMIN.PRODUCTS.SEARCH_PLACEHOLDER' | translate" />
+
+        <select class="products-page__category" [value]="selectedCategoryId()" (change)="onCategoryChange($any($event.target).value || null)">
+            <option [value]="null">{{ 'ADMIN.PRODUCTS.ALL_CATEGORIES' | translate }}</option>
+            @for (category of categories(); track category.id) {
+                <option [value]="category.id">{{ category.title }}</option>
+            }
+        </select>
+    </div>
+
+    <app-data-table
+        [columns]="columns"
+        [data]="products()"
+        [totalRecords]="totalRecords()"
+        [loading]="isLoading()"
+        [error]="error()"
+        [page]="page()"
+        [limit]="limit()"
+        (pageChange)="onPageChange($event)"
+        (editRow)="onEditProduct($event)"
+        (deleteRow)="onDeleteProduct($event)" />
+
+    <p-confirmDialog />
+</div>

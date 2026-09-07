@@ -443,6 +443,25 @@
       "EDIT": "Edit",
       "DELETE": "Delete"
     },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "ADD_BUTTON": "Add new product",
+      "SEARCH_PLACEHOLDER": "Search products...",
+      "ALL_CATEGORIES": "All categories",
+      "NAME": "Name",
+      "CATEGORY": "Category",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SALES": "Sales",
+      "RATING": "Rating",
+      "LOAD_ERROR": "Failed to load products.",
+      "DELETE_CONFIRM_TITLE": "Delete product?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this product?",
+      "DELETE_CONFIRM_ACCEPT": "Delete",
+      "DELETE_CONFIRM_REJECT": "Cancel",
+      "DELETE_SUCCESS": "Product deleted successfully.",
+      "DELETE_ERROR": "Failed to delete product."
+    },
     "NOTIFICATIONS": {
       "TITLE": "Notifications",
       "SUBTITLE": "Create and send in-app notifications to customers.",
