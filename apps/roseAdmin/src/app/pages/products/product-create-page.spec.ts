@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ProductCreatePage } from './product-create-page';
+import { ProductFormValue } from './product-form';
 import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
 
@@ -98,7 +99,7 @@ describe('ProductCreatePage', () => {
             occasionIds: [],
         };
 
-        component.onSave(formValue as any);
+        component.onSave(formValue as ProductFormValue);
 
         expect(mockProductsService.createProduct).toHaveBeenCalledWith({
             title: 'Rose Box',
@@ -113,7 +114,7 @@ describe('ProductCreatePage', () => {
         mockProductsService.createProduct.mockReturnValue(of({ product: { id: 'prod-1' } }));
         fixture.detectChanges();
 
-        const formValue = {
+        const formValue: ProductFormValue = {
             title: 'Rose Box',
             description: 'A nice box',
             price: 100,
@@ -127,7 +128,7 @@ describe('ProductCreatePage', () => {
             occasionIds: ['occ-1'],
         };
 
-        component.onSave(formValue as any);
+        component.onSave(formValue);
 
         expect(mockProductsService.createProduct).toHaveBeenCalledWith(formValue);
     });

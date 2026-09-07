@@ -6,7 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, finalize, switchMap, tap } from 'rxjs';
 import { ProductsService, CategoriesStore, Product, FilterParams } from '@org/products';
-import { Button, Message, Spinner } from '@org/shared-ui-components';
+import { Button, Message } from '@org/shared-ui-components';
 import { DataTableComponent, DataTableColumn, DataTablePageEvent } from '../../shared';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -21,7 +21,6 @@ import { ConfirmationService } from 'primeng/api';
         TranslatePipe,
         Button,
         Message,
-        Spinner,
         DataTableComponent,
         InputTextModule,
         ConfirmDialogModule,

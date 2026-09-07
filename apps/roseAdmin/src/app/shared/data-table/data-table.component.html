@@ -63,7 +63,7 @@
                                 size="sm"
                                 variant="ghost"
                                 [ariaLabel]="'ADMIN.DATA_TABLE.ACTIONS' | translate"
-                                (clicked)="menu.toggle($event)">
+                                (click)="menu.toggle($event)">
                                 <i class="pi pi-ellipsis-v"></i>
                             </lib-button>
                             <p-menu #menu [model]="actionMenuItems(row)" [popup]="true" appendTo="body"></p-menu>

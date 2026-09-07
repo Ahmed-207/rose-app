@@ -56,7 +56,7 @@ export class ProductEditPage implements OnInit {
             gallery: Array.isArray(p.gallery) ? p.gallery : [],
             categoryId: p.categoryId,
             subCategoryId: p.subCategoryId,
-            occasionIds: Array.isArray(p.occasions) ? p.occasions.map((o: { id: string }) => o.id) : [],
+            occasionIds: Array.isArray(p.occasions) ? (p.occasions as { id: string }[]).map((o) => o.id) : [],
         };
     });
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ProductEditPage } from './product-edit-page';
+import { ProductFormValue } from './product-form';
 import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
 
@@ -112,7 +113,7 @@ describe('ProductEditPage', () => {
         mockProductsService.updateProduct.mockReturnValue(of({ product: mockProduct }));
         fixture.detectChanges();
 
-        const formValue = {
+        const formValue: ProductFormValue = {
             title: 'Updated Rose Box',
             description: 'A nice box',
             price: 120,
@@ -126,7 +127,7 @@ describe('ProductEditPage', () => {
             occasionIds: ['occ-1'],
         };
 
-        component.onSave(formValue as any);
+        component.onSave(formValue);
 
         expect(mockProductsService.updateProduct).toHaveBeenCalledWith('prod-1', formValue);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/admin/products']);

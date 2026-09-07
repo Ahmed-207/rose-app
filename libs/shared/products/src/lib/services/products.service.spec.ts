@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductsService } from './products.service';
 import { APICallerService } from '../utilities/api-caller-service';
+import { CreateProductRequest } from '../models/product.model';
 
 const mockApiCaller = {
     get: vi.fn(),
@@ -38,14 +39,15 @@ describe('ProductsService admin methods', () => {
     it('should create a product', () => {
         mockApiCaller.post.mockReturnValue(of({ product: mockProduct }));
 
-        const payload = {
+        const payload: CreateProductRequest = {
             title: 'Rose Box',
             price: 100,
             stock: 10,
             categoryId: 'cat-1',
+            description: '',
         };
 
-        service.createProduct(payload as any).subscribe(res => {
+        service.createProduct(payload).subscribe(res => {
             expect(res.product).toEqual(mockProduct);
         });
 

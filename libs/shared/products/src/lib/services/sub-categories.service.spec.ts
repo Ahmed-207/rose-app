@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SubCategoriesService } from './sub-categories.service';
 import { CategoriesService } from './categories.service';
-import { Category, CategoryResponseDto } from '../models/category.model';
+import { Category } from '../models/category.model';
 
 const mockCategoriesService = {
     getCategories: vi.fn(),

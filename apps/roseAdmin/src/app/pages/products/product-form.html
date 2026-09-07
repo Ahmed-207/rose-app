@@ -75,8 +75,9 @@
 
     <div class="product-form__images">
         <div class="product-form__cover">
-            <label>{{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}</label>
+            <label for="cover-upload">{{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}</label>
             <input
+                id="cover-upload"
                 type="file"
                 accept="image/*"
                 (change)="onCoverSelected($any($event.target).files?.[0] ?? null)" />
@@ -94,8 +95,9 @@
         </div>
 
         <div class="product-form__gallery">
-            <label>{{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}</label>
+            <label for="gallery-upload">{{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}</label>
             <input
+                id="gallery-upload"
                 type="file"
                 accept="image/*"
                 multiple

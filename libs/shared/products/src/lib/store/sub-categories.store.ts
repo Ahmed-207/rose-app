@@ -58,7 +58,7 @@ export const SubCategoriesStore = signalStore(
             ),
 
             reset() {
-                patchState(store, setAllEntities([]), { loaded: false, error: null, totalResults: 0 });
+                patchState(store, setAllEntities([] as SubCategory[]), { loaded: false, error: null, totalResults: 0 });
             },
         };
     }),

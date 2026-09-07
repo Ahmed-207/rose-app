@@ -1,9 +1,9 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { finalize, take } from 'rxjs';
-import { ProductsService, Category, Occasion, SubCategory, CreateProductReq, UpdateProductReq } from '@org/products';
+import { ProductsService, Category, Occasion, SubCategory } from '@org/products';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
 import { FormControlComponent } from '@org/shared-ui-components';
 
@@ -42,7 +42,7 @@ export class ProductFormComponent {
     readonly error = input<string | null>(null);
 
     readonly save = output<ProductFormValue>();
-    readonly cancel = output<void>();
+    readonly formCancel = output<void>();
     readonly categoryChange = output<string | null>();
 
     readonly isUploadingCover = signal(false);
@@ -63,10 +63,10 @@ export class ProductFormComponent {
         discountType: [''],
         discountValue: [null as number | null],
         cover: [''],
-        gallery: [[] as string[], this.galleryValidator.bind(this)],
+        gallery: this.fb.control<string[]>([], { validators: this.galleryValidator.bind(this) }),
         categoryId: ['', Validators.required],
         subCategoryId: [''],
-        occasionIds: [[] as string[]],
+        occasionIds: this.fb.control<string[]>([]),
     });
 
     constructor() {
@@ -87,7 +87,7 @@ export class ProductFormComponent {
         });
     }
 
-    private galleryValidator(control: FormControl<string[]>) {
+    private galleryValidator(control: { value?: string[] | null }) {
         const value = control.value ?? [];
         if (value.length > MAX_GALLERY_IMAGES) {
             return { maxGallery: { max: MAX_GALLERY_IMAGES, actual: value.length } };
@@ -105,7 +105,7 @@ export class ProductFormComponent {
     }
 
     onCancel(): void {
-        this.cancel.emit();
+        this.formCancel.emit();
     }
 
     onCoverSelected(file: File | null): Promise<void> {
