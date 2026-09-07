@@ -436,6 +436,13 @@
       "PROFILE": "Profile",
       "LOGOUT": "Logout"
     },
+    "DATA_TABLE": {
+      "LOADING": "Loading...",
+      "NO_RECORDS": "No records found",
+      "ACTIONS": "Actions",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
     "NOTIFICATIONS": {
       "TITLE": "Notifications",
       "SUBTITLE": "Create and send in-app notifications to customers.",

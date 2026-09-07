@@ -9,6 +9,8 @@ export interface DataTableColumn<T = unknown> {
     width?: string;
     /** Optional template used to render the cell content. Receives the row as `$implicit`. */
     cellTemplate?: TemplateRef<{ $implicit: T }>;
+    /** When true, the column is hidden on mobile screens. */
+    hiddenOnMobile?: boolean;
 }
 
 export interface DataTablePageEvent {

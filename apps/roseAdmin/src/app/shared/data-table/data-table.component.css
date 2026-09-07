@@ -60,6 +60,29 @@
     gap: 0.5rem;
 }
 
+.data-table-actions--mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none;
+    }
+
+    .data-table-actions--desktop {
+        display: none;
+    }
+
+    .data-table-actions--mobile {
+        display: flex;
+    }
+
+    .rose-data-table .p-datatable-thead > tr > th,
+    .rose-data-table .p-datatable-tbody > tr > td {
+        padding: 0.625rem 0.75rem;
+    }
+}
+
 .dark .data-table-wrapper {
     background-color: var(--p-surface-900, #111827);
     border-color: var(--p-surface-700, #374151);

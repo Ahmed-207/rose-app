@@ -1,13 +1,16 @@
 import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
+import { MenuItem } from 'primeng/api';
 import { DataTableColumn, DataTablePageEvent } from './data-table.model';
 
 @Component({
     selector: 'app-data-table',
     standalone: true,
-    imports: [CommonModule, TableModule, Button, Message, Spinner],
+    imports: [CommonModule, TableModule, MenuModule, TranslatePipe, Button, Message, Spinner],
     templateUrl: './data-table.component.html',
     styleUrl: './data-table.component.css',
     encapsulation: ViewEncapsulation.None,
@@ -49,5 +52,20 @@ export class DataTableComponent<T = unknown> {
         }
 
         return (row as Record<string, unknown>)[field as string] ?? '';
+    }
+
+    actionMenuItems(row: T): MenuItem[] {
+        return [
+            {
+                label: 'Edit',
+                icon: 'pi pi-pencil',
+                command: () => this.editRow.emit(row),
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-trash',
+                command: () => this.deleteRow.emit(row),
+            },
+        ];
     }
 }

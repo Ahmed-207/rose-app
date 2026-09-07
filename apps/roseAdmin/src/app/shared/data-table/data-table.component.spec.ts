@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal, viewChild } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DataTableComponent } from './data-table.component';
 import { DataTableColumn, DataTablePageEvent } from './data-table.model';
+import { provideTestTranslate } from '../testing/translate-test.providers';
 
 interface TestRow {
     id: string;
@@ -11,7 +13,7 @@ interface TestRow {
 
 @Component({
     standalone: true,
-    imports: [DataTableComponent],
+    imports: [DataTableComponent, TranslatePipe],
     template: `
         <app-data-table
             [columns]="columns()"
@@ -54,6 +56,7 @@ describe('DataTableComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHost],
+            providers: [provideTestTranslate()],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHost);
@@ -70,7 +73,7 @@ describe('DataTableComponent', () => {
         expect(headers.length).toBe(3);
         expect(headers[0].textContent).toContain('Name');
         expect(headers[1].textContent).toContain('Price');
-        expect(headers[2].textContent).toContain('Actions');
+        expect(headers[2].textContent).toContain('ADMIN.DATA_TABLE.ACTIONS');
     });
 
     it('should render body cells from data', () => {
@@ -81,14 +84,14 @@ describe('DataTableComponent', () => {
     });
 
     it('should emit editRow when Edit is clicked', () => {
-        const editButton = fixture.nativeElement.querySelector('lib-button[arialabel="Edit"] button');
+        const editButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:first-child button');
         editButton.click();
 
         expect(host.lastEdit()).toEqual(host.data()[0]);
     });
 
     it('should emit deleteRow when Delete is clicked', () => {
-        const deleteButton = fixture.nativeElement.querySelector('lib-button[arialabel="Delete"] button');
+        const deleteButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:last-child button');
         deleteButton.click();
 
         expect(host.lastDelete()).toEqual(host.data()[0]);
@@ -115,6 +118,36 @@ describe('DataTableComponent', () => {
         host.totalRecords.set(0);
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.textContent).toContain('No records found');
+        expect(fixture.nativeElement.textContent).toContain('ADMIN.DATA_TABLE.NO_RECORDS');
+    });
+
+    describe('mobile behavior', () => {
+        beforeEach(() => {
+            host.columns.set([
+                { field: 'name', header: 'Name' },
+                { field: 'price', header: 'Price', hiddenOnMobile: true },
+            ]);
+            fixture.detectChanges();
+        });
+
+        it('should mark hiddenOnMobile columns with mobile-hidden class', () => {
+            const cells = fixture.nativeElement.querySelectorAll('td');
+
+            expect(cells[0].classList.contains('mobile-hidden')).toBe(false);
+            expect(cells[1].classList.contains('mobile-hidden')).toBe(true);
+        });
+
+        it('should render a mobile actions menu button', () => {
+            const menuButton = fixture.nativeElement.querySelector('[data-testid="mobile-actions-menu"] button');
+            expect(menuButton).toBeTruthy();
+        });
+
+        it('should render desktop action buttons', () => {
+            const editButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:first-child button');
+            const deleteButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:last-child button');
+
+            expect(editButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+        });
     });
 });

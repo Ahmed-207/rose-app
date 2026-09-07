@@ -1,7 +1,7 @@
 <div class="data-table-wrapper">
     @if (loading()) {
         <div class="data-table-state">
-            <lib-spinner size="md" label="Loading..."></lib-spinner>
+            <lib-spinner size="md" [label]="'ADMIN.DATA_TABLE.LOADING' | translate"></lib-spinner>
         </div>
     } @else if (error()) {
         <div class="data-table-state">
@@ -24,16 +24,16 @@
             <ng-template pTemplate="header">
                 <tr>
                     @for (col of columns(); track col.field) {
-                        <th [class]="col.width">{{ col.header }}</th>
+                        <th [class]="col.width" [class.mobile-hidden]="col.hiddenOnMobile">{{ col.header }}</th>
                     }
-                    <th class="w-32">Actions</th>
+                    <th class="w-32">{{ 'ADMIN.DATA_TABLE.ACTIONS' | translate }}</th>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="body" let-row>
                 <tr>
                     @for (col of columns(); track col.field) {
-                        <td [class]="col.width">
+                        <td [class]="col.width" [class.mobile-hidden]="col.hiddenOnMobile">
                             @if (col.cellTemplate) {
                                 <ng-container *ngTemplateOutlet="col.cellTemplate; context: { $implicit: row }"></ng-container>
                             } @else {
@@ -42,21 +42,31 @@
                         </td>
                     }
                     <td>
-                        <div class="data-table-actions">
+                        <div class="data-table-actions data-table-actions--desktop">
                             <lib-button
                                 size="sm"
                                 variant="ghost"
-                                ariaLabel="Edit"
+                                [ariaLabel]="'ADMIN.DATA_TABLE.EDIT' | translate"
                                 (clicked)="editRow.emit(row)">
-                                Edit
+                                {{ 'ADMIN.DATA_TABLE.EDIT' | translate }}
                             </lib-button>
                             <lib-button
                                 size="sm"
                                 variant="danger"
-                                ariaLabel="Delete"
+                                [ariaLabel]="'ADMIN.DATA_TABLE.DELETE' | translate"
                                 (clicked)="deleteRow.emit(row)">
-                                Delete
+                                {{ 'ADMIN.DATA_TABLE.DELETE' | translate }}
                             </lib-button>
+                        </div>
+                        <div class="data-table-actions data-table-actions--mobile" data-testid="mobile-actions-menu">
+                            <lib-button
+                                size="sm"
+                                variant="ghost"
+                                [ariaLabel]="'ADMIN.DATA_TABLE.ACTIONS' | translate"
+                                (clicked)="menu.toggle($event)">
+                                <i class="pi pi-ellipsis-v"></i>
+                            </lib-button>
+                            <p-menu #menu [model]="actionMenuItems(row)" [popup]="true" appendTo="body"></p-menu>
                         </div>
                     </td>
                 </tr>
@@ -65,7 +75,7 @@
             <ng-template pTemplate="emptymessage">
                 <tr>
                     <td [attr.colspan]="columns().length + 1">
-                        <lib-message type="info" title="No records found"></lib-message>
+                        <lib-message type="info" [title]="'ADMIN.DATA_TABLE.NO_RECORDS' | translate"></lib-message>
                     </td>
                 </tr>
             </ng-template>
