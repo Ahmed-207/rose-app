@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { APICallerService } from '../utilities/api-caller-service';
-import { PRODUCT, REVIEW } from '../utilities/api-endpoints';
+import { PRODUCT, REVIEW, UPLOAD } from '../utilities/api-endpoints';
 import { toHttpParams } from '../utilities/http-params';
 import { FilterParams } from '../models/filter.model';
 import {
@@ -11,6 +11,11 @@ import {
     ReviewsRes,
     CreateReviewReq,
     CreateReviewRes,
+    CreateProductReq,
+    UpdateProductReq,
+    CreateProductRes,
+    UpdateProductRes,
+    UploadImageRes,
 } from '../models/product.model';
 
 const EMPTY_PRODUCTS_RES: ProductsRes = {
@@ -77,6 +82,45 @@ export class ProductsService {
         return this._httpCaller.post<CreateReviewRes>(REVIEW.createReview, review, params).pipe(
             catchError(err => {
                 console.error('Failed to create review', err);
+                return throwError(() => err);
+            }),
+        );
+    }
+
+    createProduct(product: CreateProductReq): Observable<CreateProductRes> {
+        return this._httpCaller.post<CreateProductRes>(PRODUCT.getProducts, product).pipe(
+            catchError(err => {
+                console.error('Failed to create product', err);
+                return throwError(() => err);
+            }),
+        );
+    }
+
+    updateProduct(id: string, product: UpdateProductReq): Observable<UpdateProductRes> {
+        return this._httpCaller.patch<UpdateProductRes>(`${PRODUCT.getProducts}/${id}`, product).pipe(
+            catchError(err => {
+                console.error('Failed to update product', err);
+                return throwError(() => err);
+            }),
+        );
+    }
+
+    deleteProduct(id: string): Observable<unknown> {
+        return this._httpCaller.delete<unknown>(`${PRODUCT.getProducts}/${id}`).pipe(
+            catchError(err => {
+                console.error('Failed to delete product', err);
+                return throwError(() => err);
+            }),
+        );
+    }
+
+    uploadImage(file: File): Observable<UploadImageRes> {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        return this._httpCaller.post<UploadImageRes>(UPLOAD.uploadImage, formData).pipe(
+            catchError(err => {
+                console.error('Failed to upload image', err);
                 return throwError(() => err);
             }),
         );
