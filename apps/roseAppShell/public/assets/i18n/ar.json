@@ -462,5 +462,29 @@
       "LINK": "الرابط (اختياري)",
       "LINK_INVALID": "أدخل رابطًا صالحًا يبدأ بـ http:// أو https://"
     }
-  }
+  },
+    "category": {
+    "title": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسم التصنيف"
+    },
+    "description": {
+      "label": "الوصف",
+      "placeholder": "أدخل وصف التصنيف"
+    },
+    "image": {
+      "label": "الصورة",
+      "placeholder": "image/*"
+    }
+  },
+    "Add New Category": "إضافة تصنيف جديد",
+  "Add Category": "إضافة التصنيف",
+  "Edit Category": "تعديل التصنيف",
+  "Update Category": "تحديث التصنيف",
+  "Name": "الاسم",
+  "Enter category name": "أدخل اسم التصنيف",
+  "Description": "الوصف",
+  "Enter category description": "أدخل وصف التصنيف",
+  "Image": "الصورة",
+  "image/*": "image/*"
 }

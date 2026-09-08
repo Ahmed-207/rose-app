@@ -2,7 +2,7 @@
 
   @if(label) {
   <label>
-    {{ label }}
+    {{ label | translate }}
 
     @if(required) {
     <span class="text-red-500">*</span>
@@ -63,6 +63,11 @@
   @case('date') {
 
   <p-datepicker [ngModel]="value" [disabled]="disabled" (ngModelChange)="update($event)" />
+  }
+
+  @case('file') {
+  <input type="file" [disabled]="disabled" [readonly]="readonly" [accept]="placeholder"
+    (change)="fileSelected($event)" />
   }
   }
   @if(hasError){

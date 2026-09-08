@@ -41,6 +41,30 @@ export const remoteRoutes: Route[] = [
           import('../pages/products/product-edit-page/product-edit-page').then((c) => c.ProductEditPage),
         title: 'Edit Product',
       },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('../pages/categories/category-list').then(
+            (c) => c.CategoryListComponent,
+          ),
+        title: 'Categories',
+      },
+      {
+        path: 'categories/new',
+        loadComponent: () =>
+          import('../pages/categories/add-edit-categories/add-edit-categories').then(
+            (c) => c.AddEditCategoriesComponent,
+          ),
+        title: 'Add Category',
+      },
+      {
+        path: 'categories/:id/edit',
+        loadComponent: () =>
+          import('../pages/categories/add-edit-categories/add-edit-categories').then(
+            (c) => c.AddEditCategoriesComponent,
+          ),
+        title: 'Edit Category',
+      },
     ],
   },
 ];

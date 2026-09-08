@@ -1,0 +1,15 @@
+<form class="flex flex-col gap-3" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <ng-container #fieldHost></ng-container>
+
+  <button
+    type="submit"
+    class="w-full rounded-sm bg-[#A31D36] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#85162B] disabled:cursor-not-allowed disabled:opacity-60"
+    [disabled]="isSubmitting"
+  >
+    @if (isSubmitting) {
+      {{"Saving..."| translate}}
+    } @else {
+      {{ submitLabel | translate }}
+    }
+  </button>
+</form>
