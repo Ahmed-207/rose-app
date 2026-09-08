@@ -1,5 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
-import { FormControlType } from '../form-controls/form-control';
+import { FormControlType } from '@org/shared-ui-components';
 
 export interface DynamicFormField {
   name: string;

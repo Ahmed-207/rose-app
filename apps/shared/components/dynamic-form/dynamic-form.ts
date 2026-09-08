@@ -16,7 +16,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { FormControlComponent } from '../form-controls/form-control';
+import { FormControlComponent } from '@org/shared-ui-components';
 import { DynamicFormField } from './dynamic-form.types';
 import { TranslatePipe } from '@ngx-translate/core';
 
