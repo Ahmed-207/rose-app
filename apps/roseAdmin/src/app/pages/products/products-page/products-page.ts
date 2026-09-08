@@ -50,11 +50,10 @@ export class ProductsPage implements OnInit {
 
     readonly columns: DataTableColumn<Product>[] = [
         { field: 'title', header: 'ADMIN.PRODUCTS.NAME' },
-        { field: 'category.title', header: 'ADMIN.PRODUCTS.CATEGORY', hiddenOnMobile: true },
         { field: 'price', header: 'ADMIN.PRODUCTS.PRICE' },
         { field: 'stock', header: 'ADMIN.PRODUCTS.STOCK' },
         { field: '_count.cartItems', header: 'ADMIN.PRODUCTS.SALES', hiddenOnMobile: true },
-        { field: 'rating', header: 'ADMIN.PRODUCTS.RATING', hiddenOnMobile: true },
+        { field: 'rating', header: 'ADMIN.PRODUCTS.RATINGS', hiddenOnMobile: true },
     ];
 
     ngOnInit(): void {
