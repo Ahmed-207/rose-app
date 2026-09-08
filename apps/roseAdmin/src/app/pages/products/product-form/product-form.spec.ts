@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductFormComponent } from './product-form';
 import { ProductsService } from '@org/products';
-import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
+import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
     uploadImage: vi.fn(),

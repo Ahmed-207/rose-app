@@ -13,7 +13,7 @@ import {
     UpdateProductReq,
 } from '@org/products';
 import { Message, Spinner } from '@org/shared-ui-components';
-import { ProductFormComponent, ProductFormValue } from './product-form';
+import { ProductFormComponent, ProductFormValue } from '../product-form';
 
 @Component({
     selector: 'app-product-edit-page',

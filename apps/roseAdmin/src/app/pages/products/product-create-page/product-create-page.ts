@@ -12,7 +12,7 @@ import {
     CreateProductReq,
 } from '@org/products';
 import { Message } from '@org/shared-ui-components';
-import { ProductFormComponent, ProductFormValue } from './product-form';
+import { ProductFormComponent, ProductFormValue } from '../product-form';
 
 @Component({
     selector: 'app-product-create-page',

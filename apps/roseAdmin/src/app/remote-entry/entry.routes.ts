@@ -26,19 +26,19 @@ export const remoteRoutes: Route[] = [
       {
         path: 'products',
         loadComponent: () =>
-          import('../pages/products/products-page').then((c) => c.ProductsPage),
+          import('../pages/products/products-page/products-page').then((c) => c.ProductsPage),
         title: 'Products',
       },
       {
         path: 'products/create',
         loadComponent: () =>
-          import('../pages/products/product-create-page').then((c) => c.ProductCreatePage),
+          import('../pages/products/product-create-page/product-create-page').then((c) => c.ProductCreatePage),
         title: 'Add Product',
       },
       {
         path: 'products/:id/edit',
         loadComponent: () =>
-          import('../pages/products/product-edit-page').then((c) => c.ProductEditPage),
+          import('../pages/products/product-edit-page/product-edit-page').then((c) => c.ProductEditPage),
         title: 'Edit Product',
       },
     ],

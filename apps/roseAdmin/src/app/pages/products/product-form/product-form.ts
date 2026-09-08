@@ -6,22 +6,8 @@ import { finalize, take } from 'rxjs';
 import { ProductsService, Category, Occasion, SubCategory } from '@org/products';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
 import { FormControlComponent } from '@org/shared-ui-components';
-
-const MAX_GALLERY_IMAGES = 5;
-
-export interface ProductFormValue {
-    title: string;
-    description: string;
-    price: number | null;
-    stock: number | null;
-    discountType: string;
-    discountValue: number | null;
-    cover: string;
-    gallery: string[];
-    categoryId: string;
-    subCategoryId: string;
-    occasionIds: string[];
-}
+import { ProductFormValue } from './product-form.model';
+import { DISCOUNT_TYPE_OPTIONS, MAX_GALLERY_IMAGES } from './product-form.constants';
 
 @Component({
     selector: 'app-product-form',
@@ -49,11 +35,7 @@ export class ProductFormComponent {
     readonly isUploadingGallery = signal(false);
     readonly uploadError = signal<string | null>(null);
 
-    readonly discountTypeOptions = [
-        { id: '', title: 'None' },
-        { id: 'PERCENT', title: 'Percent' },
-        { id: 'FIXED', title: 'Fixed' },
-    ];
+    readonly discountTypeOptions = DISCOUNT_TYPE_OPTIONS;
 
     readonly form = this.fb.group({
         title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],

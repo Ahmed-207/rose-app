@@ -5,7 +5,7 @@ import { ProductsPage } from './products-page';
 import { ProductsService } from '@org/products';
 import { CategoriesStore } from '@org/products';
 import { ConfirmationService } from 'primeng/api';
-import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
+import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
     getAllProducts: vi.fn(),

@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ProductCreatePage } from './product-create-page';
-import { ProductFormValue } from './product-form';
+import { ProductFormValue } from '../product-form';
 import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
-import { provideTestTranslate } from '../../shared/testing/translate-test.providers';
+import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
     createProduct: vi.fn(),
