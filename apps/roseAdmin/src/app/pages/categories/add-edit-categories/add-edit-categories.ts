@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { CategoriesService } from '../service/categories.service';
 import { CategoryPayload } from '../models/category.models';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { resolveAuthErrorMessage } from '@org/auth';
 @Component({
   selector: 'app-add-edit-categories',
   standalone: true,
@@ -35,15 +35,17 @@ export class AddEditCategoriesComponent implements OnInit {
   isLoading = false;
   isSubmitting = false;
   errorMessage = '';
-
-  ngOnInit(): void {
-    this.categoryId = this.route.snapshot.paramMap.get('id');
+constructor(){
+   this.categoryId = this.route.snapshot.paramMap.get('id');
     this.fields = this.getFields(this.categoryId === null);
     if (this.categoryId) {
       this.title = 'Edit Category';
       this.submitLabel = 'Update Category';
       this.loadCategory(this.categoryId);
     }
+}
+  ngOnInit(): void {
+
   }
 
   submit(payload: Record<string, unknown>): void {
@@ -70,7 +72,10 @@ export class AddEditCategoriesComponent implements OnInit {
       },
       error: (error: unknown) => {
         this.isSubmitting = false;
-        this.errorMessage = this.getErrorMessage(error);
+        this.errorMessage = resolveAuthErrorMessage(
+          error,
+          'Could not save the category. Please try again.',
+        );
       },
     });
   }
@@ -95,7 +100,7 @@ export class AddEditCategoriesComponent implements OnInit {
         },
         error: (error: unknown) => {
           this.isLoading = false;
-          this.errorMessage = this.getErrorMessage(error, 'Could not load the category.');
+          this.errorMessage = resolveAuthErrorMessage(error, 'Could not load the category.');
           this.changeDetector.detectChanges();
         },
       });
@@ -133,27 +138,5 @@ export class AddEditCategoriesComponent implements OnInit {
     }
 
     return fields;
-  }
-
-  private getErrorMessage(
-    error: unknown,
-    fallback = 'Could not save the category. Please try again.',
-  ): string {
-    const response = error instanceof HttpErrorResponse ? error.error : error;
-    if (!response || typeof response !== 'object') return fallback;
-
-    const body = response as { message?: unknown; errors?: unknown };
-    if (typeof body.message === 'string' && body.message) return body.message;
-    if (Array.isArray(body.errors)) {
-      const validationMessage = body.errors.find(
-        (item): item is { message: string } =>
-          !!item &&
-          typeof item === 'object' &&
-          typeof (item as { message?: unknown }).message === 'string',
-      )?.message;
-      if (validationMessage) return validationMessage;
-    }
-
-    return fallback;
   }
 }
