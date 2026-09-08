@@ -1,4 +1,4 @@
-<form class="product-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="product-form" [formGroup]="customForm" (ngSubmit)="onSubmit()">
     @if (error()) {
         <lib-message type="error" [title]="error() ?? undefined" class="product-form__feedback"></lib-message>
     }
@@ -7,75 +7,51 @@
         <lib-message type="error" [title]="uploadError() ?? undefined" class="product-form__feedback"></lib-message>
     }
 
-    <div class="product-form__grid">
-        <lib-form-control
-            type="text"
-            label="ADMIN.PRODUCTS.FORM.TITLE"
-            formControlName="title"
-            [required]="true" />
-
-        <lib-form-control
-            type="select"
-            label="ADMIN.PRODUCTS.FORM.CATEGORY"
-            formControlName="categoryId"
-            [options]="categories()"
-            optionLabel="title"
-            optionValue="id"
-            [required]="true" />
-
-        <lib-form-control
-            type="select"
-            label="ADMIN.PRODUCTS.FORM.SUB_CATEGORY"
-            formControlName="subCategoryId"
-            [options]="subCategories()"
-            optionLabel="title"
-            optionValue="id" />
-
-        <lib-form-control
-            type="number"
-            label="ADMIN.PRODUCTS.FORM.PRICE"
-            formControlName="price"
-            [required]="true" />
-
-        <lib-form-control
-            type="number"
-            label="ADMIN.PRODUCTS.FORM.STOCK"
-            formControlName="stock"
-            [required]="true" />
-
-        <lib-form-control
-            type="select"
-            label="ADMIN.PRODUCTS.FORM.DISCOUNT_TYPE"
-            formControlName="discountType"
-            [options]="discountTypeOptions"
-            optionLabel="title"
-            optionValue="id" />
-
-        @if (form.controls.discountType.value) {
-            <lib-form-control
-                type="number"
-                label="ADMIN.PRODUCTS.FORM.DISCOUNT_VALUE"
-                formControlName="discountValue"
-                [required]="true" />
-        }
-
-        <lib-form-control
-            type="multiselect"
-            label="ADMIN.PRODUCTS.FORM.OCCASIONS"
-            formControlName="occasionIds"
-            [options]="occasions()"
-            optionLabel="title"
-            optionValue="id" />
-    </div>
+    <app-dynamic-form
+        #dynamicForm
+        [fields]="dynamicFields"
+        [initialValue]="dynamicInitialValue()"
+        [showSubmitButton]="false"
+        (valueChange)="onDynamicFormValueChange($event)"
+        (submitted)="onDynamicFormSubmitted($event)" />
 
     <lib-form-control
-        type="textarea"
-        label="ADMIN.PRODUCTS.FORM.DESCRIPTION"
-        formControlName="description" />
+        type="select"
+        label="ADMIN.PRODUCTS.FORM.CATEGORY"
+        formControlName="categoryId"
+        [options]="categories()"
+        optionLabel="title"
+        optionValue="id"
+        [required]="true" />
+
+    <lib-form-control
+        type="multiselect"
+        label="ADMIN.PRODUCTS.FORM.OCCASIONS"
+        formControlName="occasionIds"
+        [options]="occasions()"
+        optionLabel="title"
+        optionValue="id"
+        [required]="true" />
+
+    <div class="product-form__field">
+        <label class="product-form__label" for="price-after-discount">
+            {{ 'ADMIN.PRODUCTS.FORM.PRICE_AFTER_DISCOUNT' | translate }}
+        </label>
+        <input
+            id="price-after-discount"
+            pInputText
+            type="text"
+            class="product-form__input"
+            [value]="priceAfterDiscount()"
+            readonly />
+    </div>
 
     <div class="product-form__images">
         <div class="product-form__cover">
-            <label for="cover-upload">{{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}</label>
+            <label class="product-form__label" for="cover-upload">
+                {{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}
+                <span class="text-red-500">*</span>
+            </label>
             <input
                 id="cover-upload"
                 type="file"
@@ -86,16 +62,19 @@
                 <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
             }
 
-            @if (form.controls.cover.value) {
-                <img [src]="form.controls.cover.value" alt="Cover" class="product-form__image-preview" />
-                <lib-button size="sm" variant="ghost" (clicked)="form.controls.cover.setValue('')">
+            @if (customForm.controls.cover.value) {
+                <img [src]="customForm.controls.cover.value" alt="Cover" class="product-form__image-preview" />
+                <lib-button size="sm" variant="ghost" (clicked)="customForm.controls.cover.setValue('')">
                     {{ 'ADMIN.PRODUCTS.FORM.REMOVE' | translate }}
                 </lib-button>
             }
         </div>
 
         <div class="product-form__gallery">
-            <label for="gallery-upload">{{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}</label>
+            <label class="product-form__label" for="gallery-upload">
+                {{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}
+                <span class="text-red-500">*</span>
+            </label>
             <input
                 id="gallery-upload"
                 type="file"
@@ -108,7 +87,7 @@
             }
 
             <div class="product-form__gallery-list">
-                @for (image of form.controls.gallery.value; track image; let i = $index) {
+                @for (image of customForm.controls.gallery.value; track image; let i = $index) {
                     <div class="product-form__gallery-item">
                         <img [src]="image" alt="Gallery" class="product-form__image-preview" />
                         <lib-button size="sm" variant="danger" (clicked)="removeGalleryImage(i)">

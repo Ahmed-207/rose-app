@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ProductEditPage } from './product-edit-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
+import { ProductsService, CategoriesStore, OccasionsStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
@@ -23,13 +23,6 @@ const mockOccasionsStore = {
     isLoading: vi.fn(() => false),
     loaded: vi.fn(() => true),
     loadOnce: vi.fn(),
-};
-
-const mockSubCategoriesStore = {
-    entities: vi.fn(() => [{ id: 'sub-1', title: 'Red Roses' }]),
-    isLoading: vi.fn(() => false),
-    loadSubCategories: vi.fn(),
-    reset: vi.fn(),
 };
 
 const mockRouter = {
@@ -72,7 +65,6 @@ describe('ProductEditPage', () => {
                 { provide: ProductsService, useValue: mockProductsService },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
-                { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
                 { provide: Router, useValue: mockRouter },
                 { provide: ActivatedRoute, useValue: mockActivatedRoute },
                 provideTestTranslate(),
@@ -84,7 +76,6 @@ describe('ProductEditPage', () => {
         mockProductsService.getProductById.mockReset();
         mockProductsService.updateProduct.mockReset();
         mockRouter.navigate.mockReset();
-        mockSubCategoriesStore.loadSubCategories.mockReset();
     });
 
     it('should create', () => {
@@ -129,7 +120,18 @@ describe('ProductEditPage', () => {
 
         component.onSave(formValue);
 
-        expect(mockProductsService.updateProduct).toHaveBeenCalledWith('prod-1', formValue);
+        expect(mockProductsService.updateProduct).toHaveBeenCalledWith('prod-1', {
+            title: 'Updated Rose Box',
+            description: 'A nice box',
+            price: 120,
+            stock: 15,
+            discountType: 'PERCENT',
+            discountValue: 10,
+            cover: 'https://example.com/cover.jpg',
+            gallery: ['https://example.com/1.jpg'],
+            categoryId: 'cat-1',
+            occasionIds: ['occ-1'],
+        });
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/admin/products']);
     });
 });

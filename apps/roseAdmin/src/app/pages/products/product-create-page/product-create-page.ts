@@ -8,7 +8,6 @@ import {
     ProductsService,
     CategoriesStore,
     OccasionsStore,
-    SubCategoriesStore,
     CreateProductReq,
 } from '@org/products';
 import { Message } from '@org/shared-ui-components';
@@ -25,29 +24,17 @@ export class ProductCreatePage implements OnInit {
     private readonly productsService = inject(ProductsService);
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly occasionsStore = inject(OccasionsStore);
-    private readonly subCategoriesStore = inject(SubCategoriesStore);
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly isSubmitting = signal(false);
     readonly error = signal<string | null>(null);
-    readonly successMessage = signal<string | null>(null);
 
     readonly categories = computed(() => this.categoriesStore.entities());
     readonly occasions = computed(() => this.occasionsStore.entities());
-    readonly subCategories = computed(() => this.subCategoriesStore.entities());
 
     ngOnInit(): void {
-        this.categoriesStore.loadOnce();
-        this.occasionsStore.loadOnce();
-    }
-
-    onCategoryChange(categoryId: string | null): void {
-        if (categoryId) {
-            this.subCategoriesStore.loadSubCategories(categoryId);
-        } else {
-            this.subCategoriesStore.reset();
-        }
+        this.loadLookupData();
     }
 
     onSave(formValue: ProductFormValue): void {
@@ -76,6 +63,11 @@ export class ProductCreatePage implements OnInit {
         this.router.navigate(['/admin/products']);
     }
 
+    private loadLookupData(): void {
+        this.categoriesStore.loadOnce();
+        this.occasionsStore.loadOnce();
+    }
+
     private buildCreatePayload(formValue: ProductFormValue): CreateProductReq {
         const payload: CreateProductReq = {
             title: formValue.title,
@@ -85,7 +77,6 @@ export class ProductCreatePage implements OnInit {
         };
 
         if (formValue.description?.trim()) payload.description = formValue.description.trim();
-        if (formValue.subCategoryId) payload.subCategoryId = formValue.subCategoryId;
         if (formValue.discountType) payload.discountType = formValue.discountType;
         if (formValue.discountValue != null) payload.discountValue = formValue.discountValue;
         if (formValue.cover) payload.cover = formValue.cover;

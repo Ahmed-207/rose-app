@@ -40,17 +40,20 @@ export class DynamicFormComponent implements AfterViewInit, OnChanges {
   @Input() initialValue: Record<string, unknown> = {};
   @Input() submitLabel = 'Save';
   @Input() isSubmitting = false;
+  @Input() showSubmitButton = true;
   @Output() submitted = new EventEmitter<Record<string, unknown>>();
+  @Output() valueChange = new EventEmitter<Record<string, unknown>>();
 
   readonly form = new FormGroup<Record<string, AbstractControl>>({});
-  @ViewChild('fieldHost', { read: ViewContainerRef, static: true })
-  private fieldHost!: ViewContainerRef;
+  @ViewChild('fieldHost', { read: ViewContainerRef, static: false })
+  private fieldHost: ViewContainerRef | null = null;
   private initialized = false;
   private fieldInstances: FieldInstance[] = [];
 
   constructor() {
     this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.updateConditionalVisibility();
+      this.valueChange.emit(this.form.getRawValue());
     });
   }
 
@@ -65,16 +68,19 @@ export class DynamicFormComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  submit(): void {
+  submit(): boolean {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      return;
+      return false;
     }
 
     this.submitted.emit(this.form.getRawValue());
+    return true;
   }
 
   private renderFields(): void {
+    if (!this.fieldHost) return;
+
     this.fieldHost.clear();
     Object.keys(this.form.controls).forEach((name) => this.form.removeControl(name));
     this.fieldInstances = [];

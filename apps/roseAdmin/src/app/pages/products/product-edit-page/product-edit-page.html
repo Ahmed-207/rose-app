@@ -13,12 +13,10 @@
         <app-product-form
             [initialValue]="initialValue()"
             [categories]="categories()"
-            [subCategories]="subCategories()"
             [occasions]="occasions()"
             [isSubmitting]="isSubmitting()"
             [error]="error()"
             (save)="onSave($event)"
-            (formCancel)="onCancel()"
-            (categoryChange)="onCategoryChange($event)" />
+            (formCancel)="onCancel()" />
     }
 </div>

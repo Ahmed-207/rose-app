@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ProductCreatePage } from './product-create-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
+import { ProductsService, CategoriesStore, OccasionsStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
@@ -24,13 +24,6 @@ const mockOccasionsStore = {
     loadOnce: vi.fn(),
 };
 
-const mockSubCategoriesStore = {
-    entities: vi.fn(() => []),
-    isLoading: vi.fn(() => false),
-    loadSubCategories: vi.fn(),
-    reset: vi.fn(),
-};
-
 const mockRouter = {
     navigate: vi.fn(),
 };
@@ -46,7 +39,6 @@ describe('ProductCreatePage', () => {
                 { provide: ProductsService, useValue: mockProductsService },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
-                { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
                 { provide: Router, useValue: mockRouter },
                 provideTestTranslate(),
             ],
@@ -58,7 +50,6 @@ describe('ProductCreatePage', () => {
         mockRouter.navigate.mockReset();
         mockCategoriesStore.loadOnce.mockReset();
         mockOccasionsStore.loadOnce.mockReset();
-        mockSubCategoriesStore.loadSubCategories.mockReset();
     });
 
     it('should create', () => {
@@ -71,14 +62,6 @@ describe('ProductCreatePage', () => {
 
         expect(mockCategoriesStore.loadOnce).toHaveBeenCalled();
         expect(mockOccasionsStore.loadOnce).toHaveBeenCalled();
-    });
-
-    it('should load sub-categories when category changes', () => {
-        fixture.detectChanges();
-
-        component.onCategoryChange('cat-1');
-
-        expect(mockSubCategoriesStore.loadSubCategories).toHaveBeenCalledWith('cat-1');
     });
 
     it('should create product and navigate on success', () => {
@@ -110,7 +93,7 @@ describe('ProductCreatePage', () => {
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/admin/products']);
     });
 
-    it('should not include empty optional fields in create payload', () => {
+    it('should include optional fields in create payload when provided', () => {
         mockProductsService.createProduct.mockReturnValue(of({ product: { id: 'prod-1' } }));
         fixture.detectChanges();
 
@@ -124,12 +107,23 @@ describe('ProductCreatePage', () => {
             cover: 'https://example.com/cover.jpg',
             gallery: ['https://example.com/1.jpg'],
             categoryId: 'cat-1',
-            subCategoryId: 'sub-1',
+            subCategoryId: '',
             occasionIds: ['occ-1'],
         };
 
         component.onSave(formValue);
 
-        expect(mockProductsService.createProduct).toHaveBeenCalledWith(formValue);
+        expect(mockProductsService.createProduct).toHaveBeenCalledWith({
+            title: 'Rose Box',
+            description: 'A nice box',
+            price: 100,
+            stock: 10,
+            discountType: 'PERCENT',
+            discountValue: 10,
+            cover: 'https://example.com/cover.jpg',
+            gallery: ['https://example.com/1.jpg'],
+            categoryId: 'cat-1',
+            occasionIds: ['occ-1'],
+        });
     });
 });

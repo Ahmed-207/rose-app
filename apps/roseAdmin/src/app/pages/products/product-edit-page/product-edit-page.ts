@@ -8,7 +8,6 @@ import {
     ProductsService,
     CategoriesStore,
     OccasionsStore,
-    SubCategoriesStore,
     Product,
     UpdateProductReq,
 } from '@org/products';
@@ -26,7 +25,6 @@ export class ProductEditPage implements OnInit {
     private readonly productsService = inject(ProductsService);
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly occasionsStore = inject(OccasionsStore);
-    private readonly subCategoriesStore = inject(SubCategoriesStore);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
@@ -39,7 +37,6 @@ export class ProductEditPage implements OnInit {
 
     readonly categories = computed(() => this.categoriesStore.entities());
     readonly occasions = computed(() => this.occasionsStore.entities());
-    readonly subCategories = computed(() => this.subCategoriesStore.entities());
 
     readonly initialValue = computed<ProductFormValue | null>(() => {
         const p = this.product();
@@ -61,46 +58,9 @@ export class ProductEditPage implements OnInit {
     });
 
     ngOnInit(): void {
-        const id = this.route.snapshot.paramMap.get('id');
-        if (!id) {
-            this.error.set('ADMIN.PRODUCTS.INVALID_PRODUCT_ID');
-            return;
-        }
-
-        this.productId.set(id);
-        this.categoriesStore.loadOnce();
-        this.occasionsStore.loadOnce();
-        this.loadProduct(id);
-    }
-
-    private loadProduct(id: string): void {
-        this.isLoading.set(true);
-        this.productsService
-            .getProductById(id)
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                finalize(() => this.isLoading.set(false)),
-            )
-            .subscribe({
-                next: (res) => {
-                    const p = res.product;
-                    this.product.set(p);
-                    if (p.categoryId) {
-                        this.subCategoriesStore.loadSubCategories(p.categoryId);
-                    }
-                },
-                error: (err: { message?: string }) => {
-                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.LOAD_PRODUCT_ERROR');
-                },
-            });
-    }
-
-    onCategoryChange(categoryId: string | null): void {
-        if (categoryId) {
-            this.subCategoriesStore.loadSubCategories(categoryId);
-        } else {
-            this.subCategoriesStore.reset();
-        }
+        this.resolveProductId();
+        this.loadLookupData();
+        this.loadProduct();
     }
 
     onSave(formValue: ProductFormValue): void {
@@ -130,6 +90,41 @@ export class ProductEditPage implements OnInit {
         this.router.navigate(['/admin/products']);
     }
 
+    private resolveProductId(): void {
+        const id = this.route.snapshot.paramMap.get('id');
+        if (!id) {
+            this.error.set('ADMIN.PRODUCTS.INVALID_PRODUCT_ID');
+            return;
+        }
+        this.productId.set(id);
+    }
+
+    private loadLookupData(): void {
+        this.categoriesStore.loadOnce();
+        this.occasionsStore.loadOnce();
+    }
+
+    private loadProduct(): void {
+        const id = this.productId();
+        if (!id) return;
+
+        this.isLoading.set(true);
+        this.productsService
+            .getProductById(id)
+            .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                finalize(() => this.isLoading.set(false)),
+            )
+            .subscribe({
+                next: (res) => {
+                    this.product.set(res.product);
+                },
+                error: (err: { message?: string }) => {
+                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.LOAD_PRODUCT_ERROR');
+                },
+            });
+    }
+
     private buildUpdatePayload(formValue: ProductFormValue): UpdateProductReq {
         const payload: UpdateProductReq = {
             title: formValue.title,
@@ -139,7 +134,6 @@ export class ProductEditPage implements OnInit {
         };
 
         if (formValue.description?.trim()) payload.description = formValue.description.trim();
-        if (formValue.subCategoryId) payload.subCategoryId = formValue.subCategoryId;
         if (formValue.discountType) {
             payload.discountType = formValue.discountType;
             if (formValue.discountValue != null) payload.discountValue = formValue.discountValue;
