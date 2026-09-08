@@ -1,0 +1,107 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
+import { DynamicFormComponent } from './dynamic-form';
+import { DynamicFormField } from './dynamic-form.types';
+
+const noop = () => {
+    // intentional no-op
+};
+
+const mockTranslateService = {
+    get: () => ({ subscribe: noop }),
+    instant: (key: string) => key,
+    onLangChange: { subscribe: noop },
+    onTranslationChange: { subscribe: noop },
+};
+
+describe('DynamicFormComponent', () => {
+    let fixture: ComponentFixture<DynamicFormComponent>;
+    let component: DynamicFormComponent;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [DynamicFormComponent],
+            providers: [{ provide: TranslateService, useValue: mockTranslateService }],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(DynamicFormComponent);
+        component = fixture.componentInstance;
+    });
+
+    it('should create', () => {
+        fixture.detectChanges();
+        expect(component).toBeTruthy();
+    });
+
+    it('should render fields and emit values on submit', () => {
+        const submitted = vi.fn();
+        component.submitted.subscribe(submitted);
+
+        const fields: DynamicFormField[] = [
+            { name: 'title', type: 'text', label: 'Title', required: true },
+            { name: 'price', type: 'number', label: 'Price', required: true },
+        ];
+
+        component.fields = fields;
+        component.initialValue = { title: 'Rose', price: 100 };
+        fixture.detectChanges();
+
+        expect(component.form.controls['title'].value).toBe('Rose');
+        expect(component.form.controls['price'].value).toBe(100);
+
+        component.submit();
+        expect(submitted).toHaveBeenCalledWith({ title: 'Rose', price: 100 });
+    });
+
+    it('should pass options to select fields', () => {
+        const fields: DynamicFormField[] = [
+            {
+                name: 'category',
+                type: 'select',
+                label: 'Category',
+                options: [{ id: '1', name: 'Roses' }],
+                optionLabel: 'name',
+                optionValue: 'id',
+            },
+        ];
+
+        component.fields = fields;
+        fixture.detectChanges();
+
+        expect(component.form.contains('category')).toBe(true);
+    });
+
+    it('should conditionally hide and disable fields', () => {
+        const fields: DynamicFormField[] = [
+            { name: 'hasDiscount', type: 'checkbox', label: 'Has Discount' },
+            {
+                name: 'discountValue',
+                type: 'number',
+                label: 'Discount Value',
+                visibleWhen: (values) => !!values['hasDiscount'],
+            },
+        ];
+
+        component.fields = fields;
+        fixture.detectChanges();
+
+        const discountControl = component.form.controls['discountValue'];
+        expect(discountControl.disabled).toBe(true);
+
+        component.form.controls['hasDiscount'].setValue(true);
+        fixture.detectChanges();
+
+        expect(discountControl.enabled).toBe(true);
+    });
+
+    it('should mark all fields touched when invalid form is submitted', () => {
+        component.fields = [{ name: 'title', type: 'text', label: 'Title', required: true }];
+        fixture.detectChanges();
+
+        const control = component.form.controls['title'];
+        expect(control.touched).toBe(false);
+
+        component.submit();
+        expect(control.touched).toBe(true);
+    });
+});

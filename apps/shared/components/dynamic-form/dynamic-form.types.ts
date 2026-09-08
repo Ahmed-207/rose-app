@@ -9,4 +9,8 @@ export interface DynamicFormField {
   required?: boolean;
   readonly?: boolean;
   validators?: ValidatorFn[];
+  options?: unknown[];
+  optionLabel?: string;
+  optionValue?: string;
+  visibleWhen?: (values: Record<string, unknown>) => boolean;
 }
