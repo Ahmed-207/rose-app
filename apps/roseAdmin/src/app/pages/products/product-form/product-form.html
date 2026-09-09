@@ -7,7 +7,7 @@
         <lib-message type="error" [title]="uploadError() ?? undefined" class="product-form__feedback"></lib-message>
     }
 
-    <app-dynamic-form
+    <lib-dynamic-form
         #dynamicForm
         [fields]="dynamicFields"
         [initialValue]="dynamicInitialValue()"

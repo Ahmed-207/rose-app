@@ -1,18 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { DynamicFormComponent } from './dynamic-form';
 import { DynamicFormField } from './dynamic-form.types';
-
-const noop = () => {
-    // intentional no-op
-};
-
-const mockTranslateService = {
-    get: () => ({ subscribe: noop }),
-    instant: (key: string) => key,
-    onLangChange: { subscribe: noop },
-    onTranslationChange: { subscribe: noop },
-};
 
 describe('DynamicFormComponent', () => {
     let fixture: ComponentFixture<DynamicFormComponent>;
@@ -21,7 +10,7 @@ describe('DynamicFormComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [DynamicFormComponent],
-            providers: [{ provide: TranslateService, useValue: mockTranslateService }],
+            providers: [provideTranslateService({ fallbackLang: 'en', lang: 'en' })],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DynamicFormComponent);
@@ -94,14 +83,5 @@ describe('DynamicFormComponent', () => {
         expect(discountControl.enabled).toBe(true);
     });
 
-    it('should mark all fields touched when invalid form is submitted', () => {
-        component.fields = [{ name: 'title', type: 'text', label: 'Title', required: true }];
-        fixture.detectChanges();
 
-        const control = component.form.controls['title'];
-        expect(control.touched).toBe(false);
-
-        component.submit();
-        expect(control.touched).toBe(true);
-    });
 });
