@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal, viewChild } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DataTableComponent } from './data-table.component';
 import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-table.model';
 import { provideTestTranslate } from '../testing/translate-test.providers';
@@ -32,8 +32,8 @@ interface TestRow {
 class TestHost {
     table = viewChild.required(DataTableComponent);
     columns = signal<DataTableColumn<TestRow>[]>([
-        { field: 'name', header: 'Name', sortable: true },
-        { field: 'price', header: 'Price' },
+        { field: 'name', header: 'ADMIN.TEST.NAME', sortable: true },
+        { field: 'price', header: 'ADMIN.TEST.PRICE' },
     ]);
     data = signal<TestRow[]>([
         { id: '1', name: 'Rose', price: 10 },
@@ -61,6 +61,15 @@ describe('DataTableComponent', () => {
             providers: [provideTestTranslate()],
         }).compileComponents();
 
+        const translate = TestBed.inject(TranslateService);
+        translate.setTranslation('en', {
+            ADMIN: {
+                TEST: { NAME: 'Name', PRICE: 'Price' },
+                DATA_TABLE: { ACTIONS: 'Actions', EDIT: 'Edit', DELETE: 'Delete' },
+            },
+        }, true);
+        translate.use('en');
+
         fixture = TestBed.createComponent(TestHost);
         host = fixture.componentInstance;
         fixture.detectChanges();
@@ -75,7 +84,7 @@ describe('DataTableComponent', () => {
         expect(headers.length).toBe(3);
         expect(headers[0].textContent).toContain('Name');
         expect(headers[1].textContent).toContain('Price');
-        expect(headers[2].textContent).toContain('ADMIN.DATA_TABLE.ACTIONS');
+        expect(headers[2].textContent).toContain('Actions');
     });
 
     it('should render body cells from data', () => {
@@ -113,6 +122,19 @@ describe('DataTableComponent', () => {
 
         const message = fixture.nativeElement.querySelector('lib-message');
         expect(message).toBeTruthy();
+    });
+
+    it('should translate header keys', () => {
+        const headers = fixture.nativeElement.querySelectorAll('th');
+        expect(headers[0].textContent).toContain('Name');
+        expect(headers[1].textContent).toContain('Price');
+        expect(headers[2].textContent).toContain('Actions');
+    });
+
+    it('should translate mobile action menu labels', () => {
+        const items = host.table().actionMenuItems(host.data()[0]);
+        expect(items[0].label).toBe('Edit');
+        expect(items[1].label).toBe('Delete');
     });
 
     it('should show empty message when data is empty', () => {

@@ -17,6 +17,7 @@
             [showCurrentPageReport]="true"
             currentPageReportTemplate="{first}-{last} of {totalRecords}"
             [rowsPerPageOptions]="[10, 25, 50]"
+            [paginatorDropdownAppendTo]="'body'"
             [tableStyle]="{ 'min-width': '50rem' }"
             styleClass="rose-data-table"
             sortMode="single"
@@ -33,7 +34,7 @@
                             [pSortableColumn]="fieldName(col)"
                             [pSortableColumnDisabled]="!col.sortable">
                             <div class="flex items-center gap-2">
-                                {{ col.header }}
+                                {{ col.header | translate }}
                                 @if (col.sortable) {
                                     <p-sortIcon [field]="fieldName(col)"></p-sortIcon>
                                 }
@@ -60,6 +61,7 @@
                             <lib-button
                                 size="sm"
                                 variant="ghost"
+                                class="data-table__edit-btn"
                                 [ariaLabel]="'ADMIN.DATA_TABLE.EDIT' | translate"
                                 (clicked)="editRow.emit(row)">
                                 {{ 'ADMIN.DATA_TABLE.EDIT' | translate }}
@@ -67,6 +69,7 @@
                             <lib-button
                                 size="sm"
                                 variant="danger"
+                                class="data-table__delete-btn"
                                 [ariaLabel]="'ADMIN.DATA_TABLE.DELETE' | translate"
                                 (clicked)="deleteRow.emit(row)">
                                 {{ 'ADMIN.DATA_TABLE.DELETE' | translate }}

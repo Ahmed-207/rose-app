@@ -1,8 +1,8 @@
-import { Component, computed, input, output, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
 import { MenuItem } from 'primeng/api';
 import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-table.model';
@@ -16,6 +16,8 @@ import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-
     encapsulation: ViewEncapsulation.None,
 })
 export class DataTableComponent<T = unknown> {
+    private readonly translate = inject(TranslateService);
+
     columns = input.required<DataTableColumn<T>[]>();
     data = input.required<T[]>();
     totalRecords = input.required<number>();
@@ -70,12 +72,12 @@ export class DataTableComponent<T = unknown> {
     actionMenuItems(row: T): MenuItem[] {
         return [
             {
-                label: 'Edit',
+                label: this.translate.instant('ADMIN.DATA_TABLE.EDIT'),
                 icon: 'pi pi-pencil',
                 command: () => this.editRow.emit(row),
             },
             {
-                label: 'Delete',
+                label: this.translate.instant('ADMIN.DATA_TABLE.DELETE'),
                 icon: 'pi pi-trash',
                 command: () => this.deleteRow.emit(row),
             },
