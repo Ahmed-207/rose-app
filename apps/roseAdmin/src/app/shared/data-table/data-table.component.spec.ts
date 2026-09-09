@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal, viewChild } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DataTableComponent } from './data-table.component';
-import { DataTableColumn, DataTablePageEvent } from './data-table.model';
+import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-table.model';
 import { provideTestTranslate } from '../testing/translate-test.providers';
 
 interface TestRow {
@@ -24,6 +24,7 @@ interface TestRow {
             [page]="page()"
             [limit]="limit()"
             (pageChange)="lastPageChange.set($event)"
+            (sortChange)="lastSortChange.set($event)"
             (editRow)="lastEdit.set($event)"
             (deleteRow)="lastDelete.set($event)" />
     `,
@@ -31,7 +32,7 @@ interface TestRow {
 class TestHost {
     table = viewChild.required(DataTableComponent);
     columns = signal<DataTableColumn<TestRow>[]>([
-        { field: 'name', header: 'Name' },
+        { field: 'name', header: 'Name', sortable: true },
         { field: 'price', header: 'Price' },
     ]);
     data = signal<TestRow[]>([
@@ -45,6 +46,7 @@ class TestHost {
     limit = signal<number>(10);
 
     lastPageChange = signal<DataTablePageEvent | null>(null);
+    lastSortChange = signal<DataTableSortEvent | null>(null);
     lastEdit = signal<TestRow | null>(null);
     lastDelete = signal<TestRow | null>(null);
 }
@@ -119,6 +121,42 @@ describe('DataTableComponent', () => {
         fixture.detectChanges();
 
         expect(fixture.nativeElement.textContent).toContain('ADMIN.DATA_TABLE.NO_RECORDS');
+    });
+
+    describe('sorting', () => {
+        it('should emit ascending sort when a sortable header is clicked for the first time', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'asc' });
+        });
+
+        it('should emit descending sort when the same sortable header is clicked again', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'desc' });
+        });
+
+        it('should cycle back to ascending when the same sortable header is clicked a third time', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'asc' });
+        });
+
+        it('should not emit sortChange when a non-sortable header is clicked', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[1].click();
+
+            expect(host.lastSortChange()).toBeNull();
+        });
     });
 
     describe('mobile behavior', () => {

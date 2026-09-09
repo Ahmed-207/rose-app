@@ -11,9 +11,16 @@ export interface DataTableColumn<T = unknown> {
     cellTemplate?: TemplateRef<{ $implicit: T }>;
     /** When true, the column is hidden on mobile screens. */
     hiddenOnMobile?: boolean;
+    /** When true, the column can be sorted and will emit sortChange events. */
+    sortable?: boolean;
 }
 
 export interface DataTablePageEvent {
     page: number;
     limit: number;
+}
+
+export interface DataTableSortEvent {
+    field: string;
+    order: 'asc' | 'desc' | null;
 }

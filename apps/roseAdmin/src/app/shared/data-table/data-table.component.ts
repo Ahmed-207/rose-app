@@ -1,11 +1,11 @@
-import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
 import { MenuItem } from 'primeng/api';
-import { DataTableColumn, DataTablePageEvent } from './data-table.model';
+import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-table.model';
 
 @Component({
     selector: 'app-data-table',
@@ -25,16 +25,29 @@ export class DataTableComponent<T = unknown> {
     limit = input<number>(10);
 
     pageChange = output<DataTablePageEvent>();
+    sortChange = output<DataTableSortEvent>();
     editRow = output<T>();
     deleteRow = output<T>();
 
     readonly firstRowIndex = computed(() => (this.page() - 1) * this.limit());
+    readonly currentSort = signal<DataTableSortEvent | null>(null);
 
     onPageChange(event: { first: number; rows: number }): void {
         this.pageChange.emit({
             page: Math.floor(event.first / event.rows) + 1,
             limit: event.rows,
         });
+    }
+
+    onSort(event: { field: string; order: 1 | -1 | 0 | null }): void {
+        const order = event.order === 1 ? 'asc' : event.order === -1 ? 'desc' : null;
+        const sort: DataTableSortEvent = { field: event.field, order };
+        this.currentSort.set(sort);
+        this.sortChange.emit(sort);
+    }
+
+    fieldName(col: DataTableColumn<T>): string {
+        return String(col.field);
     }
 
     resolveField(row: T, field: keyof T | string): unknown {
