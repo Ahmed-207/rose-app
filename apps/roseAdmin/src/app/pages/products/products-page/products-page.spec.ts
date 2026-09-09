@@ -116,6 +116,18 @@ describe('ProductsPage', () => {
         );
     });
 
+    it('should apply sort filter and reset to page 1', () => {
+        mockProductsService.getAllProducts.mockReturnValue(of(mockProductsResponse));
+        fixture.detectChanges();
+
+        component.onPageChange({ page: 2, limit: 10 });
+        component.onSortChange({ field: 'price', order: 'desc' });
+
+        expect(mockProductsService.getAllProducts).toHaveBeenLastCalledWith(
+            expect.objectContaining({ sortBy: 'price', sortOrder: 'desc', page: 1 }),
+        );
+    });
+
     it('should navigate to create product page', () => {
         mockProductsService.getAllProducts.mockReturnValue(of(mockProductsResponse));
         fixture.detectChanges();

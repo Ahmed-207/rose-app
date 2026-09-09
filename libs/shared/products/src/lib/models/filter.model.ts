@@ -8,4 +8,6 @@ export interface FilterParams {
     minRating?: number;
     minPrice?: number;
     maxPrice?: number;
+    sortBy?: string;
+    sortOrder?: string;
 }

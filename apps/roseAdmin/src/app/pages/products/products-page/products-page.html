@@ -39,6 +39,7 @@
         [page]="page()"
         [limit]="limit()"
         (pageChange)="onPageChange($event)"
+        (sortChange)="onSortChange($event)"
         (editRow)="onEditProduct($event)"
         (deleteRow)="onDeleteProduct($event)" />
 

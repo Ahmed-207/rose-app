@@ -7,7 +7,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, finalize, switchMap, tap } from 'rxjs';
 import { ProductsService, CategoriesStore, Product, FilterParams } from '@org/products';
 import { Button, Message } from '@org/shared-ui-components';
-import { DataTableComponent, DataTableColumn, DataTablePageEvent } from '../../../shared';
+import { DataTableComponent, DataTableColumn, DataTablePageEvent, DataTableSortEvent } from '../../../shared';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -42,6 +42,8 @@ export class ProductsPage implements OnInit {
     readonly page = signal<number>(1);
     readonly limit = signal<number>(10);
     readonly selectedCategoryId = signal<string | null>(null);
+    readonly sortField = signal<string | null>(null);
+    readonly sortOrder = signal<'asc' | 'desc' | null>(null);
     readonly successMessage = signal<string | null>(null);
 
     readonly searchControl = new FormControl('', { nonNullable: true });
@@ -49,11 +51,12 @@ export class ProductsPage implements OnInit {
     readonly categories = computed(() => this.categoriesStore.entities());
 
     readonly columns: DataTableColumn<Product>[] = [
-        { field: 'title', header: 'ADMIN.PRODUCTS.NAME' },
-        { field: 'price', header: 'ADMIN.PRODUCTS.PRICE' },
-        { field: 'stock', header: 'ADMIN.PRODUCTS.STOCK' },
+        { field: 'title', header: 'ADMIN.PRODUCTS.NAME', sortable: true },
+        { field: 'price', header: 'ADMIN.PRODUCTS.PRICE', sortable: true },
+        { field: 'stock', header: 'ADMIN.PRODUCTS.STOCK', sortable: true },
         { field: '_count.cartItems', header: 'ADMIN.PRODUCTS.SALES', hiddenOnMobile: true },
-        { field: 'rating', header: 'ADMIN.PRODUCTS.RATINGS', hiddenOnMobile: true },
+        { field: 'rating', header: 'ADMIN.PRODUCTS.RATINGS', hiddenOnMobile: true, sortable: true },
+        { field: 'createdAt', header: 'ADMIN.PRODUCTS.CREATED_AT', hiddenOnMobile: true, sortable: true },
     ];
 
     ngOnInit(): void {
@@ -83,6 +86,8 @@ export class ProductsPage implements OnInit {
             limit: this.limit(),
             search: this.searchControl.value || undefined,
             categoryId: this.selectedCategoryId() ?? undefined,
+            sortBy: this.sortField() ?? undefined,
+            sortOrder: this.sortOrder() ?? undefined,
         };
 
         return this.productsService.getAllProducts(filters).pipe(
@@ -115,6 +120,13 @@ export class ProductsPage implements OnInit {
 
     onCategoryChange(categoryId: string | null): void {
         this.selectedCategoryId.set(categoryId);
+        this.page.set(1);
+        this.loadProducts();
+    }
+
+    onSortChange(event: DataTableSortEvent): void {
+        this.sortField.set(event.order ? event.field : null);
+        this.sortOrder.set(event.order);
         this.page.set(1);
         this.loadProducts();
     }
