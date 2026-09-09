@@ -154,7 +154,7 @@ describe('ProductFormComponent', () => {
     });
 
     it('should upload cover image and set cover value', async () => {
-        mockProductsService.uploadImage.mockReturnValue(of({ imageUrl: 'https://example.com/cover.jpg' }));
+        mockProductsService.uploadImage.mockReturnValue(of({ url: 'https://example.com/cover.jpg' }));
         fixture.detectChanges();
 
         const file = new File([''], 'cover.jpg', { type: 'image/jpeg' });
@@ -166,7 +166,7 @@ describe('ProductFormComponent', () => {
     });
 
     it('should upload gallery images and append to gallery', async () => {
-        mockProductsService.uploadImage.mockReturnValue(of({ imageUrl: 'https://example.com/gallery.jpg' }));
+        mockProductsService.uploadImage.mockReturnValue(of({ url: 'https://example.com/gallery.jpg' }));
         fixture.detectChanges();
 
         const file = new File([''], 'gallery.jpg', { type: 'image/jpeg' });

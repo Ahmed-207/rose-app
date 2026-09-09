@@ -255,7 +255,7 @@ export class ProductFormComponent {
                         .pipe(take(1), finalize(() => this.isUploadingCover.set(false)))
                         .subscribe({
                             next: (res) => {
-                                this.customForm.controls.cover.setValue(res.imageUrl);
+                                this.customForm.controls.cover.setValue(res.url);
                                 resolve();
                             },
                             error: (err: unknown) => {
@@ -298,7 +298,7 @@ export class ProductFormComponent {
                             .uploadImage(file)
                             .pipe(take(1))
                             .toPromise()
-                            .then((res) => ({ ok: true as const, url: res?.imageUrl }))
+                            .then((res) => ({ ok: true as const, url: res?.url }))
                             .catch((err: unknown) => {
                                 console.error('Gallery upload failed', err);
                                 return { ok: false as const, error: this.extractUploadError(err) };

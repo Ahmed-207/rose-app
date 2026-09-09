@@ -75,14 +75,14 @@ describe('ProductsService admin methods', () => {
     });
 
     it('should upload an image', () => {
-        mockApiCaller.post.mockReturnValue(of({ imageUrl: 'https://example.com/image.jpg' }));
+        mockApiCaller.post.mockReturnValue(of({ url: 'https://example.com/image.jpg' }));
 
         const file = new File([''], 'image.jpg', { type: 'image/jpeg' });
         const formData = new FormData();
         formData.append('image', file);
 
         service.uploadImage(file).subscribe(res => {
-            expect(res.imageUrl).toBe('https://example.com/image.jpg');
+            expect(res.url).toBe('https://example.com/image.jpg');
         });
 
         const [, body] = mockApiCaller.post.mock.calls[0] as [string, FormData];

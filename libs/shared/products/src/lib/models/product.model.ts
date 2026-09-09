@@ -119,5 +119,5 @@ export interface UpdateProductRes {
 }
 
 export interface UploadImageRes {
-    imageUrl: string;
+    url: string;
 }
