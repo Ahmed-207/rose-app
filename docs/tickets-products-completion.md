@@ -146,8 +146,11 @@
 **Depends on:** Ticket 1
 
 ### Acceptance criteria
-- [ ] Invalid `pi-[#A31D36]` class in `sidebar.html` is fixed to a valid PrimeIcons class.
+- [x] Invalid `pi-[#A31D36]` class in `sidebar.html` is fixed to a valid PrimeIcons class.
 - [ ] Mobile bottom nav duplication is evaluated; if trivial, replace the hardcoded `mainLayout.html` markup with the `MobileBottom` component. If not trivial, document as a follow-up.
+
+### Notes
+- The `MobileBottom` component exists but the hardcoded `mainLayout.html` nav includes a custom floating center button and different active-state styling. Replacing it would change the visual design, so this is documented as a follow-up until the intended mobile design can be verified.
 
 ---
 
