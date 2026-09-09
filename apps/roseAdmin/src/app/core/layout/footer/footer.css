@@ -1,0 +1,5 @@
+.admin-footer {
+  border-top: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+}

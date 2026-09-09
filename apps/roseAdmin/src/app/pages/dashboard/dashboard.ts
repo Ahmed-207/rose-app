@@ -7,7 +7,15 @@ import { OrdersStatusChartComponent } from './components/orders-status-chart/ord
 import { RevenueChartComponent } from './components/revenue-chart/revenue-chart.component';
 import { Statistics } from './service/statistics';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ListRowItem, OrdersStatusSlice, RevenuePoint, StatCardData } from './models/dashboard.models';
+import { finalize } from 'rxjs';
+import {
+  EMPTY_STATISTICS,
+  ListRowItem,
+  OrdersStatusSlice,
+  RevenuePoint,
+  StatCardData,
+  StatisticsResponse,
+} from './models/dashboard.models';
 @Component({
   selector: 'app-dashboard',
  imports: [
@@ -24,7 +32,7 @@ import { ListRowItem, OrdersStatusSlice, RevenuePoint, StatCardData } from './mo
 export class Dashboard implements OnInit {
   private readonly statistics = inject(Statistics);
   private readonly cdr = inject(ChangeDetectorRef);
-private readonly destroyRef$ = inject(DestroyRef);
+  private readonly destroyRef$ = inject(DestroyRef);
   statCards: StatCardData[] = [];
   categories: ListRowItem[] = [];
   topSelling: ListRowItem[] = [];
@@ -45,8 +53,15 @@ private readonly destroyRef$ = inject(DestroyRef);
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.statistics.getStatistics(this.revenuePeriod).pipe(takeUntilDestroyed(this.destroyRef$)).subscribe({
-      next: (data) => {
+    this.statistics.getStatistics(this.revenuePeriod).pipe(
+      takeUntilDestroyed(this.destroyRef$),
+      finalize(() => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }),
+    ).subscribe({
+      next: (response) => {
+        const data = this.normalizeStatistics(response);
         this.statCards = [
           { icon: 'pi pi-box', iconBg: 'pink', value: data.summary.totalProducts.toLocaleString(), label: 'Total products' },
           { icon: 'pi pi-receipt', iconBg: 'blue', value: data.summary.totalOrders.toLocaleString(), label: 'Total orders' },
@@ -59,7 +74,6 @@ private readonly destroyRef$ = inject(DestroyRef);
             label: 'Total revenue',
           },
         ];
-        console.log(this.statCards)
         this.categories = data.categories.map((category) => ({
           title: category.title,
           value: `${category.productCount.toLocaleString()} Products`,
@@ -83,13 +97,13 @@ private readonly destroyRef$ = inject(DestroyRef);
           value: `${product.stock.toLocaleString()} Products`,
           valueTone: product.stock === 0 ? 'danger' : product.stock <= 5 ? 'warning' : 'neutral',
         }));
-        this.isLoading = false;
-        this.cdr.markForCheck()
+        this.cdr.markForCheck();
 
       },
       error: (error: { status?: number }) => {
-        this.isLoading = false;
-        this.errorMessage = error.status
+        this.errorMessage = error.status === 401
+          ? 'Your session has expired. Please sign in again.'
+          : error.status
           ? `Unable to load dashboard statistics (${error.status}).`
           : 'Unable to load dashboard statistics.';
       },
@@ -99,5 +113,31 @@ private readonly destroyRef$ = inject(DestroyRef);
   onRevenuePeriodChange(period: string): void {
     this.revenuePeriod = period;
     this.loadStatistics();
+  }
+
+  private normalizeStatistics(data: Partial<StatisticsResponse> | null | undefined): StatisticsResponse {
+    const value = data ?? {};
+    const summary = { ...EMPTY_STATISTICS.summary, ...(value.summary ?? {}) };
+    const orderStatus = { ...EMPTY_STATISTICS.orderStatus, ...(value.orderStatus ?? {}) };
+
+    return {
+      ...EMPTY_STATISTICS,
+      ...value,
+      summary,
+      categories: value.categories ?? [],
+      orderStatus: {
+        ...orderStatus,
+        completed: { ...EMPTY_STATISTICS.orderStatus.completed, ...(orderStatus.completed ?? {}) },
+        inProgress: { ...EMPTY_STATISTICS.orderStatus.inProgress, ...(orderStatus.inProgress ?? {}) },
+        canceled: { ...EMPTY_STATISTICS.orderStatus.canceled, ...(orderStatus.canceled ?? {}) },
+      },
+      revenue: {
+        ...EMPTY_STATISTICS.revenue,
+        ...(value.revenue ?? {}),
+        points: value.revenue?.points ?? [],
+      },
+      topSellingProducts: value.topSellingProducts ?? [],
+      lowStockProducts: value.lowStockProducts ?? [],
+    };
   }
 }

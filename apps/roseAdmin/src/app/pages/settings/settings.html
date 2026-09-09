@@ -1,0 +1,157 @@
+<section class="settings-page">
+  <div class="settings-page__breadcrumb" aria-label="Breadcrumb">
+    <span>{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</span>
+    <span aria-hidden="true">›</span>
+    <span class="settings-page__breadcrumb-current">
+      {{ activeTab() === 'profile' ? ('account.TITLE' | translate) : ('account.CHANGE_PASSWORD' | translate) }}
+    </span>
+  </div>
+
+  <header class="settings-page__header">
+    <h1>
+      {{ activeTab() === 'profile' ? ('account.TITLE' | translate) : ('account.CHANGE_PASSWORD' | translate) }}
+    </h1>
+  </header>
+
+  @if (isLoading() && activeTab() === 'profile') {
+    <div class="settings-page__card settings-page__loading">{{ 'account.LOADING' | translate }}</div>
+  } @else if (activeTab() === 'profile') {
+    <div class="settings-page__card">
+      <div class="settings-page__photo">
+        <div class="settings-page__avatar-wrap">
+          @if (photoPreview(); as preview) {
+            <img [src]="preview" alt="" class="settings-page__avatar" />
+          } @else {
+            <div class="settings-page__avatar settings-page__avatar--placeholder">
+              <i class="pi pi-user" aria-hidden="true"></i>
+            </div>
+          }
+          <label class="settings-page__upload" [attr.aria-label]="'account.UPLOAD_PHOTO' | translate">
+            <i class="pi pi-camera" aria-hidden="true"></i>
+            <input type="file" hidden accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp"
+              (change)="onPhotoSelected($event)" />
+          </label>
+        </div>
+        <div>
+          <p class="settings-page__photo-title">{{ 'account.UPLOAD_PHOTO' | translate }}</p>
+          <p class="settings-page__photo-hint">{{ 'account.UPLOAD_PHOTO_HINT' | translate }}</p>
+          @if (photoError(); as photoErrorKey) {
+            <p class="settings-page__error">{{ photoErrorKey | translate }}</p>
+          }
+        </div>
+      </div>
+
+      <form class="settings-page__form" [formGroup]="profileForm" (ngSubmit)="saveProfile()" novalidate>
+        <div class="settings-page__grid">
+          <label>
+            <span>{{ 'auth.FIRST_NAME' | translate }}</span>
+            <input formControlName="firstName" type="text" />
+            @if (hasFieldError(profileForm, 'firstName')) { <small>{{ 'auth.FIRST_NAME_REQUIRED' | translate }}</small> }
+          </label>
+          <label>
+            <span>{{ 'auth.LAST_NAME' | translate }}</span>
+            <input formControlName="lastName" type="text" />
+            @if (hasFieldError(profileForm, 'lastName')) { <small>{{ 'auth.LAST_NAME_REQUIRED' | translate }}</small> }
+          </label>
+        </div>
+
+        <label>
+          <span>{{ 'auth.EMAIL' | translate }}</span>
+          <input formControlName="email" type="email" />
+        </label>
+
+        <label>
+          <span>{{ 'account.PHONE' | translate }}</span>
+          <span class="settings-page__phone-input">
+            <span class="settings-page__dial"><span aria-hidden="true">🇪🇬</span> EG(+20)</span>
+            <input formControlName="phone" type="tel" [placeholder]="'account.PHONE_PLACEHOLDER' | translate" />
+          </span>
+        </label>
+
+        <label>
+          <span>{{ 'auth.GENDER' | translate }}</span>
+          <input formControlName="gender" type="text" [placeholder]="'auth.GENDER_PLACEHOLDER' | translate" />
+        </label>
+
+        @if (errorMessage()) {
+          <p class="settings-page__error" role="alert">{{ errorMessage() }}</p>
+        }
+        @if (message(); as status) {
+          <p class="settings-page__success" role="status">{{ status | translate }}</p>
+        }
+
+        <div class="settings-page__actions">
+          <div class="settings-page__secondary-actions">
+            <button type="button" class="settings-page__delete" (click)="openDeleteConfirm()" [disabled]="isDeleting()">
+              {{ 'account.DELETE_ACCOUNT' | translate }}
+            </button>
+            <button type="button" class="settings-page__text-button" (click)="selectTab('password')">
+              {{ 'account.CHANGE_PASSWORD' | translate }}
+            </button>
+          </div>
+          <button class="settings-page__primary" type="submit" [disabled]="isSaving()">
+            {{ 'account.SAVE_CHANGES' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  } @else {
+    <div class="settings-page__card settings-page__password-card">
+      <form class="settings-page__form" [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+        <label>
+          <span>{{ 'account.OLD_PASSWORD' | translate }}</span>
+          <input formControlName="currentPassword" type="password" [placeholder]="'account.PASSWORD_MASK' | translate" />
+          @if (hasFieldError(passwordForm, 'currentPassword')) {
+            <small>{{ 'password.OLD_PASSWORD_REQUIRED' | translate }}</small>
+          }
+        </label>
+        <label>
+          <span>{{ 'account.NEW_PASSWORD' | translate }}</span>
+          <input formControlName="newPassword" type="password" [placeholder]="'account.PASSWORD_MASK' | translate" />
+          @if (hasFieldError(passwordForm, 'newPassword')) {
+            <small>
+              {{ passwordForm.controls.newPassword.hasError('required')
+                ? ('password.NEW_PASSWORD_REQUIRED' | translate)
+                : ('password.PASSWORD_REGEX_ERROR' | translate) }}
+            </small>
+          }
+        </label>
+        <label>
+          <span>{{ 'account.CONFIRM_NEW_PASSWORD' | translate }}</span>
+          <input formControlName="confirmPassword" type="password" [placeholder]="'account.PASSWORD_MASK' | translate" />
+          @if (hasFieldError(passwordForm, 'confirmPassword')) {
+            <small>{{ 'password.CONFIRM_PASSWORD_REQUIRED' | translate }}</small>
+          }
+        </label>
+        @if (passwordForm.hasError('passwordMismatch') && passwordForm.touched) {
+          <p class="settings-page__error">{{ 'auth.PASSWORDS_DO_NOT_MATCH' | translate }}</p>
+        }
+        @if (errorMessage()) {
+          <p class="settings-page__error" role="alert">{{ errorMessage() }}</p>
+        }
+        @if (message(); as status) {
+          <p class="settings-page__success" role="status">{{ status | translate }}</p>
+        }
+        <div class="settings-page__actions settings-page__actions--password">
+          <button type="button" class="settings-page__text-button" (click)="selectTab('profile')">
+            {{ 'account.TITLE' | translate }}
+          </button>
+          <button class="settings-page__primary" type="submit" [disabled]="isSaving()">
+            {{ 'account.CHANGE_PASSWORD' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (showDeleteConfirm()) {
+    <app-confirm-dialog
+      [title]="'account.DELETE_CONFIRM_TITLE' | translate"
+      [message]="'account.DELETE_CONFIRM_MESSAGE' | translate"
+      [confirmLabel]="'account.DELETE_ACCOUNT' | translate"
+      [cancelLabel]="'account.CANCEL' | translate"
+      [loading]="isDeleting()"
+      (confirmed)="deleteAccount()"
+      (cancelled)="cancelDeleteAccount()" />
+  }
+</section>

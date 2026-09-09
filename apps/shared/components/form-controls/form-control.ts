@@ -68,6 +68,8 @@ export class FormControlComponent
 
   @Input() required = false;
 
+  @Input() patternError = '';
+
   value: any = null;
 
   disabled = false;
@@ -130,6 +132,7 @@ get hasError(): boolean {
     if (errors['email']) return 'Invalid email address';
     if (errors['minlength']) return `Minimum ${errors['minlength'].requiredLength}`;
     if (errors['maxlength']) return `Maximum ${errors['maxlength'].requiredLength}`;
+    if (errors['pattern']) return this.patternError || 'Incorrect value';
     if (this.groupError)        return this.groupError; // ← group-level fallback
     return 'Incorrect value';
   }

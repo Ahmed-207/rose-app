@@ -1,0 +1,60 @@
+.admin-sidebar {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.admin-sidebar__brand {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.admin-sidebar__preview {
+  border: 0;
+  background: var(--accent-red);
+  color: #fff;
+  cursor: pointer;
+}
+
+.admin-sidebar__preview:hover {
+  filter: brightness(0.9);
+}
+
+.admin-sidebar__link {
+  color: var(--text-secondary);
+}
+
+.admin-sidebar__link:hover,
+.admin-sidebar__user:hover,
+.admin-sidebar__menu-trigger:hover {
+  background: color-mix(in srgb, var(--border-soft) 55%, transparent);
+  color: var(--text-primary);
+}
+
+.admin-sidebar__link--active {
+  background: color-mix(in srgb, var(--accent-red) 16%, var(--card-bg));
+  color: var(--accent-red);
+}
+
+.admin-sidebar__menu {
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+}
+
+.admin-sidebar__menu-link {
+  color: var(--text-primary);
+}
+
+.admin-sidebar__menu-link:hover {
+  background: color-mix(in srgb, var(--border-soft) 55%, transparent);
+}
+
+.admin-sidebar__menu-logout {
+  color: var(--danger-text);
+}
+
+.admin-sidebar__menu-logout:hover {
+  background: var(--danger-bg);
+}
+
+.admin-sidebar__menu-trigger {
+  color: var(--text-secondary);
+}

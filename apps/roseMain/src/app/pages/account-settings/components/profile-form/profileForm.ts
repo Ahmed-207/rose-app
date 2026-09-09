@@ -20,7 +20,12 @@ import { FormControlComponent } from 'apps/shared/components/form-controls/form-
 import { finalize, of, switchMap } from 'rxjs';
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
-const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif']);
+const ALLOWED_PHOTO_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+]);
 
 @Component({
   selector: 'account-profile-form',
@@ -140,7 +145,7 @@ export class ProfileForm implements OnInit {
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
       phone: value.phone.trim() ? this.normalizePhone(value.phone) : '',
-      photo: this.selectedPhoto,
+      photo: null,
     };
 
     const profileChanged = this.hasProfileChanges(request);
@@ -158,10 +163,19 @@ export class ProfileForm implements OnInit {
 
     this.isSaving.set(true);
     let finishedOk = false;
+    const selectedPhoto = this.selectedPhoto;
+    const upload$ = selectedPhoto
+      ? this.authActions.uploadImage(selectedPhoto)
+      : of<string | null>(null);
 
-    this.authActions
-      .updateProfile(request)
+    upload$
       .pipe(
+        switchMap((photoUrl) =>
+          this.authActions.updateProfile({
+            ...request,
+            photo: photoUrl,
+          }),
+        ),
         takeUntilDestroyed(this.destroyRef),
         switchMap((profile) => {
           this.patchForm(profile, emailChanged ? newEmail : undefined);

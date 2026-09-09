@@ -65,3 +65,23 @@ export interface StatisticsResponse {
     stock: number;
   }>;
 }
+
+export const EMPTY_STATISTICS: StatisticsResponse = {
+  summary: {
+    totalProducts: 0,
+    totalOrders: 0,
+    totalCategories: 0,
+    totalRevenue: 0,
+    currency: 'EGP',
+  },
+  categories: [],
+  orderStatus: {
+    completed: { count: 0, percent: 0 },
+    inProgress: { count: 0, percent: 0 },
+    canceled: { count: 0, percent: 0 },
+    totalOrders: 0,
+  },
+  revenue: { period: 'monthly', points: [] },
+  topSellingProducts: [],
+  lowStockProducts: [],
+};

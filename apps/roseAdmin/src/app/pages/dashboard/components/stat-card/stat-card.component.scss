@@ -12,8 +12,6 @@
   box-shadow: var(--shadow-card);
   padding: 1.1rem 1.25rem;
   height: 100%;
-      flex-direction: column;
-    align-items: baseline;
 }
 
 .stat-card__ {
@@ -100,6 +98,8 @@
 @media (max-width: 576px) {
   .stat-card {
     padding: 0.9rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .stat-card__value {
     font-size: 1.15rem;
