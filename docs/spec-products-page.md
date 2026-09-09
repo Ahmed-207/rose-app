@@ -137,3 +137,56 @@ Finish the admin products feature by closing the runtime blockers, integrating t
 - Default page size is 10; search debounce is 400 ms.
 - Admin credentials for manual verification: `elevatestudent` / `Elevate@123`.
 - Environment files contain sensitive keys; do not log or commit them.
+
+## Retest fixes and architecture decisions
+
+This section captures the decisions made after the first implementation pass and the issues discovered during re-testing.
+
+### Header translation
+
+- `DataTableComponent` must apply the `translate` pipe to `col.header` so consumers can keep passing translation keys.
+- The mobile action-menu labels must use translation keys `ADMIN.DATA_TABLE.EDIT` and `ADMIN.DATA_TABLE.DELETE` instead of hard-coded English strings.
+
+### URL-driven pagination/filtering/sorting
+
+- `ProductsPage` must emit a **full** normalized query-param object when updating the URL. Params that are cleared or equal to their default value must be set to `null` so Angular removes them; `queryParamsHandling: 'merge'` may still be used.
+- This prevents stale params (e.g. an old `page`, `categoryId`, or `sortBy`) from being reapplied by `syncFiltersWithRoute` and overwriting the new request.
+
+### Admin product state
+
+- A dedicated **`AdminProductsStore`** will be created in `libs/shared/products/src/lib/store/`.
+- It will own the admin product list state (pagination, filtering, sorting, total count, loading, error) and the admin CRUD operations:
+  - `loadProducts(filters)`
+  - `loadProductById(id)`
+  - `addProduct(product)`
+  - `updateProduct(id, product)`
+  - `deleteProduct(id)`
+- `ProductsPage`, `ProductCreatePage`, and `ProductEditPage` will consume this store.
+- `ProductFormComponent` will keep using `ProductsService.uploadImage()` (or a dedicated image-upload service) because upload is an I/O side-effect, not product-entity state.
+- `ProductsStore` remains unchanged for the public catalog.
+
+### Pagination theming
+
+- The active paginator page selector must target PrimeNG 21's `.p-paginator-page-selected` class (with `.p-paginator-page.p-highlight` as a fallback) and use `!important`.
+- Active colors: `#741C21` background in light mode; `#FFC2CD` background with `#202938` text in dark mode.
+- The rows-per-page dropdown must use `[paginatorDropdownAppendTo]="'body'"` on `p-table` so its overlay escapes the scrollable table wrapper.
+
+### End-to-end workflow tests
+
+- Playwright tests will live in `apps/roseAppShell-e2e/src/admin-products/` because the admin remote is consumed through the shell.
+- Admin credentials will be read from environment variables (`ADMIN_USER`, `ADMIN_PASSWORD`) with an `.env.example` file for discoverability.
+- The workflow will cover:
+  1. Login → open `/admin/products`.
+  2. Assert translated headers.
+  3. Change category, sort, page, and rows-per-page; assert active-page color.
+  4. Create a product with cover + gallery images, then delete it to clean up.
+  5. Edit an existing product and save.
+- Test images will be moved from `testAssets/` at the repo root into `apps/roseAppShell-e2e/src/admin-products/test-assets/`.
+
+### Testing
+
+- Unit tests will be added/updated for:
+  - `DataTableComponent` header translation.
+  - `ProductsPage` query-param clearing and sorting from a non-first page.
+  - `AdminProductsStore` load, add, update, delete, and error states.
+- The Playwright workflow test will run headlessly through the shell.

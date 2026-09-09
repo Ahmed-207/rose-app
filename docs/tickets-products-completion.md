@@ -189,3 +189,99 @@ Ticket 11 (final verification) depends on all above.
 ```
 
 Tickets 2–6 and 7–8 can run in parallel once Ticket 1 is committed.
+
+---
+
+## Ticket 12 — Fix table header translation and mobile action labels
+
+**Priority:** P0  
+**Depends on:** Ticket 8
+
+### Acceptance criteria
+- [ ] `DataTableComponent` applies `| translate` to `col.header` in the template.
+- [ ] Mobile action-menu labels use `ADMIN.DATA_TABLE.EDIT` and `ADMIN.DATA_TABLE.DELETE` keys.
+- [ ] `en.json` and `ar.json` contain the new `ADMIN.DATA_TABLE.EDIT` / `ADMIN.DATA_TABLE.DELETE` keys.
+- [ ] Unit test verifies translated headers are rendered.
+- [ ] Manual test: switching language updates the products table headers.
+
+---
+
+## Ticket 13 — Fix query-param URL synchronization
+
+**Priority:** P0  
+**Depends on:** Ticket 8
+
+### Acceptance criteria
+- [ ] `ProductsPage.updateUrl()` emits the full normalized query-param object.
+- [ ] Cleared/default params are set to `null` so Angular removes them from the URL.
+- [ ] Changing sort/category/search/page updates the table reliably (no stale param rollback).
+- [ ] Sorting from a non-first page resets to page 1 in both the URL and the loaded data.
+- [ ] Unit test verifies stale params are cleared on filter reset.
+
+---
+
+## Ticket 14 — Create `AdminProductsStore` and migrate admin CRUD
+
+**Priority:** P0  
+**Depends on:** Ticket 13
+
+### Acceptance criteria
+- [ ] New `AdminProductsStore` is created in `libs/shared/products/src/lib/store/`.
+- [ ] Store exposes:
+  - `entities()`, `totalProducts()`, `isLoading()`, `error()` for the admin list.
+  - `selectedProduct()`, `isSubmitting()`, `submitError()` for form flows.
+  - `loadProducts(filters)`, `loadProductById(id)`, `addProduct(product)`, `updateProduct(id, product)`, `deleteProduct(id)`.
+- [ ] `ProductsPage` uses `AdminProductsStore` for list/delete.
+- [ ] `ProductCreatePage` uses `AdminProductsStore.addProduct()`.
+- [ ] `ProductEditPage` uses `AdminProductsStore.loadProductById()` and `updateProduct()`.
+- [ ] `ProductFormComponent` keeps using `ProductsService.uploadImage()` for image upload.
+- [ ] After delete, the current page is reloaded; page is decremented if the page becomes empty.
+- [ ] Unit tests cover store load, add, update, delete, and error states.
+- [ ] `nx test roseAdmin` and `nx test shared-products` pass.
+
+---
+
+## Ticket 15 — Fix pagination active-page color and rows-per-page dropdown
+
+**Priority:** P1  
+**Depends on:** Ticket 8
+
+### Acceptance criteria
+- [ ] Active page selector targets `.p-paginator-page-selected` with `.p-paginator-page.p-highlight` fallback.
+- [ ] Active page uses `#741C21` in light mode and `#FFC2CD`/`#202938` in dark mode with `!important`.
+- [ ] `p-table` uses `[paginatorDropdownAppendTo]="'body'"` so the rows-per-page dropdown does not corrupt the footer.
+- [ ] Manual test confirms active page color and dropdown behavior.
+
+---
+
+## Ticket 16 — Add Playwright admin products workflow tests
+
+**Priority:** P1  
+**Depends on:** Tickets 12–15
+
+### Acceptance criteria
+- [ ] `testAssets/` images are moved to `apps/roseAppShell-e2e/src/admin-products/test-assets/`.
+- [ ] Reusable admin-login helper reads `ADMIN_USER` / `ADMIN_PASSWORD` env vars (fallback to `.env`).
+- [ ] `.env.example` documents the required environment variables.
+- [ ] Specs added under `apps/roseAppShell-e2e/src/admin-products/`:
+  - `products-list.spec.ts` — login, translated headers, category/sort/page/rows-per-page, active-page color.
+  - `products-crud.spec.ts` — create product with cover + gallery, edit existing product, delete product.
+- [ ] Tests run headlessly with `npx nx e2e roseAppShell-e2e -- --project=chromium`.
+- [ ] Tests clean up created products so the environment is not polluted.
+
+---
+
+## Ticket 17 — Final verification and push
+
+**Priority:** P0  
+**Depends on:** Tickets 12–16
+
+### Acceptance criteria
+- [ ] `nx test roseAdmin` passes.
+- [ ] `nx test shared-products` passes (including new `AdminProductsStore` tests).
+- [ ] `nx lint roseAdmin` has no new issues.
+- [ ] `nx build roseAdmin` succeeds.
+- [ ] Playwright admin workflow tests pass headlessly against local dev server.
+- [ ] All changes are committed with clear messages referencing the related GitHub issues.
+- [ ] Open related GitHub issues are closed.
+- [ ] Branch is pushed; user creates the PR manually.
