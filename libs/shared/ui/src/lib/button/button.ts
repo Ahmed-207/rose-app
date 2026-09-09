@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy,Component, EventEmitter,Input,Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'accent';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lib-button',
