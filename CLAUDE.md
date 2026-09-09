@@ -21,3 +21,13 @@
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs for this repo live as GitHub issues in `Ahmed-207/rose-app`. Use the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context repo. Read `CONTEXT.md` at the repo root and `docs/adr/` for ADRs when they exist. See `docs/agents/domain.md`.
