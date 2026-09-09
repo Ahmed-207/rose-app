@@ -1,11 +1,10 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 import {
-    ProductsService,
+    AdminProductsStore,
     CategoriesStore,
     OccasionsStore,
     CreateProductReq,
@@ -21,14 +20,14 @@ import { ProductFormComponent, ProductFormValue } from '../product-form';
     styleUrl: './product-create-page.css',
 })
 export class ProductCreatePage implements OnInit {
-    private readonly productsService = inject(ProductsService);
+    private readonly adminProductsStore = inject(AdminProductsStore);
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly occasionsStore = inject(OccasionsStore);
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly isSubmitting = signal(false);
-    readonly error = signal<string | null>(null);
+    readonly isSubmitting = computed(() => this.adminProductsStore.isSubmitting());
+    readonly error = computed(() => this.adminProductsStore.submitError());
 
     readonly categories = computed(() => this.categoriesStore.entities());
     readonly occasions = computed(() => this.occasionsStore.entities());
@@ -38,23 +37,14 @@ export class ProductCreatePage implements OnInit {
     }
 
     onSave(formValue: ProductFormValue): void {
-        this.isSubmitting.set(true);
-        this.error.set(null);
-
         const payload = this.buildCreatePayload(formValue);
 
-        this.productsService
-            .createProduct(payload)
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                finalize(() => this.isSubmitting.set(false)),
-            )
+        this.adminProductsStore
+            .addProduct(payload)
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: () => {
                     this.router.navigate(['/admin/products']);
-                },
-                error: (err: { message?: string }) => {
-                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.CREATE_ERROR');
                 },
             });
     }

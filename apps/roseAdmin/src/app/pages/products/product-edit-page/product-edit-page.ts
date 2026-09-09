@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 import {
-    ProductsService,
+    AdminProductsStore,
     CategoriesStore,
     OccasionsStore,
     Product,
@@ -22,7 +21,7 @@ import { ProductFormComponent, ProductFormValue } from '../product-form';
     styleUrl: './product-edit-page.css',
 })
 export class ProductEditPage implements OnInit {
-    private readonly productsService = inject(ProductsService);
+    private readonly adminProductsStore = inject(AdminProductsStore);
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly occasionsStore = inject(OccasionsStore);
     private readonly router = inject(Router);
@@ -30,10 +29,13 @@ export class ProductEditPage implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
 
     readonly productId = signal<string>('');
-    readonly product = signal<Product | null>(null);
-    readonly isLoading = signal<boolean>(false);
-    readonly isSubmitting = signal<boolean>(false);
-    readonly error = signal<string | null>(null);
+    readonly product = computed<Product | null>(() => this.adminProductsStore.selectedProduct());
+    readonly isLoading = computed(() => this.adminProductsStore.isLoading());
+    readonly isSubmitting = computed(() => this.adminProductsStore.isSubmitting());
+    readonly loadError = signal<string | null>(null);
+    readonly error = computed(
+        () => this.loadError() ?? this.adminProductsStore.error() ?? this.adminProductsStore.submitError(),
+    );
 
     readonly categories = computed(() => this.categoriesStore.entities());
     readonly occasions = computed(() => this.occasionsStore.entities());
@@ -69,23 +71,14 @@ export class ProductEditPage implements OnInit {
 
     onSave(formValue: ProductFormValue): void {
         const id = this.productId();
-        this.isSubmitting.set(true);
-        this.error.set(null);
-
         const payload = this.buildUpdatePayload(formValue);
 
-        this.productsService
+        this.adminProductsStore
             .updateProduct(id, payload)
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                finalize(() => this.isSubmitting.set(false)),
-            )
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: () => {
                     this.router.navigate(['/admin/products']);
-                },
-                error: (err: { message?: string }) => {
-                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.UPDATE_ERROR');
                 },
             });
     }
@@ -97,7 +90,7 @@ export class ProductEditPage implements OnInit {
     private resolveProductId(): void {
         const id = this.route.snapshot.paramMap.get('id');
         if (!id) {
-            this.error.set('ADMIN.PRODUCTS.INVALID_PRODUCT_ID');
+            this.loadError.set('ADMIN.PRODUCTS.INVALID_PRODUCT_ID');
             return;
         }
         this.productId.set(id);
@@ -112,21 +105,7 @@ export class ProductEditPage implements OnInit {
         const id = this.productId();
         if (!id) return;
 
-        this.isLoading.set(true);
-        this.productsService
-            .getProductById(id)
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                finalize(() => this.isLoading.set(false)),
-            )
-            .subscribe({
-                next: (res) => {
-                    this.product.set(res.product);
-                },
-                error: (err: { message?: string }) => {
-                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.LOAD_PRODUCT_ERROR');
-                },
-            });
+        this.adminProductsStore.loadProductById(id);
     }
 
     private parseGallery(gallery: unknown): string[] {

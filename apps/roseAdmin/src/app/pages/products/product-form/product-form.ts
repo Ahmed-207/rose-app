@@ -162,18 +162,19 @@ export class ProductFormComponent {
         }
 
         const customValue = this.customForm.getRawValue();
+        const discountType = String(dynamicValues['discountType'] ?? '');
+        const discountValue = dynamicValues['discountValue'] as number | null;
         const value: ProductFormValue = {
             title: String(dynamicValues['title'] ?? ''),
             description: String(dynamicValues['description'] ?? ''),
             price: dynamicValues['price'] as number | null,
             stock: dynamicValues['stock'] as number | null,
-            discountType: String(dynamicValues['discountType'] ?? ''),
-            discountValue: dynamicValues['discountValue'] as number | null,
             cover: customValue.cover ?? '',
             gallery: customValue.gallery ?? [],
             categoryId: customValue.categoryId ?? '',
-            subCategoryId: customValue.subCategoryId ?? '',
             occasionIds: customValue.occasionIds ?? [],
+            ...(discountType ? { discountType, discountValue } : {}),
+            ...(customValue.subCategoryId ? { subCategoryId: customValue.subCategoryId } : {}),
         };
 
         this.save.emit(value);

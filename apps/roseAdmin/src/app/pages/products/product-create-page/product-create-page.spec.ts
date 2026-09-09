@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 import { ProductCreatePage } from './product-create-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
+import { AdminProductsStore, CategoriesStore, OccasionsStore, ProductsService, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
-const mockProductsService = {
-    createProduct: vi.fn(),
+const mockAdminProductsStore = {
+    isSubmitting: signal(false),
+    submitError: signal(null),
+    addProduct: vi.fn(),
 };
 
 const mockCategoriesStore = {
@@ -29,6 +32,10 @@ const mockSubCategoriesStore = {
     loadSubCategories: vi.fn(),
 };
 
+const mockProductsService = {
+    uploadImage: vi.fn(),
+};
+
 const mockRouter = {
     navigate: vi.fn(),
 };
@@ -41,10 +48,11 @@ describe('ProductCreatePage', () => {
         await TestBed.configureTestingModule({
             imports: [ProductCreatePage],
             providers: [
-                { provide: ProductsService, useValue: mockProductsService },
+                { provide: AdminProductsStore, useValue: mockAdminProductsStore },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
                 { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
+                { provide: ProductsService, useValue: mockProductsService },
                 { provide: Router, useValue: mockRouter },
                 provideTestTranslate(),
             ],
@@ -52,7 +60,10 @@ describe('ProductCreatePage', () => {
 
         fixture = TestBed.createComponent(ProductCreatePage);
         component = fixture.componentInstance;
-        mockProductsService.createProduct.mockReset();
+        mockAdminProductsStore.isSubmitting.set(false);
+        mockAdminProductsStore.submitError.set(null);
+        mockAdminProductsStore.addProduct.mockReset();
+        mockAdminProductsStore.addProduct.mockReturnValue(of({ product: { id: 'prod-1' } }));
         mockRouter.navigate.mockReset();
         mockCategoriesStore.loadOnce.mockReset();
         mockOccasionsStore.loadOnce.mockReset();
@@ -71,7 +82,6 @@ describe('ProductCreatePage', () => {
     });
 
     it('should create product and navigate on success', () => {
-        mockProductsService.createProduct.mockReturnValue(of({ product: { id: 'prod-1' } }));
         fixture.detectChanges();
 
         const formValue = {
@@ -90,7 +100,7 @@ describe('ProductCreatePage', () => {
 
         component.onSave(formValue as ProductFormValue);
 
-        expect(mockProductsService.createProduct).toHaveBeenCalledWith({
+        expect(mockAdminProductsStore.addProduct).toHaveBeenCalledWith({
             title: 'Rose Box',
             price: 100,
             stock: 10,
@@ -100,7 +110,6 @@ describe('ProductCreatePage', () => {
     });
 
     it('should include optional fields in create payload when provided', () => {
-        mockProductsService.createProduct.mockReturnValue(of({ product: { id: 'prod-1' } }));
         fixture.detectChanges();
 
         const formValue: ProductFormValue = {
@@ -119,7 +128,7 @@ describe('ProductCreatePage', () => {
 
         component.onSave(formValue);
 
-        expect(mockProductsService.createProduct).toHaveBeenCalledWith({
+        expect(mockAdminProductsStore.addProduct).toHaveBeenCalledWith({
             title: 'Rose Box',
             description: 'A nice box',
             price: 100,

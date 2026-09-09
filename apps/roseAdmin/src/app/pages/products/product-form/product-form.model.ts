@@ -3,11 +3,11 @@ export interface ProductFormValue {
     description: string;
     price: number | null;
     stock: number | null;
-    discountType: string;
-    discountValue: number | null;
     cover: string;
     gallery: string[];
     categoryId: string;
-    subCategoryId: string;
     occasionIds: string[];
+    discountType?: string;
+    discountValue?: number | null;
+    subCategoryId?: string;
 }

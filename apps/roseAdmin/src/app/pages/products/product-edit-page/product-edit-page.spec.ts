@@ -1,14 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
+import { signal } from '@angular/core';
 import { ProductEditPage } from './product-edit-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
+import { AdminProductsStore, CategoriesStore, OccasionsStore, ProductsService, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
-const mockProductsService = {
-    getProductById: vi.fn(),
+const mockAdminProductsStore = {
+    selectedProduct: signal(null),
+    isLoading: signal(false),
+    isSubmitting: signal(false),
+    error: signal(null),
+    submitError: signal(null),
+    loadProductById: vi.fn(),
     updateProduct: vi.fn(),
+};
+
+const mockProductsService = {
+    uploadImage: vi.fn(),
 };
 
 const mockCategoriesStore = {
@@ -67,6 +77,7 @@ describe('ProductEditPage', () => {
         await TestBed.configureTestingModule({
             imports: [ProductEditPage],
             providers: [
+                { provide: AdminProductsStore, useValue: mockAdminProductsStore },
                 { provide: ProductsService, useValue: mockProductsService },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
@@ -79,35 +90,41 @@ describe('ProductEditPage', () => {
 
         fixture = TestBed.createComponent(ProductEditPage);
         component = fixture.componentInstance;
-        mockProductsService.getProductById.mockReset();
-        mockProductsService.updateProduct.mockReset();
+
+        mockAdminProductsStore.selectedProduct.set(null);
+        mockAdminProductsStore.isLoading.set(false);
+        mockAdminProductsStore.isSubmitting.set(false);
+        mockAdminProductsStore.error.set(null);
+        mockAdminProductsStore.submitError.set(null);
+        mockAdminProductsStore.loadProductById.mockReset();
+        mockAdminProductsStore.updateProduct.mockReset();
+        mockAdminProductsStore.updateProduct.mockReturnValue(of({ product: mockProduct }));
         mockRouter.navigate.mockReset();
     });
 
     it('should create', () => {
-        mockProductsService.getProductById.mockReturnValue(of({ product: mockProduct }));
+        mockAdminProductsStore.selectedProduct.set(mockProduct);
         fixture.detectChanges();
         expect(component).toBeTruthy();
     });
 
     it('should load product on init', () => {
-        mockProductsService.getProductById.mockReturnValue(of({ product: mockProduct }));
+        mockAdminProductsStore.selectedProduct.set(mockProduct);
         fixture.detectChanges();
 
-        expect(mockProductsService.getProductById).toHaveBeenCalledWith('prod-1');
+        expect(mockAdminProductsStore.loadProductById).toHaveBeenCalledWith('prod-1');
         expect(component.initialValue()?.title).toBe('Rose Box');
     });
 
     it('should show error when product fails to load', () => {
-        mockProductsService.getProductById.mockReturnValue(throwError(() => ({ message: 'Not found' })));
+        mockAdminProductsStore.error.set('Not found');
         fixture.detectChanges();
 
         expect(component.error()).toBe('Not found');
     });
 
     it('should update product and navigate on success', () => {
-        mockProductsService.getProductById.mockReturnValue(of({ product: mockProduct }));
-        mockProductsService.updateProduct.mockReturnValue(of({ product: mockProduct }));
+        mockAdminProductsStore.selectedProduct.set(mockProduct);
         fixture.detectChanges();
 
         const formValue: ProductFormValue = {
@@ -126,7 +143,7 @@ describe('ProductEditPage', () => {
 
         component.onSave(formValue);
 
-        expect(mockProductsService.updateProduct).toHaveBeenCalledWith('prod-1', {
+        expect(mockAdminProductsStore.updateProduct).toHaveBeenCalledWith('prod-1', {
             title: 'Updated Rose Box',
             description: 'A nice box',
             price: 120,
