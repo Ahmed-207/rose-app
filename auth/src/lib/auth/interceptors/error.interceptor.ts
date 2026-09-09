@@ -21,6 +21,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           void router.navigate(['/auth/login'], {
             queryParams: { returnUrl: router.url },
           });
+        } else if (error.status >= 500) {
+          void router.navigate(['/500']);
+        } else if (error.status === 403) {
+          void router.navigate(['/unauthorized']);
         }
       }
 
