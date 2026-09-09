@@ -52,9 +52,9 @@ describe('ProductFormComponent', () => {
         });
 
         expect(component.customForm.controls.categoryId.invalid).toBe(true);
-        expect(component.customForm.controls.occasionIds.invalid).toBe(true);
+        expect(component.customForm.controls.occasionIds.invalid).toBe(false);
         expect(component.customForm.controls.cover.invalid).toBe(true);
-        expect(component.customForm.controls.gallery.invalid).toBe(true);
+        expect(component.customForm.controls.gallery.invalid).toBe(false);
     });
 
     it('should validate max gallery images', () => {
@@ -239,6 +239,25 @@ describe('ProductFormComponent', () => {
         });
 
         expect(component.priceAfterDiscount()).toBe(70);
+    });
+
+    it('should reject percent discount values greater than 100', () => {
+        fixture.detectChanges();
+
+        const control = component.dynamicFormRef.form.get('discountValue');
+        component.dynamicFormRef.form.patchValue({ discountType: 'PERCENT', discountValue: 120 });
+
+        expect(control?.invalid).toBe(true);
+        expect(control?.errors?.['maxPercent']).toBeTruthy();
+    });
+
+    it('should accept percent discount values up to 100', () => {
+        fixture.detectChanges();
+
+        const control = component.dynamicFormRef.form.get('discountValue');
+        component.dynamicFormRef.form.patchValue({ discountType: 'PERCENT', discountValue: 100 });
+
+        expect(control?.invalid).toBe(false);
     });
 
     it('should load sub-categories and reset subCategoryId when category changes', () => {

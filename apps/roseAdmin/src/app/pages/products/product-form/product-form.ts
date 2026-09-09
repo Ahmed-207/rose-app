@@ -58,8 +58,8 @@ export class ProductFormComponent {
             name: 'description',
             type: 'textarea',
             label: 'ADMIN.PRODUCTS.FORM.DESCRIPTION',
-            required: true,
-            validators: [Validators.required, Validators.maxLength(1000)],
+            required: false,
+            validators: [Validators.maxLength(1000)],
         },
         {
             name: 'price',
@@ -88,15 +88,16 @@ export class ProductFormComponent {
             type: 'number',
             label: 'ADMIN.PRODUCTS.FORM.DISCOUNT_VALUE',
             visibleWhen: (values: Record<string, unknown>) => !!values['discountType'],
+            validators: [this.discountValueValidator.bind(this)],
         },
     ];
 
     readonly customForm = this.fb.group({
         categoryId: ['', Validators.required],
         subCategoryId: [''],
-        occasionIds: this.fb.control<string[]>([], Validators.required),
+        occasionIds: this.fb.control<string[]>([]),
         cover: ['', Validators.required],
-        gallery: this.fb.control<string[]>([], [Validators.required, this.galleryValidator.bind(this)]),
+        gallery: this.fb.control<string[]>([], [this.galleryValidator.bind(this)]),
     });
 
     readonly dynamicInitialValue = computed(() => {
@@ -189,6 +190,25 @@ export class ProductFormComponent {
         this.formCancel.emit();
     }
 
+    private discountValueValidator(control: AbstractControl): Record<string, unknown> | null {
+        const value = control.value;
+        if (value === null || value === undefined || value === '') {
+            return null;
+        }
+
+        const num = Number(value);
+        if (Number.isNaN(num) || num <= 0) {
+            return { min: { min: 0.01, actual: value } };
+        }
+
+        const discountType = control.parent?.get('discountType')?.value;
+        if (discountType === 'PERCENT' && num > 100) {
+            return { maxPercent: { max: 100, actual: num } };
+        }
+
+        return null;
+    }
+
     private extractUploadError(err: unknown): string {
         if (typeof err === 'object' && err !== null) {
             const error = err as { error?: { message?: string }; message?: string };
@@ -268,7 +288,6 @@ export class ProductFormComponent {
                                 resolve();
                             },
                             error: (err: unknown) => {
-                                console.error('Cover upload failed', err);
                                 this.uploadError.set(this.extractUploadError(err));
                                 resolve();
                             },
@@ -276,7 +295,6 @@ export class ProductFormComponent {
                 )
                 .catch((err: unknown) => {
                     this.isUploadingCover.set(false);
-                    console.error('Cover image compression failed', err);
                     this.uploadError.set(this.extractUploadError(err));
                     resolve();
                 });
@@ -308,10 +326,7 @@ export class ProductFormComponent {
                             .pipe(take(1))
                             .toPromise()
                             .then((res) => ({ ok: true as const, url: res?.url }))
-                            .catch((err: unknown) => {
-                                console.error('Gallery upload failed', err);
-                                return { ok: false as const, error: this.extractUploadError(err) };
-                            }),
+                            .catch((err: unknown) => ({ ok: false as const, error: this.extractUploadError(err) })),
                     );
 
                     Promise.all(uploadResults).then((results) => {
@@ -333,7 +348,6 @@ export class ProductFormComponent {
                 })
                 .catch((err: unknown) => {
                     this.isUploadingGallery.set(false);
-                    console.error('Gallery image compression failed', err);
                     this.uploadError.set(this.extractUploadError(err));
                     resolve();
                 });

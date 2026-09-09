@@ -38,8 +38,7 @@
         formControlName="occasionIds"
         [options]="occasions()"
         optionLabel="title"
-        optionValue="id"
-        [required]="true" />
+        optionValue="id" />
 
     <div class="product-form__field">
         <label class="product-form__label" for="price-after-discount">
@@ -81,7 +80,6 @@
         <div class="product-form__gallery">
             <label class="product-form__label" for="gallery-upload">
                 {{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}
-                <span class="text-red-500">*</span>
             </label>
             <input
                 id="gallery-upload"
