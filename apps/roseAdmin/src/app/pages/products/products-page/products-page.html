@@ -1,7 +1,7 @@
 <div class="products-page">
     <header class="products-page__header">
         <h1 class="products-page__title">{{ 'ADMIN.PRODUCTS.TITLE' | translate }}</h1>
-        <lib-button variant="primary" (clicked)="onAddProduct()">
+        <lib-button variant="accent" (clicked)="onAddProduct()">
             {{ 'ADMIN.PRODUCTS.ADD_BUTTON' | translate }}
         </lib-button>
     </header>
@@ -14,6 +14,10 @@
         <lib-message type="error" [title]="error() ?? undefined" class="products-page__feedback"></lib-message>
     }
 
+    @if (submitError()) {
+        <lib-message type="error" [title]="submitError() ?? undefined" class="products-page__feedback"></lib-message>
+    }
+
     <div class="products-page__filters">
         <input
             type="text"
@@ -22,12 +26,16 @@
             [formControl]="searchControl"
             [placeholder]="'ADMIN.PRODUCTS.SEARCH_PLACEHOLDER' | translate" />
 
-        <select class="products-page__category" [value]="selectedCategoryId()" (change)="onCategoryChange($any($event.target).value || null)">
-            <option [value]="null">{{ 'ADMIN.PRODUCTS.ALL_CATEGORIES' | translate }}</option>
-            @for (category of categories(); track category.id) {
-                <option [value]="category.id">{{ category.title }}</option>
-            }
-        </select>
+        <p-select
+            class="products-page__category"
+            [options]="categoryOptions()"
+            [ngModel]="selectedCategoryId()"
+            (ngModelChange)="onCategoryChange($event)"
+            [placeholder]="'ADMIN.PRODUCTS.ALL_CATEGORIES' | translate"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="false"
+            styleClass="w-full" />
     </div>
 
     <app-data-table
@@ -43,5 +51,5 @@
         (editRow)="onEditProduct($event)"
         (deleteRow)="onDeleteProduct($event)" />
 
-    <p-confirmDialog />
+    <p-confirmDialog styleClass="products-page-confirm" />
 </div>

@@ -448,6 +448,7 @@
       "STOCK": "المخزون",
       "SALES": "المبيعات",
       "RATINGS": "التقييمات",
+      "CREATED_AT": "تاريخ الإنشاء",
       "LOAD_ERROR": "فشل تحميل المنتجات.",
       "DELETE_CONFIRM_TITLE": "حذف المنتج؟",
       "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",

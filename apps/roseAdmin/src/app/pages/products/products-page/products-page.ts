@@ -1,54 +1,67 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, finalize, switchMap, tap } from 'rxjs';
-import { ProductsService, CategoriesStore, Product, FilterParams } from '@org/products';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
+import { AdminProductsStore, CategoriesStore, Product, FilterParams } from '@org/products';
 import { Button, Message } from '@org/shared-ui-components';
 import { DataTableComponent, DataTableColumn, DataTablePageEvent, DataTableSortEvent } from '../../../shared';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+
+type SortOrder = 'asc' | 'desc' | null;
 
 @Component({
     selector: 'app-products-page',
     standalone: true,
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         TranslatePipe,
         Button,
         Message,
         DataTableComponent,
         InputTextModule,
+        SelectModule,
         ConfirmDialogModule,
     ],
     templateUrl: './products-page.html',
     styleUrl: './products-page.css',
+    encapsulation: ViewEncapsulation.None,
 })
 export class ProductsPage implements OnInit {
-    private readonly productsService = inject(ProductsService);
+    private readonly adminProductsStore = inject(AdminProductsStore);
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
     private readonly confirmationService = inject(ConfirmationService);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly translate = inject(TranslateService);
 
-    readonly products = signal<Product[]>([]);
-    readonly totalRecords = signal<number>(0);
-    readonly isLoading = signal<boolean>(false);
-    readonly error = signal<string | null>(null);
+    readonly products = computed(() => this.adminProductsStore.entities());
+    readonly totalRecords = computed(() => this.adminProductsStore.totalProducts());
+    readonly isLoading = computed(() => this.adminProductsStore.isLoading());
+    readonly error = computed(() => this.adminProductsStore.error());
+    readonly submitError = computed(() => this.adminProductsStore.submitError());
     readonly page = signal<number>(1);
     readonly limit = signal<number>(10);
     readonly selectedCategoryId = signal<string | null>(null);
     readonly sortField = signal<string | null>(null);
-    readonly sortOrder = signal<'asc' | 'desc' | null>(null);
+    readonly sortOrder = signal<SortOrder>(null);
     readonly successMessage = signal<string | null>(null);
 
     readonly searchControl = new FormControl('', { nonNullable: true });
 
     readonly categories = computed(() => this.categoriesStore.entities());
+    readonly categoryOptions = computed(() => [
+        { label: this.translate.instant('ADMIN.PRODUCTS.ALL_CATEGORIES'), value: null },
+        ...this.categories().map((category) => ({ label: category.title, value: category.id })),
+    ]);
 
     readonly columns: DataTableColumn<Product>[] = [
         { field: 'title', header: 'ADMIN.PRODUCTS.NAME', sortable: true },
@@ -61,8 +74,10 @@ export class ProductsPage implements OnInit {
 
     ngOnInit(): void {
         this.categoriesStore.loadOnce();
+        this.readFiltersFromRoute(this.route.snapshot.queryParams);
         this.setupSearchDebounce();
         this.loadProducts();
+        this.syncFiltersWithRoute();
     }
 
     private setupSearchDebounce(): void {
@@ -70,18 +85,18 @@ export class ProductsPage implements OnInit {
             .pipe(
                 debounceTime(400),
                 distinctUntilChanged(),
-                tap(() => this.page.set(1)),
-                switchMap(() => {
-                    this.isLoading.set(true);
-                    return this.fetchProducts();
+                tap(() => {
+                    this.page.set(1);
+                    this.updateUrl({ replaceUrl: true });
+                    this.loadProducts();
                 }),
                 takeUntilDestroyed(this.destroyRef),
             )
             .subscribe();
     }
 
-    private fetchProducts() {
-        const filters: FilterParams = {
+    private buildFilters(): FilterParams {
+        return {
             page: this.page(),
             limit: this.limit(),
             search: this.searchControl.value || undefined,
@@ -89,38 +104,23 @@ export class ProductsPage implements OnInit {
             sortBy: this.sortField() ?? undefined,
             sortOrder: this.sortOrder() ?? undefined,
         };
-
-        return this.productsService.getAllProducts(filters).pipe(
-            tap({
-                next: (res) => {
-                    this.products.set(res.data ?? []);
-                    this.totalRecords.set(res.metadata?.total ?? 0);
-                    this.error.set(null);
-                },
-                error: (err: { message?: string }) => {
-                    this.error.set(err.message ?? 'ADMIN.PRODUCTS.LOAD_ERROR');
-                    this.products.set([]);
-                    this.totalRecords.set(0);
-                },
-            }),
-            finalize(() => this.isLoading.set(false)),
-        );
     }
 
     loadProducts(): void {
-        this.isLoading.set(true);
-        this.fetchProducts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.adminProductsStore.loadProducts(this.buildFilters());
     }
 
     onPageChange(event: DataTablePageEvent): void {
         this.page.set(event.page);
         this.limit.set(event.limit);
+        this.updateUrl();
         this.loadProducts();
     }
 
-    onCategoryChange(categoryId: string | null): void {
-        this.selectedCategoryId.set(categoryId);
+    onCategoryChange(categoryId: string | null | undefined): void {
+        this.selectedCategoryId.set(categoryId || null);
         this.page.set(1);
+        this.updateUrl();
         this.loadProducts();
     }
 
@@ -128,6 +128,7 @@ export class ProductsPage implements OnInit {
         this.sortField.set(event.order ? event.field : null);
         this.sortOrder.set(event.order);
         this.page.set(1);
+        this.updateUrl();
         this.loadProducts();
     }
 
@@ -147,7 +148,7 @@ export class ProductsPage implements OnInit {
             acceptLabel: 'ADMIN.PRODUCTS.DELETE_CONFIRM_ACCEPT',
             rejectLabel: 'ADMIN.PRODUCTS.DELETE_CONFIRM_REJECT',
             accept: () => {
-                this.productsService
+                this.adminProductsStore
                     .deleteProduct(product.id)
                     .pipe(takeUntilDestroyed(this.destroyRef))
                     .subscribe({
@@ -155,11 +156,85 @@ export class ProductsPage implements OnInit {
                             this.successMessage.set('ADMIN.PRODUCTS.DELETE_SUCCESS');
                             this.loadProducts();
                         },
-                        error: (err: { message?: string }) => {
-                            this.error.set(err.message ?? 'ADMIN.PRODUCTS.DELETE_ERROR');
+                        error: () => {
+                            this.successMessage.set(null);
                         },
                     });
             },
+        });
+    }
+
+    private syncFiltersWithRoute(): void {
+        this.route.queryParams
+            .pipe(
+                filter((params) => !this.isSameRouteParams(params)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe((params) => {
+                this.readFiltersFromRoute(params);
+                this.loadProducts();
+            });
+    }
+
+    private readFiltersFromRoute(params: Record<string, unknown>): void {
+        this.page.set(this.parseNumberParam(params['page'], 1));
+        this.limit.set(this.parseNumberParam(params['limit'], 10));
+        this.selectedCategoryId.set((params['categoryId'] as string | undefined) || null);
+        this.sortField.set((params['sortBy'] as string | undefined) || null);
+        const order = params['sortOrder'];
+        this.sortOrder.set(order === 'asc' || order === 'desc' ? (order as SortOrder) : null);
+        const search = (params['search'] as string | undefined) || '';
+        this.searchControl.setValue(search, { emitEvent: false });
+    }
+
+    private parseNumberParam(value: unknown, fallback: number): number {
+        const n = typeof value === 'string' ? parseInt(value, 10) : NaN;
+        return Number.isNaN(n) ? fallback : n;
+    }
+
+    private getNormalizedQueryParams(params: Record<string, unknown>): Record<string, string> {
+        return {
+            page: String(this.parseNumberParam(params['page'], 1)),
+            limit: String(this.parseNumberParam(params['limit'], 10)),
+            search: (params['search'] as string | undefined) || '',
+            categoryId: (params['categoryId'] as string | undefined) || '',
+            sortBy: (params['sortBy'] as string | undefined) || '',
+            sortOrder: (params['sortOrder'] as string | undefined) || '',
+        };
+    }
+
+    private isSameRouteParams(params: Record<string, unknown>): boolean {
+        const current = this.getNormalizedCurrentParams();
+        const next = this.getNormalizedQueryParams(params);
+        return Object.keys(current).every((key) => current[key] === next[key]);
+    }
+
+    private getNormalizedCurrentParams(): Record<string, string> {
+        return {
+            page: String(this.page()),
+            limit: String(this.limit()),
+            search: this.searchControl.value || '',
+            categoryId: this.selectedCategoryId() || '',
+            sortBy: this.sortField() || '',
+            sortOrder: this.sortOrder() || '',
+        };
+    }
+
+    private updateUrl({ replaceUrl = false } = {}): void {
+        const queryParams: Record<string, string | number | null> = {
+            page: this.page() === 1 ? null : this.page(),
+            limit: this.limit() === 10 ? null : this.limit(),
+            search: this.searchControl.value || null,
+            categoryId: this.selectedCategoryId() || null,
+            sortBy: this.sortField() || null,
+            sortOrder: this.sortOrder() || null,
+        };
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams,
+            queryParamsHandling: 'merge',
+            replaceUrl,
         });
     }
 }

@@ -454,6 +454,7 @@
       "STOCK": "Stock",
       "SALES": "Sales",
       "RATINGS": "Ratings",
+      "CREATED_AT": "Created At",
       "LOAD_ERROR": "Failed to load products.",
       "DELETE_CONFIRM_TITLE": "Delete product?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this product?",
