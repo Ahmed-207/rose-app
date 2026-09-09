@@ -50,10 +50,14 @@ export class ProductEditPage implements OnInit {
             discountType: p.discountType,
             discountValue: p.discountValue ? Number(p.discountValue) : null,
             cover: p.cover,
-            gallery: Array.isArray(p.gallery) ? p.gallery : [],
+            gallery: this.parseGallery(p.gallery),
             categoryId: p.categoryId,
             subCategoryId: p.subCategoryId,
-            occasionIds: Array.isArray(p.occasions) ? (p.occasions as { id: string }[]).map((o) => o.id) : [],
+            occasionIds: Array.isArray(p.occasions)
+                ? (p.occasions as { occasionId?: string; id?: string; occasion?: { id: string } }[])
+                      .map((o) => o.occasionId ?? o.occasion?.id ?? o.id)
+                      .filter((id): id is string => !!id)
+                : [],
         };
     });
 
@@ -123,6 +127,19 @@ export class ProductEditPage implements OnInit {
                     this.error.set(err.message ?? 'ADMIN.PRODUCTS.LOAD_PRODUCT_ERROR');
                 },
             });
+    }
+
+    private parseGallery(gallery: unknown): string[] {
+        if (Array.isArray(gallery)) return gallery as string[];
+        if (typeof gallery === 'string') {
+            try {
+                const parsed = JSON.parse(gallery);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+        return [];
     }
 
     private buildUpdatePayload(formValue: ProductFormValue): UpdateProductReq {
