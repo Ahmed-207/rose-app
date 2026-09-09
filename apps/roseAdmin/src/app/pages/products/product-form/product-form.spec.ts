@@ -3,11 +3,17 @@ import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs';
 import { ProductFormComponent } from './product-form';
-import { ProductsService } from '@org/products';
+import { ProductsService, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
+import { signal } from '@angular/core';
 
 const mockProductsService = {
     uploadImage: vi.fn(),
+};
+
+const mockSubCategoriesStore = {
+    entities: signal([]),
+    loadSubCategories: vi.fn(),
 };
 
 describe('ProductFormComponent', () => {
@@ -19,6 +25,7 @@ describe('ProductFormComponent', () => {
             imports: [ProductFormComponent],
             providers: [
                 { provide: ProductsService, useValue: mockProductsService },
+                { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
                 provideTestTranslate(),
             ],
         }).compileComponents();
@@ -232,5 +239,43 @@ describe('ProductFormComponent', () => {
         });
 
         expect(component.priceAfterDiscount()).toBe(70);
+    });
+
+    it('should load sub-categories and reset subCategoryId when category changes', () => {
+        fixture.detectChanges();
+
+        component.customForm.patchValue({ subCategoryId: 'sub-1' });
+        component.customForm.patchValue({ categoryId: 'cat-1' });
+
+        expect(mockSubCategoriesStore.loadSubCategories).toHaveBeenCalledWith('cat-1');
+        expect(component.customForm.controls.subCategoryId.value).toBe('');
+    });
+
+    it('should include subCategoryId in emitted save value', () => {
+        fixture.detectChanges();
+        const saveSpy = vi.fn();
+        component.save.subscribe(saveSpy);
+
+        component.dynamicFormValue.set({
+            title: 'Rose Box',
+            description: 'A box of roses',
+            price: 100,
+            stock: 10,
+            discountType: '',
+            discountValue: null,
+        });
+        component.customForm.patchValue({
+            categoryId: 'cat-1',
+            subCategoryId: 'sub-1',
+            occasionIds: ['occ-1'],
+            cover: 'https://example.com/cover.jpg',
+            gallery: ['https://example.com/gallery.jpg'],
+        });
+
+        component.onDynamicFormSubmitted(component.dynamicFormValue());
+
+        expect(saveSpy).toHaveBeenCalledWith(expect.objectContaining({
+            subCategoryId: 'sub-1',
+        }));
     });
 });

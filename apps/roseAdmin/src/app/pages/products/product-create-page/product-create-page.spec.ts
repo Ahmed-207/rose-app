@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ProductCreatePage } from './product-create-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore } from '@org/products';
+import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
@@ -24,6 +24,11 @@ const mockOccasionsStore = {
     loadOnce: vi.fn(),
 };
 
+const mockSubCategoriesStore = {
+    entities: vi.fn(() => []),
+    loadSubCategories: vi.fn(),
+};
+
 const mockRouter = {
     navigate: vi.fn(),
 };
@@ -39,6 +44,7 @@ describe('ProductCreatePage', () => {
                 { provide: ProductsService, useValue: mockProductsService },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
+                { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
                 { provide: Router, useValue: mockRouter },
                 provideTestTranslate(),
             ],

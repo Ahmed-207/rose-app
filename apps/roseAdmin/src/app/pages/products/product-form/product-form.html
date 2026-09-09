@@ -25,6 +25,14 @@
         [required]="true" />
 
     <lib-form-control
+        type="select"
+        label="ADMIN.PRODUCTS.FORM.SUB_CATEGORY"
+        formControlName="subCategoryId"
+        [options]="subCategories()"
+        optionLabel="title"
+        optionValue="id" />
+
+    <lib-form-control
         type="multiselect"
         label="ADMIN.PRODUCTS.FORM.OCCASIONS"
         formControlName="occasionIds"

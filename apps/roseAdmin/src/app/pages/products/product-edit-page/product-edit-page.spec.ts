@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ProductEditPage } from './product-edit-page';
 import { ProductFormValue } from '../product-form';
-import { ProductsService, CategoriesStore, OccasionsStore } from '@org/products';
+import { ProductsService, CategoriesStore, OccasionsStore, SubCategoriesStore } from '@org/products';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockProductsService = {
@@ -23,6 +23,11 @@ const mockOccasionsStore = {
     isLoading: vi.fn(() => false),
     loaded: vi.fn(() => true),
     loadOnce: vi.fn(),
+};
+
+const mockSubCategoriesStore = {
+    entities: vi.fn(() => []),
+    loadSubCategories: vi.fn(),
 };
 
 const mockRouter = {
@@ -65,6 +70,7 @@ describe('ProductEditPage', () => {
                 { provide: ProductsService, useValue: mockProductsService },
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: OccasionsStore, useValue: mockOccasionsStore },
+                { provide: SubCategoriesStore, useValue: mockSubCategoriesStore },
                 { provide: Router, useValue: mockRouter },
                 { provide: ActivatedRoute, useValue: mockActivatedRoute },
                 provideTestTranslate(),

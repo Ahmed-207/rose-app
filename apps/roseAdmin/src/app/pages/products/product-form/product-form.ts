@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { finalize, take } from 'rxjs';
-import { ProductsService, Category, Occasion } from '@org/products';
+import { ProductsService, Category, Occasion, SubCategoriesStore } from '@org/products';
 import { Button, Message, Spinner, FormControlComponent } from '@org/shared-ui-components';
 import { DynamicFormComponent } from '../../../../../../shared/components/dynamic-form/dynamic-form';
 import { DynamicFormField } from '../../../../../../shared/components/dynamic-form/dynamic-form.types';
@@ -22,6 +22,7 @@ export class ProductFormComponent {
     private readonly fb = inject(FormBuilder);
     private readonly productsService = inject(ProductsService);
     private readonly translate = inject(TranslateService);
+    private readonly subCategoriesStore = inject(SubCategoriesStore);
 
     @ViewChild('dynamicForm') private readonly dynamicFormRef!: DynamicFormComponent;
 
@@ -38,6 +39,8 @@ export class ProductFormComponent {
     readonly isUploadingCover = signal(false);
     readonly isUploadingGallery = signal(false);
     readonly uploadError = signal<string | null>(null);
+
+    readonly subCategories = computed(() => this.subCategoriesStore.entities());
 
     readonly discountTypeOptions = DISCOUNT_TYPE_OPTIONS.map((option) => ({
         ...option,
@@ -91,6 +94,7 @@ export class ProductFormComponent {
 
     readonly customForm = this.fb.group({
         categoryId: ['', Validators.required],
+        subCategoryId: [''],
         occasionIds: this.fb.control<string[]>([], Validators.required),
         cover: ['', Validators.required],
         gallery: this.fb.control<string[]>([], [Validators.required, this.galleryValidator.bind(this)]),
@@ -128,14 +132,20 @@ export class ProductFormComponent {
             if (value) {
                 this.customForm.patchValue({
                     categoryId: value.categoryId ?? '',
+                    subCategoryId: value.subCategoryId ?? '',
                     occasionIds: value.occasionIds ?? [],
                     cover: value.cover ?? '',
                     gallery: value.gallery ?? [],
                 });
+                if (value.categoryId) {
+                    this.subCategoriesStore.loadSubCategories(value.categoryId);
+                }
             }
         });
 
         this.customForm.controls.categoryId.valueChanges.subscribe((categoryId) => {
+            this.customForm.controls.subCategoryId.setValue('');
+            this.subCategoriesStore.loadSubCategories(categoryId || undefined);
             this.categoryChange.emit(categoryId || null);
         });
     }
@@ -162,7 +172,7 @@ export class ProductFormComponent {
             cover: customValue.cover ?? '',
             gallery: customValue.gallery ?? [],
             categoryId: customValue.categoryId ?? '',
-            subCategoryId: '',
+            subCategoryId: customValue.subCategoryId ?? '',
             occasionIds: customValue.occasionIds ?? [],
         };
 
