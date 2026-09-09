@@ -1,0 +1,35 @@
+.admin-navbar {
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.admin-navbar__menu-trigger {
+  color: var(--text-secondary);
+}
+
+.admin-navbar__menu-trigger:hover {
+  background: color-mix(in srgb, var(--border-soft) 55%, transparent);
+  color: var(--text-primary);
+}
+
+.admin-navbar__menu {
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+}
+
+.admin-navbar__menu-link {
+  color: var(--text-primary);
+}
+
+.admin-navbar__menu-link:hover {
+  background: color-mix(in srgb, var(--border-soft) 55%, transparent);
+}
+
+.admin-navbar__menu-logout {
+  color: var(--danger-text);
+}
+
+.admin-navbar__menu-logout:hover {
+  background: var(--danger-bg);
+}

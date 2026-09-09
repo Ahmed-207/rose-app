@@ -23,6 +23,24 @@ export const remoteRoutes: Route[] = [
           import('../pages/notifications/notifications').then((c) => c.NotificationsPage),
         title: 'Notifications',
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Account Settings',
+      },
+      {
+        path: 'change-password',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Change Password',
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Settings',
+      },
     ],
   },
 ];

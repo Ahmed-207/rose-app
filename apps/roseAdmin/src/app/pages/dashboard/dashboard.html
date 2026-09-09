@@ -1,11 +1,21 @@
 <div class="dashboard">
+  <header class="dashboard__header">
+    <div>
+      <p class="dashboard__eyebrow">{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</p>
+      <h1>{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</h1>
+    </div>
+    <button type="button" class="dashboard__refresh" (click)="loadStatistics()" [disabled]="isLoading">
+      <i class="pi pi-refresh" [class.dashboard__refresh-icon--spinning]="isLoading"></i>
+      {{ 'Refresh' | translate }}
+    </button>
+  </header>
   @if(isLoading){
-<div class="dashboard__message">{{ 'Loading dashboard statistics...' | translate }}</div>
+    <div class="dashboard__message">{{ 'Loading dashboard statistics...' | translate }}</div>
   }
   @if(errorMessage){
   <div class="dashboard__message dashboard__message--error">{{ errorMessage }}</div>
   }
-  <div class="dashboard__grid">
+  <div class="dashboard__grid" [class.dashboard__grid--loading]="isLoading">
     <section class="area area--stats">
       <div class="stats-grid">
         <app-stat-card *ngFor="let stat of statCards" [data]="stat"></app-stat-card>

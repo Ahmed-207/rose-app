@@ -8,6 +8,8 @@ import { FormControlComponent } from 'apps/shared/components/form-controls/form-
 import { passwordMatchValidator } from 'apps/shared/utils/passwordMatchValidator';
 import { finalize } from 'rxjs';
 
+const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
 @Component({
   selector: 'account-change-password-form',
   imports: [ReactiveFormsModule, TranslatePipe, FormControlComponent, Button],
@@ -28,7 +30,7 @@ export class ChangePasswordForm {
   readonly form = this.fb.nonNullable.group(
     {
       oldPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]],
       confirmPassword: ['', Validators.required],
     },
     { validators: passwordMatchValidator('newPassword', 'confirmPassword') },

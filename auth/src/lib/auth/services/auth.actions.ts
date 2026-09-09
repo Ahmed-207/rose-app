@@ -205,6 +205,31 @@ export class AuthActions {
     );
   }
 
+  uploadImage(file: File): Observable<string> {
+    const body = new FormData();
+    body.append('image', file);
+
+    return this.executeRequest<{ url: string }>(
+      `${this.apiUrl}/upload`,
+      AuthHttpMethod.Post,
+      body,
+    ).pipe(
+      map((response) => {
+        const url = response.payload?.url;
+        if (!url) {
+          throw new Error('Image upload response is missing a URL');
+        }
+        return url;
+      }),
+      catchError((error: unknown) => {
+        if (!(error instanceof HttpErrorResponse)) {
+          this.authErrorService.report(resolveAuthErrorMessage(error));
+        }
+        return EMPTY;
+      }),
+    );
+  }
+
   deleteAccount(): Observable<ApiResponse<unknown>> {
     return this.usersRequest<unknown>(
       AuthHttpMethod.Delete,
@@ -239,21 +264,18 @@ export class AuthActions {
     return resolveRoleFromToken(session.token);
   }
 
-  private toProfileBody(request: UpdateProfileRequest): FormData | Record<string, string> {
-    if (request.photo) {
-      const formData = new FormData();
-      formData.append('firstName', request.firstName);
-      formData.append('lastName', request.lastName);
-      formData.append('phone', request.phone);
-      formData.append('photo', request.photo);
-      return formData;
-    }
-
-    return {
+  private toProfileBody(request: UpdateProfileRequest): Record<string, string> {
+    const body: Record<string, string> = {
       firstName: request.firstName,
       lastName: request.lastName,
       phone: request.phone,
     };
+
+    if (request.photo) {
+      body['photo'] = request.photo;
+    }
+
+    return body;
   }
 
   private authRequest<T>(
@@ -313,4 +335,3 @@ export class AuthActions {
     );
   }
 }
-

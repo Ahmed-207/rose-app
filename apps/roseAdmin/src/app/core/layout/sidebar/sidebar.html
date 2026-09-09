@@ -2,14 +2,14 @@
 
 
 
-<div class="flex flex-col h-full p-4 bg-white dark:bg-[#202938]">
+<div class="admin-sidebar flex flex-col h-full p-4">
   
-  <div class="flex flex-col gap-4 px-2 py-4 mb-4 border-b border-gray-100">
+  <div class="admin-sidebar__brand flex flex-col gap-4 px-2 py-4 mb-4">
     <div class="flex items-center justify-center w-full py-2">
       <img src="assets/images/logo.png" alt="Rose Logo" class="h-14 w-auto object-contain" />
     </div>
     
-    <button class="w-full bg-[#A31D36] dark:bg-[#ffc2cc] hover:bg-[#85162B] text-white dark:text-[#5c1d34] py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors">
+    <button class="admin-sidebar__preview w-full py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors">
       <i class="pi pi-[#A31D36] pi-globe"></i>
       <span>
         {{'ADMIN.SIDEBAR.PREVIEW_WEBSITE' |translate}}
@@ -21,10 +21,10 @@
     <a 
       *ngFor="let item of menuItems" 
       [routerLink]="item.path"
-      routerLinkActive="bg-[#EED9DF] dark:bg-[#ffc2cc] text-[#6B1426] dark:text-[#ffc2cc] font-semibold"
+      routerLinkActive="admin-sidebar__link--active font-semibold"
       [routerLinkActiveOptions]="{ exact: false }"
       (click)="closeMenu.emit()"
-      class="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm text-gray-600 dark:text-[#ffc2cc] hover:bg-gray-50 transition-all"
+      class="admin-sidebar__link flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all"
     >
     <i class="text-xl" [class]="item.icon "></i>
       <span>{{ item.label | translate}}</span>
@@ -35,12 +35,12 @@
     @if (isUserMenuOpen) {
     <div 
     
-      class="absolute bottom-16 left-0 right-0 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-bottom-2"
+      class="admin-sidebar__menu absolute bottom-16 left-0 right-0 rounded-xl shadow-lg py-2 z-50 animate-in fade-in slide-in-from-bottom-2"
     >
       <a 
-        routerLink="/profile" 
+        routerLink="/admin/profile"
         (click)="isUserMenuOpen = false; closeMenu.emit()"
-        class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+        class="admin-sidebar__menu-link flex items-center gap-3 px-4 py-2 text-sm"
       >
       <i class="pi pi-user"></i>
         <span>        {{'ADMIN.SIDEBAR.PROFILE' |translate}}
@@ -48,7 +48,7 @@
       </a>
       <button 
         (click)="isUserMenuOpen = false; closeMenu.emit()"
-        class="w-full flex items-center gap-3 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 font-medium"
+        class="admin-sidebar__menu-logout w-full flex items-center gap-3 px-4 py-2 text-sm font-medium"
       >
       <i class="pi pi-sign-out"></i>
         <span>        {{'ADMIN.SIDEBAR.LOGOUT' |translate}}
@@ -56,22 +56,22 @@
       </button>
     </div>
 }
-    <div class="flex items-center justify-between p-2 pb-0 rounded-xl hover:bg-gray-50 dark:bg-[#ffc2cc] dark:text-[#5c1d34] transition-colors">
+    <div class="admin-sidebar__user flex items-center justify-between p-2 pb-0 rounded-xl transition-colors">
       <div class="flex items-center gap-3">
         <img 
           src="assets/images/logo.png" 
           alt="User Avatar" 
-          class="w-9 h-9 rounded-full object-cover border border-gray-200"
+          class="w-9 h-9 rounded-full object-cover border border-[var(--border-soft)]"
         />
         <div class="flex flex-col text-start">
-          <span class="text-xs font-bold text-gray-800">{{'ADMIN.SIDEBAR.NAME' |translate}}</span>
-          <span class="text-[10px] text-gray-400">admin@rose.com</span>
+          <span class="text-xs font-bold text-[var(--text-primary)]">{{'ADMIN.SIDEBAR.NAME' |translate}}</span>
+          <span class="text-[10px] text-[var(--text-secondary)]">admin@rose.com</span>
         </div>
       </div>
 
       <button 
         (click)="toggleUserMenu()"
-        class="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+        class="admin-sidebar__menu-trigger p-1.5 rounded-lg transition-colors"
       >
       <i class="pi pi-ellipsis-v"></i>
       </button>
