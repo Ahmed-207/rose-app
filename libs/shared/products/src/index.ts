@@ -16,6 +16,7 @@ export * from './lib/services/coupon/coupon-service';
 
 // stores
 export * from './lib/store/products.store';
+export * from './lib/store/admin-products.store';
 export * from './lib/store/categories.store';
 export * from './lib/store/occassions.store';
 export * from './lib/store/sub-categories.store';
