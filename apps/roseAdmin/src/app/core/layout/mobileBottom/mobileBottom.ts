@@ -12,10 +12,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class MobileBottom {
 
   navItems = [
-  { label: 'ADMIN.NAVIGATION.OVERVIEW' , path: 'dashboard', icon: 'pi pi-th' },
-  { label: 'ADMIN.NAVIGATION.CATEGORIES' , path: 'categories', icon: 'pi pi-folder' },
-  { label: 'ADMIN.NAVIGATION.OCCASIONS' , path: 'occasions', icon: 'pi pi-calendar' },
-  { label: 'ADMIN.NAVIGATION.PRODUCTS' , path: 'products', icon: 'pi pi-box' } 
+  { label: 'ADMIN.NAVIGATION.OVERVIEW' , path: '/admin/dashboard', icon: 'pi pi-th' },
+  { label: 'ADMIN.NAVIGATION.CATEGORIES' , path: '/admin/categories', icon: 'pi pi-folder' },
+  { label: 'ADMIN.NAVIGATION.OCCASIONS' , path: '/admin/occasions', icon: 'pi pi-calendar' },
+  { label: 'ADMIN.NAVIGATION.PRODUCTS' , path: '/admin/products', icon: 'pi pi-box' }
   ];
 
 }

@@ -7,7 +7,7 @@ const config: ModuleFederationConfig = {
   },
   shared: (libraryName, sharedConfig) => {
     if (
-      
+      libraryName === '@angular/router' ||
       libraryName.startsWith('primeng') ||
       libraryName === 'primeicons' ||
       libraryName === '@primeng/themes' ||

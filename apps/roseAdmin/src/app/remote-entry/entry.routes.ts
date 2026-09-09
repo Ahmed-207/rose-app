@@ -1,10 +1,12 @@
 import { Route } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { RemoteEntry } from './entry';
 
 export const remoteRoutes: Route[] = [
   {
     path: '',
     component: RemoteEntry,
+    providers: [ConfirmationService],
     children: [
       {
         path: '',

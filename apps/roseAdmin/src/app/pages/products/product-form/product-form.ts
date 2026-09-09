@@ -1,7 +1,7 @@
 import { Component, ViewChild, computed, effect, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { finalize, take } from 'rxjs';
 import { ProductsService, Category, Occasion } from '@org/products';
 import { Button, Message, Spinner, FormControlComponent } from '@org/shared-ui-components';
@@ -9,17 +9,19 @@ import { DynamicFormComponent } from '../../../../../../shared/components/dynami
 import { DynamicFormField } from '../../../../../../shared/components/dynamic-form/dynamic-form.types';
 import { ProductFormValue } from './product-form.model';
 import { DISCOUNT_TYPE_OPTIONS, MAX_GALLERY_IMAGES } from './product-form.constants';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-product-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Button, Message, Spinner, FormControlComponent, DynamicFormComponent],
+    imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Button, Message, Spinner, FormControlComponent, DynamicFormComponent, InputTextModule],
     templateUrl: './product-form.html',
     styleUrl: './product-form.css',
 })
 export class ProductFormComponent {
     private readonly fb = inject(FormBuilder);
     private readonly productsService = inject(ProductsService);
+    private readonly translate = inject(TranslateService);
 
     @ViewChild('dynamicForm') private readonly dynamicFormRef!: DynamicFormComponent;
 
@@ -37,7 +39,10 @@ export class ProductFormComponent {
     readonly isUploadingGallery = signal(false);
     readonly uploadError = signal<string | null>(null);
 
-    readonly discountTypeOptions = DISCOUNT_TYPE_OPTIONS;
+    readonly discountTypeOptions = DISCOUNT_TYPE_OPTIONS.map((option) => ({
+        ...option,
+        title: this.translate.instant(option.title),
+    }));
 
     readonly dynamicFields: DynamicFormField[] = [
         {
@@ -72,7 +77,7 @@ export class ProductFormComponent {
             name: 'discountType',
             type: 'select',
             label: 'ADMIN.PRODUCTS.FORM.DISCOUNT_TYPE',
-            options: DISCOUNT_TYPE_OPTIONS,
+            options: this.discountTypeOptions,
             optionLabel: 'title',
             optionValue: 'id',
         },
@@ -175,6 +180,67 @@ export class ProductFormComponent {
         this.formCancel.emit();
     }
 
+    private extractUploadError(err: unknown): string {
+        if (typeof err === 'object' && err !== null) {
+            const error = err as { error?: { message?: string }; message?: string };
+            return error.error?.message || error.message || 'ADMIN.PRODUCTS.UPLOAD_ERROR';
+        }
+        return 'ADMIN.PRODUCTS.UPLOAD_ERROR';
+    }
+
+    private compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
+        return new Promise((resolve, reject) => {
+            const image = new Image();
+            const objectUrl = URL.createObjectURL(file);
+
+            image.onload = () => {
+                URL.revokeObjectURL(objectUrl);
+
+                let width = image.width;
+                let height = image.height;
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = Math.round(width * ratio);
+                    height = Math.round(height * ratio);
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const context = canvas.getContext('2d');
+                if (!context) {
+                    resolve(file);
+                    return;
+                }
+                context.drawImage(image, 0, 0, width, height);
+
+                const outputType = file.type.startsWith('image/') ? file.type : 'image/jpeg';
+                canvas.toBlob(
+                    (blob) => {
+                        if (!blob) {
+                            resolve(file);
+                            return;
+                        }
+                        const compressed = new File([blob], file.name, {
+                            type: outputType,
+                            lastModified: file.lastModified,
+                        });
+                        resolve(compressed.size < file.size ? compressed : file);
+                    },
+                    outputType,
+                    quality,
+                );
+            };
+
+            image.onerror = () => {
+                URL.revokeObjectURL(objectUrl);
+                reject(new Error('Failed to load image for compression'));
+            };
+
+            image.src = objectUrl;
+        });
+    }
+
     onCoverSelected(file: File | null): Promise<void> {
         if (!file) return Promise.resolve();
 
@@ -182,18 +248,28 @@ export class ProductFormComponent {
         this.uploadError.set(null);
 
         return new Promise((resolve) => {
-            this.productsService
-                .uploadImage(file)
-                .pipe(take(1), finalize(() => this.isUploadingCover.set(false)))
-                .subscribe({
-                    next: (res) => {
-                        this.customForm.controls.cover.setValue(res.imageUrl);
-                        resolve();
-                    },
-                    error: (err: { message?: string }) => {
-                        this.uploadError.set(err.message ?? 'ADMIN.PRODUCTS.UPLOAD_ERROR');
-                        resolve();
-                    },
+            this.compressImage(file)
+                .then((compressedFile) =>
+                    this.productsService
+                        .uploadImage(compressedFile)
+                        .pipe(take(1), finalize(() => this.isUploadingCover.set(false)))
+                        .subscribe({
+                            next: (res) => {
+                                this.customForm.controls.cover.setValue(res.imageUrl);
+                                resolve();
+                            },
+                            error: (err: unknown) => {
+                                console.error('Cover upload failed', err);
+                                this.uploadError.set(this.extractUploadError(err));
+                                resolve();
+                            },
+                        }),
+                )
+                .catch((err: unknown) => {
+                    this.isUploadingCover.set(false);
+                    console.error('Cover image compression failed', err);
+                    this.uploadError.set(this.extractUploadError(err));
+                    resolve();
                 });
         });
     }
@@ -215,25 +291,43 @@ export class ProductFormComponent {
         this.uploadError.set(null);
 
         return new Promise((resolve) => {
-            const uploads = filesToUpload.map((file) =>
-                this.productsService
-                    .uploadImage(file)
-                    .pipe(take(1))
-                    .toPromise()
-                    .then((res) => res?.imageUrl)
-                    .catch(() => null),
-            );
+            Promise.all(filesToUpload.map((file) => this.compressImage(file).catch(() => file)))
+                .then((compressedFiles) => {
+                    const uploadResults = compressedFiles.map((file) =>
+                        this.productsService
+                            .uploadImage(file)
+                            .pipe(take(1))
+                            .toPromise()
+                            .then((res) => ({ ok: true as const, url: res?.imageUrl }))
+                            .catch((err: unknown) => {
+                                console.error('Gallery upload failed', err);
+                                return { ok: false as const, error: this.extractUploadError(err) };
+                            }),
+                    );
 
-            Promise.all(uploads).then((urls) => {
-                const validUrls = urls.filter((url): url is string => !!url);
-                this.customForm.controls.gallery.setValue([...currentGallery, ...validUrls]);
-                this.isUploadingGallery.set(false);
+                    Promise.all(uploadResults).then((results) => {
+                        const validUrls = results
+                            .filter((r) => r.ok && r.url)
+                            .map((r) => (r as { ok: true; url: string }).url);
+                        const firstError = results.find((r) => !r.ok)?.error;
 
-                if (validUrls.length < filesToUpload.length) {
-                    this.uploadError.set('ADMIN.PRODUCTS.UPLOAD_PARTIAL_ERROR');
-                }
-                resolve();
-            });
+                        this.customForm.controls.gallery.setValue([...currentGallery, ...validUrls]);
+                        this.isUploadingGallery.set(false);
+
+                        if (firstError) {
+                            this.uploadError.set(
+                                validUrls.length > 0 ? 'ADMIN.PRODUCTS.UPLOAD_PARTIAL_ERROR' : firstError,
+                            );
+                        }
+                        resolve();
+                    });
+                })
+                .catch((err: unknown) => {
+                    this.isUploadingGallery.set(false);
+                    console.error('Gallery image compression failed', err);
+                    this.uploadError.set(this.extractUploadError(err));
+                    resolve();
+                });
         });
     }
 

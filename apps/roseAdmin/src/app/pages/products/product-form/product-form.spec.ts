@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs';
 import { ProductFormComponent } from './product-form';
@@ -109,11 +110,55 @@ describe('ProductFormComponent', () => {
         expect(saveSpy).not.toHaveBeenCalled();
     });
 
+    it('should emit save event when the submit button is clicked with valid forms', async () => {
+        fixture.detectChanges();
+        const saveSpy = vi.fn();
+        component.save.subscribe(saveSpy);
+
+        (component as unknown as { dynamicFormRef: { form: { setValue: (value: Record<string, unknown>) => void } } }).dynamicFormRef.form.setValue({
+            title: 'Rose Box',
+            description: 'A box of roses',
+            price: 100,
+            stock: 10,
+            discountType: '',
+            discountValue: null,
+        });
+
+        component.customForm.patchValue({
+            categoryId: 'cat-1',
+            occasionIds: ['occ-1'],
+            cover: 'https://example.com/cover.jpg',
+            gallery: ['https://example.com/gallery.jpg'],
+        });
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const submitButton = fixture.debugElement.query(By.css('button[type="submit"]'));
+        expect(submitButton).toBeTruthy();
+
+        submitButton.nativeElement.click();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(saveSpy).toHaveBeenCalledWith(expect.objectContaining({
+            title: 'Rose Box',
+            description: 'A box of roses',
+            price: 100,
+            stock: 10,
+            categoryId: 'cat-1',
+            occasionIds: ['occ-1'],
+            cover: 'https://example.com/cover.jpg',
+            gallery: ['https://example.com/gallery.jpg'],
+        }));
+    });
+
     it('should upload cover image and set cover value', async () => {
         mockProductsService.uploadImage.mockReturnValue(of({ imageUrl: 'https://example.com/cover.jpg' }));
         fixture.detectChanges();
 
         const file = new File([''], 'cover.jpg', { type: 'image/jpeg' });
+        vi.spyOn(component as unknown as { compressImage: (file: File) => Promise<File> }, 'compressImage').mockResolvedValue(file);
         await component.onCoverSelected(file);
 
         expect(mockProductsService.uploadImage).toHaveBeenCalledWith(file);
@@ -125,6 +170,7 @@ describe('ProductFormComponent', () => {
         fixture.detectChanges();
 
         const file = new File([''], 'gallery.jpg', { type: 'image/jpeg' });
+        vi.spyOn(component as unknown as { compressImage: (file: File) => Promise<File> }, 'compressImage').mockResolvedValue(file);
         await component.onGallerySelected([file]);
 
         expect(mockProductsService.uploadImage).toHaveBeenCalledWith(file);

@@ -100,7 +100,7 @@
     </div>
 
     <div class="product-form__actions">
-        <lib-button type="submit" variant="primary" [disabled]="isSubmitting() || isUploadingCover() || isUploadingGallery()">
+        <lib-button buttonType="submit" variant="primary" [disabled]="isSubmitting() || isUploadingCover() || isUploadingGallery()">
             {{ 'ADMIN.PRODUCTS.FORM.SAVE' | translate }}
         </lib-button>
         <lib-button type="button" variant="ghost" (clicked)="onCancel()">
