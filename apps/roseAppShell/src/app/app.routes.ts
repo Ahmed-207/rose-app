@@ -16,19 +16,37 @@ export const appRoutes: Route[] = [
       ),
   },
   {
-    path: 'admin',
-    canActivate: [roleGuard([Role.Admin])],
-    loadChildren: () =>
-      loadRemote<typeof import('roseAdmin/Routes')>('roseAdmin/Routes').then(
-        (m) => m!.remoteRoutes,
-      ),
-  },
-  {
     path: 'home',
     loadChildren: () =>
       loadRemote<typeof import('roseMain/Routes')>('roseMain/Routes').then(
         (m) => m!.remoteRoutes,
       ),
   },
-
+  {
+    path: 'admin',
+    canActivate: [roleGuard([Role.Admin])],
+    loadChildren: () =>
+      loadRemote<typeof import('roseAdmin/Routes')>('roseAdmin/Routes').then(
+        (m) => m!.remoteRoutes
+      ),
+  },
+    {
+    path: 'unauthorized',
+    loadComponent: () =>
+      import('./pages/unauthorized/unauthorized').then(
+        (m) => m.Unauthorized
+      ),
+  },
+  {
+    path: '500',
+    loadComponent: () =>
+      import('./pages/server-error/serverError').then(
+        (m) => m.ServerError
+      ),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/not-found/notFound').then((m) => m.NotFound),
+  }
 ];

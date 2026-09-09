@@ -460,6 +460,19 @@
       "MESSAGE_REQUIRED": "Message is required.",
       "LINK": "Link (optional)",
       "LINK_INVALID": "Enter a valid URL starting with http:// or https://"
-    }
+    },
+    "UNAUTHORIZED": {
+    "TITLE": "You are not authorized to access this page.",
+    "SUBTITLE": "If you think this is wrong, please contact the support",
+    "GO_HOME": "Go to Homepage"
+  },
+  "NOT_FOUND": {
+    "TITLE": "This page does not exist.",
+    "SUBTITLE": "We couldn't find the page you were looking for, please make sure you are in the right path"
+  },
+  "SERVER_ERROR": {
+    "TITLE": "Oops, something went wrong!",
+    "SUBTITLE": "Something unexpected happened, please refresh the page or try again photo"
+  }
   }
 }

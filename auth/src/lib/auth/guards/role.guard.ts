@@ -18,6 +18,6 @@ export const roleGuard = (allowedRoles: Role[]): CanActivateFn => {
       return true;
     }
 
-    return router.createUrlTree(['/home']);
+    return router.createUrlTree(['/unauthorized']);
   };
 };
