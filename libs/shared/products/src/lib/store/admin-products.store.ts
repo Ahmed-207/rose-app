@@ -2,7 +2,7 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import { addEntity, removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { computed, inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
+import { catchError, distinctUntilChanged, EMPTY, pipe, switchMap, tap } from 'rxjs';
 import { Product, CreateProductReq, UpdateProductReq } from '../models/product.model';
 import { FilterParams } from '../models/filter.model';
 import { AdminProductsState } from '../models/product-state.model';
@@ -33,6 +33,7 @@ export const AdminProductsStore = signalStore(
         return {
             loadProducts: rxMethod<FilterParams>(
                 pipe(
+                    distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
                     tap((filters) => patchState(store, { isLoading: true, error: null, filters })),
                     switchMap((filters) =>
                         _service.getAllProducts(filters).pipe(

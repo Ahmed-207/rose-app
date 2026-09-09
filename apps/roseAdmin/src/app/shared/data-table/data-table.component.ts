@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Button, Message, Spinner } from '@org/shared-ui-components';
@@ -31,21 +31,30 @@ export class DataTableComponent<T = unknown> {
     editRow = output<T>();
     deleteRow = output<T>();
 
-    readonly firstRowIndex = computed(() => (this.page() - 1) * this.limit());
+    readonly firstRowIndex = computed(() => {
+        const pageNum = this.page() > 0 ? this.page() : 1;
+        return (pageNum - 1) * this.limit();
+    });
+
     readonly currentSort = signal<DataTableSortEvent | null>(null);
 
-    onPageChange(event: { first: number; rows: number }): void {
-        this.pageChange.emit({
-            page: Math.floor(event.first / event.rows) + 1,
-            limit: event.rows,
-        });
-    }
+    onLazyLoad(event: TableLazyLoadEvent): void {
+        const first = event.first ?? 0;
+        const rows = event.rows ?? this.limit();
+        const calculatedPage = Math.floor(first / rows) + 1;
 
-    onSort(event: { field: string; order: 1 | -1 | 0 | null }): void {
-        const order = event.order === 1 ? 'asc' : event.order === -1 ? 'desc' : null;
-        const sort: DataTableSortEvent = { field: event.field, order };
-        this.currentSort.set(sort);
-        this.sortChange.emit(sort);
+        if (calculatedPage !== this.page() || rows !== this.limit()) {
+            this.pageChange.emit({
+                page: calculatedPage,
+                limit: rows,
+            });
+        }
+
+        if (event.sortField) {
+            const field = Array.isArray(event.sortField) ? event.sortField[0] : event.sortField;
+            const order = event.sortOrder === 1 ? 'asc' : event.sortOrder === -1 ? 'desc' : null;
+            this.sortChange.emit({ field, order });
+        }
     }
 
     fieldName(col: DataTableColumn<T>): string {

@@ -16,16 +16,9 @@ export class APICallerService {
         }
 
         const baseUrl = this.apiUrl.endsWith('/') ? this.apiUrl : `${this.apiUrl}/`;
-        const normalizedUrl = url.trim();
+        const normalizedUrl = url.trim().replace(/^\/+/, '');
 
-        if (normalizedUrl.startsWith('/api/') || normalizedUrl.startsWith('api/')) {
-            return new URL(
-                normalizedUrl.startsWith('/') ? normalizedUrl : `/${normalizedUrl}`,
-                baseUrl,
-            ).toString();
-        }
-
-        return baseUrl + normalizedUrl.replace(/^\/+/, '');
+        return `${baseUrl}${normalizedUrl}`;
     }
 
     private unwrapPayload<T>(res: ApiResponse<T>): T {
