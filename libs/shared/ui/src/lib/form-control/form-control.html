@@ -68,8 +68,28 @@
     }
 
     @case('file') {
-    <input [id]="controlId" type="file" [disabled]="disabled" [readonly]="readonly" [accept]="placeholder"
-        (change)="fileSelected($event)" />
+    <label
+        class="file-upload"
+        [class.file-upload--disabled]="disabled"
+        [class.file-upload--selected]="fileName"
+        [for]="controlId">
+        <input
+            class="file-upload__input"
+            [id]="controlId"
+            type="file"
+            [disabled]="disabled"
+            [readonly]="readonly"
+            [accept]="placeholder"
+            (change)="fileSelected($event)" />
+
+        <span class="file-upload__content">
+            <span class="file-upload__name">{{ fileName || 'Choose an image' }}</span>
+            <span class="file-upload__action">
+                <i class="pi pi-upload" aria-hidden="true"></i>
+                {{ fileName ? 'Change file' : 'Upload file' }}
+            </span>
+        </span>
+    </label>
     }
     }
     @if(hasError){

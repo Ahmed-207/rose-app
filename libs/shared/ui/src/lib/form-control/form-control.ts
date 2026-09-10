@@ -43,6 +43,7 @@ export type FormControlType =
   selector: 'lib-form-control',
   standalone: true,
   templateUrl: './form-control.html',
+  styleUrl: './form-control.css',
   imports: [FormsModule, PasswordModule, InputTextModule, SelectModule, CheckboxModule, ToggleSwitchModule, MultiSelectModule, TextareaModule, InputNumberModule, DatePickerModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -130,6 +131,11 @@ export class FormControlComponent implements ControlValueAccessor, AfterViewInit
   fileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.update(input.files?.[0] ?? null);
+    this.cdr.markForCheck();
+  }
+
+  get fileName(): string {
+    return this.value instanceof File ? this.value.name : '';
   }
 
   get hasError(): boolean {
