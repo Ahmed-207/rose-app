@@ -67,6 +67,24 @@ export const remoteRoutes: Route[] = [
           ),
         title: 'Edit Category',
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Account Settings',
+      },
+      {
+        path: 'change-password',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Change Password',
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('../pages/settings/settings').then((c) => c.Settings),
+        title: 'Settings',
+      }
     ],
   },
 ];
