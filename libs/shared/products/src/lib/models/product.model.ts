@@ -81,3 +81,43 @@ export interface CreateReviewReq {
 export interface CreateReviewRes {
     review: Review;
 }
+
+export interface CreateProductReq {
+    title: string;
+    description?: string;
+    price: number;
+    stock: number;
+    discountType?: string;
+    discountValue?: number;
+    cover?: string;
+    gallery?: string[];
+    categoryId: string;
+    subCategoryId?: string;
+    occasionIds?: string[];
+}
+
+export interface UpdateProductReq {
+    title?: string;
+    description?: string;
+    price?: number;
+    stock?: number;
+    discountType?: string;
+    discountValue?: number;
+    cover?: string;
+    gallery?: string[];
+    categoryId?: string;
+    subCategoryId?: string;
+    occasionIds?: string[];
+}
+
+export interface CreateProductRes {
+    product: Product;
+}
+
+export interface UpdateProductRes {
+    product: Product;
+}
+
+export interface UploadImageRes {
+    url: string;
+}

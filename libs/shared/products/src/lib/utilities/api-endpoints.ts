@@ -10,6 +10,10 @@ export const PRODUCT = {
     getProducts: 'products',
 } as const;
 
+export const UPLOAD = {
+    uploadImage: 'upload',
+} as const;
+
 export const REVIEW = {
     getReviews: 'reviews',
     createReview: 'reviews',

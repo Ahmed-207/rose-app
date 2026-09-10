@@ -1,0 +1,28 @@
+.product-create-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.product-create-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.product-create-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--p-surface-900, #111827);
+    margin: 0;
+}
+
+.product-create-page__feedback {
+    margin-bottom: 0.5rem;
+}
+
+.dark .product-create-page__title {
+    color: var(--p-surface-100, #f3f4f6);
+}

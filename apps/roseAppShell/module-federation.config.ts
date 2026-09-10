@@ -5,6 +5,8 @@ const config: ModuleFederationConfig = {
   remotes: [],
   shared: (libraryName, sharedConfig) => {
     if (
+      libraryName === '@angular/router' ||
+      libraryName === '@angular/animations' ||
       libraryName.startsWith('primeng') ||
       libraryName === 'primeicons' ||
       libraryName === '@primeng/themes' ||
@@ -14,7 +16,7 @@ const config: ModuleFederationConfig = {
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader' ||
       libraryName === '@ngrx/signals' ||
-      libraryName === '@angular/google-maps'||
+      libraryName === '@angular/google-maps' ||
       libraryName === 'ngx-toastr'
     ) {
       return {

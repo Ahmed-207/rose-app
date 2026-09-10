@@ -439,16 +439,62 @@
       "PROFILE": "Profile",
       "LOGOUT": "Logout"
     },
-    "SETTINGS": {
-      "EYEBROW": "Account",
-      "TITLE": "Account Settings",
-      "SUBTITLE": "Manage your account details and password.",
-      "ACCOUNT": "Account Details",
-      "CHANGE_PASSWORD": "Change Password",
-      "LOADING": "Loading account details...",
-      "SAVE": "Save Changes",
-      "PROFILE_SUCCESS": "Your account details have been updated.",
-      "PASSWORD_SUCCESS": "Your password has been changed."
+    "DATA_TABLE": {
+      "LOADING": "Loading...",
+      "NO_RECORDS": "No records found",
+      "ACTIONS": "Actions",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "ADD_BUTTON": "Add a new product",
+      "SEARCH_PLACEHOLDER": "Search products...",
+      "ALL_CATEGORIES": "All categories",
+      "NAME": "Name",
+      "CATEGORY": "Category",
+      "PRICE": "Price",
+      "STOCK": "Stock",
+      "SALES": "Sales",
+      "RATINGS": "Ratings",
+      "CREATED_AT": "Created At",
+      "LOAD_ERROR": "Failed to load products.",
+      "DELETE_CONFIRM_TITLE": "Delete product?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this product?",
+      "DELETE_CONFIRM_ACCEPT": "Delete",
+      "DELETE_CONFIRM_REJECT": "Cancel",
+      "DELETE_SUCCESS": "Product deleted successfully.",
+      "DELETE_ERROR": "Failed to delete product.",
+      "FORM": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "SUB_CATEGORY": "Sub-category",
+        "PRICE": "Price",
+        "STOCK": "Stock",
+        "DISCOUNT_TYPE": "Discount type",
+        "DISCOUNT_VALUE": "Discount value",
+        "PRICE_AFTER_DISCOUNT": "Price after discount",
+        "OCCASIONS": "Occasions",
+        "DESCRIPTION": "Description",
+        "COVER": "Cover image",
+        "GALLERY": "Gallery",
+        "UPLOADING": "Uploading...",
+        "REMOVE": "Remove",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "UPLOAD_ERROR": "Failed to upload image.",
+      "UPLOAD_PARTIAL_ERROR": "Some images failed to upload.",
+      "GALLERY_MAX_ERROR": "You can upload up to 5 gallery images.",
+      "DISCOUNT_NONE": "None",
+      "DISCOUNT_PERCENT": "Percentage",
+      "DISCOUNT_FIXED": "Fixed amount",
+      "CREATE_TITLE": "Add new product",
+      "EDIT_TITLE": "Edit product",
+      "CREATE_ERROR": "Failed to create product.",
+      "UPDATE_ERROR": "Failed to update product.",
+      "LOAD_PRODUCT_ERROR": "Failed to load product details.",
+      "INVALID_PRODUCT_ID": "Invalid product ID."
     },
     "NOTIFICATIONS": {
       "TITLE": "Notifications",
@@ -474,19 +520,16 @@
       "MESSAGE_REQUIRED": "Message is required.",
       "LINK": "Link (optional)",
       "LINK_INVALID": "Enter a valid URL starting with http:// or https://"
-    },
-    "UNAUTHORIZED": {
-    "TITLE": "You are not authorized to access this page.",
-    "SUBTITLE": "If you think this is wrong, please contact the support",
-    "GO_HOME": "Go to Homepage"
+    }
   },
-  "NOT_FOUND": {
-    "TITLE": "This page does not exist.",
-    "SUBTITLE": "We couldn't find the page you were looking for, please make sure you are in the right path"
-  },
-  "SERVER_ERROR": {
-    "TITLE": "Oops, something went wrong!",
-    "SUBTITLE": "Something unexpected happened, please refresh the page or try again photo"
-  }
-  }
+   "Add New Category": "Add New Category",
+  "Add Category": "Add Category",
+  "Edit Category": "Edit Category",
+  "Update Category": "Update Category",
+  "Name": "Name",
+  "Enter category name": "Enter category name",
+  "Description": "Description",
+  "Enter category description": "Enter category description",
+  "Image": "Image",
+  "image/*": "image/*"
 }

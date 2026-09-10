@@ -1,10 +1,12 @@
 import { Route } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { RemoteEntry } from './entry';
 
 export const remoteRoutes: Route[] = [
   {
     path: '',
     component: RemoteEntry,
+    providers: [ConfirmationService],
     children: [
       {
         path: '',
@@ -24,22 +26,46 @@ export const remoteRoutes: Route[] = [
         title: 'Notifications',
       },
       {
-        path: 'profile',
+        path: 'products',
         loadComponent: () =>
-          import('../pages/settings/settings').then((c) => c.Settings),
-        title: 'Account Settings',
+          import('../pages/products/products-page/products-page').then((c) => c.ProductsPage),
+        title: 'Products',
       },
       {
-        path: 'change-password',
+        path: 'products/create',
         loadComponent: () =>
-          import('../pages/settings/settings').then((c) => c.Settings),
-        title: 'Change Password',
+          import('../pages/products/product-create-page/product-create-page').then((c) => c.ProductCreatePage),
+        title: 'Add Product',
       },
       {
-        path: 'settings',
+        path: 'products/:id/edit',
         loadComponent: () =>
-          import('../pages/settings/settings').then((c) => c.Settings),
-        title: 'Settings',
+          import('../pages/products/product-edit-page/product-edit-page').then((c) => c.ProductEditPage),
+        title: 'Edit Product',
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('../pages/categories/category-list').then(
+            (c) => c.CategoryListComponent,
+          ),
+        title: 'Categories',
+      },
+      {
+        path: 'categories/new',
+        loadComponent: () =>
+          import('../pages/categories/add-edit-categories/add-edit-categories').then(
+            (c) => c.AddEditCategoriesComponent,
+          ),
+        title: 'Add Category',
+      },
+      {
+        path: 'categories/:id/edit',
+        loadComponent: () =>
+          import('../pages/categories/add-edit-categories/add-edit-categories').then(
+            (c) => c.AddEditCategoriesComponent,
+          ),
+        title: 'Edit Category',
       },
     ],
   },

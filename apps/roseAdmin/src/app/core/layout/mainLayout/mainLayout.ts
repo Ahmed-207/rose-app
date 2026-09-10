@@ -5,7 +5,6 @@ import { UiLangSwitcher } from '@org/ui-lang-switcher';
 import { ThemeToggler } from '@org/shared-theme';
 import { Sidebar } from '../sidebar/sidebar';
 import { Navbar } from '../navbar/navbar';
-import { MobileBottom } from '../mobileBottom/mobileBottom';
 import { Footer } from '../footer/footer';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -19,7 +18,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     ThemeToggler,
     Sidebar,
     Navbar,
-    // MobileBottom,
     Footer
   ],
   templateUrl: './mainLayout.html',

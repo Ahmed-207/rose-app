@@ -21,10 +21,10 @@ export class Sidebar {
   }
 
   menuItems = [
-  { label: 'ADMIN.NAVIGATION.OVERVIEW' , path: 'dashboard', icon: 'pi pi-th-large' },
-  { label: 'ADMIN.NAVIGATION.CATEGORIES' , path: 'categories', icon: 'pi pi-folder' },
-  { label: 'ADMIN.NAVIGATION.OCCASIONS' , path: 'occasions', icon: 'pi pi-calendar' },
-  { label: 'ADMIN.NAVIGATION.PRODUCTS' , path: 'products', icon: 'pi pi-box' },
-  { label: 'ADMIN.NAVIGATION.NOTIFICATIONS', path: 'notifications', icon: 'pi pi-bell' },
+  { label: 'ADMIN.NAVIGATION.OVERVIEW' , path: '/admin/dashboard', icon: 'pi pi-th-large' },
+  { label: 'ADMIN.NAVIGATION.CATEGORIES' , path: '/admin/categories', icon: 'pi pi-folder' },
+  { label: 'ADMIN.NAVIGATION.OCCASIONS' , path: '/admin/occasions', icon: 'pi pi-calendar' },
+  { label: 'ADMIN.NAVIGATION.PRODUCTS' , path: '/admin/products', icon: 'pi pi-box' },
+  { label: 'ADMIN.NAVIGATION.NOTIFICATIONS', path: '/admin/notifications', icon: 'pi pi-bell' },
 ];
 }

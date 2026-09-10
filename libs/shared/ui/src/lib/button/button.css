@@ -25,5 +25,8 @@
     .btn-danger:hover:not(:disabled) { opacity: .85; }
     .btn-ghost { background: transparent; color: var(--color-text-secondary); border-color: transparent; }
     .btn-ghost:hover:not(:disabled) { background: var(--color-background-secondary); color: var(--color-text-primary); }
+    .btn-accent { background: #741C21; color: #ffffff; border-color: #741C21; }
+    .btn-accent:hover:not(:disabled) { opacity: 0.9; }
+    .dark .btn-accent { background: #FFC2CD; color: #202938; border-color: #FFC2CD; }
     .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
     .btn-lg { height: 44px; padding: 0 20px; font-size: 15px; }

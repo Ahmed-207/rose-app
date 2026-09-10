@@ -1,11 +1,14 @@
 import { TranslatePipe } from '@ngx-translate/core';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
-  Optional,
-  Self,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   ControlValueAccessor,
@@ -22,6 +25,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TextareaModule } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DatePickerModule } from 'primeng/datepicker';
+
 export type FormControlType =
   | 'text'
   | 'email'
@@ -32,7 +36,8 @@ export type FormControlType =
   | 'multiselect'
   | 'checkbox'
   | 'switch'
-  | 'date';
+  | 'date'
+  | 'file';
 
 @Component({
   selector: 'lib-form-control',
@@ -41,8 +46,14 @@ export type FormControlType =
   imports: [FormsModule, PasswordModule, InputTextModule, SelectModule, CheckboxModule, ToggleSwitchModule, MultiSelectModule, TextareaModule, InputNumberModule, DatePickerModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormControlComponent implements ControlValueAccessor {
+export class FormControlComponent implements ControlValueAccessor, AfterViewInit {
+  private static idCounter = 0;
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
+  readonly controlId = `lib-fc-${FormControlComponent.idCounter++}`;
+
+  @Input() groupError = '';
 
   @Input() type: FormControlType = 'text';
 
@@ -50,7 +61,7 @@ export class FormControlComponent implements ControlValueAccessor {
 
   @Input() placeholder = '';
 
-  @Input() options: any[] = [];
+  @Input() options: unknown[] = [];
 
   @Input() optionLabel = 'name';
 
@@ -60,53 +71,73 @@ export class FormControlComponent implements ControlValueAccessor {
 
   @Input() required = false;
 
-  value: any = null;
+  @Input() boundControl: FormControl | null = null;
+
+  value: unknown = null;
 
   disabled = false;
-  constructor(
-    @Optional() @Self() public ngControl: NgControl
-  ) {
-    //  this component as the value accessor
+
+  private readonly ngControl = inject(NgControl, { optional: true, self: true });
+
+  constructor() {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
   }
 
+  ngAfterViewInit(): void {
+    this.control?.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdr.markForCheck());
+  }
+
   get control(): FormControl | null {
-    return this.ngControl?.control as FormControl ?? null;
+    return this.boundControl ?? (this.ngControl?.control as FormControl) ?? null;
   }
 
+  private onChange: (value: unknown) => void = () => {
+    // no-op: replaced by registerOnChange
+  };
 
-  private onChange = (_: any) => { };
+  private onTouched = () => {
+    // no-op: replaced by registerOnTouched
+  };
 
-  private onTouched = () => { };
-
-  writeValue(value: any): void {
-    this.value = value;
+  writeValue(value: unknown): void {
+    this.value = value ?? '';
+    this.cdr.markForCheck();
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: unknown) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
-  update(value: any): void {
+  update(value: unknown): void {
     this.value = value;
     this.onChange(value);
     this.onTouched();
   }
+
+  fileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.update(input.files?.[0] ?? null);
+  }
+
   get hasError(): boolean {
-    return !!(
+    const controlInvalid = !!(
       this.control?.invalid &&
       (this.control.touched || this.control.dirty)
     );
+    return controlInvalid || (!!this.groupError && (this.control?.touched || this.control?.dirty) === true);
   }
 
   get errorMessage(): string {
@@ -116,6 +147,7 @@ export class FormControlComponent implements ControlValueAccessor {
     if (errors['email']) return 'Invalid email address';
     if (errors['minlength']) return `Minimum ${errors['minlength'].requiredLength}`;
     if (errors['maxlength']) return `Maximum ${errors['maxlength'].requiredLength}`;
+    if (this.groupError) return this.groupError;
     return 'Incorrect value';
   }
 }

@@ -1,0 +1,76 @@
+<div class="data-table-wrapper">
+    @if (loading()) {
+    <div class="data-table-state">
+        <lib-spinner size="md" [label]="'ADMIN.DATA_TABLE.LOADING' | translate"></lib-spinner>
+    </div>
+    } @else if (error()) {
+    <div class="data-table-state">
+        <lib-message type="error" [title]="error() ?? undefined"></lib-message>
+    </div>
+    } @else {
+    <p-table [value]="data()" [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="limit()"
+        [totalRecords]="totalRecords()" [first]="firstRowIndex()" [showCurrentPageReport]="true"
+        currentPageReportTemplate="{first}-{last} of {totalRecords}" [rowsPerPageOptions]="[10, 25, 50]"
+        [paginatorDropdownAppendTo]="'body'" [tableStyle]="{ 'min-width': '50rem' }" styleClass="rose-data-table"
+        sortMode="single" [customSort]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+                @for (col of columns(); track col.field) {
+                <th [class]="col.width" [class.mobile-hidden]="col.hiddenOnMobile" [pSortableColumn]="fieldName(col)"
+                    [pSortableColumnDisabled]="!col.sortable">
+                    <div class="flex items-center gap-2">
+                        {{ col.header | translate }}
+                        @if (col.sortable) {
+                        <p-sortIcon [field]="fieldName(col)"></p-sortIcon>
+                        }
+                    </div>
+                </th>
+                }
+                <th class="w-32">{{ 'ADMIN.DATA_TABLE.ACTIONS' | translate }}</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                @for (col of columns(); track col.field) {
+                <td [class]="col.width" [class.mobile-hidden]="col.hiddenOnMobile">
+                    @if (col.cellTemplate) {
+                    <ng-container *ngTemplateOutlet="col.cellTemplate; context: { $implicit: row }"></ng-container>
+                    } @else {
+                    {{ resolveField(row, col.field) }}
+                    }
+                </td>
+                }
+                <td>
+                    <div class="data-table-actions data-table-actions--desktop">
+                        <lib-button size="sm" variant="ghost" class="data-table__edit-btn"
+                            [ariaLabel]="'ADMIN.DATA_TABLE.EDIT' | translate" (clicked)="editRow.emit(row)">
+                            {{ 'ADMIN.DATA_TABLE.EDIT' | translate }}
+                        </lib-button>
+                        <lib-button size="sm" variant="danger" class="data-table__delete-btn"
+                            [ariaLabel]="'ADMIN.DATA_TABLE.DELETE' | translate" (clicked)="deleteRow.emit(row)">
+                            {{ 'ADMIN.DATA_TABLE.DELETE' | translate }}
+                        </lib-button>
+                    </div>
+                    <div class="data-table-actions data-table-actions--mobile" data-testid="mobile-actions-menu">
+                        <lib-button size="sm" variant="ghost" [ariaLabel]="'ADMIN.DATA_TABLE.ACTIONS' | translate"
+                            (click)="menu.toggle($event)">
+                            <i class="pi pi-ellipsis-v"></i>
+                        </lib-button>
+                        <p-menu #menu [model]="actionMenuItems(row)" [popup]="true" appendTo="body"></p-menu>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="columns().length + 1">
+                    <lib-message type="info" [title]="'ADMIN.DATA_TABLE.NO_RECORDS' | translate"></lib-message>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    }
+</div>

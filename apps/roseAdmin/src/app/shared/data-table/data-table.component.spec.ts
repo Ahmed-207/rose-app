@@ -1,0 +1,213 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, signal, viewChild } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { DataTableComponent } from './data-table.component';
+import { DataTableColumn, DataTablePageEvent, DataTableSortEvent } from './data-table.model';
+import { provideTestTranslate } from '../testing/translate-test.providers';
+
+interface TestRow {
+    id: string;
+    name: string;
+    price: number;
+}
+
+@Component({
+    standalone: true,
+    imports: [DataTableComponent, TranslatePipe],
+    template: `
+        <app-data-table
+            [columns]="columns()"
+            [data]="data()"
+            [totalRecords]="totalRecords()"
+            [loading]="loading()"
+            [error]="error()"
+            [page]="page()"
+            [limit]="limit()"
+            (pageChange)="lastPageChange.set($event)"
+            (sortChange)="lastSortChange.set($event)"
+            (editRow)="lastEdit.set($event)"
+            (deleteRow)="lastDelete.set($event)" />
+    `,
+})
+class TestHost {
+    table = viewChild.required(DataTableComponent);
+    columns = signal<DataTableColumn<TestRow>[]>([
+        { field: 'name', header: 'ADMIN.TEST.NAME', sortable: true },
+        { field: 'price', header: 'ADMIN.TEST.PRICE' },
+    ]);
+    data = signal<TestRow[]>([
+        { id: '1', name: 'Rose', price: 10 },
+        { id: '2', name: 'Lily', price: 15 },
+    ]);
+    totalRecords = signal<number>(2);
+    loading = signal<boolean>(false);
+    error = signal<string | null>(null);
+    page = signal<number>(1);
+    limit = signal<number>(10);
+
+    lastPageChange = signal<DataTablePageEvent | null>(null);
+    lastSortChange = signal<DataTableSortEvent | null>(null);
+    lastEdit = signal<TestRow | null>(null);
+    lastDelete = signal<TestRow | null>(null);
+}
+
+describe('DataTableComponent', () => {
+    let fixture: ComponentFixture<TestHost>;
+    let host: TestHost;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHost],
+            providers: [provideTestTranslate()],
+        }).compileComponents();
+
+        const translate = TestBed.inject(TranslateService);
+        translate.setTranslation('en', {
+            ADMIN: {
+                TEST: { NAME: 'Name', PRICE: 'Price' },
+                DATA_TABLE: { ACTIONS: 'Actions', EDIT: 'Edit', DELETE: 'Delete' },
+            },
+        }, true);
+        translate.use('en');
+
+        fixture = TestBed.createComponent(TestHost);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(host.table()).toBeTruthy();
+    });
+
+    it('should render header cells', () => {
+        const headers = fixture.nativeElement.querySelectorAll('th');
+        expect(headers.length).toBe(3);
+        expect(headers[0].textContent).toContain('Name');
+        expect(headers[1].textContent).toContain('Price');
+        expect(headers[2].textContent).toContain('Actions');
+    });
+
+    it('should render body cells from data', () => {
+        const cells = fixture.nativeElement.querySelectorAll('td');
+        expect(cells.length).toBeGreaterThan(0);
+        expect(cells[0].textContent).toContain('Rose');
+        expect(cells[1].textContent).toContain('10');
+    });
+
+    it('should emit editRow when Edit is clicked', () => {
+        const editButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:first-child button');
+        editButton.click();
+
+        expect(host.lastEdit()).toEqual(host.data()[0]);
+    });
+
+    it('should emit deleteRow when Delete is clicked', () => {
+        const deleteButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:last-child button');
+        deleteButton.click();
+
+        expect(host.lastDelete()).toEqual(host.data()[0]);
+    });
+
+    it('should show spinner when loading', () => {
+        host.loading.set(true);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('lib-spinner')).toBeTruthy();
+        expect(fixture.nativeElement.querySelector('p-table')).toBeFalsy();
+    });
+
+    it('should show error message when error is set', () => {
+        host.error.set('Network error');
+        fixture.detectChanges();
+
+        const message = fixture.nativeElement.querySelector('lib-message');
+        expect(message).toBeTruthy();
+    });
+
+    it('should translate header keys', () => {
+        const headers = fixture.nativeElement.querySelectorAll('th');
+        expect(headers[0].textContent).toContain('Name');
+        expect(headers[1].textContent).toContain('Price');
+        expect(headers[2].textContent).toContain('Actions');
+    });
+
+    it('should translate mobile action menu labels', () => {
+        const items = host.table().actionMenuItems(host.data()[0]);
+        expect(items[0].label).toBe('Edit');
+        expect(items[1].label).toBe('Delete');
+    });
+
+    it('should show empty message when data is empty', () => {
+        host.data.set([]);
+        host.totalRecords.set(0);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toContain('ADMIN.DATA_TABLE.NO_RECORDS');
+    });
+
+    describe('sorting', () => {
+        it('should emit ascending sort when a sortable header is clicked for the first time', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'asc' });
+        });
+
+        it('should emit descending sort when the same sortable header is clicked again', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'desc' });
+        });
+
+        it('should cycle back to ascending when the same sortable header is clicked a third time', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+            fixture.detectChanges();
+            headers[0].click();
+
+            expect(host.lastSortChange()).toEqual({ field: 'name', order: 'asc' });
+        });
+
+        it('should not emit sortChange when a non-sortable header is clicked', () => {
+            const headers = fixture.nativeElement.querySelectorAll('th');
+            headers[1].click();
+
+            expect(host.lastSortChange()).toBeNull();
+        });
+    });
+
+    describe('mobile behavior', () => {
+        beforeEach(() => {
+            host.columns.set([
+                { field: 'name', header: 'Name' },
+                { field: 'price', header: 'Price', hiddenOnMobile: true },
+            ]);
+            fixture.detectChanges();
+        });
+
+        it('should mark hiddenOnMobile columns with mobile-hidden class', () => {
+            const cells = fixture.nativeElement.querySelectorAll('td');
+
+            expect(cells[0].classList.contains('mobile-hidden')).toBe(false);
+            expect(cells[1].classList.contains('mobile-hidden')).toBe(true);
+        });
+
+        it('should render a mobile actions menu button', () => {
+            const menuButton = fixture.nativeElement.querySelector('[data-testid="mobile-actions-menu"] button');
+            expect(menuButton).toBeTruthy();
+        });
+
+        it('should render desktop action buttons', () => {
+            const editButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:first-child button');
+            const deleteButton = fixture.nativeElement.querySelector('.data-table-actions--desktop lib-button:last-child button');
+
+            expect(editButton).toBeTruthy();
+            expect(deleteButton).toBeTruthy();
+        });
+    });
+});

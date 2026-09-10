@@ -1,0 +1,121 @@
+.products-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.products-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.products-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--p-surface-900, #111827);
+    margin: 0;
+}
+
+.products-page__feedback {
+    margin-bottom: 0.5rem;
+}
+
+.products-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.products-page__search {
+    min-width: 16rem;
+    flex: 1;
+}
+
+.products-page__category {
+    min-width: 12rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--p-surface-300, #d1d5db);
+    background-color: var(--p-surface-0, #ffffff);
+    color: var(--p-surface-800, #1f2937);
+    font-size: 0.875rem;
+}
+
+.dark .products-page__title {
+    color: var(--p-surface-100, #f3f4f6);
+}
+
+.products-page__category {
+    min-width: 12rem;
+}
+
+.products-page__category .p-dropdown {
+    width: 100%;
+}
+
+.dark .products-page__search .p-inputtext {
+    background-color: #3F3F46;
+    border-color: #202938;
+    color: #f3f4f6;
+}
+
+.dark .products-page__category .p-select {
+    background-color: #3F3F46;
+    border-color: #202938;
+}
+
+.dark .products-page__category .p-select .p-select-label,
+.dark .products-page__category .p-select .p-select-dropdown {
+    color: #f3f4f6;
+}
+
+.products-page-confirm .p-confirm-dialog-accept {
+    background-color: #a6252a;
+    color: #ffffff;
+    border-color: #a6252a;
+}
+
+.products-page-confirm .p-confirm-dialog-accept:hover:not(:disabled) {
+    opacity: 0.85;
+}
+
+.products-page-confirm .p-confirm-dialog-reject {
+    background-color: transparent;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.products-page-confirm .p-confirm-dialog-reject:hover:not(:disabled) {
+    background-color: #f3f4f6;
+}
+
+.dark .products-page-confirm .p-confirm-dialog-reject {
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+.dark .products-page-confirm .p-confirm-dialog-reject:hover:not(:disabled) {
+    background-color: #374151;
+}
+
+@media (max-width: 768px) {
+    .products-page {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .products-page__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .products-page__search,
+    .products-page__category {
+        width: 100%;
+        min-width: auto;
+    }
+}

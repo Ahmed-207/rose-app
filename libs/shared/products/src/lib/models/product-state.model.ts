@@ -15,8 +15,24 @@ export interface ProductsState {
     searchQuery: string;
 }
 
+export interface AdminProductsState {
+    isLoading: boolean;
+    error: string | null;
+    totalResults: number;
+    filters: FilterParams;
+    selectedProduct: Product | null;
+    isSubmitting: boolean;
+    submitError: string | null;
+    hasLoaded: boolean;
+}
+
 export interface LookupState {
     isLoading: boolean;
     error: string | null;
     loaded: boolean;
+}
+
+export interface LookupListState extends LookupState {
+    filters: FilterParams;
+    totalResults: number;
 }

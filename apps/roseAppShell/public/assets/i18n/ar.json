@@ -440,16 +440,62 @@
       "PROFILE": "الملف الشخصي",
       "LOGOUT": "تسجيل الخروج"
     },
-    "SETTINGS": {
-      "EYEBROW": "الحساب",
-      "TITLE": "إعدادات الحساب",
-      "SUBTITLE": "إدارة بيانات حسابك وكلمة المرور.",
-      "ACCOUNT": "بيانات الحساب",
-      "CHANGE_PASSWORD": "تغيير كلمة المرور",
-      "LOADING": "جاري تحميل بيانات الحساب...",
-      "SAVE": "حفظ التغييرات",
-      "PROFILE_SUCCESS": "تم تحديث بيانات حسابك.",
-      "PASSWORD_SUCCESS": "تم تغيير كلمة المرور."
+    "PRODUCTS": {
+      "TITLE": "المنتجات",
+      "ADD_BUTTON": "إضافة منتج جديد",
+      "SEARCH_PLACEHOLDER": "البحث في المنتجات...",
+      "ALL_CATEGORIES": "جميع الأقسام",
+      "NAME": "الاسم",
+      "CATEGORY": "القسم",
+      "PRICE": "السعر",
+      "STOCK": "المخزون",
+      "SALES": "المبيعات",
+      "RATINGS": "التقييمات",
+      "CREATED_AT": "تاريخ الإنشاء",
+      "LOAD_ERROR": "فشل تحميل المنتجات.",
+      "DELETE_CONFIRM_TITLE": "حذف المنتج؟",
+      "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
+      "DELETE_CONFIRM_ACCEPT": "حذف",
+      "DELETE_CONFIRM_REJECT": "إلغاء",
+      "DELETE_SUCCESS": "تم حذف المنتج بنجاح.",
+      "DELETE_ERROR": "فشل حذف المنتج.",
+      "FORM": {
+        "TITLE": "العنوان",
+        "CATEGORY": "القسم",
+        "SUB_CATEGORY": "القسم الفرعي",
+        "PRICE": "السعر",
+        "STOCK": "المخزون",
+        "DISCOUNT_TYPE": "نوع الخصم",
+        "DISCOUNT_VALUE": "قيمة الخصم",
+        "PRICE_AFTER_DISCOUNT": "السعر بعد الخصم",
+        "OCCASIONS": "المناسبات",
+        "DESCRIPTION": "الوصف",
+        "COVER": "صورة الغلاف",
+        "GALLERY": "معرض الصور",
+        "UPLOADING": "جارٍ الرفع...",
+        "REMOVE": "إزالة",
+        "SAVE": "حفظ",
+        "CANCEL": "إلغاء"
+      },
+      "UPLOAD_ERROR": "فشل رفع الصورة.",
+      "UPLOAD_PARTIAL_ERROR": "فشل رفع بعض الصور.",
+      "GALLERY_MAX_ERROR": "يمكنك رفع ما يصل إلى 5 صور في المعرض.",
+      "CREATE_TITLE": "إضافة منتج جديد",
+      "EDIT_TITLE": "تعديل المنتج",
+      "CREATE_ERROR": "فشل إنشاء المنتج.",
+      "UPDATE_ERROR": "فشل تحديث المنتج.",
+      "LOAD_PRODUCT_ERROR": "فشل تحميل تفاصيل المنتج.",
+      "INVALID_PRODUCT_ID": "معرّف المنتج غير صالح.",
+      "DISCOUNT_NONE": "بدون",
+      "DISCOUNT_PERCENT": "نسبة مئوية",
+      "DISCOUNT_FIXED": "مبلغ ثابت"
+    },
+    "DATA_TABLE": {
+      "LOADING": "جارٍ التحميل...",
+      "NO_RECORDS": "لا توجد سجلات",
+      "ACTIONS": "إجراءات",
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
     },
     "NOTIFICATIONS": {
       "TITLE": "الإشعارات",
@@ -475,19 +521,30 @@
       "MESSAGE_REQUIRED": "الرسالة مطلوبة.",
       "LINK": "الرابط (اختياري)",
       "LINK_INVALID": "أدخل رابطًا صالحًا يبدأ بـ http:// أو https://"
+    }
+  },
+    "category": {
+    "title": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسم التصنيف"
     },
-    "UNAUTHORIZED": {
-    "TITLE": "عذراً، ليس لديك صلاحية للوصول إلى هذه الصفحة.",
-    "SUBTITLE": "إذا كنت تعتقد أن هذا خطأ، يرجى الاتصال بالدعم الفني.",
-    "GO_HOME": "العودة للصفحة الرئيسية"
+    "description": {
+      "label": "الوصف",
+      "placeholder": "أدخل وصف التصنيف"
+    },
+    "image": {
+      "label": "الصورة",
+      "placeholder": "image/*"
+    }
   },
-  "NOT_FOUND": {
-    "TITLE": "هذه الصفحة غير موجودة.",
-    "SUBTITLE": "عذراً، لم نتمكن من العثور على الصفحة التي تبحث عنها، يرجى التأكد من الرابط الصحيح."
-  },
-  "SERVER_ERROR": {
-    "TITLE": "عذراً، حدث خطأ ما!",
-    "SUBTITLE": "حدثت مشكلة غير متوقعة، يرجى تحديث الصفحة أو المحاولة لاحقاً."
-  }
-  }
+    "Add New Category": "إضافة تصنيف جديد",
+  "Add Category": "إضافة التصنيف",
+  "Edit Category": "تعديل التصنيف",
+  "Update Category": "تحديث التصنيف",
+  "Name": "الاسم",
+  "Enter category name": "أدخل اسم التصنيف",
+  "Description": "الوصف",
+  "Enter category description": "أدخل وصف التصنيف",
+  "Image": "الصورة",
+  "image/*": "image/*"
 }
