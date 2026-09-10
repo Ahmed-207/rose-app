@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { finalize, take } from 'rxjs';
+import { finalize, switchMap, take } from 'rxjs';
 import { DynamicFormComponent, DynamicFormField } from '@org/dynamic-form';
 import { CategoriesService } from '../service/categories.service';
 import { CategoryPayload } from '../models/category.models';
@@ -40,7 +40,7 @@ export class AddEditCategoriesComponent {
 
   constructor() {
     this.categoryId = this.route.snapshot.paramMap.get('id');
-    this.fields = this.getFields(this.categoryId === null);
+    this.fields = this.getFields();
     if (this.categoryId) {
       this.title = 'Edit Category';
       this.submitLabel = 'Update Category';
@@ -49,17 +49,29 @@ export class AddEditCategoriesComponent {
   }
 
   submit(payload: Record<string, unknown>): void {
+    debugger
     this.isSubmitting = true;
     this.errorMessage = '';
     const selectedImage = payload['image'];
     const categoryPayload: CategoryPayload = {
       title: String(payload['title'] ?? ''),
       description: String(payload['description'] ?? ''),
-      ...(selectedImage instanceof File ? { image: selectedImage.name } : {}),
     };
     const request$ = this.categoryId
-      ? this.categoriesService.update(this.categoryId, categoryPayload)
-      : this.categoriesService.create(categoryPayload);
+      ? selectedImage instanceof File
+        ? this.categoriesService.uploadImage(selectedImage).pipe(
+            switchMap(({ url }) =>
+              this.categoriesService.update(this.categoryId!, { ...categoryPayload, image: url }),
+            ),
+          )
+        : this.categoriesService.update(this.categoryId, categoryPayload)
+      : selectedImage instanceof File
+        ? this.categoriesService.uploadImage(selectedImage).pipe(
+            switchMap(({ url }) =>
+              this.categoriesService.create({ ...categoryPayload, image: url }),
+            ),
+          )
+        : this.categoriesService.create(categoryPayload);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
@@ -106,7 +118,7 @@ export class AddEditCategoriesComponent {
       });
   }
 
-  private getFields(includeImage: boolean): DynamicFormField[] {
+  private getFields(): DynamicFormField[] {
     const fields: DynamicFormField[] = [
       {
         name: 'title',
@@ -126,16 +138,14 @@ export class AddEditCategoriesComponent {
       },
     ];
 
-    if (includeImage) {
-      fields.push({
-        name: 'image',
-        type: 'file',
-        label: 'Image',
-        placeholder: 'image/*',
-        required: true,
-        validators: [Validators.required],
-      });
-    }
+    fields.push({
+      name: 'image',
+      type: 'file',
+      label: 'Image',
+      placeholder: 'image/*',
+      required: this.categoryId === null,
+      validators: this.categoryId === null ? [Validators.required] : [],
+    });
 
     return fields;
   }

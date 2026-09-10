@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Validators } from '@angular/forms';
 import { provideTranslateService } from '@ngx-translate/core';
 import { DynamicFormComponent } from './dynamic-form';
 import { DynamicFormField } from './dynamic-form.types';
@@ -40,6 +41,26 @@ describe('DynamicFormComponent', () => {
 
         component.submit();
         expect(submitted).toHaveBeenCalledWith({ title: 'Rose', price: 100 });
+    });
+
+    it('should not emit submitted while the form is invalid', () => {
+        const submitted = vi.fn();
+        component.submitted.subscribe(submitted);
+
+        component.fields = [
+            {
+                name: 'title',
+                type: 'text',
+                label: 'Title',
+                required: true,
+                validators: [Validators.required],
+            },
+        ];
+        fixture.detectChanges();
+
+        expect(component.form.invalid).toBe(true);
+        expect(component.submit()).toBe(false);
+        expect(submitted).not.toHaveBeenCalled();
     });
 
     it('should pass options to select fields', () => {

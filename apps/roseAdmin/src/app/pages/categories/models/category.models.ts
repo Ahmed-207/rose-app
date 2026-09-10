@@ -44,3 +44,6 @@ export interface CategoryDeleteResponse {
   code: number;
   message: string;
 }
+export interface UploadImageRes {
+    url: string;
+}
