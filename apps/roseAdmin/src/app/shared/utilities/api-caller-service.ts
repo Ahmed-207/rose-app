@@ -28,11 +28,18 @@ export class APICallerService {
         return baseUrl + normalizedUrl.replace(/^\/+/, '');
     }
 
-    private unwrapPayload<T>(res: ApiResponse<T>): T {
-        if (res.payload === undefined) {
-            throw new Error('API returned no payload.');
+    private unwrapPayload<T>(res: ApiResponse<T> | T): T {
+        if (res && typeof res === 'object' && 'payload' in res) {
+            const response = res as ApiResponse<T>;
+            if (response.payload === undefined) {
+                throw new Error('API returned no payload.');
+            }
+            return response.payload;
         }
-        return res.payload;
+
+        // Keep the caller compatible with endpoints that return the payload
+        // directly instead of wrapping it in the standard API response.
+        return res as T;
     }
 
     get<T>(url: string, params?: HttpParams): Observable<T> {

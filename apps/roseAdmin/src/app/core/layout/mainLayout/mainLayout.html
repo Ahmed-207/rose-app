@@ -5,8 +5,8 @@
   </aside>
   @if (isMobileMenuOpen()) {
   <div  class="fixed inset-0 z-50 flex md:hidden">
-    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm" (click)="toggleMobileMenu()"></div>
-    <div class="relative w-64 bg-white h-full z-10 shadow-2xl ms-auto flex flex-col">
+    <div class="admin-shell__backdrop" (click)="toggleMobileMenu()"></div>
+    <div class="admin-shell__mobile-menu relative w-64 h-full z-10 shadow-2xl ms-auto flex flex-col">
       <app-sidebar (closeMenu)="toggleMobileMenu()" class="flex-1 min-h-0"></app-sidebar>
       <div class="flex items-center justify-around gap-4 px-6 pb-6 pt-2">
         <lib-ui-lang-switcher></lib-ui-lang-switcher>
@@ -17,7 +17,7 @@
 
   }
 
-  <div class="flex flex-col flex-1 overflow-hidden relative">
+  <div class="admin-shell__content">
     <app-navbar (menuClick)="toggleMobileMenu()"></app-navbar>
 
     <main class="flex-1 overflow-y-auto p-4 md:p-6 pb-20 md:pb-6 bg-gray-50 dark:bg-[#202938]">
@@ -25,14 +25,14 @@
     </main>
 
 
-<div class="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-3 pt-2 bg-linear-to-t from-white via-white  to-transparent pointer-events-none">
-  <nav class="pointer-events-auto relative bg-white dark:bg-[#202938] rounded-3xl shadow-xl border border-gray-100 flex items-center justify-around px-2 py-2 min-h-16">
+<div class="admin-shell__mobile-nav md:hidden">
+  <nav class="pointer-events-auto relative rounded-3xl shadow-xl flex items-center justify-around px-2 py-2 min-h-16">
     
     <a 
       routerLink="/admin/dashboard"
       routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
       [routerLinkActiveOptions]="{ exact: false }"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
+      class="admin-shell__mobile-link flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-th-large text-lg"></i>
       <span>
@@ -42,8 +42,8 @@
 
     <a 
       routerLink="/admin/categories" 
-      routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
+      routerLinkActive="admin-shell__mobile-link--active"
+      class="admin-shell__mobile-link flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-list text-lg"></i>
       <span>
@@ -52,16 +52,10 @@
       </span>
     </a>
 
-    <div class="relative -top-5 flex items-center justify-center">
-      <button class="w-12 h-12 bg-[#85162B] dark:bg-[#ffc2cc] hover:bg-[#6B1426] text-white dark:text-[#ffc2cc] rounded-full flex items-center justify-center shadow-lg border-4 border-white transition-transform active:scale-95">
-        <i class="pi pi-th-large text-xl"></i>
-      </button>
-    </div>
-
     <a 
       routerLink="/admin/occasions" 
-      routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
+      routerLinkActive="admin-shell__mobile-link--active"
+      class="admin-shell__mobile-link flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-calendar text-lg"></i>
       <span>
@@ -72,14 +66,23 @@
 
     <a 
       routerLink="/admin/products" 
-      routerLinkActive="!bg-[#EED9DF] !text-[#6B1426]"
-      class="flex flex-col items-center justify-center py-2 px-3 rounded-2xl text-sm text-gray-500 dark:text-[#ffc2cc] transition-all text-[11px] font-medium gap-0.5"
+      routerLinkActive="admin-shell__mobile-link--active"
+      class="admin-shell__mobile-link flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all text-[11px] font-medium gap-0.5"
     >
       <i class="pi pi-box text-lg"></i>
       <span>
         {{'ADMIN.NAVIGATION.PRODUCTS' | translate}}
         
       </span>
+    </a>
+
+    <a
+      routerLink="/admin/profile"
+      routerLinkActive="admin-shell__mobile-link--active"
+      class="admin-shell__mobile-link flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all text-[11px] font-medium gap-0.5"
+    >
+      <i class="pi pi-user text-lg"></i>
+      <span>{{ 'ADMIN.SIDEBAR.PROFILE' | translate }}</span>
     </a>
 
   </nav>

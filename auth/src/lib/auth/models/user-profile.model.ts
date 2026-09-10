@@ -15,7 +15,8 @@ export interface UpdateProfileRequest {
   firstName: string;
   lastName: string;
   phone: string;
-  photo?: File | null;
+  /** Temporary upload URL returned by POST /api/upload. */
+  photo?: string | null;
 }
 
 export interface RequestEmailChangeRequest {

@@ -1,0 +1,120 @@
+.admin-shell {
+  --dash-bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --text-primary: #1c2130;
+  --text-secondary: #9296a8;
+  --text-tertiary: #b7bbc9;
+  --border-soft: #eef0f5;
+  --shadow-card: 0 4px 18px rgba(31, 41, 61, 0.05);
+  --accent-red: #ef4577;
+  --accent-green: #1fce7a;
+  --icon-bg-pink: #fde9f0;
+  --icon-fg-pink: #ad0638;
+  --icon-bg-blue: #e8f0fe;
+  --icon-fg-blue: #0e45b4;
+  --icon-bg-purple: #efe9fd;
+  --icon-fg-purple: #633eba;
+  --icon-bg-green: #e6faf0;
+  --icon-fg-green: #0e834c;
+  --danger-bg: #fff5f6;
+  --danger-text: #b42318;
+  --success-text: #18794e;
+  min-height: 100dvh;
+  display: flex;
+  background: var(--dash-bg);
+  color: var(--text-primary);
+}
+
+:host-context(.dark) .admin-shell {
+  --dash-bg: #1b2230;
+  --card-bg: #202938;
+  --text-primary: #f1f3f7;
+  --text-secondary: #9aa4b5;
+  --text-tertiary: #6b768a;
+  --border-soft: #2f3a4d;
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.25);
+  --accent-red: #ff9ec0;
+  --accent-green: #58d998;
+  --icon-bg-pink: #3a1f2a;
+  --icon-fg-pink: #ff9ec0;
+  --icon-bg-blue: #1e2a3d;
+  --icon-fg-blue: #7fa8f5;
+  --icon-bg-purple: #2a2338;
+  --icon-fg-purple: #b79aef;
+  --icon-bg-green: #1c2f26;
+  --icon-fg-green: #58d998;
+  --danger-bg: #3a2028;
+  --danger-text: #ff9ca8;
+  --success-text: #70d7a2;
+}
+
+.admin-shell__sidebar {
+  width: 16rem;
+  min-width: 16rem;
+  min-height: 100dvh;
+  border-inline-end: 1px solid var(--border-soft);
+  background: var(--card-bg);
+}
+
+.admin-shell__content {
+  min-width: 0;
+  min-height: 100dvh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-shell__main {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: var(--dash-bg);
+}
+
+.admin-shell__mobile-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+  padding: 0.5rem 1rem 0.75rem;
+  background: linear-gradient(to top, var(--card-bg) 72%, transparent);
+}
+
+.admin-shell__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(15 23 42 / 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.admin-shell__mobile-menu {
+  background: var(--card-bg);
+}
+
+.admin-shell__mobile-nav nav {
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+}
+
+.admin-shell__mobile-link {
+  color: var(--text-secondary);
+}
+
+.admin-shell__mobile-link:hover,
+.admin-shell__mobile-link--active {
+  background: color-mix(in srgb, var(--accent-red) 16%, var(--card-bg));
+  color: var(--accent-red);
+}
+
+.admin-shell__mobile-nav nav {
+  min-height: 4rem;
+}
+
+@media (max-width: 767px) {
+  .admin-shell__main {
+    padding: 1rem;
+    padding-bottom: 6rem;
+  }
+}

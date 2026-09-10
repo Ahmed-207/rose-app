@@ -1,2 +1,53 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --dash-bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --text-primary: #1c2130;
+  --text-secondary: #9296a8;
+  --text-tertiary: #b7bbc9;
+  --border-soft: #eef0f5;
+  --radius-lg: 18px;
+  --shadow-card: 0 4px 18px rgba(31, 41, 61, 0.05);
+  --icon-bg-pink: #fde9f0;
+  --icon-fg-pink: #ad0638;
+  --icon-bg-blue: #e8f0fe;
+  --icon-fg-blue: #0e45b4;
+  --icon-bg-purple: #efe9fd;
+  --icon-fg-purple: #633eba;
+  --icon-bg-green: #e6faf0;
+  --icon-fg-green: #0e834c;
+  --accent-red: #ef4577;
+  --accent-green: #1fce7a;
+  --danger-bg: #fff5f6;
+  --danger-text: #b42318;
+  --success-text: #18794e;
+}
+
+.dark {
+  --dash-bg: #1b2230;
+  --card-bg: #202938;
+  --text-primary: #f1f3f7;
+  --text-secondary: #9aa4b5;
+  --text-tertiary: #6b768a;
+  --border-soft: #2f3a4d;
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.25);
+  --icon-bg-pink: #3a1f2a;
+  --icon-fg-pink: #ff9ec0;
+  --icon-bg-blue: #1e2a3d;
+  --icon-fg-blue: #7fa8f5;
+  --icon-bg-purple: #2a2338;
+  --icon-fg-purple: #b79aef;
+  --icon-bg-green: #1c2f26;
+  --icon-fg-green: #58d998;
+  --danger-bg: #3a2028;
+  --danger-text: #ff9ca8;
+  --success-text: #70d7a2;
+}
+
+html,
+body {
+  background: var(--dash-bg);
+  color: var(--text-primary);
+}

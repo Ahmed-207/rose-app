@@ -3,9 +3,69 @@
 }
 
 .dashboard {
-  padding: 1.5rem;
   max-width: 1440px;
   margin: 0 auto;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.dashboard__eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--accent-red, #a31d36);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dashboard__header h1 {
+  margin: 0;
+  color: var(--text-primary, #1f2937);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+}
+
+.dashboard__refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  background: var(--card-bg);
+  color: var(--accent-red);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard__refresh:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.dashboard__refresh-icon--spinning {
+  animation: dashboard-spin 0.9s linear infinite;
+}
+
+.dashboard__message {
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--card-bg);
+  color: var(--text-secondary, #64748b);
+  box-shadow: var(--shadow-card, 0 2px 12px rgb(15 23 42 / 0.06));
+}
+
+.dashboard__message--error {
+  color: var(--danger-text);
+  background: var(--danger-bg);
 }
 
 .dashboard__grid {
@@ -25,9 +85,11 @@
     background: var(--card-bg);
     border-radius: 10px;
     box-shadow: var(--shadow-card);
+  min-width: 0;
 }
 .area--categories {
   grid-area: cats;
+  min-width: 0;
 }
 .area--orders {
   grid-area: orders;
@@ -40,6 +102,13 @@
 }
 .area--low-stock {
   grid-area: low;
+}
+
+.area--orders,
+.area--revenue,
+.area--top-selling,
+.area--low-stock {
+  min-width: 0;
 }
 
 .stats-grid {
@@ -62,10 +131,6 @@
 
 /* Mobile: everything stacks in a single column, in reading order */
 @media (max-width: 720px) {
-  .dashboard {
-    padding: 1rem;
-  }
-
   .dashboard__grid {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -80,10 +145,19 @@
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .dashboard__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 420px) {
   .stats-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@keyframes dashboard-spin {
+  to { transform: rotate(360deg); }
 }

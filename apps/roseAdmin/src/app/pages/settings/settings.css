@@ -1,0 +1,293 @@
+:host {
+  display: block;
+}
+
+.settings-page {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.settings-page__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.1rem;
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+.settings-page__breadcrumb-current {
+  color: var(--accent-red);
+}
+
+.settings-page__header h1 {
+  margin: 0 0 1.25rem;
+  color: var(--text-primary);
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 800;
+}
+
+.settings-page__card {
+  border: 1px solid var(--border-soft);
+  border-radius: 0.85rem;
+  background: var(--card-bg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.settings-page__loading {
+  color: var(--text-secondary);
+}
+
+.settings-page__photo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.settings-page__avatar-wrap {
+  position: relative;
+  width: 4.5rem;
+  height: 4.5rem;
+  flex: 0 0 4.5rem;
+}
+
+.settings-page__avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--border-soft);
+}
+
+.settings-page__avatar--placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--text-secondary);
+  font-size: 1.65rem;
+}
+
+.settings-page__upload {
+  position: absolute;
+  right: -0.2rem;
+  bottom: -0.2rem;
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 2px solid var(--card-bg);
+  border-radius: 50%;
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  box-shadow: 0 2px 8px rgb(31 41 61 / 0.14);
+  cursor: pointer;
+}
+
+.settings-page__photo-title {
+  margin: 0 0 0.2rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.settings-page__photo-hint {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.settings-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.settings-page__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.settings-page__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.settings-page__form input {
+  width: 100%;
+  min-height: 2.6rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-page__form input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.settings-page__form input:focus {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-red) 15%, transparent);
+}
+
+.settings-page__form input:disabled {
+  background: color-mix(in srgb, var(--border-soft) 48%, var(--card-bg));
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.settings-page__form small,
+.settings-page__error {
+  color: var(--danger-text);
+  font-size: 0.72rem;
+}
+
+.settings-page__phone-input {
+  display: flex;
+  align-items: stretch;
+  min-height: 2.6rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+.settings-page__phone-input:focus-within {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-red) 15%, transparent);
+}
+
+.settings-page__phone-input input {
+  min-height: 2.5rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.settings-page__dial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.7rem;
+  border-inline-end: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--border-soft) 42%, var(--card-bg));
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.settings-page__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.settings-page__secondary-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settings-page__primary,
+.settings-page__delete,
+.settings-page__text-button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.settings-page__primary {
+  min-width: 7.5rem;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.1rem;
+  background: var(--accent-red);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.settings-page__primary:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.settings-page__delete,
+.settings-page__text-button {
+  padding: 0;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.settings-page__delete {
+  color: var(--danger-text);
+}
+
+.settings-page__text-button {
+  color: var(--text-primary);
+}
+
+.settings-page__delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.settings-page__error,
+.settings-page__success {
+  margin: 0;
+}
+
+.settings-page__success {
+  color: var(--success-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.settings-page__password-card {
+  max-width: 620px;
+}
+
+.settings-page__actions--password {
+  justify-content: flex-end;
+}
+
+@media (max-width: 640px) {
+  .settings-page__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-page__actions,
+  .settings-page__secondary-actions {
+    align-items: stretch;
+  }
+
+  .settings-page__actions {
+    flex-direction: column-reverse;
+  }
+
+  .settings-page__secondary-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .settings-page__primary {
+    width: 100%;
+  }
+}

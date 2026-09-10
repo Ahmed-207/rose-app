@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError, timeout } from 'rxjs';
 import { DASHBOARD } from '../../../shared/utilities/api-endpoints';
 import { APICallerService } from '../../../shared/utilities/api-caller-service';
 import { StatisticsResponse } from '../models/dashboard.models';
@@ -25,7 +25,7 @@ export class Statistics {
       .set('lowStockLimit', lowStockLimit);
 
     return this._httpCaller.get<StatisticsResponse>(DASHBOARD.getStatistics, params).pipe(
-      map((data) => data),
+      timeout(15000),
       catchError((error) => {
         console.error('Failed to load dashboard statistics', error);
         return throwError(() => error);
