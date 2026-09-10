@@ -44,11 +44,11 @@
                 }
                 <td>
                     <div class="data-table-actions data-table-actions--desktop">
-                        <lib-button size="sm" variant="ghost" class="data-table__edit-btn"
+                        <lib-button size="sm" variant="ghost" icon="pi pi-pen-to-square" class="data-table__edit-btn"
                             [ariaLabel]="'ADMIN.DATA_TABLE.EDIT' | translate" (clicked)="editRow.emit(row)">
                             {{ 'ADMIN.DATA_TABLE.EDIT' | translate }}
                         </lib-button>
-                        <lib-button size="sm" variant="danger" class="data-table__delete-btn"
+                        <lib-button size="sm" variant="danger" icon="pi pi-trash" class="data-table__delete-btn"
                             [ariaLabel]="'ADMIN.DATA_TABLE.DELETE' | translate" (clicked)="deleteRow.emit(row)">
                             {{ 'ADMIN.DATA_TABLE.DELETE' | translate }}
                         </lib-button>

@@ -546,5 +546,6 @@
   "Description": "الوصف",
   "Enter category description": "أدخل وصف التصنيف",
   "Image": "الصورة",
-  "image/*": "image/*"
-}
+  "image/*": "image/*",
+  "Search":"بحث"
+

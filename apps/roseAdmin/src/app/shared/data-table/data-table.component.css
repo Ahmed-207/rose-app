@@ -65,26 +65,31 @@
 }
 
 .data-table__edit-btn {
-    color: #16a34a;
+    color: #0f5d98;
+      background-color: #dce9fc;
+      border-radius: 8px;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .data-table__edit-btn:hover:not(:disabled) {
-    color: #15803d;
-    background-color: #dcfce7;
+    color: #0f5d98;
+      background-color: #9cb0cf;
 }
 
 .dark .data-table__edit-btn {
-    color: #86efac;
+   color: #0f5d98;
 }
 
 .dark .data-table__edit-btn:hover:not(:disabled) {
-    color: #bbf7d0;
-    background-color: rgba(22, 163, 74, 0.2);
+   color: #0f5d98;
+    background-color: rgba(184, 227, 240, 0.678);
 }
 
-.data-table__delete-btn {
+.data-table__delete-btn button {
+ color: rgb(225, 8, 52) !important;
+    background-color: rgb(255 225 225 / 68%) !important;
     transition: opacity 0.15s ease;
+    border: none !important;
 }
 
 @media (max-width: 768px) {

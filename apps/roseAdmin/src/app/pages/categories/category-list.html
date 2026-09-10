@@ -1,1 +1,37 @@
-<p>category-list works!</p>
+<div class="categories-page">
+	<header class="categories-page__header">
+		<h1 class="categories-page__title">{{"All Categories" | translate}}</h1>
+		<lib-button variant="accent" icon="pi pi-plus" (clicked)="onAddCategory()">{{"Add Category" | translate}} </lib-button>
+	</header>
+
+	@if (successMessage()) {
+		<lib-message type="success" [title]="successMessage() ?? undefined"></lib-message>
+	}
+
+	@if (errorMessage()) {
+		<lib-message type="error" [title]="errorMessage() ?? undefined"></lib-message>
+	}
+
+	<div class="categories-page__filters">
+		<input
+			type="text"
+			pInputText
+			class="categories-page__search"
+			[formControl]="searchControl"
+			[placeholder]="'Search' | translate" />
+	</div>
+
+	<app-data-table
+		[columns]="columns"
+		[data]="categories()"
+		[totalRecords]="totalRecords()"
+		[loading]="isLoading()"
+		[error]="errorMessage()"
+		[page]="page()"
+		[limit]="limit()"
+		(pageChange)="onPageChange($event)"
+		(editRow)="onEditCategory($event)"
+		(deleteRow)="onDeleteCategory($event)" />
+
+	<p-confirmDialog />
+</div>

@@ -10,16 +10,17 @@ import {
   CategoryUpdateResponse,
   UploadImageRes,
 } from '../models/category.models';
-import { CATEGORY, UPLOAD } from 'libs/shared/products/src/lib/utilities/api-endpoints';
+import { CATEGORY, UPLOAD } from '@org/products';
 
 @Injectable({ providedIn: 'root' })
 export class CategoriesService {
   private readonly _httpCaller = inject(APICallerService);
 
-  getCategoryList(page = 1, limit = 20): Observable<CategoryListResponse> {
+  getCategoryList(page = 1, limit = 20, search = ''): Observable<CategoryListResponse> {
     const params = new HttpParams()
       .set('page', page)
-      .set('limit', limit);
+      .set('limit', limit)
+      .set('search', search);
 
     return this._httpCaller.get<CategoryListResponse>(CATEGORY.getCategories, params);
   }

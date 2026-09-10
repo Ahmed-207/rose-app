@@ -531,5 +531,6 @@
   "Description": "Description",
   "Enter category description": "Enter category description",
   "Image": "Image",
-  "image/*": "image/*"
+  "image/*": "image/*",
+  "Search":"Search"
 }
