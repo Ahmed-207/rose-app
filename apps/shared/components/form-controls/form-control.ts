@@ -43,7 +43,7 @@ export type FormControlType =
   selector: 'app-form-control',
   standalone: true,
   templateUrl: './form-control.html',
-  imports:[FormsModule,PasswordModule,InputTextModule,SelectModule,CheckboxModule,ToggleSwitchModule,MultiSelectModule,TextareaModule,InputNumberModule,DatePickerModule,TranslatePipe],
+  imports: [FormsModule, PasswordModule, InputTextModule, SelectModule, CheckboxModule, ToggleSwitchModule, MultiSelectModule, TextareaModule, InputNumberModule, DatePickerModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
@@ -72,6 +72,8 @@ export class FormControlComponent
 
   @Input() boundControl: FormControl | null = null;
 
+  @Input() patternError?: '';
+
   value: any = null;
 
   disabled = false;
@@ -92,9 +94,9 @@ export class FormControlComponent
     return this.boundControl ?? (this.ngControl?.control as FormControl) ?? null;
   }
 
-  private onChange = (_: any) => {};
+  private onChange = (_: any) => { };
 
-  private onTouched = () => {};
+  private onTouched = () => { };
 
   writeValue(value: any): void {
     this.value = value ?? '';
@@ -125,13 +127,13 @@ export class FormControlComponent
     this.update(input.files?.[0] ?? null);
   }
 
-get hasError(): boolean {
-  const controlInvalid = !!(
-    this.control?.invalid &&
-    (this.control.touched || this.control.dirty)
-  );
-  return controlInvalid || (!!this.groupError && (this.control?.touched || this.control?.dirty) === true);
-}
+  get hasError(): boolean {
+    const controlInvalid = !!(
+      this.control?.invalid &&
+      (this.control.touched || this.control.dirty)
+    );
+    return controlInvalid || (!!this.groupError && (this.control?.touched || this.control?.dirty) === true);
+  }
 
   get errorMessage(): string {
     const errors = this.control?.errors;
@@ -141,7 +143,7 @@ get hasError(): boolean {
     if (errors['minlength']) return `Minimum ${errors['minlength'].requiredLength}`;
     if (errors['maxlength']) return `Maximum ${errors['maxlength'].requiredLength}`;
     if (errors['pattern']) return this.patternError || 'Incorrect value';
-    if (this.groupError)        return this.groupError; // ← group-level fallback
+    if (this.groupError) return this.groupError; // ← group-level fallback
     return 'Incorrect value';
   }
 }
