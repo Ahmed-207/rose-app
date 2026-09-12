@@ -44,6 +44,24 @@ export const remoteRoutes: Route[] = [
         title: 'Edit Product',
       },
       {
+        path: 'occasions',
+        loadComponent: () =>
+          import('../pages/occasions/occasion-list/occasion-list').then((c) => c.OccasionListComponent),
+        title: 'Occassions',
+      },
+      {
+        path: 'occasions/add',
+        loadComponent: () =>
+          import('../pages/occasions/add-edit-occasions/add-edit-occasions').then((c) => c.AddEditOccasionsComponent),
+        title: 'Add Product',
+      },
+      {
+        path: 'occasions/:id/edit',
+        loadComponent: () =>
+          import('../pages/occasions/add-edit-occasions/add-edit-occasions').then((c) => c.AddEditOccasionsComponent),
+        title: 'Edit Product',
+      },
+      {
         path: 'categories',
         loadComponent: () =>
           import('../pages/categories/category-list').then(
