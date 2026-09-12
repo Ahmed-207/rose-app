@@ -1,0 +1,22 @@
+<section class="p-4">
+  <div class="mb-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold">All Occasions</h1>
+    <button
+      (click)="router.navigate(['/admin/occasions/add'])"
+      class="rounded bg-rose-600 px-4 py-2 text-white hover:bg-rose-700">
+      Add a new occasion
+    </button>
+  </div>
+
+  <app-data-table
+    [columns]="columns"
+    [data]="occasions"
+    [totalRecords]="totalRecords"
+    [loading]="isLoading"
+    [page]="currentPage"
+    [limit]="limit"
+    (pageChange)="onPageChange($event)"
+    (editRow)="onEdit($event)"
+    (deleteRow)="onDelete($event)">
+  </app-data-table>
+</section>
