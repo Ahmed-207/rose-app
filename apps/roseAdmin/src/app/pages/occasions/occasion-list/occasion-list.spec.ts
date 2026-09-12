@@ -1,89 +1,100 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OccasionListComponent } from './occasion-list';
 import { OccasionsService } from '../service/occasions.service';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { provideTranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { OccasionListResponse } from '../models/occasion.models';
-import { vi, describe, beforeEach, it, expect } from 'vitest';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { vi } from 'vitest';
+
+@Pipe({ name: 'translate', standalone: true })
+class MockTranslatePipe implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
 
 describe('OccasionListComponent', () => {
   let component: OccasionListComponent;
   let fixture: ComponentFixture<OccasionListComponent>;
-  let occasionsServiceMock: {
-    getOccasionList: ReturnType<typeof vi.fn>;
-    delete: ReturnType<typeof vi.fn>;
-  };
-  let routerMock: { navigate: ReturnType<typeof vi.fn> };
-  let toastrMock: { success: ReturnType<typeof vi.fn>; error: ReturnType<typeof vi.fn> };
-
-  const mockListResponse: OccasionListResponse = {
-    status: true,
-    code: 200,
-    payload: {
-      data: [
-        {
-          id: '1',
-          title: 'Wedding',
-          description: 'Wedding gifts',
-          image: 'img.png',
-          immutable: false,
-          createdAt: '',
-          updatedAt: '',
-        },
-      ],
-      metadata: { page: 1, limit: 20, total: 1, totalPages: 1 },
-    },
-  };
+  let occasionsServiceSpy: { getOccasionList: any; delete: any };
+  let toastrSpy: { success: any; error: any };
+  let routerSpy: { navigate: any };
+  let translateServiceSpy: { instant: any; get: any };
 
   beforeEach(async () => {
-    occasionsServiceMock = {
-      getOccasionList: vi.fn().mockReturnValue(of(mockListResponse)),
+    occasionsServiceSpy = {
+      getOccasionList: vi.fn().mockReturnValue(
+        of({ payload: { data: [{ id: '1', title: 'Party' }], metadata: { total: 1 } } })
+      ),
       delete: vi.fn(),
     };
-    routerMock = { navigate: vi.fn() };
-    toastrMock = { success: vi.fn(), error: vi.fn() };
+    toastrSpy = { success: vi.fn(), error: vi.fn() };
+    routerSpy = { navigate: vi.fn() };
+    translateServiceSpy = {
+      instant: vi.fn((key) => key),
+      get: vi.fn((key) => of(key)),
+    };
 
     await TestBed.configureTestingModule({
-      imports: [OccasionListComponent],
+      imports: [OccasionListComponent, MockTranslatePipe],
       providers: [
-        provideTranslateService(),
-        { provide: OccasionsService, useValue: occasionsServiceMock },
-        { provide: Router, useValue: routerMock },
-        { provide: ToastrService, useValue: toastrMock },
+        { provide: OccasionsService, useValue: occasionsServiceSpy },
+        { provide: ToastrService, useValue: toastrSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: TranslateService, useValue: translateServiceSpy },
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParams: of({ page: '1', limit: '10', search: '' }) },
+        },
       ],
-    }).compileComponents();
+    })
+    .overrideComponent(OccasionListComponent, {
+      remove: { imports: [TranslatePipe] },
+      add: { imports: [MockTranslatePipe] },
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(OccasionListComponent);
     component = fixture.componentInstance;
-  });
-
-  it('should create component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should load occasions on init', () => {
     fixture.detectChanges();
+  });
 
+  it('should create and load occasions on init', () => {
+    expect(component).toBeTruthy();
+    expect(occasionsServiceSpy.getOccasionList).toHaveBeenCalledWith(1, 10, '');
     expect(component.occasions.length).toBe(1);
     expect(component.totalRecords).toBe(1);
-    expect(component.isLoading).toBe(false);
+  });
+
+  it('should navigate to add page on onAddOccasion', () => {
+    component.onAddOccasion();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/admin/occasions/add']);
   });
 
   it('should navigate to edit page on onEdit', () => {
-    const row = mockListResponse.payload.data[0];
-    component.onEdit(row);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/admin/occasions/edit', '1']);
+    const mockRow = { id: '123', title: 'Test' } as any;
+    component.onEdit(mockRow);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/admin/occasions', '123', 'edit']);
   });
 
-  it('should delete occasion when confirmed', () => {
+  it('should delete occasion on confirm and show success toastr', () => {
     vi.spyOn(window, 'confirm').mockReturnValue(true);
-    occasionsServiceMock.delete.mockReturnValue(of({ status: true, code: 200, message: '' }));
+    occasionsServiceSpy.delete.mockReturnValue(of({ message: 'Deleted' }));
 
-    component.onDelete(mockListResponse.payload.data[0]);
+    component.onDelete({ id: '123' } as any);
 
-    expect(occasionsServiceMock.delete).toHaveBeenCalledWith('1');
-    expect(toastrMock.success).toHaveBeenCalledWith('Occasion deleted successfully.');
+    expect(occasionsServiceSpy.delete).toHaveBeenCalledWith('123');
+    expect(toastrSpy.success).toHaveBeenCalledWith('Occasion deleted successfully.');
+  });
+
+  it('should show error toastr if delete fails', () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    occasionsServiceSpy.delete.mockReturnValue(throwError(() => new Error('Error')));
+
+    component.onDelete({ id: '123' } as any);
+
+    expect(toastrSpy.error).toHaveBeenCalledWith('Could not delete occasion.');
   });
 });

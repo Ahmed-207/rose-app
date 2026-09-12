@@ -1,6 +1,8 @@
+
+import { map } from 'rxjs/operators';
 import { Injectable, inject } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { APICallerService } from '../../../shared/utilities/api-caller-service';
 import {
   Occasion,
@@ -8,43 +10,59 @@ import {
   OccasionListResponse,
   OccasionPayload,
   OccasionUpdateResponse,
+  UploadImageRes,
 } from '../models/occasion.models';
+
+import { OCCASION, UPLOAD } from '@org/products'; 
 
 @Injectable({ providedIn: 'root' })
 export class OccasionsService {
-  private readonly api = inject(APICallerService);
+  private readonly _httpCaller = inject(APICallerService);
 
-  getOccasionList(page = 1, limit = 20): Observable<OccasionListResponse> {
+  getOccasionList(page = 1, limit = 20, search = ''): Observable<OccasionListResponse> {
     const params = new HttpParams()
       .set('page', page)
-      .set('limit', limit);
+      .set('limit', limit)
+      .set('search', search);
 
-    return this.api.get<OccasionListResponse>('/api/occasions', params);
+    return this._httpCaller.get<OccasionListResponse>(OCCASION.getOccasions, params);
   }
 
   getById(id: string): Observable<Occasion> {
-    return this.api
-      .get<{ payload: Occasion | { occasion: Occasion } }>(`/api/occasions/${id}`)
-      .pipe(
-        map((response) => 
-          'occasion' in response.payload ? response.payload.occasion : response.payload
-        )
-      );
+    return this._httpCaller
+      .get<Occasion | OccasionUpdateResponse>(OCCASION.getOccasions + `/${id}`)
+      .pipe(map((response) => ('occasion' in response ? response.occasion : (response as Occasion))));
   }
 
   create(payload: OccasionPayload): Observable<Occasion> {
-    return this.api
-      .post<{ payload: Occasion }>('/api/occasions', payload)
-      .pipe(map((res) => res.payload));
+    return this._httpCaller.post<Occasion>(OCCASION.getOccasions, payload);
   }
 
   update(id: string, payload: OccasionPayload): Observable<Occasion> {
-    return this.api
-      .patch<OccasionUpdateResponse>(`/api/occasions/${id}`, payload)
-      .pipe(map((response) => response.payload.occasion));
+    return this._httpCaller
+      .patch<OccasionUpdateResponse>(OCCASION.getOccasions + `/${id}`, payload)
+      .pipe(map((response) => response.occasion));
   }
 
   delete(id: string): Observable<OccasionDeleteResponse> {
-    return this.api.delete<OccasionDeleteResponse>(`/api/occasions/${id}`);
+    return this._httpCaller.delete<OccasionDeleteResponse>(OCCASION.getOccasions + `/${id}`);
   }
+
+uploadImage(file: File): Observable<{ url: string }> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return this._httpCaller.post<any>(UPLOAD.uploadImage, formData).pipe(
+    map((res) => {
+      let imageUrl = res?.payload?.url || res?.url || res?.data?.url || res?.payload || '';
+      
+      if (imageUrl && !imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+        const baseUrl = 'https://rose.app.elevate.bootcamp.cloud'; 
+        imageUrl = `${baseUrl}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+      }
+
+      return { url: imageUrl };
+    })
+  );
+}
 }

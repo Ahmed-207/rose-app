@@ -1,11 +1,18 @@
-<section class="p-4">
-  <div class="mb-4 flex items-center justify-between">
-    <h1 class="text-xl font-bold">All Occasions</h1>
-    <button
-      (click)="router.navigate(['/admin/occasions/add'])"
-      class="rounded bg-rose-600 px-4 py-2 text-white hover:bg-rose-700">
-      Add a new occasion
-    </button>
+
+
+<div class="occasions-page">
+  <header class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">{{ 'Occasions' | translate }}</h1>
+  		<lib-button variant="accent" icon="pi pi-plus" (clicked)="onAddOccasion()">{{"Add Occasions" | translate}} </lib-button>
+
+  </header>
+
+  <div class="mb-4">
+    <input
+      type="text"
+      class="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+      [formControl]="searchControl"
+      [placeholder]="'Search' | translate" />
   </div>
 
   <app-data-table
@@ -17,6 +24,5 @@
     [limit]="limit"
     (pageChange)="onPageChange($event)"
     (editRow)="onEdit($event)"
-    (deleteRow)="onDelete($event)">
-  </app-data-table>
-</section>
+    (deleteRow)="onDelete($event)" />
+</div>

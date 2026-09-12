@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { finalize, take } from 'rxjs';
+import { finalize, switchMap, take } from 'rxjs';
 import { DynamicFormComponent, DynamicFormField } from '@org/dynamic-form';
 import { OccasionsService } from '../service/occasions.service';
 import { OccasionPayload } from '../models/occasion.models';
@@ -38,7 +38,7 @@ export class AddEditOccasionsComponent {
 
   constructor() {
     this.occasionId = this.route.snapshot.paramMap.get('id');
-    this.fields = this.getFields(this.occasionId === null);
+    this.fields = this.getFields();
     if (this.occasionId) {
       this.title = 'Edit Occasion';
       this.submitLabel = 'Update Occasion';
@@ -46,18 +46,30 @@ export class AddEditOccasionsComponent {
     }
   }
 
-  submit(payload: Record<string, unknown>): void {
+
+submit(payload: Record<string, unknown>): void {
     this.isSubmitting = true;
     this.errorMessage = '';
     const selectedImage = payload['image'];
     const occasionPayload: OccasionPayload = {
       title: String(payload['title'] ?? ''),
       description: String(payload['description'] ?? ''),
-      ...(selectedImage instanceof File ? { image: selectedImage.name } : {}),
     };
     const request$ = this.occasionId
-      ? this.occasionsService.update(this.occasionId, occasionPayload)
-      : this.occasionsService.create(occasionPayload);
+      ? selectedImage instanceof File
+        ? this.occasionsService.uploadImage(selectedImage).pipe(
+          switchMap(({ url }) =>
+            this.occasionsService.update(this.occasionId!, { ...occasionPayload, image: url }),
+          ),
+        )
+        : this.occasionsService.update(this.occasionId, occasionPayload)
+      : selectedImage instanceof File
+        ? this.occasionsService.uploadImage(selectedImage).pipe(
+          switchMap(({ url }) =>
+            this.occasionsService.create({ ...occasionPayload, image: url }),
+          ),
+        )
+        : this.occasionsService.create(occasionPayload);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
@@ -74,10 +86,30 @@ export class AddEditOccasionsComponent {
           error,
           'Could not save the occasion. Please try again.',
         );
+        this.changeDetector.detectChanges();
       },
     });
   }
 
+  private handleSuccess(): void {
+    this.isSubmitting = false;
+    this.toastr.success(
+      this.occasionId
+        ? 'Occasion updated successfully.'
+        : 'Occasion created successfully.',
+    );
+    this.router.navigate(['/admin/occasions']);
+  }
+
+  private handleError(error: unknown): void {
+    this.isSubmitting = false;
+    this.errorMessage = resolveAuthErrorMessage(
+      error,
+      'Could not save the occasion. Please try again.',
+    );
+    this.changeDetector.detectChanges();
+  }
+ 
   private loadOccasion(id: string): void {
     this.isLoading = true;
     this.occasionsService
@@ -85,7 +117,10 @@ export class AddEditOccasionsComponent {
       .pipe(
         take(1),
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => (this.isLoading = false)),
+        finalize(() => {
+          this.isLoading = false;
+          this.changeDetector.detectChanges();
+        }),
       )
       .subscribe({
         next: (occasion) => {
@@ -93,18 +128,16 @@ export class AddEditOccasionsComponent {
             title: occasion.title,
             description: occasion.description,
           };
-          // this.isLoading = false;
           this.changeDetector.detectChanges();
         },
         error: (error: unknown) => {
-          this.isLoading = false;
           this.errorMessage = resolveAuthErrorMessage(error, 'Could not load the occasion.');
           this.changeDetector.detectChanges();
         },
       });
   }
 
-  private getFields(includeImage: boolean): DynamicFormField[] {
+  private getFields(): DynamicFormField[] {
     const fields: DynamicFormField[] = [
       {
         name: 'title',
@@ -124,16 +157,14 @@ export class AddEditOccasionsComponent {
       },
     ];
 
-    if (includeImage) {
-      fields.push({
-        name: 'image',
-        type: 'file',
-        label: 'Image',
-        placeholder: 'image/*',
-        required: true,
-        validators: [Validators.required],
-      });
-    }
+    fields.push({
+      name: 'image',
+      type: 'file',
+      label: 'Image',
+      placeholder: 'image/*',
+      required: this.occasionId === null,
+      validators: this.occasionId === null ? [Validators.required] : [],
+    });
 
     return fields;
   }
