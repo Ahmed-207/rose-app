@@ -49,7 +49,6 @@ export class AddEditCategoriesComponent {
   }
 
   submit(payload: Record<string, unknown>): void {
-    debugger
     this.isSubmitting = true;
     this.errorMessage = '';
     const selectedImage = payload['image'];
@@ -60,17 +59,17 @@ export class AddEditCategoriesComponent {
     const request$ = this.categoryId
       ? selectedImage instanceof File
         ? this.categoriesService.uploadImage(selectedImage).pipe(
-            switchMap(({ url }) =>
-              this.categoriesService.update(this.categoryId!, { ...categoryPayload, image: url }),
-            ),
-          )
+          switchMap(({ url }) =>
+            this.categoriesService.update(this.categoryId!, { ...categoryPayload, image: url }),
+          ),
+        )
         : this.categoriesService.update(this.categoryId, categoryPayload)
       : selectedImage instanceof File
         ? this.categoriesService.uploadImage(selectedImage).pipe(
-            switchMap(({ url }) =>
-              this.categoriesService.create({ ...categoryPayload, image: url }),
-            ),
-          )
+          switchMap(({ url }) =>
+            this.categoriesService.create({ ...categoryPayload, image: url }),
+          ),
+        )
         : this.categoriesService.create(categoryPayload);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
