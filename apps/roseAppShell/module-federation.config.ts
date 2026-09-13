@@ -4,21 +4,25 @@ const config: ModuleFederationConfig = {
   name: 'roseAppShell',
   remotes: [],
   shared: (libraryName, sharedConfig) => {
-    if (
+    // CHANGED: Matched shell shared config exactly with roseAdmin to ensure identical runtime singletons.
+    const isSharedPackage =
       libraryName === '@angular/router' ||
       libraryName === '@angular/animations' ||
+      libraryName === '@angular/google-maps' ||
       libraryName.startsWith('primeng') ||
+      libraryName.startsWith('@primeng') ||
+      libraryName.startsWith('@primeuix') || // ADDED
       libraryName === 'primeicons' ||
-      libraryName === '@primeng/themes' ||
-      libraryName === '@primeuix/themes' ||
+      libraryName.startsWith('lucide-angular') || // ADDED
+      libraryName === 'ngx-toastr' ||
       libraryName === '@org/shared-ui-components' ||
       libraryName === '@org/shared-theme' ||
+      libraryName === '@org/ui-lang-switcher' ||
       libraryName === '@ngx-translate/core' ||
       libraryName === '@ngx-translate/http-loader' ||
-      libraryName === '@ngrx/signals' ||
-      libraryName === '@angular/google-maps' ||
-      libraryName === 'ngx-toastr'
-    ) {
+      libraryName === '@ngrx/signals';
+
+    if (isSharedPackage) {
       return {
         ...sharedConfig,
         singleton: true,
@@ -28,7 +32,6 @@ const config: ModuleFederationConfig = {
     }
     return sharedConfig;
   }
-
 };
 
 export default config;
