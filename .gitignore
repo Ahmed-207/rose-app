@@ -61,3 +61,6 @@ apps/roseMain/src/app/shared/Helpers/api-endpoints.ts
 .agents/
 .skills-lock.json
 docs/agents/
+.vercel
+.env*
+!.env.example
