@@ -15,7 +15,6 @@
         "main": "apps/roseAdmin/src/main.ts",
         "tsConfig": "apps/roseAdmin/tsconfig.app.json",
         "deployUrl": "http://localhost:4203/",
-        "scriptType": "module",
 
         "assets": [
           {
