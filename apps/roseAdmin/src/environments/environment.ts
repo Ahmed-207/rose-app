@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  shellUrl: 'http://localhost:4200',
+  shellUrl: 'https://rose-app-demo.vercel.app',
   apiUrl: 'https://rose-app.elevate-bootcamp.cloud/api/',
-  mapApiKey: 'AIzaSyDF-TMzxPurUIWHgM1HgLD0hzSy7WGmmK8'
+  mapApiKey: '',
+  remoteMode: false
 };

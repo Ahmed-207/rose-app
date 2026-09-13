@@ -2,5 +2,6 @@ export const environment = {
   production: false,
   shellUrl: 'http://localhost:4200',
   apiUrl: 'https://rose-app.elevate-bootcamp.cloud/api/',
-  mapApiKey: 'AIzaSyDF-TMzxPurUIWHgM1HgLD0hzSy7WGmmK8'
+  mapApiKey: 'AIzaSyDF-TMzxPurUIWHgM1HgLD0hzSy7WGmmK8',
+  remoteMode: true
 };
