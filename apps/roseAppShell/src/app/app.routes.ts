@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { roleGuard, Role } from '@org/auth';
+import { environment } from '../environments/environment';
 
 export const appRoutes: Route[] = [
   {
@@ -10,25 +11,32 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'auth',
+    canActivate: [],
     loadChildren: () =>
-      loadRemote<typeof import('roseAuth/Routes')>('roseAuth/Routes').then(
-        (m) => m!.remoteRoutes,
-      ),
+      environment.remoteMode
+        ? loadRemote<typeof import('roseAuth/Routes')>('roseAuth/Routes').then(
+            (m) => m!.remoteRoutes,
+          )
+        : import('roseAuth/Routes').then((m) => m.remoteRoutes),
   },
   {
     path: 'home',
     loadChildren: () =>
-      loadRemote<typeof import('roseMain/Routes')>('roseMain/Routes').then(
-        (m) => m!.remoteRoutes,
-      ),
+      environment.remoteMode
+        ? loadRemote<typeof import('roseMain/Routes')>('roseMain/Routes').then(
+            (m) => m!.remoteRoutes,
+          )
+        : import('roseMain/Routes').then((m) => m.remoteRoutes),
   },
   {
     path: 'admin',
     canActivate: [roleGuard([Role.Admin])],
     loadChildren: () =>
-      loadRemote<typeof import('roseAdmin/Routes')>('roseAdmin/Routes').then(
-        (m) => m!.remoteRoutes
-      ),
+      environment.remoteMode
+        ? loadRemote<typeof import('roseAdmin/Routes')>(
+            'roseAdmin/Routes',
+          ).then((m) => m!.remoteRoutes)
+        : import('roseAdmin/Routes').then((m) => m.remoteRoutes),
   },
     {
     path: 'unauthorized',

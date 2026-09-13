@@ -26,7 +26,8 @@ const envFileContent = `export const environment = {
   production: true,
   shellUrl: '${environment.shellUrl}',
   apiUrl: '${environment.apiUrl}',
-  mapApiKey: '${environment.mapApiKey}'
+  mapApiKey: '${environment.mapApiKey}',
+  remoteMode: false
 };`;
 
 function run(cmd) {
