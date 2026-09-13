@@ -11,13 +11,13 @@ import { OccasionsService } from '../service/occasions.service';
 import { Occasion } from '../models/occasion.models';
 import { ToastrService } from 'ngx-toastr';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Button, Message } from '@org/shared-ui-components';
+import { Button } from '@org/shared-ui-components';
 
 
 @Component({
   selector: 'app-occasion-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DataTableComponent, TranslatePipe , Button ],
+  imports: [CommonModule, ReactiveFormsModule, DataTableComponent, TranslatePipe, Button],
   templateUrl: './occasion-list.html',
   styleUrl: './occasion-list.css',
 })
