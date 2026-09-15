@@ -1,16 +1,17 @@
 
 
 <div class="occasions-page">
-  <header class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">{{ 'Occasions' | translate }}</h1>
+  <header class="occasions-page__header">
+    <h1 class="occasions-page__title">{{ 'Occasions' | translate }}</h1>
   		<lib-button variant="accent" icon="pi pi-plus" (clicked)="onAddOccasion()">{{"Add Occasions" | translate}} </lib-button>
 
   </header>
 
-  <div class="mb-4">
+  <div class="occasions-page__filters">
     <input
       type="text"
-      class="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+      pInputText
+      class="occasions-page__search"
       [formControl]="searchControl"
       [placeholder]="'Search' | translate" />
   </div>
@@ -25,4 +26,15 @@
     (pageChange)="onPageChange($event)"
     (editRow)="onEdit($event)"
     (deleteRow)="onDelete($event)" />
+
+  @if (occasionToDelete()) {
+    <app-confirm-dialog
+      [title]="'ADMIN.OCCASIONS.DELETE_CONFIRM_TITLE' | translate"
+      [message]="'ADMIN.OCCASIONS.DELETE_CONFIRM_MESSAGE' | translate"
+      [confirmLabel]="'ADMIN.OCCASIONS.DELETE_CONFIRM_ACCEPT' | translate"
+      [cancelLabel]="'ADMIN.OCCASIONS.DELETE_CONFIRM_REJECT' | translate"
+      [loading]="isDeleting()"
+      (confirmed)="confirmDelete()"
+      (cancelled)="cancelDelete()" />
+  }
 </div>

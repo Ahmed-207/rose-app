@@ -81,8 +81,10 @@
     "PHONE": "الهاتف",
     "PHONE_PLACEHOLDER": "1012345678",
     "DELETE_ACCOUNT": "حذف حسابي",
-    "DELETE_CONFIRM_TITLE": "حذف الحساب؟",
-    "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
+    "DELETE_CONFIRM_TITLE": "هل أنت متأكد أنك تريد حذف حسابك؟",
+    "DELETE_CONFIRM_MESSAGE": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+    "DELETE_CONFIRM_ACCEPT": "نعم، احذف",
+    "DELETE_CONFIRM_REJECT": "لا، لا أفعل ذلك",
     "SAVE_CHANGES": "حفظ التغييرات",
     "SAVE_SUCCESS": "تم تحديث ملفك الشخصي.",
     "LOADING": "جاري تحميل الملف الشخصي...",
@@ -453,10 +455,10 @@
       "RATINGS": "التقييمات",
       "CREATED_AT": "تاريخ الإنشاء",
       "LOAD_ERROR": "فشل تحميل المنتجات.",
-      "DELETE_CONFIRM_TITLE": "حذف المنتج؟",
-      "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
-      "DELETE_CONFIRM_ACCEPT": "حذف",
-      "DELETE_CONFIRM_REJECT": "إلغاء",
+      "DELETE_CONFIRM_TITLE": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
+      "DELETE_CONFIRM_MESSAGE": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+      "DELETE_CONFIRM_ACCEPT": "نعم، احذف",
+      "DELETE_CONFIRM_REJECT": "لا، لا أفعل ذلك",
       "DELETE_SUCCESS": "تم حذف المنتج بنجاح.",
       "DELETE_ERROR": "فشل حذف المنتج.",
       "FORM": {
@@ -474,13 +476,18 @@
         "GALLERY": "معرض الصور",
         "UPLOADING": "جارٍ الرفع...",
         "REMOVE": "إزالة",
+        "UPLOAD_FILE": "رفع ملف",
+        "CHANGE_FILE": "تغيير الملف",
         "SAVE": "حفظ",
-        "CANCEL": "إلغاء"
+        "CANCEL": "إلغاء",
+        "ADD_PRODUCT": "إضافة منتج",
+        "UPDATE_PRODUCT": "تحديث المنتج"
       },
       "UPLOAD_ERROR": "فشل رفع الصورة.",
       "UPLOAD_PARTIAL_ERROR": "فشل رفع بعض الصور.",
       "GALLERY_MAX_ERROR": "يمكنك رفع ما يصل إلى 5 صور في المعرض.",
       "CREATE_TITLE": "إضافة منتج جديد",
+      "CREATE_HEADING": "إضافة منتج جديد",
       "EDIT_TITLE": "تعديل المنتج",
       "CREATE_ERROR": "فشل إنشاء المنتج.",
       "UPDATE_ERROR": "فشل تحديث المنتج.",
@@ -489,6 +496,20 @@
       "DISCOUNT_NONE": "بدون",
       "DISCOUNT_PERCENT": "نسبة مئوية",
       "DISCOUNT_FIXED": "مبلغ ثابت"
+    },
+    "CATEGORIES": {
+      "DELETE_CONFIRM_TITLE": "هل أنت متأكد أنك تريد حذف هذا القسم؟",
+      "DELETE_CONFIRM_MESSAGE": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+      "DELETE_CONFIRM_ACCEPT": "نعم، احذف",
+      "DELETE_CONFIRM_REJECT": "لا، لا أفعل ذلك",
+      "DELETE_SUCCESS": "تم حذف القسم بنجاح."
+    },
+    "OCCASIONS": {
+      "DELETE_CONFIRM_TITLE": "هل أنت متأكد أنك تريد حذف هذه المناسبة؟",
+      "DELETE_CONFIRM_MESSAGE": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+      "DELETE_CONFIRM_ACCEPT": "نعم، احذف",
+      "DELETE_CONFIRM_REJECT": "لا، لا أفعل ذلك",
+      "DELETE_SUCCESS": "تم حذف المناسبة بنجاح."
     },
     "DATA_TABLE": {
       "LOADING": "جارٍ التحميل...",
@@ -547,5 +568,8 @@
   "Enter category description": "أدخل وصف التصنيف",
   "Image": "الصورة",
   "image/*": "image/*",
-  "Search":"بحث"
-
+  "Search":"بحث",
+  "Upload file": "رفع ملف",
+  "Change file": "تغيير الملف",
+  "Saving...": "جاري الحفظ..."
+}

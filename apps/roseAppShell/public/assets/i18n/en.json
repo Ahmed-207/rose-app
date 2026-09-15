@@ -110,8 +110,10 @@
     "PHONE": "Phone",
     "PHONE_PLACEHOLDER": "1012345678",
     "DELETE_ACCOUNT": "Delete My Account",
-    "DELETE_CONFIRM_TITLE": "Delete account?",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete your account? This action cannot be undone.",
+    "DELETE_CONFIRM_TITLE": "Are you sure you want to delete your account?",
+    "DELETE_CONFIRM_MESSAGE": "This action is permanent and cannot be undone.",
+    "DELETE_CONFIRM_ACCEPT": "Yes, delete",
+    "DELETE_CONFIRM_REJECT": "Nope, not doing it",
     "SAVE_CHANGES": "Save Changes",
     "SAVE_SUCCESS": "Your profile has been updated.",
     "LOADING": "Loading profile...",
@@ -459,10 +461,10 @@
       "RATINGS": "Ratings",
       "CREATED_AT": "Created At",
       "LOAD_ERROR": "Failed to load products.",
-      "DELETE_CONFIRM_TITLE": "Delete product?",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this product?",
-      "DELETE_CONFIRM_ACCEPT": "Delete",
-      "DELETE_CONFIRM_REJECT": "Cancel",
+      "DELETE_CONFIRM_TITLE": "Are you sure you want to delete this product?",
+      "DELETE_CONFIRM_MESSAGE": "This action is permanent and cannot be undone.",
+      "DELETE_CONFIRM_ACCEPT": "Yes, delete",
+      "DELETE_CONFIRM_REJECT": "Nope, not doing it",
       "DELETE_SUCCESS": "Product deleted successfully.",
       "DELETE_ERROR": "Failed to delete product.",
       "FORM": {
@@ -480,8 +482,12 @@
         "GALLERY": "Gallery",
         "UPLOADING": "Uploading...",
         "REMOVE": "Remove",
+        "UPLOAD_FILE": "Upload file",
+        "CHANGE_FILE": "Change file",
         "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "CANCEL": "Cancel",
+        "ADD_PRODUCT": "Add Product",
+        "UPDATE_PRODUCT": "Update Product"
       },
       "UPLOAD_ERROR": "Failed to upload image.",
       "UPLOAD_PARTIAL_ERROR": "Some images failed to upload.",
@@ -490,11 +496,26 @@
       "DISCOUNT_PERCENT": "Percentage",
       "DISCOUNT_FIXED": "Fixed amount",
       "CREATE_TITLE": "Add new product",
+      "CREATE_HEADING": "Add a New Product",
       "EDIT_TITLE": "Edit product",
       "CREATE_ERROR": "Failed to create product.",
       "UPDATE_ERROR": "Failed to update product.",
       "LOAD_PRODUCT_ERROR": "Failed to load product details.",
       "INVALID_PRODUCT_ID": "Invalid product ID."
+    },
+    "CATEGORIES": {
+      "DELETE_CONFIRM_TITLE": "Are you sure you want to delete this category?",
+      "DELETE_CONFIRM_MESSAGE": "This action is permanent and cannot be undone.",
+      "DELETE_CONFIRM_ACCEPT": "Yes, delete",
+      "DELETE_CONFIRM_REJECT": "Nope, not doing it",
+      "DELETE_SUCCESS": "Category deleted successfully."
+    },
+    "OCCASIONS": {
+      "DELETE_CONFIRM_TITLE": "Are you sure you want to delete this occasion?",
+      "DELETE_CONFIRM_MESSAGE": "This action is permanent and cannot be undone.",
+      "DELETE_CONFIRM_ACCEPT": "Yes, delete",
+      "DELETE_CONFIRM_REJECT": "Nope, not doing it",
+      "DELETE_SUCCESS": "Occasion deleted successfully."
     },
     "NOTIFICATIONS": {
       "TITLE": "Notifications",
@@ -532,5 +553,8 @@
   "Enter category description": "Enter category description",
   "Image": "Image",
   "image/*": "image/*",
-  "Search":"Search"
+  "Search":"Search",
+  "Upload file": "Upload file",
+  "Change file": "Change file",
+  "Saving...": "Saving..."
 }

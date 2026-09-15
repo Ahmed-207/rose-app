@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -16,7 +16,7 @@ import { ProductFormComponent, ProductFormValue } from '../product-form';
 @Component({
     selector: 'app-product-edit-page',
     standalone: true,
-    imports: [CommonModule, TranslatePipe, Message, Spinner, ProductFormComponent],
+    imports: [CommonModule, RouterModule, TranslatePipe, Message, Spinner, ProductFormComponent],
     templateUrl: './product-edit-page.html',
     styleUrl: './product-edit-page.css',
 })
@@ -39,6 +39,21 @@ export class ProductEditPage implements OnInit {
 
     readonly categories = computed(() => this.categoriesStore.entities());
     readonly occasions = computed(() => this.occasionsStore.entities());
+
+    readonly productTitle = computed(() => this.product()?.title ?? '');
+
+    readonly pageHeading = computed(() => {
+        const title = this.productTitle();
+        return title ? `Update Product: ${title}` : 'Update Product';
+    });
+
+    readonly breadcrumbLabel = computed(() => {
+        const title = this.productTitle();
+        if (!title) return 'Update Product';
+        const words = title.trim().split(/\s+/);
+        const shortTitle = words.slice(0, 2).join(' ');
+        return `Update Product: ${shortTitle}`;
+    });
 
     readonly initialValue = computed<ProductFormValue | null>(() => {
         const p = this.product();

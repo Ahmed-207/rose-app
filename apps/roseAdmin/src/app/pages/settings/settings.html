@@ -58,12 +58,48 @@
         <label>
           <span>{{ 'auth.EMAIL' | translate }}</span>
           <input formControlName="email" type="email" />
+          @if (hasFieldError(profileForm, 'email')) {
+            <small>{{ 'auth.EMAIL_REQUIRED' | translate }}</small>
+          }
         </label>
+
+        @if (showEmailVerification()) {
+          <div class="settings-page__email-verify">
+            <label>
+              <span>{{ 'account.EMAIL_CODE' | translate }}</span>
+              <input
+                [value]="emailCode()"
+                (input)="emailCode.set($any($event.target).value)"
+                type="text"
+                [placeholder]="'account.EMAIL_CODE_PLACEHOLDER' | translate" />
+            </label>
+            <div class="settings-page__email-verify-actions">
+              <button
+                type="button"
+                class="settings-page__text-button"
+                (click)="cancelEmailChange()"
+                [disabled]="isConfirmingEmailCode()">
+                {{ 'account.CANCEL' | translate }}
+              </button>
+              <button
+                type="button"
+                class="settings-page__primary"
+                (click)="confirmEmailChange()"
+                [disabled]="!emailCode() || isConfirmingEmailCode()">
+                {{ 'account.CONFIRM_EMAIL' | translate }}
+              </button>
+            </div>
+          </div>
+        }
 
         <label>
           <span>{{ 'account.PHONE' | translate }}</span>
           <span class="settings-page__phone-input">
-            <span class="settings-page__dial"><span aria-hidden="true">🇪🇬</span> EG(+20)</span>
+            <span class="settings-page__dial">
+              <span aria-hidden="true">🇪🇬</span>
+              <span>EG(+20)</span>
+              <i class="pi pi-chevron-down settings-page__dial-chevron" aria-hidden="true"></i>
+            </span>
             <input formControlName="phone" type="tel" [placeholder]="'account.PHONE_PLACEHOLDER' | translate" />
           </span>
         </label>
@@ -148,8 +184,8 @@
     <app-confirm-dialog
       [title]="'account.DELETE_CONFIRM_TITLE' | translate"
       [message]="'account.DELETE_CONFIRM_MESSAGE' | translate"
-      [confirmLabel]="'account.DELETE_ACCOUNT' | translate"
-      [cancelLabel]="'account.CANCEL' | translate"
+      [confirmLabel]="'account.DELETE_CONFIRM_ACCEPT' | translate"
+      [cancelLabel]="'account.DELETE_CONFIRM_REJECT' | translate"
       [loading]="isDeleting()"
       (confirmed)="deleteAccount()"
       (cancelled)="cancelDeleteAccount()" />

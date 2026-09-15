@@ -8,7 +8,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { appRoutes } from './app.routes';
-import { provideTranslateService } from "@ngx-translate/core";
+import { provideTranslateService, TranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { authInterceptor, provideAuth } from '@org/auth';
 import { environment } from '../environments/environment';
@@ -34,7 +34,22 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(() => {
       const langService = inject(LangService);
+      const translateService = inject(TranslateService);
       langService.init();
+
+      const savedLang = localStorage.getItem('appLang') ?? 'en';
+      if (translateService.currentLang() !== savedLang) {
+        translateService.use(savedLang);
+      }
+
+      if (typeof window !== 'undefined') {
+        window.addEventListener('app-language-change', (event: Event) => {
+          const lang = (event as CustomEvent<string>).detail;
+          if (lang && translateService.currentLang() !== lang) {
+            translateService.use(lang);
+          }
+        });
+      }
     }),
     provideHttpClient(withInterceptors([addressInterceptor, authInterceptor])),
     provideToastr({

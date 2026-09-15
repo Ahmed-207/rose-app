@@ -51,5 +51,14 @@
         (editRow)="onEditProduct($event)"
         (deleteRow)="onDeleteProduct($event)" />
 
-    <p-confirmDialog styleClass="products-page-confirm" />
+    @if (productToDelete()) {
+        <app-confirm-dialog
+            [title]="'ADMIN.PRODUCTS.DELETE_CONFIRM_TITLE' | translate"
+            [message]="'ADMIN.PRODUCTS.DELETE_CONFIRM_MESSAGE' | translate"
+            [confirmLabel]="'ADMIN.PRODUCTS.DELETE_CONFIRM_ACCEPT' | translate"
+            [cancelLabel]="'ADMIN.PRODUCTS.DELETE_CONFIRM_REJECT' | translate"
+            [loading]="isDeleting()"
+            (confirmed)="confirmDeleteProduct()"
+            (cancelled)="cancelDeleteProduct()" />
+    }
 </div>

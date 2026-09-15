@@ -4,7 +4,6 @@
 
 .settings-page {
   width: 100%;
-  max-width: 980px;
   margin: 0 auto;
 }
 
@@ -191,6 +190,28 @@
   white-space: nowrap;
 }
 
+.settings-page__dial-chevron {
+  font-size: 0.6rem;
+  margin-inline-start: 0.15rem;
+}
+
+.settings-page__email-verify {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px dashed var(--border-soft);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--border-soft) 30%, var(--card-bg));
+}
+
+.settings-page__email-verify-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
 .settings-page__actions {
   display: flex;
   align-items: center;
@@ -217,10 +238,14 @@
   min-width: 7.5rem;
   border-radius: 0.5rem;
   padding: 0.7rem 1.1rem;
-  background: var(--accent-red);
+  background: #a53030;
   color: #fff;
   font-size: 0.75rem;
   font-weight: 800;
+}
+
+.settings-page__primary:hover:not(:disabled) {
+  background: #8e2a2a;
 }
 
 .settings-page__primary:disabled {
@@ -237,7 +262,7 @@
 }
 
 .settings-page__delete {
-  color: var(--danger-text);
+  color: #d32f2f;
 }
 
 .settings-page__text-button {
@@ -261,7 +286,7 @@
 }
 
 .settings-page__password-card {
-  max-width: 620px;
+  width: 100%;
 }
 
 .settings-page__actions--password {

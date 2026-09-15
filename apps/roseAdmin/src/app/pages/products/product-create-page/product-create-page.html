@@ -1,17 +1,25 @@
-<div class="product-create-page">
-    <header class="product-create-page__header">
-        <h1 class="product-create-page__title">{{ 'ADMIN.PRODUCTS.CREATE_TITLE' | translate }}</h1>
-    </header>
+<section class="mx-auto p-2">
+    <nav class="mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
+        <a routerLink="/admin/dashboard" class="hover:text-gray-700">{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</a>
+        <span aria-hidden="true" class="mx-2">›</span>
+        <a routerLink="/admin/products" class="hover:text-gray-700">{{ 'ADMIN.PRODUCTS.TITLE' | translate }}</a>
+        <span aria-hidden="true" class="mx-2">›</span>
+        <span class="text-gray-900 font-medium">{{ 'ADMIN.PRODUCTS.FORM.ADD_PRODUCT' | translate }}</span>
+    </nav>
+
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">{{ 'ADMIN.PRODUCTS.CREATE_HEADING' | translate }}</h1>
+    </div>
 
     @if (error()) {
         <lib-message type="error" [title]="error() ?? undefined" class="product-create-page__feedback"></lib-message>
     }
 
     <app-product-form
+        mode="create"
         [categories]="categories()"
         [occasions]="occasions()"
         [isSubmitting]="isSubmitting()"
         [error]="error()"
-        (save)="onSave($event)"
-        (formCancel)="onCancel()" />
-</div>
+        (save)="onSave($event)" />
+</section>

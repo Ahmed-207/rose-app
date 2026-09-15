@@ -30,14 +30,21 @@ export class ProductFormComponent {
     readonly occasions = input<Occasion[]>([]);
     readonly isSubmitting = input<boolean>(false);
     readonly error = input<string | null>(null);
+    readonly mode = input<'create' | 'edit'>('create');
 
     readonly save = output<ProductFormValue>();
-    readonly formCancel = output<void>();
     readonly categoryChange = output<string | null>();
 
     readonly isUploadingCover = signal(false);
     readonly isUploadingGallery = signal(false);
     readonly uploadError = signal<string | null>(null);
+    readonly isValid = signal(false);
+
+    readonly submitLabel = computed(() => {
+        return this.mode() === 'create'
+            ? 'ADMIN.PRODUCTS.FORM.ADD_PRODUCT'
+            : 'ADMIN.PRODUCTS.FORM.UPDATE_PRODUCT';
+    });
 
     readonly subCategories = computed(() => this.subCategoriesStore.entities());
 
@@ -148,10 +155,18 @@ export class ProductFormComponent {
             this.subCategoriesStore.loadSubCategories(categoryId || undefined);
             this.categoryChange.emit(categoryId || null);
         });
+
+        this.customForm.valueChanges.subscribe(() => this.updateValidity());
+    }
+
+    private updateValidity(): void {
+        const dynamicValid = this.dynamicFormRef?.isValid() ?? false;
+        this.isValid.set(dynamicValid && this.customForm.valid);
     }
 
     onDynamicFormValueChange(values: Record<string, unknown>): void {
         this.dynamicFormValue.set(values);
+        this.updateValidity();
     }
 
     onDynamicFormSubmitted(dynamicValues: Record<string, unknown>): void {
@@ -181,14 +196,11 @@ export class ProductFormComponent {
     }
 
     onSubmit(): void {
+        this.customForm.markAllAsTouched();
         const dynamicValid = this.dynamicFormRef.submit();
         if (!dynamicValid) {
-            this.customForm.markAllAsTouched();
+            return;
         }
-    }
-
-    onCancel(): void {
-        this.formCancel.emit();
     }
 
     private discountValueValidator(control: AbstractControl): Record<string, unknown> | null {

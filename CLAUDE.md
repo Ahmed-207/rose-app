@@ -28,6 +28,10 @@
 
 Issues and specs for this repo live as GitHub issues in `Ahmed-207/rose-app`. Use the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
+### Triage labels
+
+Five canonical roles, mapped one-to-one to GitHub labels. See `docs/agents/triage-labels.md`.
+
 ### Domain docs
 
 Single-context repo. Read `CONTEXT.md` at the repo root and `docs/adr/` for ADRs when they exist. See `docs/agents/domain.md`.

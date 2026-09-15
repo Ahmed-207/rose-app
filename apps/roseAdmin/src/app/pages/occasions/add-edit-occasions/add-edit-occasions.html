@@ -1,22 +1,82 @@
 <section class="mx-auto p-2">
+  <nav class="mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
+    <a routerLink="/admin/dashboard" class="hover:text-gray-700">{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</a>
+    <span aria-hidden="true" class="mx-2">›</span>
+    <a routerLink="/admin/occasions" class="hover:text-gray-700">{{ 'Occasions' | translate }}</a>
+    <span aria-hidden="true" class="mx-2">›</span>
+    <span class="text-gray-900 font-medium">{{ breadcrumbLabel() | translate }}</span>
+  </nav>
+
   <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">
-      {{ title | translate }}
-      {{ occasionId ? ' :' + initialValue['title'] : "" }}
-    </h1>
+    <h1 class="text-2xl font-bold text-gray-900">{{ pageHeading() | translate }}</h1>
   </div>
 
   @if (isLoading) {
     <p class="rounded-lg bg-gray-50 p-4 text-sm text-gray-500">{{ "Loading occasion..." | translate }}</p>
   } @else {
-    <div class="bg-white p-5 shadow-sm md:p-8">
+    <div class="occasion-form-container p-5 shadow-sm md:p-8 flex flex-col gap-6">
       <lib-dynamic-form
+        #formRef
         [fields]="fields"
         [initialValue]="initialValue"
-        [submitLabel]="submitLabel"
-        [isSubmitting]="isSubmitting"
+        [showSubmitButton]="false"
         (submitted)="submit($event)"
       />
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium text-zinc-700 dark:text-white" for="occasion-image-input">
+          {{ 'Image' | translate }}
+          @if (!occasionId) {
+            <span class="text-red-500 dark:text-pink-300">*</span>
+          }
+        </label>
+
+        @if (imageUrl) {
+          <div class="flex items-center gap-3">
+            <img [src]="imageUrl" alt="Occasion" class="h-16 w-16 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
+            <lib-button size="sm" variant="danger" (clicked)="removeImage()">
+              {{ 'Remove' | translate }}
+            </lib-button>
+          </div>
+        }
+
+        <input
+          #occasionImageInput
+          id="occasion-image-input"
+          type="file"
+          accept="image/*"
+          class="visually-hidden"
+          (change)="onImageSelected($event)" />
+        <button
+          type="button"
+          class="occasion-upload"
+          (click)="occasionImageInput.click()">
+          @if (isUploadingImage()) {
+            <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
+          } @else {
+            <span class="occasion-upload__action">
+              <i class="pi pi-upload" aria-hidden="true"></i>
+              {{ imageUrl ? ('Change file' | translate) : ('Upload file' | translate) }}
+            </span>
+          }
+        </button>
+
+        @if (uploadError()) {
+          <small class="text-red-500 text-xs">{{ uploadError()! | translate }}</small>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="w-full rounded-sm bg-[#A31D36] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#85162B] disabled:cursor-not-allowed disabled:opacity-60"
+        [disabled]="isSubmitting || !formRef.isValid()"
+        (click)="formRef.submit()">
+        @if (isSubmitting) {
+          {{ 'Saving...' | translate }}
+        } @else {
+          {{ submitLabel | translate }}
+        }
+      </button>
     </div>
   }
 

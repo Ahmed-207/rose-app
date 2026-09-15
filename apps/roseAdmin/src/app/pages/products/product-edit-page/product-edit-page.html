@@ -1,22 +1,30 @@
-<div class="product-edit-page">
-    <header class="product-edit-page__header">
-        <h1 class="product-edit-page__title">{{ 'ADMIN.PRODUCTS.EDIT_TITLE' | translate }}</h1>
-    </header>
+<section class="mx-auto p-2">
+    <nav class="mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
+        <a routerLink="/admin/dashboard" class="hover:text-gray-700">{{ 'ADMIN.NAVBAR.DASHBOARD' | translate }}</a>
+        <span aria-hidden="true" class="mx-2">›</span>
+        <a routerLink="/admin/products" class="hover:text-gray-700">{{ 'ADMIN.PRODUCTS.TITLE' | translate }}</a>
+        <span aria-hidden="true" class="mx-2">›</span>
+        <span class="text-gray-900 font-medium">{{ breadcrumbLabel() }}</span>
+    </nav>
+
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">{{ pageHeading() }}</h1>
+    </div>
 
     @if (isLoading()) {
-        <div class="product-edit-page__state">
+        <div class="flex min-h-64 items-center justify-center">
             <lib-spinner size="md" label="ADMIN.DATA_TABLE.LOADING"></lib-spinner>
         </div>
     } @else if (error()) {
         <lib-message type="error" [title]="error() ?? undefined" class="product-edit-page__feedback"></lib-message>
     } @else {
         <app-product-form
+            mode="edit"
             [initialValue]="initialValue()"
             [categories]="categories()"
             [occasions]="occasions()"
             [isSubmitting]="isSubmitting()"
             [error]="error()"
-            (save)="onSave($event)"
-            (formCancel)="onCancel()" />
+            (save)="onSave($event)" />
     }
-</div>
+</section>

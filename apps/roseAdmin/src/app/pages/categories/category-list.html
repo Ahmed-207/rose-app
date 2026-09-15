@@ -33,5 +33,14 @@
 		(editRow)="onEditCategory($event)"
 		(deleteRow)="onDeleteCategory($event)" />
 
-	<p-confirmDialog />
+	@if (categoryToDelete()) {
+		<app-confirm-dialog
+			[title]="'ADMIN.CATEGORIES.DELETE_CONFIRM_TITLE' | translate"
+			[message]="'ADMIN.CATEGORIES.DELETE_CONFIRM_MESSAGE' | translate"
+			[confirmLabel]="'ADMIN.CATEGORIES.DELETE_CONFIRM_ACCEPT' | translate"
+			[cancelLabel]="'ADMIN.CATEGORIES.DELETE_CONFIRM_REJECT' | translate"
+			[loading]="isDeleting()"
+			(confirmed)="confirmDeleteCategory()"
+			(cancelled)="cancelDeleteCategory()" />
+	}
 </div>

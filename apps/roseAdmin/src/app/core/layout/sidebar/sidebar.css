@@ -39,6 +39,10 @@
   background: var(--card-bg);
 }
 
+.admin-sidebar__menu-header {
+  color: var(--text-primary);
+}
+
 .admin-sidebar__menu-link {
   color: var(--text-primary);
 }

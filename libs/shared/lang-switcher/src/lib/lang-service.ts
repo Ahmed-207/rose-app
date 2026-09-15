@@ -43,6 +43,7 @@ export class LangService {
     this.currentLang.set({ name: 'العربية', code: 'ar' });
     localStorage.setItem('appLang', 'ar');
     this.applyDirection('ar');
+    this.broadcastLanguageChange('ar');
   }
 
   useEnLang(): void {
@@ -50,6 +51,13 @@ export class LangService {
     this.currentLang.set({ name: 'English', code: 'en' });
     localStorage.setItem('appLang', 'en');
     this.applyDirection('en');
+    this.broadcastLanguageChange('en');
+  }
+
+  private broadcastLanguageChange(langCode: string): void {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('app-language-change', { detail: langCode }));
+    }
   }
 
   private applyDirection(langCode: string): void {

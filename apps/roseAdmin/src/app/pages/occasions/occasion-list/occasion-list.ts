@@ -1,6 +1,6 @@
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -10,14 +10,16 @@ import { DataTableColumn, DataTablePageEvent } from '../../../shared/data-table/
 import { OccasionsService } from '../service/occasions.service';
 import { Occasion } from '../models/occasion.models';
 import { ToastrService } from 'ngx-toastr';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Button } from '@org/shared-ui-components';
+import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @Component({
   selector: 'app-occasion-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DataTableComponent, TranslatePipe, Button],
+  imports: [CommonModule, ReactiveFormsModule, DataTableComponent, TranslatePipe, Button, ConfirmDialog, InputTextModule],
   templateUrl: './occasion-list.html',
   styleUrl: './occasion-list.css',
 })
@@ -28,6 +30,10 @@ export class OccasionListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastr = inject(ToastrService);
+  private readonly translate = inject(TranslateService);
+
+  readonly occasionToDelete = signal<Occasion | null>(null);
+  readonly isDeleting = signal(false);
 
   occasions: Occasion[] = [];
   isLoading = false;
@@ -56,17 +62,36 @@ export class OccasionListComponent implements OnInit {
   }
 
   onDelete(row: Occasion): void {
-    if (confirm('Are you sure you want to delete this occasion?')) {
-      this.occasionsService
-        .delete(row.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: () => {
-            this.toastr.success('Occasion deleted successfully.');
-            this.loadOccasions();
-          },
-          error: () => this.toastr.error('Could not delete occasion.'),
-        });
+    this.occasionToDelete.set(row);
+  }
+
+  confirmDelete(): void {
+    const row = this.occasionToDelete();
+    if (!row || this.isDeleting()) {
+      return;
+    }
+
+    this.isDeleting.set(true);
+    this.occasionsService
+      .delete(row.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.isDeleting.set(false);
+          this.occasionToDelete.set(null);
+          this.toastr.success(this.translate.instant('ADMIN.OCCASIONS.DELETE_SUCCESS'));
+          this.loadOccasions();
+        },
+        error: () => {
+          this.isDeleting.set(false);
+          this.toastr.error('Could not delete occasion.');
+        },
+      });
+  }
+
+  cancelDelete(): void {
+    if (!this.isDeleting()) {
+      this.occasionToDelete.set(null);
     }
   }
 

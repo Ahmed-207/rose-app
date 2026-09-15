@@ -1,0 +1,59 @@
+.occasions-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.occasions-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.occasions-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--p-surface-900, #111827);
+    margin: 0;
+}
+
+.occasions-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.occasions-page__search {
+    min-width: 16rem;
+    flex: 1;
+}
+
+.dark .occasions-page__title {
+    color: var(--p-surface-100, #f3f4f6);
+}
+
+.dark .occasions-page__search .p-inputtext {
+    background-color: #3F3F46;
+    border-color: #202938;
+    color: #f3f4f6;
+}
+
+@media (max-width: 768px) {
+    .occasions-page {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .occasions-page__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .occasions-page__search {
+        width: 100%;
+        min-width: auto;
+    }
+}

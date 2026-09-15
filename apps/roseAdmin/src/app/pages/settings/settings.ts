@@ -47,12 +47,19 @@ export class Settings implements OnInit {
   readonly statusMessage = signal<string | null>(null);
   readonly errorMessage = this.authErrorService.message;
 
+  readonly showEmailVerification = signal(false);
+  readonly emailCode = signal('');
+  readonly isSendingEmailCode = signal(false);
+  readonly isConfirmingEmailCode = signal(false);
+  readonly pendingEmail = signal('');
+
   private selectedPhoto: File | null = null;
+  private originalEmail = '';
 
   readonly profileForm = this.fb.nonNullable.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: [{ value: '', disabled: true }],
+    email: ['', [Validators.required, Validators.email]],
     phone: [''],
     gender: [{ value: '', disabled: true }],
   });
@@ -125,6 +132,19 @@ export class Settings implements OnInit {
     this.authErrorService.clear();
 
     const value = this.profileForm.getRawValue();
+    const newEmail = value.email.trim();
+
+    if (newEmail !== this.originalEmail) {
+      this.pendingEmail.set(newEmail);
+      this.requestEmailChange(newEmail);
+      return;
+    }
+
+    this.doSaveProfile();
+  }
+
+  private doSaveProfile(): void {
+    const value = this.profileForm.getRawValue();
     const request: UpdateProfileRequest = {
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
@@ -150,6 +170,61 @@ export class Settings implements OnInit {
           this.message.set('account.SAVE_SUCCESS');
         },
       });
+  }
+
+  private requestEmailChange(newEmail: string): void {
+    this.isSendingEmailCode.set(true);
+    this.authActions
+      .requestEmailChange({ newEmail })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isSendingEmailCode.set(false)),
+      )
+      .subscribe({
+        next: () => {
+          this.showEmailVerification.set(true);
+          this.message.set('account.EMAIL_CODE_SENT');
+        },
+      });
+  }
+
+  confirmEmailChange(): void {
+    const code = this.emailCode().trim();
+    const newEmail = this.pendingEmail();
+    if (!code || !newEmail || this.isConfirmingEmailCode()) {
+      return;
+    }
+
+    this.isConfirmingEmailCode.set(true);
+    this.authActions
+      .confirmEmailChange({ code }, newEmail)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isConfirmingEmailCode.set(false)),
+      )
+      .subscribe({
+        next: (profile) => {
+          this.showEmailVerification.set(false);
+          this.emailCode.set('');
+          this.pendingEmail.set('');
+          this.originalEmail = newEmail;
+          if (profile) {
+            this.patchProfile(profile);
+          }
+          this.message.set('account.EMAIL_CHANGE_SUCCESS');
+          this.doSaveProfile();
+        },
+      });
+  }
+
+  cancelEmailChange(): void {
+    if (this.isConfirmingEmailCode()) {
+      return;
+    }
+    this.showEmailVerification.set(false);
+    this.emailCode.set('');
+    this.pendingEmail.set('');
+    this.profileForm.patchValue({ email: this.originalEmail });
   }
 
   changePassword(): void {
@@ -235,6 +310,7 @@ export class Settings implements OnInit {
   }
 
   private patchProfile(profile: UserProfile): void {
+    this.originalEmail = profile.email || '';
     this.profileForm.patchValue({
       firstName: profile.firstName || '',
       lastName: profile.lastName || '',

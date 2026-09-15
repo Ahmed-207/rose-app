@@ -1,24 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild, computed, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { finalize, switchMap, take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { DynamicFormComponent, DynamicFormField } from '@org/dynamic-form';
 import { CategoriesService } from '../service/categories.service';
 import { CategoryPayload } from '../models/category.models';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { resolveAuthErrorMessage } from '@org/auth';
+import { Button, Spinner } from '@org/shared-ui-components';
 
 @Component({
   selector: 'app-add-edit-categories',
   standalone: true,
-  imports: [CommonModule, DynamicFormComponent, TranslatePipe],
+  imports: [CommonModule, RouterModule, DynamicFormComponent, TranslatePipe, Button, Spinner],
   templateUrl: './add-edit-categories.html',
   styleUrl: './add-edit-categories.css',
 })
 export class AddEditCategoriesComponent {
+  @ViewChild(DynamicFormComponent) private readonly dynamicForm!: DynamicFormComponent;
+
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly categoriesService = inject(CategoriesService);
@@ -35,8 +38,21 @@ export class AddEditCategoriesComponent {
   isLoading = false;
   isSubmitting = false;
   errorMessage = '';
+  imageUrl = '';
+  readonly isUploadingImage = signal(false);
+  readonly uploadError = signal<string | null>(null);
 
+  readonly pageHeading = computed(() => {
+    const title = String(this.initialValue['title'] ?? '');
+    return this.categoryId && title ? `Update Category: ${title}` : this.title;
+  });
 
+  readonly breadcrumbLabel = computed(() => {
+    const title = String(this.initialValue['title'] ?? '');
+    if (!this.categoryId || !title) return this.title;
+    const words = title.trim().split(/\s+/);
+    return `Update Category: ${words.slice(0, 2).join(' ')}`;
+  });
 
   constructor() {
     this.categoryId = this.route.snapshot.paramMap.get('id');
@@ -51,26 +67,22 @@ export class AddEditCategoriesComponent {
   submit(payload: Record<string, unknown>): void {
     this.isSubmitting = true;
     this.errorMessage = '';
-    const selectedImage = payload['image'];
+
+    if (!this.categoryId && !this.imageUrl) {
+      this.isSubmitting = false;
+      this.errorMessage = 'Image is required for new categories.';
+      return;
+    }
+
     const categoryPayload: CategoryPayload = {
       title: String(payload['title'] ?? ''),
       description: String(payload['description'] ?? ''),
+      ...(this.imageUrl ? { image: this.imageUrl } : {}),
     };
+
     const request$ = this.categoryId
-      ? selectedImage instanceof File
-        ? this.categoriesService.uploadImage(selectedImage).pipe(
-          switchMap(({ url }) =>
-            this.categoriesService.update(this.categoryId!, { ...categoryPayload, image: url }),
-          ),
-        )
-        : this.categoriesService.update(this.categoryId, categoryPayload)
-      : selectedImage instanceof File
-        ? this.categoriesService.uploadImage(selectedImage).pipe(
-          switchMap(({ url }) =>
-            this.categoriesService.create({ ...categoryPayload, image: url }),
-          ),
-        )
-        : this.categoriesService.create(categoryPayload);
+      ? this.categoriesService.update(this.categoryId, categoryPayload)
+      : this.categoriesService.create(categoryPayload);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
@@ -106,6 +118,7 @@ export class AddEditCategoriesComponent {
             title: category.title,
             description: category.description,
           };
+          this.imageUrl = category.image ?? '';
           this.isLoading = false;
           this.changeDetector.detectChanges();
         },
@@ -118,7 +131,7 @@ export class AddEditCategoriesComponent {
   }
 
   private getFields(): DynamicFormField[] {
-    const fields: DynamicFormField[] = [
+    return [
       {
         name: 'title',
         type: 'text',
@@ -136,17 +149,104 @@ export class AddEditCategoriesComponent {
         validators: [Validators.required, Validators.maxLength(500)],
       },
     ];
-
-    fields.push({
-      name: 'image',
-      type: 'file',
-      label: 'Image',
-      placeholder: 'image/*',
-      required: this.categoryId === null,
-      validators: this.categoryId === null ? [Validators.required] : [],
-    });
-
-    return fields;
   }
 
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    input.value = '';
+
+    if (!file) return;
+
+    this.uploadImage(file);
+  }
+
+  removeImage(): void {
+    this.imageUrl = '';
+  }
+
+  private uploadImage(file: File): void {
+    this.isUploadingImage.set(true);
+    this.uploadError.set(null);
+
+    this.compressImage(file)
+      .then((compressedFile) => {
+        this.categoriesService
+          .uploadImage(compressedFile)
+          .pipe(take(1), finalize(() => this.isUploadingImage.set(false)))
+          .subscribe({
+            next: (res) => {
+              this.imageUrl = res.url;
+            },
+            error: (err: unknown) => {
+              this.uploadError.set(this.extractUploadError(err));
+            },
+          });
+      })
+      .catch((err: unknown) => {
+        this.isUploadingImage.set(false);
+        this.uploadError.set(this.extractUploadError(err));
+      });
+  }
+
+  private extractUploadError(err: unknown): string {
+    if (typeof err === 'object' && err !== null) {
+      const error = err as { error?: { message?: string }; message?: string };
+      return error.error?.message || error.message || 'Could not upload image. Please try again.';
+    }
+    return 'Could not upload image. Please try again.';
+  }
+
+  private compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const objectUrl = URL.createObjectURL(file);
+
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        let width = image.width;
+        let height = image.height;
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        if (!context) {
+          resolve(file);
+          return;
+        }
+        context.drawImage(image, 0, 0, width, height);
+
+        const outputType = file.type.startsWith('image/') ? file.type : 'image/jpeg';
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const compressed = new File([blob], file.name, {
+              type: outputType,
+              lastModified: file.lastModified,
+            });
+            resolve(compressed.size < file.size ? compressed : file);
+          },
+          outputType,
+          quality,
+        );
+      };
+
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error('Failed to load image for compression'));
+      };
+
+      image.src = objectUrl;
+    });
+  }
 }

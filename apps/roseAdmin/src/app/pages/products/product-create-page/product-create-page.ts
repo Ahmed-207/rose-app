@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -15,7 +15,7 @@ import { ProductFormComponent, ProductFormValue } from '../product-form';
 @Component({
     selector: 'app-product-create-page',
     standalone: true,
-    imports: [CommonModule, TranslatePipe, Message, ProductFormComponent],
+    imports: [CommonModule, RouterModule, TranslatePipe, Message, ProductFormComponent],
     templateUrl: './product-create-page.html',
     styleUrl: './product-create-page.css',
 })

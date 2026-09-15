@@ -78,6 +78,10 @@ export class DynamicFormComponent implements AfterViewInit, OnChanges {
         return true;
     }
 
+    isValid(): boolean {
+        return this.form.valid;
+    }
+
     private renderFields(): void {
         if (!this.fieldHost) return;
 

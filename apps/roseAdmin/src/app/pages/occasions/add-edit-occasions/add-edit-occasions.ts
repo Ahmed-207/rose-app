@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, computed, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { finalize, switchMap, take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { DynamicFormComponent, DynamicFormField } from '@org/dynamic-form';
 import { OccasionsService } from '../service/occasions.service';
 import { OccasionPayload } from '../models/occasion.models';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { resolveAuthErrorMessage } from '@org/auth';
+import { Button, Spinner } from '@org/shared-ui-components';
 
 @Component({
   selector: 'app-add-edit-occasions',
   standalone: true,
-  imports: [CommonModule, DynamicFormComponent, TranslatePipe],
+  imports: [CommonModule, RouterModule, DynamicFormComponent, TranslatePipe, Button, Spinner],
   templateUrl: './add-edit-occasions.html',
   styleUrl: './add-edit-occasions.css',
 })
@@ -35,6 +36,21 @@ export class AddEditOccasionsComponent {
   isLoading = false;
   isSubmitting = false;
   errorMessage = '';
+  imageUrl = '';
+  readonly isUploadingImage = signal(false);
+  readonly uploadError = signal<string | null>(null);
+
+  readonly pageHeading = computed(() => {
+    const title = String(this.initialValue['title'] ?? '');
+    return this.occasionId && title ? `Update Occasion: ${title}` : this.title;
+  });
+
+  readonly breadcrumbLabel = computed(() => {
+    const title = String(this.initialValue['title'] ?? '');
+    if (!this.occasionId || !title) return this.title;
+    const words = title.trim().split(/\s+/);
+    return `Update Occasion: ${words.slice(0, 2).join(' ')}`;
+  });
 
   constructor() {
     this.occasionId = this.route.snapshot.paramMap.get('id');
@@ -50,26 +66,23 @@ export class AddEditOccasionsComponent {
 submit(payload: Record<string, unknown>): void {
     this.isSubmitting = true;
     this.errorMessage = '';
-    const selectedImage = payload['image'];
+
+    if (!this.occasionId && !this.imageUrl) {
+      this.isSubmitting = false;
+      this.errorMessage = 'Image is required for new occasions.';
+      this.changeDetector.detectChanges();
+      return;
+    }
+
     const occasionPayload: OccasionPayload = {
       title: String(payload['title'] ?? ''),
       description: String(payload['description'] ?? ''),
+      ...(this.imageUrl ? { image: this.imageUrl } : {}),
     };
+
     const request$ = this.occasionId
-      ? selectedImage instanceof File
-        ? this.occasionsService.uploadImage(selectedImage).pipe(
-          switchMap(({ url }) =>
-            this.occasionsService.update(this.occasionId!, { ...occasionPayload, image: url }),
-          ),
-        )
-        : this.occasionsService.update(this.occasionId, occasionPayload)
-      : selectedImage instanceof File
-        ? this.occasionsService.uploadImage(selectedImage).pipe(
-          switchMap(({ url }) =>
-            this.occasionsService.create({ ...occasionPayload, image: url }),
-          ),
-        )
-        : this.occasionsService.create(occasionPayload);
+      ? this.occasionsService.update(this.occasionId, occasionPayload)
+      : this.occasionsService.create(occasionPayload);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
@@ -128,6 +141,7 @@ submit(payload: Record<string, unknown>): void {
             title: occasion.title,
             description: occasion.description,
           };
+          this.imageUrl = occasion.image ?? '';
           this.changeDetector.detectChanges();
         },
         error: (error: unknown) => {
@@ -138,7 +152,7 @@ submit(payload: Record<string, unknown>): void {
   }
 
   private getFields(): DynamicFormField[] {
-    const fields: DynamicFormField[] = [
+    return [
       {
         name: 'title',
         type: 'text',
@@ -156,16 +170,104 @@ submit(payload: Record<string, unknown>): void {
         validators: [Validators.required, Validators.maxLength(500)],
       },
     ];
+  }
 
-    fields.push({
-      name: 'image',
-      type: 'file',
-      label: 'Image',
-      placeholder: 'image/*',
-      required: this.occasionId === null,
-      validators: this.occasionId === null ? [Validators.required] : [],
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    input.value = '';
+
+    if (!file) return;
+
+    this.uploadImage(file);
+  }
+
+  removeImage(): void {
+    this.imageUrl = '';
+  }
+
+  private uploadImage(file: File): void {
+    this.isUploadingImage.set(true);
+    this.uploadError.set(null);
+
+    this.compressImage(file)
+      .then((compressedFile) => {
+        this.occasionsService
+          .uploadImage(compressedFile)
+          .pipe(take(1), finalize(() => this.isUploadingImage.set(false)))
+          .subscribe({
+            next: (res) => {
+              this.imageUrl = res.url;
+            },
+            error: (err: unknown) => {
+              this.uploadError.set(this.extractUploadError(err));
+            },
+          });
+      })
+      .catch((err: unknown) => {
+        this.isUploadingImage.set(false);
+        this.uploadError.set(this.extractUploadError(err));
+      });
+  }
+
+  private extractUploadError(err: unknown): string {
+    if (typeof err === 'object' && err !== null) {
+      const error = err as { error?: { message?: string }; message?: string };
+      return error.error?.message || error.message || 'Could not upload image. Please try again.';
+    }
+    return 'Could not upload image. Please try again.';
+  }
+
+  private compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const objectUrl = URL.createObjectURL(file);
+
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        let width = image.width;
+        let height = image.height;
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        if (!context) {
+          resolve(file);
+          return;
+        }
+        context.drawImage(image, 0, 0, width, height);
+
+        const outputType = file.type.startsWith('image/') ? file.type : 'image/jpeg';
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const compressed = new File([blob], file.name, {
+              type: outputType,
+              lastModified: file.lastModified,
+            });
+            resolve(compressed.size < file.size ? compressed : file);
+          },
+          outputType,
+          quality,
+        );
+      };
+
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error('Failed to load image for compression'));
+      };
+
+      image.src = objectUrl;
     });
-
-    return fields;
   }
 }

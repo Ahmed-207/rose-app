@@ -59,19 +59,31 @@
                 {{ 'ADMIN.PRODUCTS.FORM.COVER' | translate }}
                 <span class="text-red-500">*</span>
             </label>
-            <input
-                id="cover-upload"
-                type="file"
-                accept="image/*"
-                (change)="onCoverSelected($any($event.target).files?.[0] ?? null)" />
-
-            @if (isUploadingCover()) {
-                <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
-            }
+            <label class="product-form__upload" for="cover-upload">
+                <input
+                    id="cover-upload"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    (change)="onCoverSelected($any($event.target).files?.[0] ?? null)" />
+                @if (isUploadingCover()) {
+                    <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
+                } @else if (customForm.controls.cover.value) {
+                    <img [src]="customForm.controls.cover.value" alt="Cover" class="product-form__upload-preview" />
+                    <span class="product-form__upload-action">
+                        <i class="pi pi-upload" aria-hidden="true"></i>
+                        {{ 'ADMIN.PRODUCTS.FORM.CHANGE_FILE' | translate }}
+                    </span>
+                } @else {
+                    <span class="product-form__upload-action">
+                        <i class="pi pi-upload" aria-hidden="true"></i>
+                        {{ 'ADMIN.PRODUCTS.FORM.UPLOAD_FILE' | translate }}
+                    </span>
+                }
+            </label>
 
             @if (customForm.controls.cover.value) {
-                <img [src]="customForm.controls.cover.value" alt="Cover" class="product-form__image-preview" />
-                <lib-button size="sm" variant="ghost" (clicked)="customForm.controls.cover.setValue('')">
+                <lib-button size="sm" variant="danger" (clicked)="customForm.controls.cover.setValue('')">
                     {{ 'ADMIN.PRODUCTS.FORM.REMOVE' | translate }}
                 </lib-button>
             }
@@ -81,16 +93,23 @@
             <label class="product-form__label" for="gallery-upload">
                 {{ 'ADMIN.PRODUCTS.FORM.GALLERY' | translate }}
             </label>
-            <input
-                id="gallery-upload"
-                type="file"
-                accept="image/*"
-                multiple
-                (change)="onGallerySelected($any($event.target).files)" />
-
-            @if (isUploadingGallery()) {
-                <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
-            }
+            <label class="product-form__upload" for="gallery-upload">
+                <input
+                    id="gallery-upload"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    hidden
+                    (change)="onGallerySelected($any($event.target).files)" />
+                @if (isUploadingGallery()) {
+                    <lib-spinner size="sm" label="ADMIN.PRODUCTS.FORM.UPLOADING"></lib-spinner>
+                } @else {
+                    <span class="product-form__upload-action">
+                        <i class="pi pi-upload" aria-hidden="true"></i>
+                        {{ 'ADMIN.PRODUCTS.FORM.UPLOAD_FILE' | translate }}
+                    </span>
+                }
+            </label>
 
             <div class="product-form__gallery-list">
                 @for (image of customForm.controls.gallery.value; track image; let i = $index) {
@@ -106,11 +125,11 @@
     </div>
 
     <div class="product-form__actions">
-        <lib-button buttonType="submit" variant="primary" [disabled]="isSubmitting() || isUploadingCover() || isUploadingGallery()">
-            {{ 'ADMIN.PRODUCTS.FORM.SAVE' | translate }}
-        </lib-button>
-        <lib-button type="button" variant="ghost" (clicked)="onCancel()">
-            {{ 'ADMIN.PRODUCTS.FORM.CANCEL' | translate }}
+        <lib-button
+            buttonType="submit"
+            variant="primary"
+            [disabled]="!isValid() || isSubmitting() || isUploadingCover() || isUploadingGallery()">
+            {{ submitLabel() | translate }}
         </lib-button>
     </div>
 </form>

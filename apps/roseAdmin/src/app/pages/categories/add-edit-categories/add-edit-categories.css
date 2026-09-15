@@ -1,1 +1,64 @@
+.category-form-container {
+    background-color: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-soft, #eef0f5);
+    border-radius: 0.75rem;
+}
 
+.dark .category-form-container {
+    background-color: var(--card-bg, #202938);
+    border-color: var(--border-soft, #2f3a4d);
+}
+
+.category-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px dashed var(--border-soft, #eef0f5);
+    border-radius: 0.5rem;
+    background-color: var(--card-bg, #ffffff);
+    color: var(--text-secondary, #9296a8);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+    gap: 0.5rem;
+}
+
+.category-upload:hover {
+    border-color: var(--accent-red, #ef4577);
+    background-color: color-mix(in srgb, var(--accent-red, #ef4577) 5%, var(--card-bg, #ffffff));
+}
+
+.category-upload__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-red, #ef4577);
+}
+
+.dark .category-upload {
+    background-color: var(--card-bg, #202938);
+    border-color: var(--border-soft, #2f3a4d);
+    color: var(--text-secondary, #9aa4b5);
+}
+
+.dark .category-upload:hover {
+    border-color: var(--accent-red, #ff9ec0);
+    background-color: color-mix(in srgb, var(--accent-red, #ff9ec0) 10%, var(--card-bg, #202938));
+}
+
+.dark .category-upload__action {
+    color: var(--accent-red, #ff9ec0);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}

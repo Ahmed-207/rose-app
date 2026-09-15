@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthActions } from '@org/auth';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,14 +11,26 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
-
+  private readonly authActions = inject(AuthActions);
+  private readonly router = inject(Router);
 
   @Output() closeMenu = new EventEmitter<void>();
 
   isUserMenuOpen = false;
 
+  readonly session = this.authActions.getSession();
+  readonly username = this.session?.username ?? 'Admin';
+  readonly email = this.session?.email ?? 'admin@rose.com';
+
   toggleUserMenu() {
     this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout(): void {
+    this.isUserMenuOpen = false;
+    this.closeMenu.emit();
+    this.authActions.logout();
+    void this.router.navigateByUrl('/auth/login');
   }
 
   menuItems = [
