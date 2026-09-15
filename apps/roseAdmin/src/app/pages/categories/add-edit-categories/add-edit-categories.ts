@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -83,12 +84,29 @@ export class AddEditCategoriesComponent {
       },
       error: (error: unknown) => {
         this.isSubmitting = false;
+        if (this.isPayloadTooLargeError(error)) {
+          const message = 'Image is too large. Please choose a smaller image.';
+          this.toastr.error(message);
+          this.errorMessage = message;
+          this.changeDetector.detectChanges();
+          return;
+        }
+
         this.errorMessage = resolveAuthErrorMessage(
           error,
           'Could not save the category. Please try again.',
         );
+        this.changeDetector.detectChanges();
       },
     });
+  }
+
+  private isPayloadTooLargeError(error: unknown): boolean {
+    if (error instanceof HttpErrorResponse) {
+      return error.status === 413;
+    }
+
+    return typeof error === 'object' && error !== null && 'status' in error && error.status === 413;
   }
 
   private loadCategory(id: string): void {
@@ -132,8 +150,8 @@ export class AddEditCategoriesComponent {
         type: 'textarea',
         label: 'Description',
         placeholder: 'Enter category description',
-        required: true,
-        validators: [Validators.required, Validators.maxLength(500)],
+        required: false,
+        validators: [ Validators.maxLength(500)],
       },
     ];
 

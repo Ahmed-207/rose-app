@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { APICallerService } from '../../../shared/utilities/api-caller-service';
 import {
@@ -49,12 +49,28 @@ export class CategoriesService {
           const formData = new FormData();
           formData.append('image', file);
 
-          return this._httpCaller.post<UploadImageRes>(UPLOAD.uploadImage, formData).pipe(
-              catchError(err => {
-                  console.error('Failed to upload image', err);
-                  return throwError(() => err);
+    return this._httpCaller.post<UploadImageRes>(UPLOAD.uploadImage, formData).pipe(
+      catchError((error: unknown) => {
+        console.error('Failed to upload image', error);
+
+        if (
+          error instanceof HttpErrorResponse &&
+          (error.status === 413 || (error.status === 0 && error.url?.includes('/api/upload')))
+        ) {
+          return throwError(
+            () =>
+              new HttpErrorResponse({
+                error: { message: 'Image is too large. Please choose a smaller image.' },
+                status: 413,
+                statusText: 'Payload Too Large',
+                url: error.url ?? undefined,
               }),
           );
+        }
+
+        return throwError(() => error);
+      }),
+    );
       }
 
 }

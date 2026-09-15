@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { signal } from '@angular/core';
 import { ProductsPage } from './products-page';
 import { AdminProductsStore, CategoriesStore } from '@org/products';
-import { ConfirmationService } from 'primeng/api';
 import { provideTestTranslate } from '../../../shared/testing/translate-test.providers';
 
 const mockAdminProductsStore = {
@@ -34,11 +33,6 @@ const mockActivatedRoute = {
     queryParams: of({}),
 };
 
-const mockConfirmationService = {
-    requireConfirmation$: new Subject(),
-    confirm: vi.fn((config) => config.accept?.()),
-};
-
 const mockProduct = {
     id: 'prod-1',
     title: 'Rose Box',
@@ -62,7 +56,6 @@ describe('ProductsPage', () => {
                 { provide: CategoriesStore, useValue: mockCategoriesStore },
                 { provide: Router, useValue: mockRouter },
                 { provide: ActivatedRoute, useValue: mockActivatedRoute },
-                { provide: ConfirmationService, useValue: mockConfirmationService },
                 provideTestTranslate(),
             ],
         }).compileComponents();
@@ -164,6 +157,7 @@ describe('ProductsPage', () => {
         mockAdminProductsStore.loadProducts.mockClear();
 
         component.onDeleteProduct(mockProduct as never);
+        component.onConfirmDelete();
 
         expect(mockAdminProductsStore.deleteProduct).toHaveBeenCalledWith('prod-1');
         expect(mockAdminProductsStore.loadProducts).toHaveBeenCalled();

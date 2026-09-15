@@ -1,7 +1,7 @@
 
 import { map } from 'rxjs/operators';
 import { Injectable, inject } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { APICallerService } from '../../../shared/utilities/api-caller-service';
 import {
@@ -13,7 +13,7 @@ import {
   UploadImageRes,
 } from '../models/occasion.models';
 
-import { OCCASION, UPLOAD } from '@org/products'; 
+import { OCCASION, UPLOAD } from '@org/products';
 
 @Injectable({ providedIn: 'root' })
 export class OccasionsService {
@@ -55,14 +55,32 @@ uploadImage(file: File): Observable<{ url: string }> {
   return this._httpCaller.post<any>(UPLOAD.uploadImage, formData).pipe(
     map((res) => {
       let imageUrl = res?.payload?.url || res?.url || res?.data?.url || res?.payload || '';
-      
+
       if (imageUrl && !imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
-        const baseUrl = 'https://rose.app.elevate.bootcamp.cloud'; 
+        const baseUrl = 'https://rose.app.elevate.bootcamp.cloud';
         imageUrl = `${baseUrl}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
       }
 
       return { url: imageUrl };
-    })
+    }),
+    catchError((error: unknown) => {
+      if (
+        error instanceof HttpErrorResponse &&
+        (error.status === 413 || (error.status === 0 && error.url?.includes('/api/upload')))
+      ) {
+        return throwError(
+          () =>
+            new HttpErrorResponse({
+              error: { message: 'Image is too large. Please choose a smaller image.' },
+              status: 413,
+              statusText: 'Payload Too Large',
+              url: error.url ?? undefined,
+            }),
+        );
+      }
+
+      return throwError(() => error);
+    }),
   );
 }
 }

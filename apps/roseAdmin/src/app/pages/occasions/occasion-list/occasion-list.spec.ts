@@ -80,20 +80,20 @@ describe('OccasionListComponent', () => {
   });
 
   it('should delete occasion on confirm and show success toastr', () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
     occasionsServiceSpy.delete.mockReturnValue(of({ message: 'Deleted' }));
 
     component.onDelete({ id: '123' } as any);
+    component.onConfirmDelete();
 
     expect(occasionsServiceSpy.delete).toHaveBeenCalledWith('123');
     expect(toastrSpy.success).toHaveBeenCalledWith('Occasion deleted successfully.');
   });
 
   it('should show error toastr if delete fails', () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
     occasionsServiceSpy.delete.mockReturnValue(throwError(() => new Error('Error')));
 
     component.onDelete({ id: '123' } as any);
+    component.onConfirmDelete();
 
     expect(toastrSpy.error).toHaveBeenCalledWith('Could not delete occasion.');
   });

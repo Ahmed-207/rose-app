@@ -10,8 +10,7 @@ import { Button, Message } from '@org/shared-ui-components';
 import { DataTableComponent, DataTableColumn, DataTablePageEvent, DataTableSortEvent } from '../../../shared';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
 
 type SortOrder = 'asc' | 'desc' | null;
 
@@ -28,7 +27,7 @@ type SortOrder = 'asc' | 'desc' | null;
         DataTableComponent,
         InputTextModule,
         SelectModule,
-        ConfirmDialogModule,
+        ConfirmDialog,
     ],
     templateUrl: './products-page.html',
     styleUrl: './products-page.css',
@@ -39,7 +38,6 @@ export class ProductsPage implements OnInit {
     private readonly categoriesStore = inject(CategoriesStore);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
-    private readonly confirmationService = inject(ConfirmationService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
 
@@ -55,6 +53,7 @@ export class ProductsPage implements OnInit {
     readonly sortField = signal<string | null>(null);
     readonly sortOrder = signal<SortOrder>(null);
     readonly successMessage = signal<string | null>(null);
+    readonly productToDelete = signal<Product | null>(null);
 
     readonly searchControl = new FormControl('', { nonNullable: true });
 
@@ -140,27 +139,32 @@ export class ProductsPage implements OnInit {
     }
 
     onDeleteProduct(product: Product): void {
-        this.confirmationService.confirm({
-            header: this.translate.instant('ADMIN.PRODUCTS.DELETE_CONFIRM_TITLE'),
-            message: this.translate.instant('ADMIN.PRODUCTS.DELETE_CONFIRM_MESSAGE'),
-            acceptLabel: this.translate.instant('ADMIN.PRODUCTS.DELETE_CONFIRM_ACCEPT'),
-            rejectLabel: this.translate.instant('ADMIN.PRODUCTS.DELETE_CONFIRM_REJECT'),
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.adminProductsStore
-                    .deleteProduct(product.id)
-                    .pipe(takeUntilDestroyed(this.destroyRef))
-                    .subscribe({
-                        next: () => {
-                            this.successMessage.set(this.translate.instant('ADMIN.PRODUCTS.DELETE_SUCCESS'));
-                            this.loadProducts();
-                        },
-                        error: () => {
-                            this.successMessage.set(null);
-                        },
-                    });
-            },
-        });
+        this.productToDelete.set(product);
+    }
+
+    onCancelDelete(): void {
+        this.productToDelete.set(null);
+    }
+
+    onConfirmDelete(): void {
+        const product = this.productToDelete();
+        if (!product) {
+            return;
+        }
+
+        this.adminProductsStore
+            .deleteProduct(product.id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: () => {
+                    this.productToDelete.set(null);
+                    this.successMessage.set(this.translate.instant('ADMIN.PRODUCTS.DELETE_SUCCESS'));
+                    this.loadProducts();
+                },
+                error: () => {
+                    this.successMessage.set(null);
+                },
+            });
     }
 
     private syncFiltersWithRoute(): void {

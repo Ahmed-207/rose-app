@@ -1,0 +1,17 @@
+
+.occasions-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+.occasions-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+.occasions-page__search{
+    min-width: 16rem;
+    flex: 1;
+}

@@ -33,5 +33,14 @@
 		(editRow)="onEditCategory($event)"
 		(deleteRow)="onDeleteCategory($event)" />
 
-	<p-confirmDialog />
 </div>
+
+@if (categoryToDelete(); as category) {
+	<app-confirm-dialog
+		[title]="'Delete Category'"
+		[message]="deleteMessage()"
+		[confirmLabel]="'Delete'"
+		[cancelLabel]="'Cancel'"
+		(confirmed)="onConfirmDelete()"
+		(cancelled)="onCancelDelete()" />
+}

@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { ConfirmationService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { Button, Message } from '@org/shared-ui-components';
 import { DataTableComponent, DataTableColumn, DataTablePageEvent } from '../../shared';
 import { Category } from './models/category.models';
 import { CategoriesService } from './service/categories.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ConfirmDialog } from 'apps/shared/components/confirm-dialog/confirmDialog';
 
 @Component({
   selector: 'app-category-list',
@@ -24,7 +23,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     DataTableComponent,
     InputTextModule,
     TranslatePipe,
-    ConfirmDialogModule,
+    ConfirmDialog,
   ],
   templateUrl: './category-list.html',
   styleUrl: './category-list.css',
@@ -33,7 +32,6 @@ export class CategoryListComponent implements OnInit {
   private readonly categoriesService = inject(CategoriesService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly confirmationService = inject(ConfirmationService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly categories = signal<Category[]>([]);
@@ -43,6 +41,11 @@ export class CategoryListComponent implements OnInit {
   readonly isLoading = signal(false);
   readonly errorMessage = signal<string | null>(null);
   readonly successMessage = signal<string | null>(null);
+  readonly categoryToDelete = signal<Category | null>(null);
+  readonly deleteMessage = computed(() => {
+    const category = this.categoryToDelete();
+    return category ? `Are you sure you want to delete "${category.title}"?` : '';
+  });
   readonly searchControl = new FormControl('', { nonNullable: true });
 
   readonly columns: DataTableColumn<Category>[] = [
@@ -76,27 +79,32 @@ export class CategoryListComponent implements OnInit {
   }
 
   onDeleteCategory(category: Category): void {
-    this.confirmationService.confirm({
-      header: 'Delete Category',
-      message: `Are you sure you want to delete "${category.title}"?`,
-      acceptLabel: 'Delete',
-      rejectLabel: 'Cancel',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.categoriesService
-          .delete(category.id)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe({
-            next: () => {
-              this.successMessage.set('Category deleted successfully.');
-              this.loadCategories();
-            },
-            error: (error: unknown) => {
-              this.errorMessage.set(error instanceof Error ? error.message : 'Could not delete the category.');
-            },
-          });
-      },
-    });
+    this.categoryToDelete.set(category);
+  }
+
+  onCancelDelete(): void {
+    this.categoryToDelete.set(null);
+  }
+
+  onConfirmDelete(): void {
+    const category = this.categoryToDelete();
+    if (!category) {
+      return;
+    }
+
+    this.categoriesService
+      .delete(category.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.categoryToDelete.set(null);
+          this.successMessage.set('Category deleted successfully.');
+          this.loadCategories();
+        },
+        error: (error: unknown) => {
+          this.errorMessage.set(error instanceof Error ? error.message : 'Could not delete the category.');
+        },
+      });
   }
 
   private setupSearch(): void {
